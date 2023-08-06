@@ -11,9 +11,9 @@
   "scripts": {
     "postinstall": "husky install && yarn run build",
     "prerelease": "yarn run build:full && yarn run lint",
-    "release": "yarn prerelease && yarn run release:version && yarn run release:it && yarn run release:publish",
+    "release": "yarn prerelease && yarn run release:version && yarn run release:push && yarn run release:publish",
     "release:version": "lerna version --no-push --no-private",
-    "release:it": "release-it --ci",
+    "release:push": "release-it --ci",
     "release:publish": "lerna publish from-package --yes",
     "lint": "yarn run eslint",
     "lint:fix": "yarn run eslint:fix",
