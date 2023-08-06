@@ -1,0 +1,8 @@
+node_modules/
+dist/
+coverage/
+migrations/
+/sandbox
+**/*.d.ts
+*.js
+jest.config.js

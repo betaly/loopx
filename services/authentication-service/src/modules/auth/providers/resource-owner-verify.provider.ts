@@ -1,0 +1,83 @@
+﻿import {Provider} from '@loopback/context';
+import {repository} from '@loopback/repository';
+
+import {AuthenticationErrors, VerifyFunction} from '@bleco/authentication';
+
+import {AuthErrors, UserStatus} from '@loopx/core';
+
+import {Otp} from '../../../models';
+import {AuthClientRepository, OtpRepository, UserRepository, UserTenantRepository} from '../../../repositories';
+
+export class ResourceOwnerVerifyProvider implements Provider<VerifyFunction.ResourceOwnerPasswordFn> {
+  constructor(
+    @repository(UserRepository)
+    public userRepository: UserRepository,
+    @repository(UserTenantRepository)
+    public utRepository: UserTenantRepository,
+    @repository(AuthClientRepository)
+    public authClientRepository: AuthClientRepository,
+    @repository(OtpRepository)
+    public otpRepository: OtpRepository,
+  ) {}
+
+  value(): VerifyFunction.ResourceOwnerPasswordFn {
+    return async (clientId, clientSecret, username, password) => {
+      let user;
+
+      try {
+        user = await this.userRepository.verifyPassword(username, password);
+      } catch (error) {
+        const otp: Otp = await this.otpRepository.get(username);
+        if (!otp || otp.otp !== password) {
+          throw new AuthenticationErrors.InvalidCredentials();
+        }
+        user = await this.userRepository.findOne({
+          where: {username},
+        });
+        if (!user) {
+          throw new AuthenticationErrors.InvalidCredentials();
+        }
+      }
+      const userTenant = await this.utRepository.findOne({
+        where: {
+          userId: user.id,
+          tenantId: user.defaultTenantId,
+          status: {
+            nin: [UserStatus.REJECTED, UserStatus.INACTIVE],
+          },
+        },
+      });
+      if (!userTenant) {
+        throw new AuthErrors.UserInactive();
+      }
+
+      const client = await this.authClientRepository.findOne({
+        where: {
+          clientId,
+        },
+      });
+
+      if (!client) {
+        throw new AuthenticationErrors.ClientInvalid();
+      }
+
+      // if (
+      //   !client ||
+      //   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      //   // @ts-ignore
+      //   user.authClientIds.indexOf(client.id || 0) < 0
+      // ) {
+      //   throw new AuthenticationErrors.ClientInvalid();
+      // }
+
+      if (!client.clientSecret || client.clientSecret !== clientSecret) {
+        throw new AuthenticationErrors.ClientVerificationFailed();
+      }
+
+      return {
+        client,
+        user,
+      };
+    };
+  }
+}
