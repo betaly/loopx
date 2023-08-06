@@ -2,10 +2,10 @@ import AuthClient from '@loopx/auth-browser';
 import {act, renderHook, waitFor} from '@testing-library/react';
 import React, {ReactNode} from 'react';
 
-import {MicroAuthContext, type MicroAuthContextProps} from '../../context';
-import {MicroAuthProvider} from '../../provider';
+import {LoopAuthContext, type LoopAuthContextProps} from '../../context';
+import {LoopAuthProvider} from '../../provider';
 
-import {useHandleRedirectCallback, useMicroAuth} from '../..';
+import {useHandleRedirectCallback, useLoopAuth} from '../..';
 
 const isAuthenticated = jest.fn(() => false);
 const isLoginRedirected = jest.fn(() => false);
@@ -39,16 +39,16 @@ const logoutPath = '/logout';
 const createHookWrapper =
   () =>
   ({children}: {children?: ReactNode}) =>
-    <MicroAuthProvider client={{domain, clientId, loginPath, logoutPath}}>{children}</MicroAuthProvider>;
+    <LoopAuthProvider client={{domain, clientId, loginPath, logoutPath}}>{children}</LoopAuthProvider>;
 
-describe('useMicroAuth', () => {
+describe('useLoopAuth', () => {
   it('should throw without using context provider', () => {
-    expect(() => renderHook(useMicroAuth)).toThrow();
+    expect(() => renderHook(useLoopAuth)).toThrow();
   });
 
   it('should call AuthClient constructor on init', async () => {
     await act(async () => {
-      renderHook(useMicroAuth, {
+      renderHook(useLoopAuth, {
         wrapper: createHookWrapper(),
       });
     });
@@ -57,7 +57,7 @@ describe('useMicroAuth', () => {
   });
 
   it('should return AuthClient property methods', async () => {
-    const {result} = renderHook(useMicroAuth, {
+    const {result} = renderHook(useLoopAuth, {
       wrapper: createHookWrapper(),
     });
 
@@ -83,7 +83,7 @@ describe('useMicroAuth', () => {
 
   it('should not call `handleRedirectCallback` when it is authenticated', async () => {
     const mockClient = new AuthClient({domain, clientId, loginPath, logoutPath});
-    const mockContext: MicroAuthContextProps = {
+    const mockContext: LoopAuthContextProps = {
       client: mockClient,
       isAuthenticated: true, // Mock this to true by default
       loadingCount: 1,
@@ -98,7 +98,7 @@ describe('useMicroAuth', () => {
     await act(async () => {
       renderHook(useHandleRedirectCallback, {
         wrapper: ({children}: {children?: ReactNode}) => (
-          <MicroAuthContext.Provider value={mockContext}>{children}</MicroAuthContext.Provider>
+          <LoopAuthContext.Provider value={mockContext}>{children}</LoopAuthContext.Provider>
         ),
       });
     });
@@ -133,7 +133,7 @@ describe('useMicroAuth', () => {
   });
 
   it('should return error when getAccessToken fails', async () => {
-    const {result} = renderHook(useMicroAuth, {
+    const {result} = renderHook(useLoopAuth, {
       wrapper: createHookWrapper(),
     });
 

@@ -1,9 +1,9 @@
 import {type InteractionMode, type User} from '@loopx/auth-browser';
 import {useCallback, useContext, useEffect, useRef} from 'react';
 
-import {MicroAuthContext, throwContextError} from './context';
+import {LoopAuthContext, throwContextError} from './context';
 
-type MicroAuth = {
+type LoopAuth = {
   isAuthenticated: boolean;
   isLoading: boolean;
   error?: Error;
@@ -14,7 +14,7 @@ type MicroAuth = {
 };
 
 const useLoadingState = () => {
-  const {loadingCount, setLoadingCount} = useContext(MicroAuthContext);
+  const {loadingCount, setLoadingCount} = useContext(LoopAuthContext);
   const isLoading = loadingCount > 0;
 
   const setLoadingState = useCallback(
@@ -32,7 +32,7 @@ const useLoadingState = () => {
 };
 
 const useErrorHandler = () => {
-  const {setError} = useContext(MicroAuthContext);
+  const {setError} = useContext(LoopAuthContext);
 
   const handleError = useCallback(
     (error: unknown, fallbackErrorMessage?: string) => {
@@ -50,7 +50,7 @@ const useErrorHandler = () => {
 };
 
 const useHandleRedirectCallback = (callback?: () => void) => {
-  const {client, isAuthenticated, error, setIsAuthenticated} = useContext(MicroAuthContext);
+  const {client, isAuthenticated, error, setIsAuthenticated} = useContext(LoopAuthContext);
   const {isLoading, setLoadingState} = useLoadingState();
   const {handleError} = useErrorHandler();
   const callbackRef = useRef<() => void>();
@@ -95,8 +95,8 @@ const useHandleRedirectCallback = (callback?: () => void) => {
   };
 };
 
-const useMicroAuth = (): MicroAuth => {
-  const {client, loadingCount, isAuthenticated, error} = useContext(MicroAuthContext);
+const useLoopAuth = (): LoopAuth => {
+  const {client, loadingCount, isAuthenticated, error} = useContext(LoopAuthContext);
   const {setLoadingState} = useLoadingState();
   const {handleError} = useErrorHandler();
 
@@ -191,4 +191,4 @@ const useMicroAuth = (): MicroAuth => {
   };
 };
 
-export {useMicroAuth, useHandleRedirectCallback};
+export {useLoopAuth, useHandleRedirectCallback};

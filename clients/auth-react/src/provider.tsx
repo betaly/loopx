@@ -1,14 +1,14 @@
 import AuthClient, {type AuthClientOptions} from '@loopx/auth-browser';
 import React, {type ReactNode, useEffect, useMemo, useState} from 'react';
 
-import {MicroAuthContext} from './context';
+import {LoopAuthContext} from './context';
 
-export type MicroAuthProviderProps = {
+export type LoopAuthProviderProps = {
   client: AuthClient | AuthClientOptions;
   children?: ReactNode;
 };
 
-export const MicroAuthProvider = ({client: clientOrConfig, children}: MicroAuthProviderProps) => {
+export const LoopAuthProvider = ({client: clientOrConfig, children}: LoopAuthProviderProps) => {
   const [loadingCount, setLoadingCount] = useState(1);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [error, setError] = useState<Error>();
@@ -39,7 +39,7 @@ export const MicroAuthProvider = ({client: clientOrConfig, children}: MicroAuthP
     [client, isAuthenticated, loadingCount, error],
   );
 
-  return <MicroAuthContext.Provider value={contextValue}>{children}</MicroAuthContext.Provider>;
+  return <LoopAuthContext.Provider value={contextValue}>{children}</LoopAuthContext.Provider>;
 };
 
 function isAuthClient(x: unknown): x is AuthClient {

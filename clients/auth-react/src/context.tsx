@@ -1,7 +1,7 @@
 import {type AuthClient} from '@loopx/auth-browser';
 import React, {createContext} from 'react';
 
-export type MicroAuthContextProps = {
+export type LoopAuthContextProps = {
   client?: AuthClient;
   isAuthenticated: boolean;
   loadingCount: number;
@@ -12,10 +12,10 @@ export type MicroAuthContextProps = {
 };
 
 export const throwContextError = (): never => {
-  throw new Error('Must be used inside <MicroAuthProvider> context.');
+  throw new Error('Must be used inside <LoopAuthProvider> context.');
 };
 
-export const MicroAuthContext = createContext<MicroAuthContextProps>({
+export const LoopAuthContext = createContext<LoopAuthContextProps>({
   client: undefined,
   isAuthenticated: false,
   loadingCount: 0,
