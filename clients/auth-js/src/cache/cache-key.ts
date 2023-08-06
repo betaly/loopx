@@ -1,6 +1,6 @@
 import {CacheEntry} from './types';
 
-export const CACHE_KEY_PREFIX = '@@microauthjs@@';
+export const CACHE_KEY_PREFIX = '@@loopauth@@';
 export const CACHE_KEY_ID_TOKEN_SUFFIX = '@@user@@';
 
 export type CacheKeyData = {

@@ -30,7 +30,7 @@ describe('AuthClient', () => {
       const client = setup({cache});
       await client.getUser();
 
-      expect(cache.get).toBeCalledWith('@@microauthjs@@::auth_client_id::@@user@@');
+      expect(cache.get).toBeCalledWith('@@loopauth@@::auth_client_id::@@user@@');
     });
 
     it('fallback to searching the user stored with the access token', async () => {
@@ -43,7 +43,7 @@ describe('AuthClient', () => {
       };
 
       getMock.mockImplementation((key: string) => {
-        if (key === '@@microauthjs@@::auth_client_id') {
+        if (key === '@@loopauth@@::auth_client_id') {
           return {
             body: {idToken: 'abc', decodedToken: {user: {id: '123'}}},
           };
@@ -53,8 +53,8 @@ describe('AuthClient', () => {
       const client = setup({cache});
       const user = await client.getUser();
 
-      expect(cache.get).toBeCalledWith('@@microauthjs@@::auth_client_id::@@user@@');
-      expect(cache.get).toBeCalledWith('@@microauthjs@@::auth_client_id');
+      expect(cache.get).toBeCalledWith('@@loopauth@@::auth_client_id::@@user@@');
+      expect(cache.get).toBeCalledWith('@@loopauth@@::auth_client_id');
       expect(user?.id).toBe('123');
     });
 
@@ -68,7 +68,7 @@ describe('AuthClient', () => {
       };
 
       getMock.mockImplementation((key: string) => {
-        if (key === '@@microauthjs@@::auth_client_id::@@user@@') {
+        if (key === '@@loopauth@@::auth_client_id::@@user@@') {
           return {idToken: 'abc', decodedToken: {user: {id: '123'}}};
         }
       });
@@ -76,8 +76,8 @@ describe('AuthClient', () => {
       const client = setup({cache});
       const user = await client.getUser();
 
-      expect(cache.get).toBeCalledWith('@@microauthjs@@::auth_client_id::@@user@@');
-      expect(cache.get).not.toBeCalledWith('@@microauthjs@@::auth_client_id::default::openid profile email');
+      expect(cache.get).toBeCalledWith('@@loopauth@@::auth_client_id::@@user@@');
+      expect(cache.get).not.toBeCalledWith('@@loopauth@@::auth_client_id::default::openid profile email');
       expect(user?.id).toBe('123');
     });
 
@@ -91,7 +91,7 @@ describe('AuthClient', () => {
       };
 
       getMock.mockImplementation((key: string) => {
-        if (key === '@@microauthjs@@::auth_client_id::@@user@@') {
+        if (key === '@@loopauth@@::auth_client_id::@@user@@') {
           return {idToken: 'abcd', decodedToken: {user: {id: '123'}}};
         }
       });
@@ -113,7 +113,7 @@ describe('AuthClient', () => {
       };
 
       getMock.mockImplementation((key: string) => {
-        if (key === '@@microauthjs@@::auth_client_id::@@user@@') {
+        if (key === '@@loopauth@@::auth_client_id::@@user@@') {
           return {idToken: 'abcd', decodedToken: {user: {id: '123'}}};
         }
       });
@@ -125,7 +125,7 @@ describe('AuthClient', () => {
       expect(user).toBe(secondUser);
 
       getMock.mockImplementation((key: string) => {
-        if (key === '@@microauthjs@@::auth_client_id::@@user@@') {
+        if (key === '@@loopauth@@::auth_client_id::@@user@@') {
           return {
             idToken: 'abcdefg',
             decodedToken: {user: {id: '123'}},

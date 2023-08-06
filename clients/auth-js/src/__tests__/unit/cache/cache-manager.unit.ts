@@ -300,7 +300,7 @@ cacheFactories.forEach(cacheFactory => {
 
       // And that the data has been removed from the key manifest
       if (keyManifest) {
-        expect(cacheRemoveSpy).toHaveBeenCalledWith(`@@microauthjs@@::${data.clientId}`);
+        expect(cacheRemoveSpy).toHaveBeenCalledWith(`@@loopauth@@::${data.clientId}`);
       }
     });
 
@@ -340,7 +340,7 @@ cacheFactories.forEach(cacheFactory => {
 
       // And that the data has been removed from the key manifest
       if (keyManifest) {
-        expect(cacheRemoveSpy).toHaveBeenCalledWith(`@@microauthjs@@::${data.clientId}`);
+        expect(cacheRemoveSpy).toHaveBeenCalledWith(`@@loopauth@@::${data.clientId}`);
       }
     });
 
@@ -380,7 +380,7 @@ cacheFactories.forEach(cacheFactory => {
 
       // And that the data has been removed from the key manifest
       if (keyManifest) {
-        expect(cacheRemoveSpy).toHaveBeenCalledWith(`@@microauthjs@@::${data.clientId}`);
+        expect(cacheRemoveSpy).toHaveBeenCalledWith(`@@loopauth@@::${data.clientId}`);
       }
     });
 
@@ -414,7 +414,7 @@ cacheFactories.forEach(cacheFactory => {
 
       // And that the data has been removed from the key manifest
       if (keyManifest) {
-        expect(cacheRemoveSpy).toHaveBeenCalledWith(`@@microauthjs@@::${data.clientId}`);
+        expect(cacheRemoveSpy).toHaveBeenCalledWith(`@@loopauth@@::${data.clientId}`);
       }
     });
 
@@ -447,7 +447,7 @@ cacheFactories.forEach(cacheFactory => {
 
       // And that the data has been removed from the key manifest
       if (keyManifest) {
-        expect(cacheRemoveSpy).toHaveBeenCalledWith(`@@microauthjs@@::${data.clientId}`);
+        expect(cacheRemoveSpy).toHaveBeenCalledWith(`@@loopauth@@::${data.clientId}`);
       }
     });
 
@@ -480,7 +480,7 @@ cacheFactories.forEach(cacheFactory => {
 
       // And that the data has been removed from the key manifest
       if (keyManifest) {
-        expect(cacheRemoveSpy).toHaveBeenCalledWith(`@@microauthjs@@::${data.clientId}`);
+        expect(cacheRemoveSpy).toHaveBeenCalledWith(`@@loopauth@@::${data.clientId}`);
       }
     });
 
