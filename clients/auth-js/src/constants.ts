@@ -19,7 +19,7 @@ export const DEFAULT_FETCH_TIMEOUT_MS = 10000;
  */
 export const DEFAULT_AUTH_CLIENT = {
   name: 'auth-js',
-  version: version,
+  version,
 };
 
 export const DEFAULT_NOW_PROVIDER = () => Date.now();
