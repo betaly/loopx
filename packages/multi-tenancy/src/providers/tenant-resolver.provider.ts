@@ -1,10 +1,10 @@
 import {Provider} from '@loopback/core';
 
-import {Tenant, TenantResolverFn} from '../types';
+import {ITenant, TenantResolverFn} from '../types';
 
 export class DefaultTenantResolverProvider implements Provider<TenantResolverFn> {
   value() {
-    return (idOrHost: string): Tenant => {
+    return (idOrHost: string): ITenant => {
       return {
         id: idOrHost,
       };

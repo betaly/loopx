@@ -4,7 +4,7 @@ import {inject} from '@loopback/core';
 import {RequestContext} from '@loopback/rest';
 
 import {MultiTenancyBindings} from '../keys';
-import {MultiTenancyStrategy, Tenant, TenantResolverFn} from '../types';
+import {ITenant, MultiTenancyStrategy, TenantResolverFn} from '../types';
 
 const debug = debugFactory('loopx:multi-tenancy:strategy:host');
 /**
@@ -24,7 +24,7 @@ export class HostStrategy implements MultiTenancyStrategy {
     return this.mapHostToTenant(host);
   }
 
-  async mapHostToTenant(host: string | undefined): Promise<Tenant | undefined> {
+  async mapHostToTenant(host: string | undefined): Promise<ITenant | undefined> {
     if (host == null) return undefined;
     const hostname = host.split(':')[0];
     const tenant = await this.resolveTenant(hostname);

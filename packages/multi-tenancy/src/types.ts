@@ -4,7 +4,7 @@ import {RequestContext} from '@loopback/rest';
 /**
  * Information about a tenant in the multi-tenancy environment
  */
-export interface Tenant {
+export interface ITenant {
   id: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [attribute: string]: any;
@@ -18,7 +18,7 @@ export interface MultiTenancyActionOptions {
   strategyNames: string[];
 }
 
-export type IdentifyTenantFn<T extends Tenant = Tenant> = (
+export type IdentifyTenantFn<T extends ITenant = ITenant> = (
   requestContext: RequestContext,
 ) => ValueOrPromise<T | undefined>;
 
@@ -34,15 +34,15 @@ export interface MultiTenancyStrategy {
    * Identify the tenant for a given http request
    * @param requestContext - Http request
    */
-  identifyTenant(requestContext: RequestContext): ValueOrPromise<Tenant | undefined>;
+  identifyTenant(requestContext: RequestContext): ValueOrPromise<ITenant | undefined>;
 }
 
 /**
  * A function to be called after the tenant is identified
  */
-export type MultiTenancyPostProcess = (requestContext: RequestContext, tenant: Tenant) => ValueOrPromise<void>;
+export type MultiTenancyPostProcess = (requestContext: RequestContext, tenant: ITenant) => ValueOrPromise<void>;
 
 /**
  * A function to be called to resolve the tenant for a given id
  */
-export type TenantResolverFn = (idOrHost: string) => ValueOrPromise<Tenant | undefined>;
+export type TenantResolverFn = (idOrHost: string) => ValueOrPromise<ITenant | undefined>;

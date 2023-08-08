@@ -1,13 +1,13 @@
 import {BindingKey} from '@loopback/core';
 
-import {IdentifyTenantFn, MultiTenancyConfig, MultiTenancyPostProcess, Tenant, TenantResolverFn} from './types';
+import {ITenant, IdentifyTenantFn, MultiTenancyConfig, MultiTenancyPostProcess, TenantResolverFn} from './types';
 
 export namespace MultiTenancyBindings {
   export const CONFIG = BindingKey.create<MultiTenancyConfig>('loopx.multi-tenancy.config');
 
   export const ACTION = BindingKey.create<IdentifyTenantFn>('loopx.multi-tenancy.identifyTenant');
 
-  export const CURRENT_TENANT = BindingKey.create<Tenant>('loopx.multi-tenancy.currentTenant');
+  export const CURRENT_TENANT = BindingKey.create<ITenant>('loopx.multi-tenancy.currentTenant');
 
   export const DEFAULT_TENANT_ID = BindingKey.create<string>('loopx.multi-tenancy.defaultTenantId');
 

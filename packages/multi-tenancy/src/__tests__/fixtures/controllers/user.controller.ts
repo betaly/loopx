@@ -2,7 +2,7 @@ import {inject} from '@loopback/core';
 import {Count, CountSchema, Filter, FilterExcludingWhere, Where, repository} from '@loopback/repository';
 import {del, get, getModelSchemaRef, param, patch, post, put, requestBody} from '@loopback/rest';
 
-import {MultiTenancyBindings, Tenant} from '../../..';
+import {ITenant, MultiTenancyBindings} from '../../..';
 import {User} from '../models';
 import {UserRepository} from '../repositories';
 
@@ -11,7 +11,7 @@ export class UserController {
     @repository(UserRepository)
     public userRepository: UserRepository,
     @inject(MultiTenancyBindings.CURRENT_TENANT, {optional: true})
-    private tenant?: Tenant,
+    private tenant?: ITenant,
   ) {}
 
   @post('/users', {
