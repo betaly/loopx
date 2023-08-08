@@ -6,7 +6,8 @@ import {RequestContext} from '@loopback/rest';
  */
 export interface Tenant {
   id: string;
-  [attribute: string]: unknown;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  [attribute: string]: any;
 }
 
 export interface MultiTenancyConfig {
