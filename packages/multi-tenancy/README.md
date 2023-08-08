@@ -31,7 +31,7 @@ export interface MultiTenancyStrategy {
 
 `MultiTenancyActionProvider` serves two purposes:
 
-- Provides an action (`MultiTenancyAction`) for the REST sequence to enforce multi-tenancy
+- Provides an action (`IdentifyTenantFn`) for the REST sequence to enforce multi-tenancy
 - Exposes an extension point to plug in multi-tenancy strategies
 
 ### Implement MultiTenancyStrategy
@@ -58,10 +58,6 @@ We group multiple registrations in `src/multi-tenancy/component.ts` using the `M
 ```ts
 export class MultiTenancyComponent implements Component {
   bindings = [
-    // Add the action
-    createBindingFromClass(MultiTenancyActionProvider, {
-      key: MultiTenancyBindings.ACTION,
-    }),
     // Add strategies
     createBindingFromClass(JWTStrategy).apply(extensionFor(MULTI_TENANCY_STRATEGIES)),
     createBindingFromClass(HeaderStrategy).apply(extensionFor(MULTI_TENANCY_STRATEGIES)),
@@ -71,9 +67,51 @@ export class MultiTenancyComponent implements Component {
 }
 ```
 
-### Post processing after tenant is identified
+### Use multi-tenancy middleware or action
 
-#### Example: Bind tenant specific resources to the request context
+#### Enable multi-tenancy middleware
+
+The multi-tenancy middleware is disabled by default. You can enable it by setting `useMultiTenancyMiddleware` to enable
+it.
+
+```ts
+app.bind(MultiTenancyBindings.CONFIG).to({useMultiTenancyMiddleware: true});
+```
+
+#### Register tenant identify action
+
+Tenant identify function is added to `src/sequence.ts` so that REST requests will be intercepted to enforce multiple
+tenancy before other actions.
+
+```ts
+export class MySequence implements SequenceHandler {
+  constructor(
+    // ...
+    @inject(MultiTenancyBindings.ACTION)
+    public identifyTenant: IdentifyTenantFn,
+  ) {}
+
+  async handle(context: RequestContext) {
+    try {
+      const {request, response} = context;
+      await this.identifyTenant(context);
+      // ...
+    } catch (err) {
+      this.reject(context, err);
+    }
+  }
+}
+```
+
+### Configure what strategies to be used
+
+The tenant identify function can be configured with what strategies are checked in order.
+
+```ts
+app.configure<MultiTenancyActionOptions>(MultiTenancyBindings.ACTION).to({strategyNames: ['jwt', 'header', 'query']});
+```
+
+### Post-processing after tenant is identified
 
 We simply rebind `datasources.db` to a tenant specific datasource to select the right datasource for `UserRepository`.
 
@@ -83,40 +121,9 @@ app.bind(MultiTenancyBindings.POST_PROCESS).to((ctx, tenant) => {
 });
 ```
 
-### Configure what strategies to be used
+## Usage
 
-The `MultiTenancyAction` can be configured with what strategies are checked in order.
-
-```ts
-app.configure<MultiTenancyActionOptions>(MultiTenancyBindings.ACTION).to({strategyNames: ['jwt', 'header', 'query']});
-```
-
-### Register MultiTenancyAction
-
-`MultiTenancyAction` is added to `src/sequence.ts` so that REST requests will be intercepted to enforce multiple tenancy
-before other actions.
-
-```ts
-export class MySequence implements SequenceHandler {
-  constructor(
-    // ...
-    @inject(MultiTenancyBindings.ACTION)
-    public multiTenancy: MultiTenancyAction,
-  ) {}
-
-  async handle(context: RequestContext) {
-    try {
-      const {request, response} = context;
-      await this.multiTenancy(context);
-      // ...
-    } catch (err) {
-      this.reject(context, err);
-    }
-  }
-}
-```
-
-## Use
+See [application.ts](src/__tests__/fixtures/application.ts) for examples.
 
 The strategies expect clients to set tenant id for REST API requests.
 

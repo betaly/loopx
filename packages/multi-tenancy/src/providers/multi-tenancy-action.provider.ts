@@ -1,29 +1,22 @@
 import debugFactory from 'debug';
 
 import {ContextTags, Getter, Provider, config, extensionPoint, extensions, inject} from '@loopback/core';
-import {Middleware, RequestContext, asMiddleware} from '@loopback/rest';
+import {RequestContext} from '@loopback/rest';
 
 import {MULTI_TENANCY_STRATEGIES, MultiTenancyBindings} from '../keys';
-import {MultiTenancyMiddlewareOptions, MultiTenancyPostProcess, MultiTenancyStrategy} from '../types';
+import {IdentifyTenantFn, MultiTenancyActionOptions, MultiTenancyPostProcess, MultiTenancyStrategy} from '../types';
 
 const debug = debugFactory('loopx:multi-tenancy');
 
 /**
  * Provides the multi-tenancy action for a sequence
  */
-@extensionPoint(
-  MULTI_TENANCY_STRATEGIES,
-  {
-    tags: {
-      [ContextTags.KEY]: MultiTenancyBindings.MIDDLEWARE,
-    },
+@extensionPoint(MULTI_TENANCY_STRATEGIES, {
+  tags: {
+    [ContextTags.KEY]: MultiTenancyBindings.ACTION,
   },
-  asMiddleware({
-    group: 'tenancy',
-    downstreamGroups: 'findRoute',
-  }),
-)
-export class MultiTenancyMiddlewareProvider implements Provider<Middleware> {
+})
+export class MultiTenancyActionProvider implements Provider<IdentifyTenantFn> {
   constructor(
     @extensions()
     private readonly getMultiTenancyStrategies: Getter<MultiTenancyStrategy[]>,
@@ -32,16 +25,13 @@ export class MultiTenancyMiddlewareProvider implements Provider<Middleware> {
     @inject(MultiTenancyBindings.POST_PROCESS, {optional: true})
     private readonly postProcess: MultiTenancyPostProcess,
     @config()
-    private options: MultiTenancyMiddlewareOptions = {
+    private options: MultiTenancyActionOptions = {
       strategyNames: ['header'],
     },
   ) {}
 
-  value(): Middleware {
-    return async (ctx, next) => {
-      await this.action(ctx as RequestContext);
-      return next();
-    };
+  value(): IdentifyTenantFn {
+    return requestCtx => this.action(requestCtx);
   }
 
   /**

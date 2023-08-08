@@ -9,9 +9,17 @@ export interface Tenant {
   [attribute: string]: unknown;
 }
 
-export interface MultiTenancyMiddlewareOptions {
+export interface MultiTenancyConfig {
+  useMultiTenancyMiddleware?: boolean;
+}
+
+export interface MultiTenancyActionOptions {
   strategyNames: string[];
 }
+
+export type IdentifyTenantFn<T extends Tenant = Tenant> = (
+  requestContext: RequestContext,
+) => ValueOrPromise<T | undefined>;
 
 /**
  * Interface for a multi-tenancy strategy to implement
