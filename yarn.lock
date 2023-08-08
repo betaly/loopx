@@ -2732,6 +2732,26 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@loopx/multi-tenancy@workspace:packages/multi-tenancy":
+  version: 0.0.0-use.local
+  resolution: "@loopx/multi-tenancy@workspace:packages/multi-tenancy"
+  dependencies:
+    "@bleco/boot": ^0.4.11
+    "@loopback/core": ^5.1.1
+    "@loopback/repository": ^6.1.1
+    "@loopback/rest": ^13.1.1
+    "@loopback/rest-explorer": ^6.1.1
+    "@loopback/service-proxy": ^6.1.1
+    "@nutol/build": ^0.2.14
+    "@nutol/eslint-config": ^0.2.9
+    "@nutol/ts-config": ^0.2.1
+    "@types/jest": ^29.5.3
+    "@types/node": ^20.4.8
+    del-cli: ^5.0.0
+    jest: ^29.6.2
+  languageName: unknown
+  linkType: soft
+
 "@loopx/user-service@workspace:services/user-service":
   version: 0.0.0-use.local
   resolution: "@loopx/user-service@workspace:services/user-service"
