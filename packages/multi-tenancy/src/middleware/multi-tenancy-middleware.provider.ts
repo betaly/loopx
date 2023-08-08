@@ -1,6 +1,7 @@
+import debugFactory from 'debug';
+
 import {ContextTags, Getter, Provider, config, extensionPoint, extensions, inject} from '@loopback/core';
 import {Middleware, RequestContext, asMiddleware} from '@loopback/rest';
-import debugFactory from 'debug';
 
 import {MULTI_TENANCY_STRATEGIES, MultiTenancyBindings} from '../keys';
 import {MultiTenancyMiddlewareOptions, MultiTenancyPostProcess, MultiTenancyStrategy} from '../types';

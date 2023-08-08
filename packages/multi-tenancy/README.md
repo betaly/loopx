@@ -6,9 +6,8 @@
 
 ### MultiTenancyStrategy
 
-This interface defines the contract for multi-tenancy strategies to implement
-the logic to identify a tenant and bind tenant specific resources to the request
-context.
+This interface defines the contract for multi-tenancy strategies to implement the logic to identify a tenant and bind
+tenant specific resources to the request context.
 
 ```ts
 /**
@@ -48,19 +47,13 @@ The example includes a few simple implementations of `MultiTenancyStrategy`:
 
 ### Register multi-tenancy strategies
 
-Multi-tenancy strategies are registered to the extension point using
-`extensionFor` template:
+Multi-tenancy strategies are registered to the extension point using `extensionFor` template:
 
 ```ts
-app.add(
-  createBindingFromClass(JWTStrategy).apply(
-    extensionFor(MULTI_TENANCY_STRATEGIES),
-  ),
-);
+app.add(createBindingFromClass(JWTStrategy).apply(extensionFor(MULTI_TENANCY_STRATEGIES)));
 ```
 
-We group multiple registrations in `src/multi-tenancy/component.ts` using the
-`MultiTenancyComponent`:
+We group multiple registrations in `src/multi-tenancy/component.ts` using the `MultiTenancyComponent`:
 
 ```ts
 export class MultiTenancyComponent implements Component {
@@ -70,18 +63,10 @@ export class MultiTenancyComponent implements Component {
       key: MultiTenancyBindings.ACTION,
     }),
     // Add strategies
-    createBindingFromClass(JWTStrategy).apply(
-      extensionFor(MULTI_TENANCY_STRATEGIES),
-    ),
-    createBindingFromClass(HeaderStrategy).apply(
-      extensionFor(MULTI_TENANCY_STRATEGIES),
-    ),
-    createBindingFromClass(QueryStrategy).apply(
-      extensionFor(MULTI_TENANCY_STRATEGIES),
-    ),
-    createBindingFromClass(HostStrategy).apply(
-      extensionFor(MULTI_TENANCY_STRATEGIES),
-    ),
+    createBindingFromClass(JWTStrategy).apply(extensionFor(MULTI_TENANCY_STRATEGIES)),
+    createBindingFromClass(HeaderStrategy).apply(extensionFor(MULTI_TENANCY_STRATEGIES)),
+    createBindingFromClass(QueryStrategy).apply(extensionFor(MULTI_TENANCY_STRATEGIES)),
+    createBindingFromClass(HostStrategy).apply(extensionFor(MULTI_TENANCY_STRATEGIES)),
   ];
 }
 ```
@@ -100,19 +85,16 @@ app.bind(MultiTenancyBindings.POST_PROCESS).to((ctx, tenant) => {
 
 ### Configure what strategies to be used
 
-The `MultiTenancyAction` can be configured with what strategies are checked in
-order.
+The `MultiTenancyAction` can be configured with what strategies are checked in order.
 
 ```ts
-app
-  .configure<MultiTenancyActionOptions>(MultiTenancyBindings.ACTION)
-  .to({ strategyNames: ['jwt', 'header', 'query'] });
+app.configure<MultiTenancyActionOptions>(MultiTenancyBindings.ACTION).to({strategyNames: ['jwt', 'header', 'query']});
 ```
 
 ### Register MultiTenancyAction
 
-`MultiTenancyAction` is added to `src/sequence.ts` so that REST requests will be
-intercepted to enforce multiple tenancy before other actions.
+`MultiTenancyAction` is added to `src/sequence.ts` so that REST requests will be intercepted to enforce multiple tenancy
+before other actions.
 
 ```ts
 export class MySequence implements SequenceHandler {
@@ -120,12 +102,11 @@ export class MySequence implements SequenceHandler {
     // ...
     @inject(MultiTenancyBindings.ACTION)
     public multiTenancy: MultiTenancyAction,
-  ) {
-  }
+  ) {}
 
   async handle(context: RequestContext) {
     try {
-      const { request, response } = context;
+      const {request, response} = context;
       await this.multiTenancy(context);
       // ...
     } catch (err) {
@@ -143,14 +124,12 @@ The strategies expect clients to set tenant id for REST API requests.
 - `header`: set `x-tenant-id` header as `x-tenant-id: <tenant-id>`
 - `query`: set `tenant-id` query parameter, such as: `?tenant-id=<tenant-id>`
 
-Check out acceptance tests to understand how to pass tenant id using different
-strategies:
+Check out acceptance tests to understand how to pass tenant id using different strategies:
 
 - src/tests/acceptance/user.controller.header.acceptance.ts
 - src/tests/acceptance/user.controller.jwt.acceptance.ts
 
-You can use environment variable `DEBUG=loopx:multi-tenancy:*` to print out
-information about the multi-tenancy actions.
+You can use environment variable `DEBUG=loopx:multi-tenancy:*` to print out information about the multi-tenancy actions.
 
 ## Tests
 
@@ -158,8 +137,7 @@ Run `yarn test` from the root folder.
 
 ## Contributors
 
-See
-[all contributors](https://github.com/loopbackio/loopback-next/graphs/contributors).
+See [all contributors](https://github.com/loopbackio/loopback-next/graphs/contributors).
 
 ## License
 

@@ -2,8 +2,7 @@
 // Node module: @loopback/example-multi-tenancy
 // This file is licensed under the MIT License.
 // License text available at https://opensource.org/licenses/MIT
-
-import {inject, lifeCycleObserver, LifeCycleObserver} from '@loopback/core';
+import {LifeCycleObserver, inject, lifeCycleObserver} from '@loopback/core';
 import {juggler} from '@loopback/repository';
 
 const config = {
@@ -12,10 +11,7 @@ const config = {
 };
 
 @lifeCycleObserver('datasource')
-export class Db2DataSource
-  extends juggler.DataSource
-  implements LifeCycleObserver
-{
+export class Db2DataSource extends juggler.DataSource implements LifeCycleObserver {
   static dataSourceName = 'db.xyz';
   static readonly defaultConfig = config;
 
