@@ -7,6 +7,7 @@ import {AuthenticationBindings} from '@bleco/authentication';
 import {PermissionKey} from '../../enums';
 import {UserOperationsService} from '../../services';
 import {UserTenantServiceApplication} from '../fixtures/application';
+import {JWT_ISSUER, JWT_SECRET} from '../fixtures/consts';
 import {setupApplication} from './test-helper';
 
 describe('TenantUser Controller', function () {
@@ -89,9 +90,9 @@ describe('TenantUser Controller', function () {
   function setCurrentUser() {
     app.bind(AuthenticationBindings.CURRENT_USER).to(testUser);
     app.bind('services.UserOperationsService').toClass(UserOperationsService);
-    token = jwt.sign(testUser, 'kdskssdkdfs', {
+    token = jwt.sign(testUser, JWT_SECRET, {
       expiresIn: 180000,
-      issuer: 'sf',
+      issuer: JWT_ISSUER,
     });
   }
 });

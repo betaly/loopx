@@ -9,6 +9,7 @@ import {PermissionKey} from '../../enums';
 import {Role, Tenant, User, UserTenant} from '../../models';
 import {RoleRepository, TenantRepository, UserRepository, UserTenantRepository} from '../../repositories';
 import {UserTenantServiceApplication} from '../fixtures/application';
+import {JWT_ISSUER, JWT_SECRET} from '../fixtures/consts';
 import {setupApplication} from './test-helper';
 
 interface USER {
@@ -128,9 +129,9 @@ describe('UserTenantPrefs Controller', function () {
 
   function setCurrentUser() {
     app.bind(AuthenticationBindings.CURRENT_USER).to(testUser);
-    token = jwt.sign(testUser, 'kdskssdkdfs', {
+    token = jwt.sign(testUser, JWT_SECRET, {
       expiresIn: 180000,
-      issuer: 'sf',
+      issuer: JWT_ISSUER,
     });
   }
 });

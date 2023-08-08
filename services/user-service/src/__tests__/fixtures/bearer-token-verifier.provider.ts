@@ -4,6 +4,7 @@ import {Provider} from '@loopback/context';
 
 import {VerifyFunction} from '@bleco/authentication';
 
+import {JWT_ISSUER, JWT_SECRET} from './consts';
 import {IAuthUserWithPermissions} from './keys';
 
 export class BearerTokenVerifyProvider implements Provider<VerifyFunction.BearerFn> {
@@ -21,8 +22,8 @@ export class BearerTokenVerifyProvider implements Provider<VerifyFunction.Bearer
         database.
         Use global interceptor over this to apply that check on each api.
       */
-      return verify(token, 'kdskssdkdfs', {
-        issuer: 'sf',
+      return verify(token, JWT_SECRET, {
+        issuer: JWT_ISSUER,
       }) as IAuthUserWithPermissions;
     };
   }

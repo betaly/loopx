@@ -10,6 +10,7 @@ import {Role, Tenant, User, UserTenant} from '../../models';
 import {RoleRepository, TenantRepository, UserRepository, UserTenantRepository} from '../../repositories';
 import {UserOperationsService} from '../../services';
 import {UserTenantServiceApplication} from '../fixtures/application';
+import {JWT_ISSUER, JWT_SECRET} from '../fixtures/consts';
 import {setupApplication} from './test-helper';
 
 interface USER {
@@ -133,9 +134,9 @@ describe('UserTenant Controller', function () {
   function setCurrentUser() {
     app.bind(AuthenticationBindings.CURRENT_USER).to(testUser);
     app.bind('services.UserOperationsService').toClass(UserOperationsService);
-    token = jwt.sign(testUser, 'kdskssdkdfs', {
+    token = jwt.sign(testUser, JWT_SECRET, {
       expiresIn: 180000,
-      issuer: 'sf',
+      issuer: JWT_ISSUER,
     });
   }
 });

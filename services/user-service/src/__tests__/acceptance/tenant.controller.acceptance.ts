@@ -9,6 +9,7 @@ import {PermissionKey} from '../../enums';
 import {Tenant} from '../../models';
 import {TenantRepository} from '../../repositories';
 import {UserTenantServiceApplication} from '../fixtures/application';
+import {JWT_ISSUER, JWT_SECRET} from '../fixtures/consts';
 import {setupApplication} from './test-helper';
 
 describe('Tenant Controller', function () {
@@ -127,9 +128,9 @@ describe('Tenant Controller', function () {
       permissions: [],
     };
 
-    const newToken = jwt.sign(newTestUser, 'kdskssdkdfs', {
+    const newToken = jwt.sign(newTestUser, JWT_SECRET, {
       expiresIn: 180000,
-      issuer: 'sf',
+      issuer: JWT_ISSUER,
     });
     await client
       .post(basePath)
@@ -147,9 +148,9 @@ describe('Tenant Controller', function () {
 
   function setCurrentUser() {
     app.bind(AuthenticationBindings.CURRENT_USER).to(testUser);
-    token = jwt.sign(testUser, 'kdskssdkdfs', {
+    token = jwt.sign(testUser, JWT_SECRET, {
       expiresIn: 180000,
-      issuer: 'sf',
+      issuer: JWT_ISSUER,
     });
   }
 });

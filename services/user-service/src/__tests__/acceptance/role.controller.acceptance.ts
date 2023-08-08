@@ -8,6 +8,7 @@ import {PermissionKey} from '../../enums';
 import {Role} from '../../models';
 import {RoleRepository} from '../../repositories';
 import {UserTenantServiceApplication} from '../fixtures/application';
+import {JWT_ISSUER, JWT_SECRET} from '../fixtures/consts';
 import {setupApplication} from './test-helper';
 
 describe('Role Controller', function () {
@@ -114,9 +115,9 @@ describe('Role Controller', function () {
       password: pass,
       permissions: [],
     };
-    const newToken = jwt.sign(newTestUser, 'kdskssdkdfs', {
+    const newToken = jwt.sign(newTestUser, JWT_SECRET, {
       expiresIn: 180000,
-      issuer: 'sf',
+      issuer: JWT_ISSUER,
     });
     await client
       .post(basePath)
@@ -136,9 +137,9 @@ describe('Role Controller', function () {
 
   function setCurrentUser() {
     app.bind(AuthenticationBindings.CURRENT_USER).to(testUser);
-    token = jwt.sign(testUser, 'kdskssdkdfs', {
+    token = jwt.sign(testUser, JWT_SECRET, {
       expiresIn: 180000,
-      issuer: 'sf',
+      issuer: JWT_ISSUER,
     });
   }
 });

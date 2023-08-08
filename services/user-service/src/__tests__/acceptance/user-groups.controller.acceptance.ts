@@ -7,6 +7,7 @@ import {AuthenticationBindings} from '@bleco/authentication';
 import {PermissionKey} from '../../enums';
 import {UserGroupHelperService, UserGroupService} from '../../services';
 import {UserTenantServiceApplication} from '../fixtures/application';
+import {JWT_ISSUER, JWT_SECRET} from '../fixtures/consts';
 import {setupApplication} from './test-helper';
 
 describe('UserGroups Controller', function () {
@@ -52,9 +53,9 @@ describe('UserGroups Controller', function () {
     app.bind(AuthenticationBindings.CURRENT_USER).to(testUser);
     app.bind('service.sfUserService').toClass(UserGroupService);
     app.bind('service.sfUserService1').toClass(UserGroupHelperService);
-    token = jwt.sign(testUser, 'kdskssdkdfs', {
+    token = jwt.sign(testUser, JWT_SECRET, {
       expiresIn: 180000,
-      issuer: 'sf',
+      issuer: JWT_ISSUER,
     });
   }
 });
