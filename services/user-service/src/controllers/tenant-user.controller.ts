@@ -16,13 +16,14 @@ import {AuthenticationBindings, STRATEGY, authenticate} from '@bleco/authenticat
 import {AuthorizationErrors, authorize} from '@bleco/authorization';
 
 import {CONTENT_TYPE, ErrorCodes, IAuthUserWithPermissions, OPERATION_SECURITY_SPEC, STATUS_CODE} from '@loopx/core';
+import {ITenant, MultiTenancyBindings} from '@loopx/multi-tenancy';
 
 import {PermissionKey, RoleKey} from '../enums';
-import {Tenant, UserDto, UserView} from '../models';
+import {UserDto, UserView} from '../models';
 import {NonRestrictedUserViewRepository, UserViewRepository} from '../repositories';
 import {UserOperationsService} from '../services/user-operations.service';
 
-const basePath = '/tenants/{id}/users';
+const basePath = '/users';
 const superAdminRoleType = 10;
 
 export class TenantUserController {
@@ -65,7 +66,8 @@ export class TenantUserController {
   async find(
     @inject(AuthenticationBindings.CURRENT_USER)
     currentUser: IAuthUserWithPermissions,
-    @param.path.string('id') id: string,
+    @inject(MultiTenancyBindings.CURRENT_TENANT)
+    {id}: ITenant,
     @param.query.object('filter', getFilterSchemaFor(UserView))
     filter?: Filter<UserView>,
   ): Promise<UserView[]> {
@@ -116,7 +118,8 @@ export class TenantUserController {
     },
   })
   async findAllUsers(
-    @param.path.string('id') id: string,
+    @inject(MultiTenancyBindings.CURRENT_TENANT)
+    {id}: ITenant,
     @param.query.object('filter', getFilterSchemaFor(UserView))
     filter?: Filter<UserView>,
   ): Promise<UserView[]> {
@@ -154,7 +157,8 @@ export class TenantUserController {
   async count(
     @inject(AuthenticationBindings.CURRENT_USER)
     currentUser: IAuthUserWithPermissions,
-    @param.path.string('id') id: string,
+    @inject(MultiTenancyBindings.CURRENT_TENANT)
+    {id}: ITenant,
     @param.query.object('where')
     where?: Where<UserView>,
   ): Promise<Count> {
@@ -216,7 +220,8 @@ export class TenantUserController {
   async findById(
     @inject(AuthenticationBindings.CURRENT_USER)
     currentUser: IAuthUserWithPermissions,
-    @param.path.string('id') id: string,
+    @inject(MultiTenancyBindings.CURRENT_TENANT)
+    {id}: ITenant,
     @param.path.string('userid') userId: string,
     @param.query.object('filter', getFilterSchemaFor(UserView))
     filter?: Filter<UserView>,
@@ -263,7 +268,8 @@ export class TenantUserController {
     },
   })
   async create(
-    @param.path.string('id') id: typeof Tenant.prototype.id,
+    @inject(MultiTenancyBindings.CURRENT_TENANT)
+    {id}: ITenant,
     @requestBody({
       content: {
         [CONTENT_TYPE.JSON]: {
@@ -318,7 +324,8 @@ export class TenantUserController {
     @param.header.string('Authorization') token: string,
     @inject(AuthenticationBindings.CURRENT_USER)
     currentUser: IAuthUserWithPermissions,
-    @param.path.string('id') id: string,
+    @inject(MultiTenancyBindings.CURRENT_TENANT)
+    {id}: ITenant,
     @param.path.string('userId') userId: string,
     @requestBody({
       content: {
@@ -362,7 +369,8 @@ export class TenantUserController {
   async deleteById(
     @inject(AuthenticationBindings.CURRENT_USER)
     currentUser: IAuthUserWithPermissions,
-    @param.path.string('id') id: string,
+    @inject(MultiTenancyBindings.CURRENT_TENANT)
+    {id}: ITenant,
     @param.path.string('userId') userId: string,
   ): Promise<void> {
     await this.userOpService.deleteById(currentUser, userId, id);
