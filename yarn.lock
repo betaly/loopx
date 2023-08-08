@@ -2618,6 +2618,7 @@ __metadata:
     "@loopback/service-proxy": ^6.1.1
     "@loopback/testlab": ^6.1.1
     "@loopx/core": "workspace:^"
+    "@loopx/multi-tenancy": "workspace:^"
     "@sphericsio/password-sheriff": ^1.1.1
     "@types/base-64": ^1.0.0
     "@types/bcrypt": ^5.0.0
@@ -2732,7 +2733,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@loopx/multi-tenancy@workspace:packages/multi-tenancy":
+"@loopx/multi-tenancy@workspace:^, @loopx/multi-tenancy@workspace:packages/multi-tenancy":
   version: 0.0.0-use.local
   resolution: "@loopx/multi-tenancy@workspace:packages/multi-tenancy"
   dependencies:

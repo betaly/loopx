@@ -39,3 +39,4 @@ export * from './otp-sender.provider';
 export * from './otp.provider';
 export * from './signup-token-handler.provider';
 export * from './types';
+export * from './tenant-resolver.provider';

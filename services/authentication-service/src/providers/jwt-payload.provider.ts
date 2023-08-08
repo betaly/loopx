@@ -36,7 +36,7 @@ export class JwtPayloadProvider implements Provider<JwtPayloadFn> {
       const user = authUserData as User;
       const userTenant = await this.userTenantRepo.findOne({
         where: {
-          userId: (user as User).id, //NOSONAR
+          userId: (user as User).id,
           tenantId: tenantId ?? user.defaultTenantId,
         },
       });
@@ -80,6 +80,7 @@ export class JwtPayloadProvider implements Provider<JwtPayloadFn> {
           allowed: true,
         },
       });
+      // TODO - reduce payload size by removing permissions and resolve them when request
       authUser.permissions = this.getUserPermissions(utPerms, role.permissions);
       authUser.role = role.name;
       if (authUser.dob) {
@@ -93,9 +94,9 @@ export class JwtPayloadProvider implements Provider<JwtPayloadFn> {
   private _removeUnnecessaryData(authUser: AnyObject) {
     delete authUser.externalAuthToken;
     delete authUser.externalRefreshToken;
-    delete authUser.createdBy;
-    delete authUser.createdOn;
     delete authUser.deleted;
+    delete authUser.createdBy;
+    delete authUser.createdAt;
     delete authUser.deletedBy;
     delete authUser.deletedAt;
     delete authUser.updatedBy;

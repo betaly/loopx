@@ -191,3 +191,5 @@ export type AuthaPreVerifyFn = (
 ) => Promise<IAuthUser | null>;
 
 export type AuthaPostVerifyFn = (profile: AuthaStrategy.Profile, user: IAuthUser | null) => Promise<IAuthUser | null>;
+
+export type ResolvePermissionsFn = (user: IAuthUser) => Promise<string[]>;

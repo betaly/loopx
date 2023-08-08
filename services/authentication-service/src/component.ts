@@ -25,6 +25,7 @@ import {
 import {AuthorizationBindings, AuthorizationComponent} from '@bleco/authorization';
 
 import {CoreComponent, LxCoreBindings, SECURITY_SCHEME_SPEC, matchResources} from '@loopx/core';
+import {MultiTenancyActionOptions, MultiTenancyBindings, MultiTenancyComponent} from '@loopx/multi-tenancy';
 
 import {ConfigAliaser} from './aliaser';
 import {controllers} from './controllers';
@@ -94,6 +95,7 @@ import {
   OtpSenderProvider,
   SignupBearerVerifyProvider,
   SignupTokenHandlerProvider,
+  TenantResolverProvider,
 } from './providers';
 import {AuthCodeGeneratorProvider} from './providers/auth-code-generator.provider';
 import {DefaultRoleProvider} from './providers/default-role.provider';
@@ -169,6 +171,9 @@ export class AuthenticationServiceComponent implements Component {
 
     // Mount logout providers
     this.setupLogoutProviders();
+
+    // Mount MultiTenancy component
+    this.setupMultiTenancyComponent();
 
     this.application.api({
       openapi: '3.0.0',
@@ -328,5 +333,13 @@ export class AuthenticationServiceComponent implements Component {
   setupLogoutProviders() {
     this.providers[LogoutBindings.AUTHA_LOGOUT_PROVIDER.key] = AuthaLogoutProvider;
     this.providers[LogoutBindings.KEYCLOAK_LOGOUT_PROVIDER.key] = KeycloakLogoutProvider;
+  }
+
+  setupMultiTenancyComponent() {
+    this.application.configure<MultiTenancyActionOptions>(MultiTenancyBindings.ACTION).to({
+      strategyNames: ['header', 'jwt', 'query'],
+    });
+    this.application.component(MultiTenancyComponent);
+    this.providers[MultiTenancyBindings.TENANT_RESOLVER.key] = TenantResolverProvider;
   }
 }

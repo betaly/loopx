@@ -19,8 +19,9 @@ import {AuthenticateFn, AuthenticationBindings, AuthenticationErrors} from '@ble
 import {AuthorizationBindings, AuthorizationErrors, AuthorizeFn} from '@bleco/authorization';
 
 import {ILogger, LOGGER, LxCoreBindings} from '@loopx/core';
+import {IdentifyTenantFn, MultiTenancyBindings} from '@loopx/multi-tenancy';
 
-import {AuthClient} from './models';
+import {AuthClient, Tenant} from './models';
 import {AuthUser} from './modules/auth';
 
 const SequenceActions = RestBindings.SequenceActions;
@@ -45,6 +46,8 @@ export class MySequence implements SequenceHandler {
     protected invoke: InvokeMethod,
     @inject(SequenceActions.SEND) public send: Send,
     @inject(SequenceActions.REJECT) public reject: Reject,
+    @inject(MultiTenancyBindings.ACTION)
+    protected identifyTenant: IdentifyTenantFn<Tenant>,
     @inject(AuthenticationBindings.USER_AUTH_ACTION)
     protected authenticateRequest: AuthenticateFn<AuthUser>,
     @inject(AuthenticationBindings.CLIENT_AUTH_ACTION)
@@ -81,6 +84,8 @@ export class MySequence implements SequenceHandler {
       const args = await this.parseParams(request, route);
       await this.authenticateRequestClient(request);
       const authUser: AuthUser = await this.authenticateRequest(request, response);
+      const tenant = await this.identifyTenant(context);
+      // TODO get permissions from user tenant role and user self
       const isAccessAllowed: boolean = await this.checkAuthorisation(authUser?.permissions, request);
       if (!isAccessAllowed) {
         throw new AuthorizationErrors.NotAllowedAccess();
@@ -98,12 +103,10 @@ export class MySequence implements SequenceHandler {
 
       const error = this._rejectErrors(err);
       if (
-        // sonarignore:start
         !(
           error.message &&
           [AuthenticationErrors.TokenInvalid.message, AuthenticationErrors.TokenExpired.message].includes(error.message)
         )
-        // sonarignore:end
       ) {
         if (isString(error.message)) {
           error.message = this.i18n.__({
