@@ -86,9 +86,9 @@ export class MultiTenancyComponent implements Component {
 }
 ```
 
-### Post process tenant specific datasources
+### Post processing after tenant is identified
 
-#### Bind tenant specific resources to the request context
+#### Example: Bind tenant specific resources to the request context
 
 We simply rebind `datasources.db` to a tenant specific datasource to select the right datasource for `UserRepository`.
 

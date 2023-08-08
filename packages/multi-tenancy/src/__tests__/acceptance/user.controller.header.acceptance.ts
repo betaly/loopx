@@ -13,7 +13,7 @@ describe('UserController with header-based multi-tenancy', () => {
     ({app, client} = await setupApplication());
     app
       .configure<MultiTenancyMiddlewareOptions>(MultiTenancyBindings.MIDDLEWARE)
-      .to({strategyNames: ['jwt', 'header', 'query']});
+      .to({strategyNames: ['jwt', 'header', 'query', 'host']});
   });
 
   beforeAll(async () => {

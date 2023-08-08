@@ -13,6 +13,11 @@ import {MySequence} from './sequence';
 
 export {ApplicationConfig};
 
+const HostTenantMapping: Record<string, string> = {
+  'abc.example.com': 'abc',
+  'xyz.example.com': 'xyz',
+};
+
 export class ExampleMultiTenancyApplication extends BootMixin(ServiceMixin(RepositoryMixin(RestApplication))) {
   constructor(options: ApplicationConfig = {}) {
     super(options);
@@ -34,6 +39,16 @@ export class ExampleMultiTenancyApplication extends BootMixin(ServiceMixin(Repos
      *   .to({strategyNames: ['jwt', 'header', 'query']});
      */
     this.component(MultiTenancyComponent);
+
+    this.bind(MultiTenancyBindings.TENANT_RESOLVER).to((idOrHost: string) => {
+      if (idOrHost.includes('.')) {
+        return HostTenantMapping[idOrHost] ? {id: HostTenantMapping[idOrHost]} : undefined;
+      }
+      return {id: idOrHost};
+    });
+    this.bind(MultiTenancyBindings.POST_PROCESS).to((ctx, tenant) => {
+      ctx.bind('datasources.db').toAlias(`datasources.db.${tenant.id}`);
+    });
 
     this.projectRoot = __dirname;
   }

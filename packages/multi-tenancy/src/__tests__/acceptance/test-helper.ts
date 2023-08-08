@@ -1,6 +1,5 @@
 import {Client, createRestAppClient, givenHttpServerConfig} from '@loopback/testlab';
 
-import {MultiTenancyBindings} from '../../keys';
 import {ExampleMultiTenancyApplication} from '../fixtures/application';
 
 export async function setupApplication(): Promise<AppWithClient> {
@@ -14,9 +13,6 @@ export async function setupApplication(): Promise<AppWithClient> {
 
   const app = new ExampleMultiTenancyApplication({
     rest: restConfig,
-  });
-  app.bind(MultiTenancyBindings.POST_PROCESS).to((ctx, tenant) => {
-    ctx.bind('datasources.db').toAlias(`datasources.db.${tenant.id}`);
   });
 
   await app.boot();
