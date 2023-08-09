@@ -50,7 +50,7 @@ describe('AuthClient', () => {
           code: TEST_CODE,
         },
         {
-          'Auth-Client': urlSafeBase64.encode(
+          'LoopAuth-Client': urlSafeBase64.encode(
             JSON.stringify({
               name: 'auth-js',
               version: version,
@@ -85,7 +85,7 @@ describe('AuthClient', () => {
           code: TEST_CODE,
         },
         {
-          'Auth-Client': urlSafeBase64.encode(
+          'LoopAuth-Client': urlSafeBase64.encode(
             JSON.stringify({
               name: 'auth-js',
               version: version,

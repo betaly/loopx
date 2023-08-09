@@ -98,7 +98,7 @@ describe('AuthClient', () => {
           code: TEST_CODE,
         },
         {
-          'Auth-Client': urlSafeBase64.encode(JSON.stringify(DEFAULT_AUTH_CLIENT)),
+          'LoopAuth-Client': urlSafeBase64.encode(JSON.stringify(DEFAULT_AUTH_CLIENT)),
           'Content-Type': 'application/x-www-form-urlencoded',
         },
         0,

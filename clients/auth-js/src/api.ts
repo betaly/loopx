@@ -30,7 +30,7 @@ export async function fetchToken(
       body,
       headers: {
         'Content-Type': contentType,
-        'Auth-Client': urlSafeBase64.encode(JSON.stringify(authClient || DEFAULT_AUTH_CLIENT)),
+        'LoopAuth-Client': urlSafeBase64.encode(JSON.stringify(authClient || DEFAULT_AUTH_CLIENT)),
       },
       timeout,
     },

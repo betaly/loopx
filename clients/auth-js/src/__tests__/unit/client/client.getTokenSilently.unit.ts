@@ -135,7 +135,7 @@ describe('AuthClient', () => {
     //       code: TEST_CODE,
     //     },
     //     {
-    //       'Auth-Client': urlSafeBase64.encode(JSON.stringify(DEFAULT_AUTH_CLIENT)),
+    //       'LoopAuth-Client': urlSafeBase64.encode(JSON.stringify(DEFAULT_AUTH_CLIENT)),
     //       'Content-Type': 'application/json',
     //     },
     //   );
@@ -162,7 +162,7 @@ describe('AuthClient', () => {
     //       code: TEST_CODE,
     //     },
     //     {
-    //       'Auth-Client': urlSafeBase64.encode(JSON.stringify(DEFAULT_AUTH_CLIENT)),
+    //       'LoopAuth-Client': urlSafeBase64.encode(JSON.stringify(DEFAULT_AUTH_CLIENT)),
     //       'Content-Type': 'application/x-www-form-urlencoded',
     //     },
     //     0,
@@ -192,7 +192,7 @@ describe('AuthClient', () => {
           refreshToken: TEST_REFRESH_TOKEN,
         },
         {
-          'Auth-Client': urlSafeBase64.encode(JSON.stringify(DEFAULT_AUTH_CLIENT)),
+          'LoopAuth-Client': urlSafeBase64.encode(JSON.stringify(DEFAULT_AUTH_CLIENT)),
         },
       );
     });
@@ -219,7 +219,7 @@ describe('AuthClient', () => {
           refreshToken: TEST_REFRESH_TOKEN,
         },
         {
-          'Auth-Client': urlSafeBase64.encode(JSON.stringify(DEFAULT_AUTH_CLIENT)),
+          'LoopAuth-Client': urlSafeBase64.encode(JSON.stringify(DEFAULT_AUTH_CLIENT)),
         },
         undefined,
         false,
@@ -253,7 +253,7 @@ describe('AuthClient', () => {
           refreshToken: TEST_REFRESH_TOKEN,
         },
         {
-          'Auth-Client': urlSafeBase64.encode(JSON.stringify(DEFAULT_AUTH_CLIENT)),
+          'LoopAuth-Client': urlSafeBase64.encode(JSON.stringify(DEFAULT_AUTH_CLIENT)),
         },
       );
     });
@@ -285,7 +285,7 @@ describe('AuthClient', () => {
           refreshToken: TEST_REFRESH_TOKEN,
         },
         {
-          'Auth-Client': urlSafeBase64.encode(JSON.stringify(DEFAULT_AUTH_CLIENT)),
+          'LoopAuth-Client': urlSafeBase64.encode(JSON.stringify(DEFAULT_AUTH_CLIENT)),
         },
         undefined,
         false,
@@ -319,7 +319,7 @@ describe('AuthClient', () => {
           refreshToken: TEST_REFRESH_TOKEN,
         },
         {
-          'Auth-Client': urlSafeBase64.encode(JSON.stringify(DEFAULT_AUTH_CLIENT)),
+          'LoopAuth-Client': urlSafeBase64.encode(JSON.stringify(DEFAULT_AUTH_CLIENT)),
         },
       );
     });
@@ -351,7 +351,7 @@ describe('AuthClient', () => {
           refreshToken: TEST_REFRESH_TOKEN,
         },
         {
-          'Auth-Client': urlSafeBase64.encode(JSON.stringify(DEFAULT_AUTH_CLIENT)),
+          'LoopAuth-Client': urlSafeBase64.encode(JSON.stringify(DEFAULT_AUTH_CLIENT)),
         },
         undefined,
         false,
@@ -493,7 +493,7 @@ describe('AuthClient', () => {
           code: TEST_CODE,
         },
         {
-          'Auth-Client': urlSafeBase64.encode(JSON.stringify(authClient)),
+          'LoopAuth-Client': urlSafeBase64.encode(JSON.stringify(authClient)),
         },
         undefined,
         false,

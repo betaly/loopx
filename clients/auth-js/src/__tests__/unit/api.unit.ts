@@ -43,7 +43,7 @@ describe('fetchToken', () => {
       body: JSON.stringify(options),
       headers: {
         'Content-Type': 'application/json',
-        'Auth-Client': urlSafeBase64.encode(JSON.stringify(authClient)),
+        'LoopAuth-Client': urlSafeBase64.encode(JSON.stringify(authClient)),
       },
       method: 'POST',
       signal: abortController.signal,
