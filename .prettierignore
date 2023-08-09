@@ -1,7 +1,7 @@
 .github/
 /coverage
 packages/*/dist
-examples/*/dist
+sandbox/*/dist
 services/*/dist
 clients/*/dist
 *.json

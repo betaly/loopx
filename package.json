@@ -77,7 +77,7 @@
   },
   "workspaces": [
     "packages/*",
-    "examples/*",
+    "sandbox/*",
     "services/*",
     "clients/*"
   ],
