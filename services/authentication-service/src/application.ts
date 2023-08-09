@@ -21,12 +21,5 @@ export class AuthenticationServiceApplication extends BootMixin(RepositoryMixin(
     this.component(AuthenticationServiceComponent);
 
     this.projectRoot = __dirname;
-    this.bootOptions = {
-      controllers: {
-        dirs: ['controllers'],
-        extensions: ['.controller.[jt]s'],
-        nested: true,
-      },
-    };
   }
 }
