@@ -12,6 +12,9 @@
     "node": ">=14"
   },
   "author": "loopx",
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "lb-tsc",
     "clean": "lb-clean 'loopx-core*.tgz' 'dist/*' '*.tsbuildinfo' 'package'",
