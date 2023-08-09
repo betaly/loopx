@@ -84,7 +84,7 @@ export class MySequence implements SequenceHandler {
       const args = await this.parseParams(request, route);
       await this.authenticateRequestClient(request);
       const authUser: AuthUser = await this.authenticateRequest(request, response);
-      const tenant = await this.identifyTenant(context);
+      await this.identifyTenant(context);
       // TODO get permissions from user tenant role and user self
       const isAccessAllowed: boolean = await this.checkAuthorisation(authUser?.permissions, request);
       if (!isAccessAllowed) {
