@@ -1,6 +1,6 @@
-import {UserUpdatableEntity} from '@loopx/core';
-
 import {model, property} from '@loopback/repository';
+
+import {UserUpdatableEntity} from '@loopx/core';
 
 @model({
   name: 'todos',

@@ -1,11 +1,13 @@
 import {Getter, inject} from '@loopback/core';
+import {JugglerDataSource} from '@loopback/repository';
 
 import {AuthenticationBindings} from '@bleco/authentication';
-import {UserLevelResource} from '../models';
-import {JugglerDataSource} from '@loopback/repository';
-import {DefaultUserUpdatableCrudRepository} from '@loopx/core';
-import {AuthDbSourceName} from '@loopx/authentication-service';
 import {IAuthUserWithPermissions} from '@bleco/authorization';
+
+import {AuthDbSourceName} from '@loopx/authentication-service';
+import {DefaultUserUpdatableCrudRepository} from '@loopx/core';
+
+import {UserLevelResource} from '../models';
 
 export class UserLevelResourceRepository extends DefaultUserUpdatableCrudRepository<
   UserLevelResource,

@@ -1,4 +1,4 @@
-import {inject, LifeCycleObserver, lifeCycleObserver} from '@loopback/core';
+import {LifeCycleObserver, inject, lifeCycleObserver} from '@loopback/core';
 import {juggler} from '@loopback/repository';
 
 const config = {

@@ -1,4 +1,5 @@
 import logServerUrls from 'log-server-urls';
+
 import {ApplicationConfig, AuthExampleApplication} from './application';
 
 export * from './application';

@@ -1,8 +1,8 @@
-import {UserUpdatableEntity} from '@loopx/core';
-
 import {model, property} from '@loopback/repository';
 
 import {IUserResource} from '@bleco/authorization';
+
+import {UserUpdatableEntity} from '@loopx/core';
 
 @model({
   name: 'user_resources',

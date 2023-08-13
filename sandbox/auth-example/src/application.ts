@@ -1,7 +1,8 @@
-import '@bleco/boot';
-
+import * as dotenv from 'dotenv';
+import * as dotenvExt from 'dotenv-extended';
 import path from 'path';
 
+import {BootMixin} from '@loopback/boot';
 import {ApplicationConfig} from '@loopback/core';
 import {RepositoryMixin} from '@loopback/repository';
 import {RestApplication} from '@loopback/rest';
@@ -9,17 +10,15 @@ import {RestExplorerBindings, RestExplorerComponent} from '@loopback/rest-explor
 import {ServiceMixin} from '@loopback/service-proxy';
 
 import {AuthorizationBindings, UserPermissionsProvider} from '@bleco/authorization';
-import {BootMixin} from '@loopback/boot';
+import '@bleco/boot';
 import {HelmetSecurityBindings} from '@bleco/helmet';
+import {RateLimitSecurityBindings} from '@bleco/ratelimiter';
+
 import {AuthCacheSourceName, AuthDbSourceName, AuthenticationServiceComponent} from '@loopx/authentication-service';
 import {LxCoreBindings, SECURITY_SCHEME_SPEC} from '@loopx/core';
 
-import * as dotenv from 'dotenv';
-import * as dotenvExt from 'dotenv-extended';
-
-import * as openapi from './openapi.json';
-import {RateLimitSecurityBindings} from '@bleco/ratelimiter';
 import {KvDataSource} from './datasources';
+import * as openapi from './openapi.json';
 
 const pkg = require('../package.json');
 

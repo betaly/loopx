@@ -1,4 +1,3 @@
-import {STATUS_CODE} from '@loopx/core';
 import * as fs from 'fs';
 import * as path from 'path';
 
@@ -7,6 +6,8 @@ import {get} from '@loopback/openapi-v3';
 import {Response, RestBindings} from '@loopback/rest';
 
 import {authorize} from '@bleco/authorization';
+
+import {STATUS_CODE} from '@loopx/core';
 
 export class HomePageController {
   private readonly html: string;

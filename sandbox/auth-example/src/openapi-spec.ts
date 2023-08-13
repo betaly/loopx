@@ -1,8 +1,8 @@
-const log = require('why-is-node-running');
-
 import {ApplicationConfig} from '@loopback/core';
 
 import {AuthExampleApplication} from './application';
+
+const log = require('why-is-node-running');
 
 /**
  * Export the OpenAPI spec from the application
