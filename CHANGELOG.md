@@ -1,5 +1,17 @@
 
 
+# [0.4.0](https://github.com/betaly/loopx/compare/0.3.0...0.4.0) (2023-08-13)
+
+
+### Bug Fixes
+
+* **core:**  RateLimitSecurityBindings.RATELIMIT_SECURITY_ACTION -> RateLimitSecurityBindings.ACTION ([d1e901b](https://github.com/betaly/loopx/commit/d1e901b9e90d3e3c0ecc8d51887cb85ac4817327))
+
+
+### Features
+
+* **auth-example:** initial commit ([864cdf5](https://github.com/betaly/loopx/commit/864cdf548be3ab9a5c511d3038531dc923a2f421))
+
 # [0.3.0](https://gitr.net/betaly/loopx/compare/0.2.0...0.3.0) (2023-08-09)
 
 
