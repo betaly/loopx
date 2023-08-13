@@ -36,7 +36,6 @@ export class ServiceSequence implements SequenceHandler {
   protected expressMiddlewares: ExpressRequestHandler[] = [];
 
   constructor(
-    // sonarignore:start
     @inject(SequenceActions.FIND_ROUTE) protected findRoute: FindRoute,
     @inject(SequenceActions.PARSE_PARAMS)
     protected parseParams: ParseParams,
@@ -50,7 +49,7 @@ export class ServiceSequence implements SequenceHandler {
     @inject(AuthorizationBindings.AUTHORIZE_ACTION)
     protected checkAuthorisation: AuthorizeFn,
     @inject(LxCoreBindings.i18n)
-    protected i18n: i18nAPI, // sonarignore:end
+    protected i18n: i18nAPI,
   ) {}
 
   async handle(context: RequestContext) {

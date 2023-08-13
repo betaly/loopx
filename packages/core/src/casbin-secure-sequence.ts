@@ -62,7 +62,7 @@ export class CasbinSecureSequence implements SequenceHandler {
     protected casbinResModifierFn: CasbinResourceModifierFn,
     @inject(HelmetSecurityBindings.HELMET_SECURITY_ACTION)
     protected helmetAction: HelmetAction,
-    @inject(RateLimitSecurityBindings.RATELIMIT_SECURITY_ACTION)
+    @inject(RateLimitSecurityBindings.ACTION)
     protected rateLimitAction: RateLimitAction,
     @inject(LxCoreBindings.i18n)
     protected i18n: i18nAPI, // sonarignore:end
