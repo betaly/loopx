@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.1](https://gitr.net/betaly/loopx/compare/@loopx/core@0.2.0...@loopx/core@0.2.1) (2023-08-13)
+
+
+### Bug Fixes
+
+* **core:**  RateLimitSecurityBindings.RATELIMIT_SECURITY_ACTION -> RateLimitSecurityBindings.ACTION ([d1e901b](https://gitr.net/betaly/loopx/commits/d1e901b9e90d3e3c0ecc8d51887cb85ac4817327))
+
+
+
+
+
 # [0.2.0](https://gitr.net/betaly/loopx/compare/@loopx/core@0.1.0...@loopx/core@0.2.0) (2023-08-09)
 
 

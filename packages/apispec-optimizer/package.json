@@ -1,7 +1,7 @@
 {
   "name": "@loopx/apispec-optimizer",
   "description": "An OpenAPI specification optimizer for loopback 4",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "keywords": [],
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
