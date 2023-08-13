@@ -56,7 +56,7 @@ export class MySequence implements SequenceHandler {
     protected checkAuthorisation: AuthorizeFn,
     @inject(LOGGER.LOGGER_INJECT) public logger: ILogger,
     @inject(LxCoreBindings.i18n)
-    protected i18n: i18nAPI, // sonarignore:end
+    protected i18n: i18nAPI,
   ) {}
 
   async handle(context: RequestContext) {
@@ -132,11 +132,8 @@ export class MySequence implements SequenceHandler {
   @inject(SequenceActions.INVOKE_MIDDLEWARE, {optional: true})
   protected invokeMiddleware: InvokeMiddleware = () => false;
 
-  // sonarignore:start
-
   /* eslint-disable @typescript-eslint/no-explicit-any */
   private _rejectErrors(err: any) {
-    // sonarignore:end
     if (!!err.table && !!err.detail) {
       if (err.code === '23505') {
         // Postgres unique index error
