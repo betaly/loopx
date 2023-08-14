@@ -134,7 +134,7 @@ export class TokensController {
     passReqToCallback: true,
   })
   @authorize({permissions: ['*']})
-  @post('/auth/switch-token', {
+  @post('/auth/token-switch', {
     security: OPERATION_SECURITY_SPEC,
     description: 'To switch the access-token',
     responses: {
