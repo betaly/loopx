@@ -152,8 +152,10 @@ export class AuthenticationServiceComponent implements Component {
     this.bindings = [];
     this.providers = {};
 
-    // Mount core component
-    this.application.component(CoreComponent);
+    if (!this.application.isBound(`${CoreBindings.COMPONENTS}.${CoreComponent.name}`)) {
+      // Mount core component
+      this.application.component(CoreComponent);
+    }
 
     if (+(process.env.AZURE_AUTH_ENABLED ?? 0)) {
       const expressMiddlewares = this.application.getSync(LxCoreBindings.EXPRESS_MIDDLEWARES) ?? [];

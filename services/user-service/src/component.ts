@@ -98,7 +98,9 @@ export class UserTenantServiceComponent implements Component {
     private readonly options: UserTenantServiceComponentOptions = DEFAULT_USER_TENANT_SERVICE_OPTIONS,
   ) {
     this.bindings = [];
-    this.application.component(CoreComponent);
+    if (!this.application.isBound(`${CoreBindings.COMPONENTS}.${CoreComponent.name}`)) {
+      this.application.component(CoreComponent);
+    }
     this.models = [
       AuthClient,
       AuditLog,

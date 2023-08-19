@@ -3194,111 +3194,6 @@ To perform this operation, you must be authenticated by means of one of the foll
 HTTPBearer
 </aside>
 
-## TokensController.switchToken
-
-<a id="opIdTokensController.switchToken"></a>
-
-> Code samples
-
-```javascript
-const inputBody = '{
-  "refreshToken": "string",
-  "tenantId": "string"
-}';
-const headers = {
-  'Content-Type':'application/json',
-  'Accept':'application/json',
-  'Authorization':'Bearer {access-token}'
-};
-
-fetch('/auth/switch-token',
-{
-  method: 'POST',
-  body: inputBody,
-  headers: headers
-})
-.then(function(res) {
-    return res.json();
-}).then(function(body) {
-    console.log(body);
-});
-
-```
-
-```javascript--nodejs
-const fetch = require('node-fetch');
-const inputBody = {
-  "refreshToken": "string",
-  "tenantId": "string"
-};
-const headers = {
-  'Content-Type':'application/json',
-  'Accept':'application/json',
-  'Authorization':'Bearer {access-token}'
-};
-
-fetch('/auth/switch-token',
-{
-  method: 'POST',
-  body: JSON.stringify(inputBody),
-  headers: headers
-})
-.then(function(res) {
-    return res.json();
-}).then(function(body) {
-    console.log(body);
-});
-
-```
-
-`POST /auth/switch-token`
-
-To switch the access-token
-
-> Body parameter
-
-```json
-{
-  "refreshToken": "string",
-  "tenantId": "string"
-}
-```
-
-<h3 id="tokenscontroller.switchtoken-parameters">Parameters</h3>
-
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|body|body|[AuthRefreshTokenRequest](#schemaauthrefreshtokenrequest)|false|none|
-
-> Example responses
-
-> 200 Response
-
-```json
-{
-  "accessToken": "string",
-  "refreshToken": "string",
-  "expiresIn": 0,
-  "expiresAt": 0,
-  "pubnubToken": "string"
-}
-```
-
-<h3 id="tokenscontroller.switchtoken-responses">Responses</h3>
-
-|Status|Meaning|Description|Schema|
-|---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Switch access token with the tenant id provided.|[TokenResponse](#schematokenresponse)|
-|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|The syntax of the request entity is incorrect.|None|
-|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Invalid Credentials.|None|
-|404|[Not Found](https://tools.ietf.org/html/rfc7231#section-6.5.4)|The entity requested does not exist.|None|
-|422|[Unprocessable Entity](https://tools.ietf.org/html/rfc2518#section-10.3)|The syntax of the request entity is incorrect|None|
-
-<aside class="warning">
-To perform this operation, you must be authenticated by means of one of the following methods:
-HTTPBearer
-</aside>
-
 ## TokensController.getToken
 
 <a id="opIdTokensController.getToken"></a>
@@ -3501,6 +3396,111 @@ Gets you a new access and refresh token once your access token is expired
 
 <aside class="success">
 This operation does not require authentication
+</aside>
+
+## TokensController.switchToken
+
+<a id="opIdTokensController.switchToken"></a>
+
+> Code samples
+
+```javascript
+const inputBody = '{
+  "refreshToken": "string",
+  "tenantId": "string"
+}';
+const headers = {
+  'Content-Type':'application/json',
+  'Accept':'application/json',
+  'Authorization':'Bearer {access-token}'
+};
+
+fetch('/auth/token-switch',
+{
+  method: 'POST',
+  body: inputBody,
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+```javascript--nodejs
+const fetch = require('node-fetch');
+const inputBody = {
+  "refreshToken": "string",
+  "tenantId": "string"
+};
+const headers = {
+  'Content-Type':'application/json',
+  'Accept':'application/json',
+  'Authorization':'Bearer {access-token}'
+};
+
+fetch('/auth/token-switch',
+{
+  method: 'POST',
+  body: JSON.stringify(inputBody),
+  headers: headers
+})
+.then(function(res) {
+    return res.json();
+}).then(function(body) {
+    console.log(body);
+});
+
+```
+
+`POST /auth/token-switch`
+
+To switch the access-token
+
+> Body parameter
+
+```json
+{
+  "refreshToken": "string",
+  "tenantId": "string"
+}
+```
+
+<h3 id="tokenscontroller.switchtoken-parameters">Parameters</h3>
+
+|Name|In|Type|Required|Description|
+|---|---|---|---|---|
+|body|body|[AuthRefreshTokenRequest](#schemaauthrefreshtokenrequest)|false|none|
+
+> Example responses
+
+> 200 Response
+
+```json
+{
+  "accessToken": "string",
+  "refreshToken": "string",
+  "expiresIn": 0,
+  "expiresAt": 0,
+  "pubnubToken": "string"
+}
+```
+
+<h3 id="tokenscontroller.switchtoken-responses">Responses</h3>
+
+|Status|Meaning|Description|Schema|
+|---|---|---|---|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|Switch access token with the tenant id provided.|[TokenResponse](#schematokenresponse)|
+|400|[Bad Request](https://tools.ietf.org/html/rfc7231#section-6.5.1)|The syntax of the request entity is incorrect.|None|
+|401|[Unauthorized](https://tools.ietf.org/html/rfc7235#section-3.1)|Invalid Credentials.|None|
+|404|[Not Found](https://tools.ietf.org/html/rfc7231#section-6.5.4)|The entity requested does not exist.|None|
+|422|[Unprocessable Entity](https://tools.ietf.org/html/rfc2518#section-10.3)|The syntax of the request entity is incorrect|None|
+
+<aside class="warning">
+To perform this operation, you must be authenticated by means of one of the following methods:
+HTTPBearer
 </aside>
 
 <h1 id="authentication-service-passwordlesscontroller">PasswordlessController</h1>

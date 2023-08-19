@@ -15,7 +15,7 @@ export class Tenant extends UserUpdatableEntity {
     generated: false,
     defaultFn: 'nanoid',
   })
-  id?: string;
+  id: string;
 
   @property({
     type: 'string',

@@ -14,17 +14,32 @@ import '@bleco/boot';
 import {HelmetSecurityBindings} from '@bleco/helmet';
 import {RateLimitSecurityBindings} from '@bleco/ratelimiter';
 
-import {AuthCacheSourceName, AuthDbSourceName, AuthenticationServiceComponent} from '@loopx/authentication-service';
-import {LxCoreBindings, SECURITY_SCHEME_SPEC} from '@loopx/core';
+import {
+  AuthCacheSourceName,
+  AuthDbSourceName,
+  AuthenticationServiceComponent,
+  AuthServiceBindings,
+} from '@loopx/authentication-service';
+import {CoreComponent, LxCoreBindings, SECURITY_SCHEME_SPEC} from '@loopx/core';
 
 import {KvDataSource} from './datasources';
 import * as openapi from './openapi.json';
-
-const pkg = require('../package.json');
+import {UserTenantServiceComponent, UserTenantServiceComponentBindings} from '@loopx/user-service';
+import {AuthenticationBindings} from '@bleco/authentication';
+import {MySequence} from './sequence';
+import {version} from './version';
 
 export {ApplicationConfig};
 
 const port = 3000;
+
+export const AUthControllers = [
+  'LoginController',
+  'LogoutController',
+  'TokensController',
+  'AuthaLoginController',
+  'AuthClientsController',
+];
 
 export class AuthExampleApplication extends BootMixin(ServiceMixin(RepositoryMixin(RestApplication))) {
   constructor(options: ApplicationConfig = {}) {
@@ -48,6 +63,8 @@ export class AuthExampleApplication extends BootMixin(ServiceMixin(RepositoryMix
     options.rest.host = process.env.HOST;
     super(options);
 
+    this.sequence(MySequence);
+
     this.bind(`datasources.${AuthDbSourceName}`).toAlias('datasources.db');
     this.bind(`datasources.${AuthCacheSourceName}`).toAlias('datasources.kv');
 
@@ -70,8 +87,21 @@ export class AuthExampleApplication extends BootMixin(ServiceMixin(RepositoryMix
       swaggerUsername: swaggerUsername,
       swaggerPassword: swaggerPassword,
     });
+    this.component(CoreComponent);
 
+    this.bind(AuthenticationBindings.CONFIG).to({
+      secureClient: true,
+    });
+    this.bind(AuthServiceBindings.Config).to({
+      useCustomSequence: true,
+      controllers: AUthControllers,
+    });
     this.component(AuthenticationServiceComponent);
+
+    this.configure(UserTenantServiceComponentBindings.COMPONENT).to({
+      controllers: ['*', '!UserSignupController'],
+    });
+    this.component(UserTenantServiceComponent);
 
     this.bind(RateLimitSecurityBindings.CONFIG).to({
       ds: KvDataSource,
@@ -92,7 +122,7 @@ export class AuthExampleApplication extends BootMixin(ServiceMixin(RepositoryMix
       openapi: '3.0.0',
       info: {
         title: 'Auth Example API',
-        version: pkg.version,
+        version,
       },
       paths: {},
       components: {
