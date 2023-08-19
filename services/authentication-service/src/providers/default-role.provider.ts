@@ -9,11 +9,11 @@ import {RoleRepository} from '../repositories';
 export class DefaultRoleProvider implements Provider<Role> {
   constructor(
     @repository(RoleRepository)
-    private readonly tenantRepository: RoleRepository,
+    private readonly roleRepo: RoleRepository,
   ) {}
 
   async value(): Promise<Role> {
-    const tenant = await this.tenantRepository.findOne({
+    const tenant = await this.roleRepo.findOne({
       where: {roleType: RoleTypes.Default},
     });
     if (!tenant) {

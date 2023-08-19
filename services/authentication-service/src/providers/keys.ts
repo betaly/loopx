@@ -125,6 +125,6 @@ export namespace AuthCodeBindings {
 }
 
 export namespace AuthEntityBindings {
-  export const DEFAULT_TENANT = BindingKey.create<Tenant>(`loopx.auth.tenant.default`);
-  export const DEFAULT_ROLE = BindingKey.create<Role>(`loopx.auth.role.default`);
+  export const DEFAULT_TENANT = BindingKey.create<Tenant>(`loopx.auth.default-tenant`);
+  export const DEFAULT_ROLE = BindingKey.create<Role>(`loopx.auth.default-role`);
 }
