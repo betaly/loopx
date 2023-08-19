@@ -11,7 +11,7 @@ export {AuthorizationBindings} from '@bleco/authorization';
 
 export namespace AuthServiceBindings {
   export const COMPONENT = BindingKey.create<AuthenticationServiceComponent>(
-    `${CoreBindings.COMPONENTS}.${AuthenticationServiceComponent.name}`,
+    `${CoreBindings.COMPONENTS}.AuthenticationServiceComponent}`,
   );
 
   /**
