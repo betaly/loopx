@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.3.0](https://github.com/betaly/loopx/compare/@loopx/authentication-service@0.2.2...@loopx/authentication-service@0.3.0) (2023-08-19)
+
+
+### Features
+
+* **auth:** rename endpoint from /auth/switch-token to /auth/token-switch ([0f7dfe7](https://github.com/betaly/loopx/commit/0f7dfe7b2c2933676a52a10aabf6d2a5a42aebf5))
+
+
+
+
+
 ## [0.2.2](https://github.com/betaly/loopx/compare/@loopx/authentication-service@0.2.1...@loopx/authentication-service@0.2.2) (2023-08-13)
 
 **Note:** Version bump only for package @loopx/authentication-service
