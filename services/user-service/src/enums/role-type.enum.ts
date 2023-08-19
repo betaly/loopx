@@ -15,8 +15,6 @@ export enum RoleKey {
 
 export type RoleType = RoleKey | RoleTypes;
 
-export const DisallowedRoles = [RoleTypes.Others];
-
 export interface RoleTypeMapValue {
   permissionKey: string;
   value: number;
