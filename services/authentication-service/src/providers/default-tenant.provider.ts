@@ -1,15 +1,16 @@
 import {Provider, inject} from '@loopback/context';
 import {repository} from '@loopback/repository';
 
+import {LxCoreBindings} from '@loopx/core';
+
 import {Tenant} from '../models';
 import {TenantRepository} from '../repositories';
-import {AuthEntityBindings} from './keys';
 
 export class DefaultTenantProvider implements Provider<Tenant> {
   constructor(
     @repository(TenantRepository)
     private readonly tenantRepository: TenantRepository,
-    @inject(AuthEntityBindings.DefaultTenantKey)
+    @inject(LxCoreBindings.DEFAULT_TENANT_KEY)
     private readonly defaultTenantKey: string,
   ) {}
 

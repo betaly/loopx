@@ -196,13 +196,6 @@ export class AuthenticationServiceComponent implements Component {
       this.setupSequence();
     }
 
-    this.application
-      .bind(AuthEntityBindings.DefaultTenantKey)
-      .to(authConfig?.defaultTenantKey ?? process.env.DEFAULT_TENANT_KEY ?? 'default');
-    this.application
-      .bind(AuthEntityBindings.DefaultRoleName)
-      .to(authConfig?.defaultRoleKey ?? process.env.DEFAULT_ROLE_NAME ?? 'default');
-
     if (!this.application.isBound(RestBindings.ERROR_WRITER_OPTIONS)) {
       this.application.bind(RestBindings.ERROR_WRITER_OPTIONS).to({
         safeFields: ['code', 'errorCode', 'data'],
@@ -292,8 +285,8 @@ export class AuthenticationServiceComponent implements Component {
     this.providers[AuthServiceBindings.JWTPayloadProvider.key] = JwtPayloadProvider;
     this.providers[AuthServiceBindings.ForgotPasswordHandler.key] = ForgotPasswordProvider;
 
-    this.providers[AuthEntityBindings.DefaultTenantProvider.key] = DefaultTenantProvider;
-    this.providers[AuthEntityBindings.DefaultRoleProvider.key] = DefaultRoleProvider;
+    this.providers[AuthEntityBindings.DEFAULT_TENANT.key] = DefaultTenantProvider;
+    this.providers[AuthEntityBindings.DEFAULT_ROLE.key] = DefaultRoleProvider;
 
     this.providers[Strategies.Passport.AZURE_AD_VERIFIER.key] = AzureAdVerifyProvider;
     this.providers[SignUpBindings.AZURE_AD_SIGN_UP_PROVIDER.key] = AzureAdSignupProvider;

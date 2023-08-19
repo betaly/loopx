@@ -36,9 +36,9 @@ export class UserOpsService {
     private readonly utRepository: UserTenantRepository,
     @repository(AuthClientRepository)
     private readonly authClientsRepository: AuthClientRepository,
-    @inject.getter(AuthEntityBindings.DefaultTenantProvider)
+    @inject.getter(AuthEntityBindings.DEFAULT_TENANT)
     private readonly getDefaultTenant: Getter<Tenant>,
-    @inject.getter(AuthEntityBindings.DefaultRoleProvider)
+    @inject.getter(AuthEntityBindings.DEFAULT_ROLE)
     private readonly getDefaultRole: Getter<Role>,
     @inject(LOGGER.LOGGER_INJECT)
     readonly logger: ILogger,

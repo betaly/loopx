@@ -173,7 +173,7 @@ export async function setupInitialData(appOrRepos: TestingApplication | TestInit
   const testDefaultRole = await roleRepo.create({
     id: '2',
     name: 'default',
-    roleType: RoleTypes.Others,
+    roleType: RoleTypes.Default,
     permissions: [
       'ViewOwnUser',
       'ViewTenantUser',

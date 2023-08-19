@@ -117,9 +117,6 @@ export namespace AuthCodeBindings {
 }
 
 export namespace AuthEntityBindings {
-  export const DefaultTenantProvider = BindingKey.create<Tenant>(`ml.auth.default.tenant.provider`);
-  export const DefaultTenantKey = BindingKey.create<string>(`ml.auth.default.tenant.key`);
-
-  export const DefaultRoleProvider = BindingKey.create<Role>(`ml.auth.default.role.provider`);
-  export const DefaultRoleName = BindingKey.create<string>(`ml.auth.default.role.name`);
+  export const DEFAULT_TENANT = BindingKey.create<Tenant>(`ml.auth.default.tenant.provider`);
+  export const DEFAULT_ROLE = BindingKey.create<Role>(`ml.auth.default.role.provider`);
 }

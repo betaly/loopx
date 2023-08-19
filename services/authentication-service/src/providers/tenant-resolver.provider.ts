@@ -11,7 +11,7 @@ export class TenantResolverProvider implements Provider<TenantResolverFn> {
   constructor(
     @repository(TenantRepository)
     private readonly tenantRepository: TenantRepository,
-    @inject.getter(AuthEntityBindings.DefaultTenantProvider)
+    @inject.getter(AuthEntityBindings.DEFAULT_TENANT)
     private readonly getDefaultTenant: Getter<Tenant>,
   ) {}
 
