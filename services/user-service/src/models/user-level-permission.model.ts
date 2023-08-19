@@ -9,7 +9,7 @@ import {UserTenant} from './index';
 @model({
   name: 'user_permissions',
 })
-export class UserLevelPermission extends UserUpdatableEntity implements UserPermission<string> {
+export class UserLevelPermission extends UserUpdatableEntity<UserLevelPermission> implements UserPermission<string> {
   @property({
     type: 'string',
     id: true,
@@ -40,8 +40,4 @@ export class UserLevelPermission extends UserUpdatableEntity implements UserPerm
     },
   )
   userTenantId: string;
-
-  constructor(data?: Partial<UserLevelPermission>) {
-    super(data);
-  }
 }

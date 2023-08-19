@@ -7,7 +7,7 @@ import {Tenant, TenantWithRelations} from './index';
 @model({
   name: 'tenant_configs',
 })
-export class TenantConfig extends UserUpdatableEntity {
+export class TenantConfig extends UserUpdatableEntity<TenantConfig> {
   @property({
     type: 'string',
     id: true,
@@ -38,10 +38,6 @@ export class TenantConfig extends UserUpdatableEntity {
     },
   )
   tenantId: string;
-
-  constructor(data?: Partial<TenantConfig>) {
-    super(data);
-  }
 }
 
 export interface TenantConfigRelations {

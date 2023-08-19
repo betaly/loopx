@@ -8,7 +8,7 @@ import {TenantConfig, TenantConfigWithRelations, UserTenant, UserTenantWithRelat
   name: 'tenants',
   description: 'signature for all tenants',
 })
-export class Tenant extends UserUpdatableEntity {
+export class Tenant extends UserUpdatableEntity<Tenant> {
   @property({
     type: 'string',
     id: true,
@@ -92,10 +92,6 @@ export class Tenant extends UserUpdatableEntity {
 
   @hasMany(() => UserTenant, {keyTo: 'tenantId'})
   userTenants: UserTenant[];
-
-  constructor(data?: Partial<Tenant>) {
-    super(data);
-  }
 }
 
 export interface TenantRelations {

@@ -1,4 +1,4 @@
-﻿import {hasMany, model, property} from '@loopback/repository';
+﻿import {DataObject, Model, hasMany, model, property} from '@loopback/repository';
 
 import {UserUpdatableEntity} from '@loopx/core';
 
@@ -11,7 +11,7 @@ import {UserGroup, UserGroupWithRelations} from './user-group.model';
     defaultIdSort: false,
   },
 })
-export class Group extends UserUpdatableEntity {
+export class Group<T = DataObject<Model>> extends UserUpdatableEntity<T & Group> {
   @property({
     type: 'string',
     id: true,
@@ -48,10 +48,6 @@ export class Group extends UserUpdatableEntity {
 
   @hasMany(() => UserGroup, {keyTo: 'groupId'})
   userGroups: UserGroup[];
-
-  constructor(data?: Partial<Group>) {
-    super(data);
-  }
 }
 
 export interface GroupRelations {

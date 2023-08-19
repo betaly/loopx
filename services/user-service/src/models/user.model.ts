@@ -1,4 +1,4 @@
-﻿import {belongsTo, hasMany, hasOne, model, property} from '@loopback/repository';
+﻿import {DataObject, Model, belongsTo, hasMany, hasOne, model, property} from '@loopback/repository';
 
 import {IAuthUser} from '@bleco/authentication';
 
@@ -17,7 +17,7 @@ import {
   name: 'users',
   description: 'This is signature for user model.',
 })
-export class User extends UserUpdatableEntity implements IAuthUser {
+export class User<T = DataObject<Model>> extends UserUpdatableEntity<T & User> implements IAuthUser {
   @property({
     type: 'string',
     id: true,
@@ -129,10 +129,6 @@ export class User extends UserUpdatableEntity implements IAuthUser {
 
   @hasMany(() => UserTenant, {keyTo: 'userId'})
   userTenants: UserTenant[];
-
-  constructor(data?: Partial<User>) {
-    super(data);
-  }
 }
 
 export interface UserRelations {

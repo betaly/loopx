@@ -9,7 +9,7 @@ import {UserView} from './user-view.model';
 @model({
   name: 'roles',
 })
-export class Role extends UserUpdatableEntity {
+export class Role extends UserUpdatableEntity<Role> {
   @property({
     type: 'string',
     id: true,
@@ -56,10 +56,6 @@ export class Role extends UserUpdatableEntity {
 
   @hasOne(() => UserView, {keyFrom: 'updatedBy', keyTo: 'id'})
   updatedByUser?: UserView;
-
-  constructor(data?: Partial<Role>) {
-    super(data);
-  }
 }
 
 export interface RoleRelations {

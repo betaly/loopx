@@ -11,7 +11,7 @@ import {UserTenant} from './user-tenant.model';
     defaultIdSort: false,
   },
 })
-export class UserTenantPrefs extends UserUpdatableEntity {
+export class UserTenantPrefs extends UserUpdatableEntity<UserTenantPrefs> {
   @property({
     type: 'string',
     id: true,
@@ -43,8 +43,4 @@ export class UserTenantPrefs extends UserUpdatableEntity {
     },
   )
   userTenantId: string;
-
-  constructor(data?: Partial<UserTenantPrefs>) {
-    super(data);
-  }
 }

@@ -1,13 +1,13 @@
-﻿import {model, property} from '@loopback/repository';
+﻿import {DataObject, Model, model, property} from '@loopback/repository';
 
 import {IAuthClient} from '@bleco/authentication';
 
-import {BaseEntity} from '@loopx/core';
+import {UserUpdatableEntity} from '@loopx/core';
 
 @model({
   name: 'auth_clients',
 })
-export class AuthClient extends BaseEntity implements IAuthClient {
+export class AuthClient<T = DataObject<Model>> extends UserUpdatableEntity<T & AuthClient<T>> implements IAuthClient {
   @property({
     type: 'number',
     id: true,
@@ -61,8 +61,4 @@ export class AuthClient extends BaseEntity implements IAuthClient {
     name: 'auth_code_expiration',
   })
   authCodeExpiration: number;
-
-  constructor(data?: Partial<AuthClient>) {
-    super(data);
-  }
 }

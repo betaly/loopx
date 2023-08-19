@@ -1,14 +1,12 @@
-﻿import {Model, model, property} from '@loopback/repository';
+﻿import {model, property} from '@loopback/repository';
+
+import {CoreModel} from '@loopx/core';
 
 @model()
-export class UserSignupCheckDto extends Model {
+export class UserSignupCheckDto extends CoreModel<UserSignupCheckDto> {
   @property({
     type: 'boolean',
     required: true,
   })
   isSignedUp: boolean;
-
-  constructor(data?: Partial<UserSignupCheckDto>) {
-    super(data);
-  }
 }

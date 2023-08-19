@@ -1,4 +1,4 @@
-﻿import {model, property} from '@loopback/repository';
+﻿import {DataObject, Model, model, property} from '@loopback/repository';
 
 import {Gender, UserStatus, UserUpdatableEntity} from '@loopx/core';
 
@@ -9,7 +9,7 @@ import {Gender, UserStatus, UserUpdatableEntity} from '@loopx/core';
     defaultIdSort: false,
   },
 })
-export class UserView extends UserUpdatableEntity {
+export class UserView<T = DataObject<Model>> extends UserUpdatableEntity<T & UserView> {
   @property({
     type: 'string',
     id: true,
@@ -161,8 +161,4 @@ export class UserView extends UserUpdatableEntity {
     name: 'expires_on',
   })
   expiresOn?: Date;
-
-  constructor(data?: Partial<UserView>) {
-    super(data);
-  }
 }
