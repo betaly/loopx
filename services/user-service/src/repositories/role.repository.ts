@@ -29,14 +29,14 @@ export class RoleRepository extends ConditionalAuditRepositoryMixin(
   constructor(
     @inject(`datasources.${UserTenantDataSourceName}`)
     dataSource: juggler.DataSource,
-    @inject.getter(AuthenticationBindings.CURRENT_USER)
-    getCurrentUser: Getter<IAuthUserWithPermissions | undefined>,
     @repository.getter('UserTenantRepository')
     protected userTenantRepositoryGetter: Getter<UserTenantRepository>,
     @repository.getter('UserViewRepository')
     protected userViewRepositoryGetter: Getter<UserViewRepository>,
     @repository.getter('AuditLogRepository')
     public getAuditLogRepository: Getter<AuditLogRepository>,
+    @inject.getter(AuthenticationBindings.CURRENT_USER, {optional: true})
+    getCurrentUser?: Getter<IAuthUserWithPermissions | undefined>,
   ) {
     super(Role, dataSource, getCurrentUser);
     this.updatedByUser = this.createHasOneRepositoryFactoryFor('updatedByUser', userViewRepositoryGetter);

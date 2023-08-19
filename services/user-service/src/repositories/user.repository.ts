@@ -55,8 +55,8 @@ export class UserRepository extends ConditionalAuditRepositoryMixin(
     public getAuditLogRepository: Getter<AuditLogRepository>,
     @inject('models.User')
     private readonly user: typeof Entity & {prototype: User},
-    @inject.getter(AuthenticationBindings.CURRENT_USER)
-    getCurrentUser: Getter<IAuthUserWithPermissions | undefined>,
+    @inject.getter(AuthenticationBindings.CURRENT_USER, {optional: true})
+    getCurrentUser?: Getter<IAuthUserWithPermissions | undefined>,
   ) {
     super(user, dataSource, getCurrentUser);
     this.userTenants = this.createHasManyRepositoryFactoryFor('userTenants', userTenantRepositoryGetter);

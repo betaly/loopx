@@ -27,14 +27,14 @@ export class UserGroupRepository extends ConditionalAuditRepositoryMixin(
   constructor(
     @inject(`datasources.${UserTenantDataSourceName}`)
     dataSource: juggler.DataSource,
-    @inject.getter(AuthenticationBindings.CURRENT_USER)
-    getCurrentUser: Getter<IAuthUserWithPermissions | undefined>,
     @repository.getter('GroupRepository')
     protected groupRepositoryGetter: Getter<GroupRepository>,
     @repository.getter('UserTenantRepository')
     protected userTenantRepositoryGetter: Getter<UserTenantRepository>,
     @repository.getter('AuditLogRepository')
     public getAuditLogRepository: Getter<AuditLogRepository>,
+    @inject.getter(AuthenticationBindings.CURRENT_USER, {optional: true})
+    getCurrentUser?: Getter<IAuthUserWithPermissions | undefined>,
   ) {
     super(UserGroup, dataSource, getCurrentUser);
     this.userTenant = this.createBelongsToAccessorFor('userTenant', userTenantRepositoryGetter);

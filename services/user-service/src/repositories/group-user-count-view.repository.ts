@@ -22,12 +22,12 @@ export class UserGroupCountViewRepository extends ConditionalAuditRepositoryMixi
   constructor(
     @inject(`datasources.${UserTenantDataSourceName}`)
     dataSource: juggler.DataSource,
-    @inject.getter(AuthenticationBindings.CURRENT_USER)
-    getCurrentUser: Getter<IAuthUserWithPermissions | undefined>,
     @repository.getter('UserGroupRepository')
     protected userGroupRepositoryGetter: Getter<UserGroupRepository>,
     @repository.getter('AuditLogRepository')
     public getAuditLogRepository: Getter<AuditLogRepository>,
+    @inject.getter(AuthenticationBindings.CURRENT_USER, {optional: true})
+    getCurrentUser?: Getter<IAuthUserWithPermissions | undefined>,
   ) {
     super(GroupUserCountView, dataSource, getCurrentUser);
   }

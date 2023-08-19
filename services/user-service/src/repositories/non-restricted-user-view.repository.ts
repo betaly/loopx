@@ -22,10 +22,10 @@ export class NonRestrictedUserViewRepository extends ConditionalAuditRepositoryM
   constructor(
     @inject(`datasources.${UserTenantDataSourceName}`)
     dataSource: juggler.DataSource,
-    @inject.getter(AuthenticationBindings.CURRENT_USER)
-    protected readonly getCurrentUser: Getter<IAuthUserWithPermissions | undefined>,
     @repository.getter('AuditLogRepository')
     public getAuditLogRepository: Getter<AuditLogRepository>,
+    @inject.getter(AuthenticationBindings.CURRENT_USER, {optional: true})
+    protected readonly getCurrentUser?: Getter<IAuthUserWithPermissions | undefined>,
   ) {
     super(UserView, dataSource);
   }
