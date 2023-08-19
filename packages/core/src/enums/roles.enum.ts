@@ -1,6 +1,6 @@
 ﻿export enum RoleTypes {
   Admin,
-  Others,
+  Default = 2,
 }
 
-export const DisallowedRoles = [RoleTypes.Others];
+// export const DisallowedRoles = [RoleTypes.Others];
