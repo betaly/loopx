@@ -1,5 +1,13 @@
 
 
+# [0.6.0](https://github.com/betaly/loopx/compare/0.5.3...0.6.0) (2023-08-19)
+
+
+### Features
+
+* **authentication-service:** make getCurrentUser argument as optional ([2f45876](https://github.com/betaly/loopx/commit/2f45876c13d25fbb5c97cb3e7b0535d0635d518e))
+* **user-service:** make getCurrentUser argument as optional ([67de31a](https://github.com/betaly/loopx/commit/67de31a1ac11e1d53260fc7a169fee81a4644733))
+
 ## [0.5.3](https://github.com/betaly/loopx/compare/0.5.2...0.5.3) (2023-08-19)
 
 ## [0.5.2](https://github.com/betaly/loopx/compare/0.5.1...0.5.2) (2023-08-19)
