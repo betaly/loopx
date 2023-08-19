@@ -1,5 +1,12 @@
 
 
+# [0.5.0](https://github.com/betaly/loopx/compare/0.4.0...0.5.0) (2023-08-19)
+
+
+### Features
+
+* **auth:** rename endpoint from /auth/switch-token to /auth/token-switch ([0f7dfe7](https://github.com/betaly/loopx/commit/0f7dfe7b2c2933676a52a10aabf6d2a5a42aebf5))
+
 # [0.4.0](https://github.com/betaly/loopx/compare/0.3.0...0.4.0) (2023-08-13)
 
 
