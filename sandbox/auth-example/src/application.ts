@@ -24,7 +24,7 @@ import {CoreComponent, LxCoreBindings, SECURITY_SCHEME_SPEC} from '@loopx/core';
 
 import {KvDataSource} from './datasources';
 import * as openapi from './openapi.json';
-import {UserTenantServiceComponent, UserTenantServiceComponentBindings} from '@loopx/user-service';
+import {UserTenantServiceBindings, UserTenantServiceComponent} from '@loopx/user-service';
 import {AuthenticationBindings} from '@bleco/authentication';
 import {MySequence} from './sequence';
 import {version} from './version';
@@ -98,7 +98,7 @@ export class AuthExampleApplication extends BootMixin(ServiceMixin(RepositoryMix
     });
     this.component(AuthenticationServiceComponent);
 
-    this.configure(UserTenantServiceComponentBindings.COMPONENT).to({
+    this.configure(UserTenantServiceBindings.COMPONENT).to({
       controllers: ['*', '!UserSignupController'],
     });
     this.component(UserTenantServiceComponent);

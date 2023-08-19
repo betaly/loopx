@@ -1,4 +1,4 @@
-import {BindingKey} from '@loopback/core';
+import {BindingKey, CoreBindings} from '@loopback/core';
 
 import {BINDING_PREFIX} from '@loopx/core';
 
@@ -11,7 +11,7 @@ export {AuthorizationBindings} from '@bleco/authorization';
 
 export namespace AuthServiceBindings {
   export const COMPONENT = BindingKey.create<AuthenticationServiceComponent>(
-    'components.AuthenticationServiceComponent',
+    `${CoreBindings.COMPONENTS}.${AuthenticationServiceComponent.name}`,
   );
 
   /**
