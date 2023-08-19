@@ -1,6 +1,6 @@
 {
   "name": "root",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "description": "LoopX is an assortment of pre-developed microservices, intended to speed up the development process for business-oriented projects.",
   "private": true,
   "engines": {
