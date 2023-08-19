@@ -85,6 +85,8 @@ describe('Login Controller', () => {
     expect(response).to.have.property('error');
   });
 
+  // we are not using this test case as we are not checking whether the user belonging to the client or not
+  // TODO: enable this test case when we are checking whether the user belongs to the client or not
   it.skip('should give status 401 for login request with user credentials not belonging to client', async () => {
     const reqData = {
       client_id: 'mobile',
