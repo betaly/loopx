@@ -1,5 +1,6 @@
 ﻿export * from './audit.repository';
 export * from './auth-client.repository';
+export * from './auth-secure-client.repository';
 export * from './group-user-count-view.repository';
 export * from './group.repository';
 export * from './non-restricted-user-view.repository';

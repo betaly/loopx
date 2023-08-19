@@ -1,5 +1,6 @@
 ﻿export * from './audit.model';
 export * from './auth-client.model';
+export * from './auth-secure-client.model';
 export * from './group-user-count-view.model';
 export * from './group-user-view.model';
 export * from './group.model';

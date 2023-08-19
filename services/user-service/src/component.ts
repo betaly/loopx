@@ -33,6 +33,7 @@ import {UserTenantServiceComponentBindings} from './keys';
 import {
   AuditLog,
   AuthClient,
+  AuthSecureClient,
   Group,
   GroupUserCountView,
   Role,
@@ -52,6 +53,7 @@ import {
 import {
   AuditLogRepository,
   AuthClientRepository,
+  AuthSecureClientRepository,
   GroupRepository,
   NonRestrictedUserViewRepository,
   RoleRepository,
@@ -102,8 +104,9 @@ export class UserTenantServiceComponent implements Component {
       this.application.component(CoreComponent);
     }
     this.models = [
-      AuthClient,
       AuditLog,
+      AuthClient,
+      AuthSecureClient,
       GroupUserCountView,
       UserGroupView,
       Group,
@@ -121,8 +124,9 @@ export class UserTenantServiceComponent implements Component {
       User,
     ];
     this.repositories = [
-      AuthClientRepository,
       AuditLogRepository,
+      AuthClientRepository,
+      AuthSecureClientRepository,
       UserGroupCountViewRepository,
       GroupRepository,
       NonRestrictedUserViewRepository,
