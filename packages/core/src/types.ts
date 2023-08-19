@@ -18,13 +18,15 @@ export interface CoreConfig {
   enableObf?: boolean;
   obfPath?: string;
   openapiSpec?: Record<string, unknown>;
+
+  defaultTenantKey?: string;
+
   authentication?: boolean;
+
   swaggerUsername?: string;
   swaggerPassword?: string;
   authenticateSwaggerUI?: boolean;
-
   swaggerStatsConfig?: Omit<SWStats, 'name' | 'uriPath' | 'swaggerSpec' | 'authentication' | 'onAuthenticate'>;
-
   swaggerAuthenticate?: (req?: IncomingMessage, username?: string, password?: string) => boolean;
 }
 

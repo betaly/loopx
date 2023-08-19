@@ -86,5 +86,6 @@ export class CoreComponent implements Component {
     this.bindings.push(Binding.bind(OASBindings.HiddenEndpoint).to([]));
     this.bindings.push(Binding.bind(LxCoreBindings.i18n).to(this.localeObj));
     this.application.add(createBindingFromClass(OperationSpecEnhancer));
+    this.application.bind(LxCoreBindings.DEFAULT_TENANT_KEY).to(this.coreOptions?.defaultTenantKey ?? 'default');
   }
 }

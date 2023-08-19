@@ -13,6 +13,8 @@ export namespace LxCoreBindings {
   export const EXPRESS_MIDDLEWARES = BindingKey.create<ExpressRequestHandler[]>(
     `loopx.packages.core.expressMiddlewares`,
   );
+
+  export const DEFAULT_TENANT_KEY = BindingKey.create<string>('loopx.packages.core.defaultTenantKey');
 }
 
 const hiddenKey = 'loopx.oas.hiddenEndpoints';
