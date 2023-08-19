@@ -17,10 +17,10 @@ export class UserLevelResourceRepository<
   constructor(
     @inject(`datasources.${AuthDbSourceName}`)
     dataSource: juggler.DataSource,
-    @inject.getter(AuthenticationBindings.CURRENT_USER)
-    getCurrentUser: Getter<IAuthUserWithPermissions | undefined>,
     @repository.getter('UserTenantRepository')
     protected userTenantRepositoryGetter: Getter<UserTenantRepository>,
+    @inject.getter(AuthenticationBindings.CURRENT_USER, {optional: true})
+    getCurrentUser?: Getter<IAuthUserWithPermissions | undefined>,
     entityClass: EntityClass<ULR['Model']> = UserLevelResource,
   ) {
     super(entityClass, dataSource, getCurrentUser);

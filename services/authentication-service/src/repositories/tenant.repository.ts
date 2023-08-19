@@ -18,10 +18,10 @@ export class TenantRepository<
   constructor(
     @inject(`datasources.${AuthDbSourceName}`)
     dataSource: juggler.DataSource,
-    @inject.getter(AuthenticationBindings.CURRENT_USER)
-    getCurrentUser: Getter<IAuthUserWithPermissions | undefined>,
     @repository.getter('TenantConfigRepository')
     protected tenantConfigRepositoryGetter: Getter<TenantConfigRepository<C, T>>,
+    @inject.getter(AuthenticationBindings.CURRENT_USER, {optional: true})
+    getCurrentUser?: Getter<IAuthUserWithPermissions | undefined>,
     entityClass: EntityClass<T['Model']> = Tenant,
   ) {
     super(entityClass, dataSource, getCurrentUser);

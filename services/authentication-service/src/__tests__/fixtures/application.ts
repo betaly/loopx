@@ -47,19 +47,5 @@ export class TestingApplication extends BootMixin(ServiceMixin(RepositoryMixin(R
     this.service(TestHelperService, {defaultScope: BindingScope.SINGLETON});
 
     this.projectRoot = __dirname;
-    // Customize @loopback/boot Booter Conventions here
-    this.bootOptions = {
-      controllers: {
-        // Customize ControllerBooter Conventions here
-        dirs: ['controllers'],
-        extensions: ['.controller.[jt]s'],
-        nested: true,
-      },
-      repositories: {
-        dirs: ['repositories'],
-        extensions: ['.repository.[jt]s'],
-        nested: true,
-      },
-    };
   }
 }

@@ -54,14 +54,14 @@ export class UserRepository<U extends UserTypes = UserTypes> extends DefaultUser
     getUserCredsRepository: Getter<UserCredentialsRepository>,
     @repository.getter(OtpRepository)
     public getOtpRepository: Getter<OtpRepository>,
-    @inject.getter(AuthenticationBindings.CURRENT_USER, {optional: true})
-    getCurrentUser: Getter<IAuthUserWithPermissions | undefined>,
     @repository.getter('TenantRepository')
     protected tenantRepositoryGetter: Getter<TenantRepository>,
     @repository.getter('UserTenantRepository')
     protected userTenantRepositoryGetter: Getter<UserTenantRepository>,
     @inject(LOGGER.LOGGER_INJECT)
     private readonly logger: ILogger,
+    @inject.getter(AuthenticationBindings.CURRENT_USER, {optional: true})
+    getCurrentUser?: Getter<IAuthUserWithPermissions | undefined>,
     entityClass: EntityClass<U['Model']> = User,
   ) {
     super(entityClass, dataSource, getCurrentUser);

@@ -15,8 +15,8 @@ export class RoleRepository<T extends RoleModelTypes = RoleModelTypes> extends D
   constructor(
     @inject(`datasources.${AuthDbSourceName}`)
     dataSource: juggler.DataSource,
-    @inject.getter(AuthenticationBindings.CURRENT_USER)
-    getCurrentUser: Getter<IAuthUserWithPermissions | undefined>,
+    @inject.getter(AuthenticationBindings.CURRENT_USER, {optional: true})
+    getCurrentUser?: Getter<IAuthUserWithPermissions | undefined>,
     entityClass: EntityClass<T['Model']> = Role,
   ) {
     super(entityClass, dataSource, getCurrentUser);
