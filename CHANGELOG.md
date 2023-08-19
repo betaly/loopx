@@ -1,5 +1,15 @@
 
 
+# [0.7.0](https://github.com/betaly/loopx/compare/0.6.0...0.7.0) (2023-08-19)
+
+
+### Features
+
+* **auth:** add default tenant and role providers (main) ([c251692](https://github.com/betaly/loopx/commit/c2516929a5f87abbdd663ae4d763343478ca2e41))
+* **core:** add defaultTenantKey to coreOptions (main) ([f967a86](https://github.com/betaly/loopx/commit/f967a86445ba2f7a525201c373652859d12dd9d3))
+* **core:** update roles enum (loopx/main) ([93195b7](https://github.com/betaly/loopx/commit/93195b7e1b0f464c57f5fb9afb88752f9dab6b2a))
+* **user-service:** add AuthClientController ([44ccb82](https://github.com/betaly/loopx/commit/44ccb822cd6da54b5dc07cb1374da91d5e0d88d5))
+
 # [0.6.0](https://github.com/betaly/loopx/compare/0.5.3...0.6.0) (2023-08-19)
 
 
