@@ -1,4 +1,8 @@
 ﻿export enum PermissionKey {
+  ViewAuthClients = 'ViewAuthClients',
+  CreateAuthClients = 'CreateAuthClients',
+  UpdateAuthClients = 'UpdateAuthClients',
+  DeleteAuthClients = 'DeleteAuthClients',
   CreateUserGroup = 'CreateUserGroup',
   ViewUserGroupList = 'ViewUserGroupList',
   UpdateUserGroup = 'UpdateUserGroup',

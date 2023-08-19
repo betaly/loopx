@@ -13,7 +13,7 @@ import {BootMixin} from '@bleco/boot';
 import {ServiceSequence} from '@loopx/core';
 
 import {UserTenantServiceComponent} from '../../component';
-import {UserTenantServiceComponentBindings} from '../../keys';
+import {UserTenantServiceBindings} from '../../keys';
 import {UserTenantServiceComponentOptions} from '../../types';
 import {BearerTokenVerifyProvider} from './bearer-token-verifier.provider';
 
@@ -30,7 +30,7 @@ export class UserTenantServiceApplication extends BootMixin(ServiceMixin(Reposit
       path: '/explorer',
     });
     this.component(RestExplorerComponent);
-    this.configure<UserTenantServiceComponentOptions>(UserTenantServiceComponentBindings.COMPONENT).to({
+    this.configure<UserTenantServiceComponentOptions>(UserTenantServiceBindings.COMPONENT).to({
       // do not load services in component
       services: [],
     });

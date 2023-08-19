@@ -29,7 +29,7 @@ import {
   UserTenantController,
   UserTenantPrefsController,
 } from './controllers';
-import {UserTenantServiceComponentBindings} from './keys';
+import {UserTenantServiceBindings} from './keys';
 import {
   AuditLog,
   AuthClient,
@@ -50,6 +50,7 @@ import {
   UserTenantPrefs,
   UserView,
 } from './models';
+import {DefaultTenantProvider} from './providers';
 import {
   AuditLogRepository,
   AuthClientRepository,
@@ -69,12 +70,12 @@ import {
   UserTenantRepository,
   UserViewRepository,
 } from './repositories';
-import {UserGroupHelperService, UserGroupService, UserOperationsService} from './services';
+import {AuthClientService, UserGroupHelperService, UserGroupService, UserOperationsService} from './services';
 import {DEFAULT_USER_TENANT_SERVICE_OPTIONS, UserTenantServiceComponentOptions} from './types';
 
 // Configure the binding for UserTenantServiceComponent
 @injectable({
-  tags: {[ContextTags.KEY]: UserTenantServiceComponentBindings.COMPONENT},
+  tags: {[ContextTags.KEY]: UserTenantServiceBindings.COMPONENT},
 })
 export class UserTenantServiceComponent implements Component {
   repositories?: Class<Repository<Model>>[];
@@ -142,6 +143,9 @@ export class UserTenantServiceComponent implements Component {
       UserViewRepository,
       UserRepository,
     ];
+    this.providers = {
+      [UserTenantServiceBindings.DEFAULT_TENANT.key]: DefaultTenantProvider,
+    };
     this.controllers = matchResources(
       [
         GroupController,
@@ -160,7 +164,7 @@ export class UserTenantServiceComponent implements Component {
       options?.controllers,
     );
     this.services = matchResources(
-      [UserGroupService, UserGroupHelperService, UserOperationsService],
+      [AuthClientService, UserGroupService, UserGroupHelperService, UserOperationsService],
       options?.services,
     );
   }

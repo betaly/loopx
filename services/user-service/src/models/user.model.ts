@@ -112,7 +112,7 @@ export class User<T = DataObject<Model>> extends UserUpdatableEntity<T & User> i
 
   //Indexer property to allow additional data
   //eslint-disable-next-line @typescript-eslint/no-explicit-any
-  [prop: string]: any; //NOSONAR
+  [prop: string]: any;
 
   @belongsTo(
     () => Tenant,

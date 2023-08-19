@@ -7,7 +7,7 @@ import {RestApplication} from '@loopback/rest';
 import {BootMixin} from '@bleco/boot';
 
 import {UserTenantServiceComponent} from './component';
-import {UserTenantServiceComponentBindings} from './keys';
+import {UserTenantServiceBindings} from './keys';
 import {UserTenantServiceComponentOptions} from './types';
 
 export {ApplicationConfig};
@@ -16,7 +16,7 @@ export class UserTenantServiceApplication extends BootMixin(RepositoryMixin(Rest
   constructor(options: ApplicationConfig = {}) {
     super(options);
     this.static('/', path.join(__dirname, '../public'));
-    this.configure<UserTenantServiceComponentOptions>(UserTenantServiceComponentBindings.COMPONENT).to({
+    this.configure<UserTenantServiceComponentOptions>(UserTenantServiceBindings.COMPONENT).to({
       services: [],
     });
     this.component(UserTenantServiceComponent);

@@ -17,6 +17,18 @@ export class AuthClient<T = DataObject<Model>> extends UserUpdatableEntity<T & A
   id?: number;
 
   @property({
+    type: 'string',
+    name: 'name',
+  })
+  name?: string;
+
+  @property({
+    type: 'string',
+    name: 'description',
+  })
+  description?: string;
+
+  @property({
     name: 'client_id',
     type: 'string',
     required: true,
