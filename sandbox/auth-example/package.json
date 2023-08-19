@@ -59,6 +59,7 @@
     "README.md",
     "dist",
     "src",
+    "public",
     "!*/__tests__"
   ]
 }
