@@ -30,7 +30,7 @@
   "dependencies": {
     "@bleco/acl": "^0.5.1",
     "@bleco/authentication": "^1.3.12",
-    "@bleco/authorization": "^0.5.15",
+    "@bleco/authorization": "^0.6.0",
     "@bleco/boot": "^0.4.13",
     "@bleco/ds-timestamp": "^0.5.1",
     "@bleco/ds-user-updatable": "^0.4.1",

@@ -23,7 +23,7 @@
   "dependencies": {
     "@bleco/audit-log": "^0.5.8",
     "@bleco/authentication": "^1.3.12",
-    "@bleco/authorization": "^0.5.15",
+    "@bleco/authorization": "^0.6.0",
     "@bleco/boot": "^0.4.13",
     "@bleco/soft-delete": "^0.5.1",
     "@loopback/context": "^6.1.2",
