@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.4.0](https://github.com/betaly/loopx/compare/@loopx/authentication-service@0.3.1...@loopx/authentication-service@0.4.0) (2023-08-19)
+
+
+### Features
+
+* **authentication-service:** make getCurrentUser argument as optional ([2f45876](https://github.com/betaly/loopx/commit/2f45876c13d25fbb5c97cb3e7b0535d0635d518e))
+
+
+
+
+
 ## [0.3.1](https://github.com/betaly/loopx/compare/@loopx/authentication-service@0.3.0...@loopx/authentication-service@0.3.1) (2023-08-19)
 
 **Note:** Version bump only for package @loopx/authentication-service

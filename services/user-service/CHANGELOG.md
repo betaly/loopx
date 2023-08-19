@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.3.0](https://github.com/betaly/loopx/compare/@loopx/user-service@0.2.5...@loopx/user-service@0.3.0) (2023-08-19)
+
+
+### Features
+
+* **user-service:** make getCurrentUser argument as optional ([67de31a](https://github.com/betaly/loopx/commit/67de31a1ac11e1d53260fc7a169fee81a4644733))
+
+
+
+
+
 ## [0.2.5](https://github.com/betaly/loopx/compare/@loopx/user-service@0.2.4...@loopx/user-service@0.2.5) (2023-08-19)
 
 **Note:** Version bump only for package @loopx/user-service
