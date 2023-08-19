@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.5.0](https://github.com/betaly/loopx/compare/@loopx/authentication-service@0.4.0...@loopx/authentication-service@0.5.0) (2023-08-19)
+
+
+### Features
+
+* **auth:** add default tenant and role providers (main) ([c251692](https://github.com/betaly/loopx/commit/c2516929a5f87abbdd663ae4d763343478ca2e41))
+
+
+
+
+
 # [0.4.0](https://github.com/betaly/loopx/compare/@loopx/authentication-service@0.3.1...@loopx/authentication-service@0.4.0) (2023-08-19)
 
 

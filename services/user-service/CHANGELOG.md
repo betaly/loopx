@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.4.0](https://github.com/betaly/loopx/compare/@loopx/user-service@0.3.0...@loopx/user-service@0.4.0) (2023-08-19)
+
+
+### Features
+
+* **user-service:** add AuthClientController ([44ccb82](https://github.com/betaly/loopx/commit/44ccb822cd6da54b5dc07cb1374da91d5e0d88d5))
+
+
+
+
+
 # [0.3.0](https://github.com/betaly/loopx/compare/@loopx/user-service@0.2.5...@loopx/user-service@0.3.0) (2023-08-19)
 
 

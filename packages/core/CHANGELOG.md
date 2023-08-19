@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.3.0](https://gitr.net/betaly/loopx/compare/@loopx/core@0.2.2...@loopx/core@0.3.0) (2023-08-19)
+
+
+### Features
+
+* **core:** add defaultTenantKey to coreOptions (main) ([f967a86](https://gitr.net/betaly/loopx/commits/f967a86445ba2f7a525201c373652859d12dd9d3))
+* **core:** update roles enum (loopx/main) ([93195b7](https://gitr.net/betaly/loopx/commits/93195b7e1b0f464c57f5fb9afb88752f9dab6b2a))
+
+
+
+
+
 ## [0.2.2](https://gitr.net/betaly/loopx/compare/@loopx/core@0.2.1...@loopx/core@0.2.2) (2023-08-19)
 
 **Note:** Version bump only for package @loopx/core
