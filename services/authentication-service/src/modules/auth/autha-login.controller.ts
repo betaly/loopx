@@ -65,11 +65,11 @@ export class AuthaLoginController {
   })
   async loginViaAutha(
     @param.query.string('client_id')
-    clientId?: string, //NOSONAR
+    clientId?: string,
     @param.query.string('client_challenge')
-    clientChallenge?: string, //NOSONAR
+    clientChallenge?: string,
     @param.query.string('client_challenge_method')
-    clientChallengeMethod?: string, //NOSONAR
+    clientChallengeMethod?: string,
   ): Promise<void> {
     //do nothing
   }
