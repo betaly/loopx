@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.3.0](https://github.com/betaly/loopx/compare/@loopx/auth-example@0.2.8...@loopx/auth-example@0.3.0) (2023-08-20)
+
+
+### Features
+
+* **user-service:** add logoutRedirectUrl property ([11a9103](https://github.com/betaly/loopx/commit/11a9103c1f63fe3ce1f0c27d09b2ee0b17520a91))
+
+
+
+
+
 ## [0.2.8](https://github.com/betaly/loopx/compare/@loopx/auth-example@0.2.7...@loopx/auth-example@0.2.8) (2023-08-20)
 
 **Note:** Version bump only for package @loopx/auth-example

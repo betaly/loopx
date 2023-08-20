@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.5.0](https://github.com/betaly/loopx/compare/@loopx/user-service@0.4.1...@loopx/user-service@0.5.0) (2023-08-20)
+
+
+### Features
+
+* **user-service:** add logoutRedirectUrl property ([11a9103](https://github.com/betaly/loopx/commit/11a9103c1f63fe3ce1f0c27d09b2ee0b17520a91))
+
+
+
+
+
 ## [0.4.1](https://github.com/betaly/loopx/compare/@loopx/user-service@0.4.0...@loopx/user-service@0.4.1) (2023-08-20)
 
 **Note:** Version bump only for package @loopx/user-service
