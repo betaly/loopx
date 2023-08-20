@@ -1,5 +1,12 @@
 
 
+# [0.9.0](https://github.com/betaly/loopx/compare/0.8.1...0.9.0) (2023-08-20)
+
+
+### Features
+
+* **user-service:** add logoutRedirectUrl property ([11a9103](https://github.com/betaly/loopx/commit/11a9103c1f63fe3ce1f0c27d09b2ee0b17520a91))
+
 ## [0.8.1](https://github.com/betaly/loopx/compare/0.8.0...0.8.1) (2023-08-20)
 
 # [0.8.0](https://github.com/betaly/loopx/compare/0.7.0...0.8.0) (2023-08-20)
