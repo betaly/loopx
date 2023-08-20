@@ -9,6 +9,7 @@ import {RestApplication} from '@loopback/rest';
 import {RestExplorerBindings, RestExplorerComponent} from '@loopback/rest-explorer';
 import {ServiceMixin} from '@loopback/service-proxy';
 
+import {AuthenticationBindings} from '@bleco/authentication';
 import {AuthorizationBindings, UserPermissionsProvider} from '@bleco/authorization';
 import '@bleco/boot';
 import {HelmetSecurityBindings} from '@bleco/helmet';
@@ -17,19 +18,19 @@ import {RateLimitSecurityBindings} from '@bleco/ratelimiter';
 import {
   AuthCacheSourceName,
   AuthDbSourceName,
-  AuthenticationServiceComponent,
   AuthServiceBindings,
+  AuthenticationServiceComponent,
+  SignUpBindings,
 } from '@loopx/authentication-service';
 import {CoreComponent, LxCoreBindings, SECURITY_SCHEME_SPEC} from '@loopx/core';
+import {UserTenantServiceBindings, UserTenantServiceComponent} from '@loopx/user-service';
 
 import {KvDataSource} from './datasources';
+import {AuthExampleBindings} from './keys';
 import * as openapi from './openapi.json';
-import {UserTenantServiceBindings, UserTenantServiceComponent} from '@loopx/user-service';
-import {AuthenticationBindings} from '@bleco/authentication';
+import {AuthaSignupProvider, DefaultRoleProvider, LocalSignupProvider} from './providers';
 import {MySequence} from './sequence';
 import {version} from './version';
-import {AuthExampleBindings} from './keys';
-import {DefaultRoleProvider} from './providers';
 
 export {ApplicationConfig};
 
@@ -92,6 +93,7 @@ export class AuthExampleApplication extends BootMixin(ServiceMixin(RepositoryMix
     });
     this.component(CoreComponent);
 
+    // AuthenticationServiceComponent
     this.bind(AuthenticationBindings.CONFIG).to({
       secureClient: true,
     });
@@ -100,12 +102,16 @@ export class AuthExampleApplication extends BootMixin(ServiceMixin(RepositoryMix
       controllers: AUthControllers,
     });
     this.component(AuthenticationServiceComponent);
+    this.bind(SignUpBindings.LOCAL_SIGNUP_PROVIDER).toProvider(LocalSignupProvider);
+    this.bind(SignUpBindings.AUTHA_SIGNUP_PROVIDER).toProvider(AuthaSignupProvider);
 
+    // UserTenantServiceComponent
     this.configure(UserTenantServiceBindings.COMPONENT).to({
       controllers: ['*', '!UserSignupController'],
     });
     this.component(UserTenantServiceComponent);
 
+    // RateLimit configuration (in LxCoreComponent)
     this.bind(RateLimitSecurityBindings.CONFIG).to({
       ds: KvDataSource,
       points: parseInt((process.env.RATE_LIMITER_POINTS as string) ?? 4),
@@ -113,14 +119,18 @@ export class AuthExampleApplication extends BootMixin(ServiceMixin(RepositoryMix
       key: req => req.ip,
     });
 
+    // Helmet configuration (in LxCoreComponent)
     this.bind(HelmetSecurityBindings.CONFIG).to({
       frameguard: {action: process.env.X_FRAME_OPTIONS as any},
     });
 
+    // Bind user permissions provider
     this.bind(AuthorizationBindings.USER_PERMISSIONS).toProvider(UserPermissionsProvider);
 
+    // RestExplorerComponent
     this.component(RestExplorerComponent);
 
+    // Bind default role provider
     this.bind(AuthExampleBindings.DEFAULT_ROLE).toProvider(DefaultRoleProvider);
 
     this.api({
