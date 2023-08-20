@@ -42,7 +42,6 @@ import {
   TenantConfigRepository,
   UserCredentialsRepository,
   UserLevelPermissionRepository,
-  UserLevelResourceRepository,
   UserRepository,
   UserTenantRepository,
 } from '../../repositories';
@@ -68,8 +67,6 @@ export class LoginController {
     public roleRepo: RoleRepository,
     @repository(UserLevelPermissionRepository)
     public utPermsRepo: UserLevelPermissionRepository,
-    @repository(UserLevelResourceRepository)
-    public userResourcesRepository: UserLevelResourceRepository,
     @repository(UserTenantRepository)
     public userTenantRepo: UserTenantRepository,
     @repository(RefreshTokenRepository)
@@ -133,7 +130,7 @@ export class LoginController {
         code: token,
       };
     } catch (error) {
-      this.logger.error(error);
+      this.logger.error(error.message);
       throw new AuthenticationErrors.InvalidCredentials();
     }
   }
