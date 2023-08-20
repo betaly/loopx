@@ -37,7 +37,7 @@
     "@bleco/helmet": "^0.4.13",
     "@bleco/mixin": "^0.4.12",
     "@bleco/query": "^0.10.1",
-    "@bleco/ratelimiter": "^1.0.0-alpha.2",
+    "@bleco/ratelimiter": "^1.1.0",
     "@bleco/soft-delete": "^0.5.1",
     "@loopback/context": "^6.1.2",
     "@loopback/core": "^5.1.2",
