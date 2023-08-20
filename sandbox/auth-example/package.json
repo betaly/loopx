@@ -16,14 +16,15 @@
   "scripts": {
     "version": "replace '\\d+\\.\\d+\\.\\d+' \\'$(npx json -f package.json version)\\' src/version.ts && git add src/version.ts",
     "build": "nb-tsc -b",
+    "build:watch": "nb-tsc -b -w",
     "clean": "del 'loopx-auth-example*.tgz' 'dist/*' '*.tsbuildinfo' 'package'",
     "pretest": "yarn run clean && yarn run build",
     "test": "yarn run pretest && yarn run jest",
     "jest": "jest",
     "openapi-spec": "yarn build && node ./dist/openapi-spec",
     "apidocs": "widdershins --search false --language_tabs 'javascript:JavaScript:request' 'javascript--nodejs:Node.JS' --summary src/openapi.json -o openapi.md",
-    "start": "node -r source-map-support/register .",
-    "start:dev": "tsx src/index.ts"
+    "start": "SEED_DATA=true node -r source-map-support/register .",
+    "start:dev": "SEED_DATA=true npx tsx src/index.ts"
   },
   "dependencies": {
     "@bleco/ratelimiter": "^1.0.0-alpha.2",

@@ -28,6 +28,8 @@ import {UserTenantServiceBindings, UserTenantServiceComponent} from '@loopx/user
 import {AuthenticationBindings} from '@bleco/authentication';
 import {MySequence} from './sequence';
 import {version} from './version';
+import {AuthExampleBindings} from './keys';
+import {DefaultRoleProvider} from './providers';
 
 export {ApplicationConfig};
 
@@ -39,6 +41,7 @@ export const AUthControllers = [
   'TokensController',
   'AuthaLoginController',
   'AuthClientsController',
+  'LoginActivityController',
 ];
 
 export class AuthExampleApplication extends BootMixin(ServiceMixin(RepositoryMixin(RestApplication))) {
@@ -117,6 +120,8 @@ export class AuthExampleApplication extends BootMixin(ServiceMixin(RepositoryMix
     this.bind(AuthorizationBindings.USER_PERMISSIONS).toProvider(UserPermissionsProvider);
 
     this.component(RestExplorerComponent);
+
+    this.bind(AuthExampleBindings.DEFAULT_ROLE).toProvider(DefaultRoleProvider);
 
     this.api({
       openapi: '3.0.0',
