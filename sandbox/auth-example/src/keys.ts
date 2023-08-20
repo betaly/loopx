@@ -1,4 +1,5 @@
 import {BindingKey} from '@loopback/context';
+
 import {Role} from '@loopx/user-service';
 
 export namespace AuthExampleBindings {

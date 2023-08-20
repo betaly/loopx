@@ -1,12 +1,13 @@
 import bcrypt from 'bcrypt';
 import {BErrors} from 'berrors';
-
 import {assert} from 'tily/assert';
 
 import {inject} from '@loopback/context';
 import {BindingScope, Getter, injectable} from '@loopback/core';
 import {Where} from '@loopback/filter';
 import {AnyObject, Options, repository} from '@loopback/repository';
+
+import {AuthErrors, ILogger, LOGGER, UserStatus} from '@loopx/core';
 import {
   AuthSecureClientRepository,
   Role,
@@ -18,9 +19,9 @@ import {
   UserTenantRepository,
   UserTenantServiceBindings,
 } from '@loopx/user-service';
-import {AuthErrors, ILogger, LOGGER, UserStatus} from '@loopx/core';
-import {UserDto} from '../models/user.dto';
+
 import {AuthExampleBindings} from '../keys';
+import {UserDto} from '../models/user.dto';
 
 const saltRounds = 10;
 

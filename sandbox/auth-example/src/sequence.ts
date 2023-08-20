@@ -18,10 +18,10 @@ import {
 import {AuthenticateFn, AuthenticationBindings, AuthenticationErrors} from '@bleco/authentication';
 import {AuthorizationBindings, AuthorizationErrors, AuthorizeFn} from '@bleco/authorization';
 
+import {AuthUser} from '@loopx/authentication-service';
 import {ILogger, LOGGER, LxCoreBindings} from '@loopx/core';
 import {IdentifyTenantFn, MultiTenancyBindings} from '@loopx/multi-tenancy';
 import {AuthClient, Tenant} from '@loopx/user-service';
-import {AuthUser} from '@loopx/authentication-service';
 
 const SequenceActions = RestBindings.SequenceActions;
 const isJsonString = (str: string) => {

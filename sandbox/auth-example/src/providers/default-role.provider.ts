@@ -1,7 +1,8 @@
 import {Provider} from '@loopback/context';
-import {Role, RoleRepository} from '@loopx/user-service';
 import {repository} from '@loopback/repository';
+
 import {RoleTypes} from '@loopx/core';
+import {Role, RoleRepository} from '@loopx/user-service';
 
 export class DefaultRoleProvider implements Provider<Role> {
   constructor(

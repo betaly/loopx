@@ -2,24 +2,27 @@ import {
   Application,
   ApplicationConfig,
   CoreBindings,
+  LifeCycleObserver,
   inject,
   lifeCycleObserver,
-  LifeCycleObserver,
   service,
 } from '@loopback/core';
+import {repository} from '@loopback/repository';
+
+import {ClientType} from '@bleco/authentication';
+
+import {ILogger, LOGGER, extractPermissions} from '@loopx/core';
 import {
   AuthClientService,
-  PermissionKey as UserPermissionKey,
   RoleKey,
   RoleRepository,
   TenantRepository,
   TenantStatus,
+  PermissionKey as UserPermissionKey,
 } from '@loopx/user-service';
-import {repository} from '@loopback/repository';
-import {extractPermissions, ILogger, LOGGER} from '@loopx/core';
-import {ClientType} from '@bleco/authentication';
-import {UserOpsService} from '../services';
+
 import {UserDto} from '../models/user.dto';
+import {UserOpsService} from '../services';
 
 const AllPermissionKeys = [UserPermissionKey];
 const DefaultRolePermissionsPatterns = ['*Own*'];
