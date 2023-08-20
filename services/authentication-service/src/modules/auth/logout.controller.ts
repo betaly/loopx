@@ -166,6 +166,7 @@ export class LogoutController {
     });
   }
 
+  @authorize({permissions: ['*']})
   @get('/logout/redirect')
   async logoutRedirect(
     @param.query.string('state')
