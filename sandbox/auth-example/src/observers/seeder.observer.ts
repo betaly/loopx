@@ -2,8 +2,8 @@ import {
   Application,
   ApplicationConfig,
   CoreBindings,
-  LifeCycleObserver,
   inject,
+  LifeCycleObserver,
   lifeCycleObserver,
   service,
 } from '@loopback/core';
@@ -11,14 +11,14 @@ import {repository} from '@loopback/repository';
 
 import {ClientType} from '@bleco/authentication';
 
-import {ILogger, LOGGER, extractPermissions} from '@loopx/core';
+import {extractPermissions, ILogger, LOGGER} from '@loopx/core';
 import {
   AuthClientService,
+  PermissionKey as UserPermissionKey,
   RoleKey,
   RoleRepository,
   TenantRepository,
   TenantStatus,
-  PermissionKey as UserPermissionKey,
 } from '@loopx/user-service';
 
 import {UserDto} from '../models/user.dto';
@@ -69,6 +69,7 @@ export class Seeder implements LifeCycleObserver {
       clientSecret: 'example',
       clientType: ClientType.public,
       redirectUrl: 'http://localhost:5002',
+      logoutRedirectUrl: 'http://localhost:5002',
     });
     this.logger.debug(`created auth client [name: ${authClient.name}, clientId: ${authClient.clientId}]`);
 

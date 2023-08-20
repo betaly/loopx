@@ -49,6 +49,12 @@ export class AuthClient<T = DataObject<Model>> extends UserUpdatableEntity<T & A
 
   @property({
     type: 'string',
+    name: 'logout_redirect_url',
+  })
+  logoutRedirectUrl?: string;
+
+  @property({
+    type: 'string',
     required: true,
   })
   secret: string;
