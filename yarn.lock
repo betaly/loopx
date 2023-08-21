@@ -667,9 +667,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@bleco/ratelimiter@npm:^1.1.0":
-  version: 1.1.0
-  resolution: "@bleco/ratelimiter@npm:1.1.0"
+"@bleco/ratelimiter@npm:^1.1.1":
+  version: 1.1.1
+  resolution: "@bleco/ratelimiter@npm:1.1.1"
   dependencies:
     "@loopback/boot": ^6.1.2
     "@loopback/context": ^6.1.2
@@ -679,7 +679,7 @@ __metadata:
     berrors: ^0.2.3
     rate-limiter-flexible: ^2.4.2
     ts-essentials: ^9.3.2
-  checksum: d483ec252cbb710a11387091b62a3b40541cb94f701642f655eab835316108be272300e26b6b82300c879a218f898132d5a95db3a2bf68cdde3c21e6991dd2cf
+  checksum: 91e250a5c10222b0e403a8936e0646c5b9b2b0baffe2dd636662087b5850e8777f590f5f5d5c432768191cc42e905d02830dc35d51d1b2f1fd9b62449cd551e9
   languageName: node
   linkType: hard
 
@@ -2627,7 +2627,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@loopx/auth-example@workspace:sandbox/auth-example"
   dependencies:
-    "@bleco/ratelimiter": ^1.1.0
+    "@bleco/ratelimiter": ^1.1.1
     "@loopback/boot": ^6.1.2
     "@loopback/context": ^6.1.2
     "@loopback/core": ^5.1.2
@@ -2749,7 +2749,7 @@ __metadata:
     "@bleco/helmet": ^0.4.13
     "@bleco/mixin": ^0.4.12
     "@bleco/query": ^0.10.1
-    "@bleco/ratelimiter": ^1.1.0
+    "@bleco/ratelimiter": ^1.1.1
     "@bleco/soft-delete": ^0.5.1
     "@loopback/build": ^10.1.2
     "@loopback/context": ^6.1.2
