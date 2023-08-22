@@ -27,7 +27,7 @@
     "start:dev": "SEED_DATA=true npx tsx src/index.ts"
   },
   "dependencies": {
-    "@bleco/ratelimiter": "^1.1.1",
+    "@bleco/ratelimiter": "^1.2.0",
     "@loopback/boot": "^6.1.2",
     "@loopback/context": "^6.1.2",
     "@loopback/core": "^5.1.2",
@@ -50,7 +50,7 @@
     "@types/jest": "^29.5.3",
     "@types/node": "^20.5.1",
     "del-cli": "^5.0.0",
-    "jest": "^29.6.2",
+    "jest": "^29.6.3",
     "json": "^11.0.0",
     "replace": "^1.2.2",
     "tsx": "^3.12.7",

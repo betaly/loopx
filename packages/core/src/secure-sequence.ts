@@ -89,7 +89,7 @@ export class SecureSequence implements SequenceHandler {
       const args = await this.parseParams(request, route);
 
       if (this.rateLimitConfig) {
-        await this.rateLimitAction(request, response);
+        await this.rateLimitAction(context);
       }
 
       if (this.helmetConfig) {

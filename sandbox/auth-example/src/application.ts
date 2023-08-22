@@ -18,8 +18,8 @@ import {RateLimitSecurityBindings} from '@bleco/ratelimiter';
 import {
   AuthCacheSourceName,
   AuthDbSourceName,
-  AuthServiceBindings,
   AuthenticationServiceComponent,
+  AuthServiceBindings,
   SignUpBindings,
 } from '@loopx/authentication-service';
 import {CoreComponent, LxCoreBindings, SECURITY_SCHEME_SPEC} from '@loopx/core';
@@ -116,7 +116,7 @@ export class AuthExampleApplication extends BootMixin(ServiceMixin(RepositoryMix
       ds: KvDataSource,
       points: parseInt((process.env.RATE_LIMITER_POINTS as string) ?? 4),
       duration: parseInt((process.env.RATE_LIMITER_DURATION as string) ?? 1),
-      key: req => req.ip,
+      key: ({request}) => request.ip,
     });
 
     // Helmet configuration (in LxCoreComponent)
