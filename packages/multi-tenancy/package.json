@@ -25,7 +25,7 @@
     "@loopback/rest": "^13.1.2"
   },
   "devDependencies": {
-    "@bleco/boot": "^0.4.14",
+    "@bleco/boot": "^0.4.15",
     "@loopback/repository": "^6.1.2",
     "@loopback/rest-explorer": "^6.1.2",
     "@loopback/service-proxy": "^6.1.2",
@@ -33,7 +33,7 @@
     "@nutol/eslint-config": "^0.2.9",
     "@nutol/ts-config": "^0.2.1",
     "@types/jest": "^29.5.3",
-    "@types/node": "^20.5.1",
+    "@types/node": "^20.5.2",
     "del-cli": "^5.0.0",
     "jest": "^29.6.3"
   },
