@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.3](https://github.com/betaly/loopx/compare/@loopx/apispec-optimizer@0.1.2...@loopx/apispec-optimizer@0.1.3) (2023-08-22)
+
+**Note:** Version bump only for package @loopx/apispec-optimizer
+
+
+
+
+
 ## [0.1.2](https://github.com/betaly/loopx/compare/@loopx/apispec-optimizer@0.1.1...@loopx/apispec-optimizer@0.1.2) (2023-08-19)
 
 **Note:** Version bump only for package @loopx/apispec-optimizer
