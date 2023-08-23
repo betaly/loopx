@@ -4,7 +4,7 @@ import {DefaultCrudRepository, juggler, repository} from '@loopback/repository';
 import {ConditionalAuditRepositoryMixin, IAuditMixinOptions} from '@bleco/audit-log';
 
 import {UserTenantDataSourceName} from '../keys';
-import {AuthClient} from '../models';
+import {AuthSecureClient} from '../models';
 import {AuditLogRepository} from './audit.repository';
 
 const AuthClientAuditOpts: IAuditMixinOptions = {
@@ -12,7 +12,7 @@ const AuthClientAuditOpts: IAuditMixinOptions = {
 };
 
 export class AuthClientRepository extends ConditionalAuditRepositoryMixin(
-  DefaultCrudRepository<AuthClient, typeof AuthClient.prototype.id>,
+  DefaultCrudRepository<AuthSecureClient, typeof AuthSecureClient.prototype.id>,
   AuthClientAuditOpts,
 ) {
   constructor(
@@ -21,6 +21,6 @@ export class AuthClientRepository extends ConditionalAuditRepositoryMixin(
     @repository.getter('AuditLogRepository')
     public getAuditLogRepository: Getter<AuditLogRepository>,
   ) {
-    super(AuthClient, dataSource);
+    super(AuthSecureClient, dataSource);
   }
 }

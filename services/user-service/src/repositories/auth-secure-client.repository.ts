@@ -4,7 +4,7 @@ import {DefaultCrudRepository, juggler, repository} from '@loopback/repository';
 import {ConditionalAuditRepositoryMixin, IAuditMixinOptions} from '@bleco/audit-log';
 
 import {UserTenantDataSourceName} from '../keys';
-import {AuthSecureClient} from '../models/auth-secure-client.model';
+import {AuthSecureClient} from '../models';
 import {AuditLogRepository} from './audit.repository';
 
 const AuthClientAuditOpts: IAuditMixinOptions = {
