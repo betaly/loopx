@@ -1,11 +1,8 @@
-﻿import sinon from 'sinon';
-
-import {StubbedInstanceWithSinonAccessor, createStubInstance, expect} from '@loopback/testlab';
-
-import {ClientType} from '@bleco/authentication';
+﻿import {ClientType} from '@bleco/authentication';
 import {UserPermission} from '@bleco/authorization';
-
+import {createStubInstance, expect, StubbedInstanceWithSinonAccessor} from '@loopback/testlab';
 import {AuthErrors} from '@loopx/core';
+import sinon from 'sinon';
 
 import {JwtPayloadProvider} from '../../providers';
 import {

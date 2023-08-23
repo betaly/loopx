@@ -1,7 +1,6 @@
-﻿import {Getter, inject} from '@loopback/core';
+﻿import {ConditionalAuditRepositoryMixin, IAuditMixinOptions} from '@bleco/audit-log';
+import {Getter, inject} from '@loopback/core';
 import {DefaultCrudRepository, juggler, repository} from '@loopback/repository';
-
-import {ConditionalAuditRepositoryMixin, IAuditMixinOptions} from '@bleco/audit-log';
 
 import {UserTenantDataSourceName} from '../keys';
 import {AuthSecureClient} from '../models';

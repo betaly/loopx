@@ -1,6 +1,6 @@
 import {BindingScope, config, injectable} from '@loopback/core';
 import {OperationObject, PathItemObject} from '@loopback/openapi-v3';
-import {OASEnhancer, OpenApiSpec, asSpecEnhancer} from '@loopback/rest';
+import {asSpecEnhancer, OASEnhancer, OpenApiSpec} from '@loopback/rest';
 
 import {CrudOperationModifiers} from './modifiers';
 

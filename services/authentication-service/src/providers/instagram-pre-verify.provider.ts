@@ -1,8 +1,6 @@
-﻿import * as InstagramStrategy from 'passport-instagram';
-
+﻿import {IAuthUser} from '@bleco/authentication';
 import {Provider} from '@loopback/context';
-
-import {IAuthUser} from '@bleco/authentication';
+import * as InstagramStrategy from 'passport-instagram';
 
 import {InstagramPreVerifyFn} from './types';
 

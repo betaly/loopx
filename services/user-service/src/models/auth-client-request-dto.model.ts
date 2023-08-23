@@ -1,5 +1,4 @@
 import {model, property} from '@loopback/repository';
-
 import {CoreModel} from '@loopx/core';
 
 import {AuthSecureClient} from './auth-secure-client.model';

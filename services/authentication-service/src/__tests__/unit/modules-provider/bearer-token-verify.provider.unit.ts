@@ -1,6 +1,5 @@
-﻿import sinon from 'sinon';
-
-import {StubbedInstanceWithSinonAccessor, createStubInstance, expect} from '@loopback/testlab';
+﻿import {createStubInstance, expect, StubbedInstanceWithSinonAccessor} from '@loopback/testlab';
+import sinon from 'sinon';
 
 import {JWTSymmetricVerifierProvider} from '../../..';
 import {AuthUser} from '../../../modules/auth';

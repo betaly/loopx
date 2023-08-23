@@ -1,4 +1,4 @@
-import path from 'path';
+import '@bleco/boot';
 
 import {BootMixin} from '@loopback/boot';
 import {ApplicationConfig} from '@loopback/core';
@@ -6,8 +6,7 @@ import {RepositoryMixin} from '@loopback/repository';
 import {RestApplication} from '@loopback/rest';
 import {RestExplorerBindings, RestExplorerComponent} from '@loopback/rest-explorer';
 import {ServiceMixin} from '@loopback/service-proxy';
-
-import '@bleco/boot';
+import path from 'path';
 
 import {MultiTenancyComponent} from '../../component';
 import {MultiTenancyBindings} from '../../keys';

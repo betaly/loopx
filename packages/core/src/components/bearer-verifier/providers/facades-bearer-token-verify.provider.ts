@@ -1,12 +1,10 @@
-﻿import {BErrors} from 'berrors';
-import {verify} from 'jsonwebtoken';
-import moment from 'moment';
-
-import {Constructor, Provider, inject} from '@loopback/context';
+﻿import {AuthenticationBindings, EntityWithIdentifier, IAuthUser, VerifyFunction} from '@bleco/authentication';
+import {Constructor, inject, Provider} from '@loopback/context';
 import {repository} from '@loopback/repository';
 import {Request} from '@loopback/rest';
-
-import {AuthenticationBindings, EntityWithIdentifier, IAuthUser, VerifyFunction} from '@bleco/authentication';
+import {BErrors} from 'berrors';
+import {verify} from 'jsonwebtoken';
+import moment from 'moment';
 
 import {ILogger, LOGGER} from '../../logger-extension';
 import {IAuthUserWithPermissions} from '../keys';

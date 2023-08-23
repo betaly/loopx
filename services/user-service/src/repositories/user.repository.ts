@@ -1,6 +1,5 @@
-﻿import * as bcrypt from 'bcrypt';
-import {BErrors} from 'berrors';
-
+﻿import {ConditionalAuditRepositoryMixin, IAuditMixinOptions} from '@bleco/audit-log';
+import {AuthenticationBindings, AuthenticationErrors} from '@bleco/authentication';
 import {Getter, inject} from '@loopback/core';
 import {Where} from '@loopback/filter/src/query';
 import {
@@ -8,16 +7,14 @@ import {
   Entity,
   HasManyRepositoryFactory,
   HasOneRepositoryFactory,
-  Options,
   juggler,
+  Options,
   repository,
 } from '@loopback/repository';
 import {HttpErrors} from '@loopback/rest';
-
-import {ConditionalAuditRepositoryMixin, IAuditMixinOptions} from '@bleco/audit-log';
-import {AuthenticationBindings, AuthenticationErrors} from '@bleco/authentication';
-
 import {AuthErrors, DefaultUserUpdatableCrudRepository, IAuthUserWithPermissions} from '@loopx/core';
+import * as bcrypt from 'bcrypt';
+import {BErrors} from 'berrors';
 
 import {UserTenantDataSourceName} from '../keys';
 import {Tenant, User, UserCredentials, UserRelations, UserTenant} from '../models';

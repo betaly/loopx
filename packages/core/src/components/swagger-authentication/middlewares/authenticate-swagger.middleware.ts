@@ -1,4 +1,4 @@
-﻿import {Context, InvocationResult, Provider, ValueOrPromise, globalInterceptor, inject} from '@loopback/core';
+﻿import {Context, globalInterceptor, inject, InvocationResult, Provider, ValueOrPromise} from '@loopback/core';
 import {Middleware, MiddlewareContext} from '@loopback/express';
 import {Request, RequestContext} from '@loopback/rest';
 import {RestExplorerBindings, RestExplorerConfig} from '@loopback/rest-explorer';

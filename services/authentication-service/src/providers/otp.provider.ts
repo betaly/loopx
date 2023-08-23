@@ -1,6 +1,5 @@
-﻿import {authenticator} from 'otplib';
-
-import {Provider, inject} from '@loopback/context';
+﻿import {inject, Provider} from '@loopback/context';
+import {authenticator} from 'otplib';
 
 import {OtpGenerateFn, OtpSenderFn, VerifyBindings} from '../providers';
 import {IOtpRequest} from '../types';

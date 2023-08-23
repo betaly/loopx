@@ -1,12 +1,9 @@
-﻿import {BErrors} from 'berrors';
-import {verify} from 'jsonwebtoken';
-
-import {Provider, inject} from '@loopback/context';
+﻿import {VerifyFunction} from '@bleco/authentication';
+import {inject, Provider} from '@loopback/context';
 import {Request} from '@loopback/rest';
-
-import {VerifyFunction} from '@bleco/authentication';
-
 import {ILogger, LOGGER} from '@loopx/core';
+import {BErrors} from 'berrors';
+import {verify} from 'jsonwebtoken';
 
 import {SignupRequest} from '../models/signup-request.model';
 

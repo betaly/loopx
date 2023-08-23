@@ -1,8 +1,6 @@
+import {DefaultSoftCrudRepository} from '@bleco/soft-delete';
 import {inject} from '@loopback/core';
 import {juggler} from '@loopback/repository';
-
-import {DefaultSoftCrudRepository} from '@bleco/soft-delete';
-
 import {EntityClass} from '@loopx/core';
 
 import {AuthClient, AuthClientTypes} from '../models';

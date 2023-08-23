@@ -1,5 +1,4 @@
 ﻿import {belongsTo, model, property} from '@loopback/repository';
-
 import {UserUpdatableEntity} from '@loopx/core';
 
 import {UserConfigKey} from '../enums';

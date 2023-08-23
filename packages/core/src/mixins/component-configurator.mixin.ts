@@ -1,6 +1,5 @@
-import {Application, BindingAddress, BindingKey, Component, Constructor, CoreBindings} from '@loopback/core';
-
 import {MixinTarget} from '@bleco/mixin';
+import {Application, BindingAddress, BindingKey, Component, Constructor, CoreBindings} from '@loopback/core';
 
 export function ComponentConfiguratorMixin<T extends MixinTarget<Application>>(superClass: T) {
   return class extends superClass {

@@ -1,9 +1,7 @@
-﻿import {BErrors} from 'berrors';
-import sinon from 'sinon';
-
-import {StubbedInstanceWithSinonAccessor, createStubInstance, expect} from '@loopback/testlab';
-
+﻿import {createStubInstance, expect, StubbedInstanceWithSinonAccessor} from '@loopback/testlab';
 import {UserStatus} from '@loopx/core';
+import {BErrors} from 'berrors';
+import sinon from 'sinon';
 
 import {Otp, User, UserTenant, UserTenantWithRelations, UserWithRelations} from '../../../models';
 import {LocalPasswordVerifyProvider} from '../../../modules/auth/providers/local-password-verify.provider';

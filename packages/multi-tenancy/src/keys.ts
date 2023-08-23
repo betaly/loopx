@@ -1,6 +1,6 @@
 import {BindingKey} from '@loopback/core';
 
-import {ITenant, IdentifyTenantFn, MultiTenancyConfig, MultiTenancyPostProcess, TenantResolverFn} from './types';
+import {IdentifyTenantFn, ITenant, MultiTenancyConfig, MultiTenancyPostProcess, TenantResolverFn} from './types';
 
 export namespace MultiTenancyBindings {
   export const CONFIG = BindingKey.create<MultiTenancyConfig>('loopx.multi-tenancy.config');

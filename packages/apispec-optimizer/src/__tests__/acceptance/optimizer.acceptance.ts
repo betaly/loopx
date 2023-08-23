@@ -1,6 +1,6 @@
 import {Application} from '@loopback/core';
 import {Entity, model, property} from '@loopback/repository';
-import {RestApplication, RestServer, get, param} from '@loopback/rest';
+import {get, param, RestApplication, RestServer} from '@loopback/rest';
 
 import {ApiSpecOptimizerBindings} from '../../keys';
 import {ApiSpecOptimizerComponent} from '../../optimizer.component';

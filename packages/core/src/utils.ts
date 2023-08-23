@@ -1,8 +1,7 @@
+import {Request} from '@loopback/rest';
 import {isString} from 'lodash';
 import moment from 'moment';
 import multimatch from 'multimatch';
-
-import {Request} from '@loopback/rest';
 
 // sonarignore:start
 /* eslint-disable @typescript-eslint/no-explicit-any */

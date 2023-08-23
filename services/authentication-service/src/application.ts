@@ -1,10 +1,8 @@
-import * as path from 'path';
-
+import {BootMixin} from '@bleco/boot';
 import {ApplicationConfig} from '@loopback/core';
 import {RepositoryMixin} from '@loopback/repository';
 import {RestApplication} from '@loopback/rest';
-
-import {BootMixin} from '@bleco/boot';
+import * as path from 'path';
 
 import {AuthenticationServiceComponent} from './component';
 import {AuthenticationBindings} from './keys';

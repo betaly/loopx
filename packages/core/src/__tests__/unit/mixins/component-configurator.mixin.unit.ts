@@ -1,5 +1,4 @@
 import {expect} from '@jest/globals';
-
 import {Application, BindingScope, Component, CoreBindings} from '@loopback/core';
 
 import {ComponentConfiguratorMixin} from '../../../mixins/component-configurator.mixin';

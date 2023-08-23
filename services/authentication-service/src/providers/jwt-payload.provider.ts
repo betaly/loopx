@@ -1,10 +1,8 @@
-﻿import {Provider, inject} from '@loopback/core';
-import {AnyObject, repository} from '@loopback/repository';
-
-import {IAuthClient, IAuthUser} from '@bleco/authentication';
+﻿import {IAuthClient, IAuthUser} from '@bleco/authentication';
 import {AuthorizationBindings, UserPermissionsFn} from '@bleco/authorization';
-
-import {AuthErrors, ConfigKey, ILogger, LOGGER, getAge} from '@loopx/core';
+import {inject, Provider} from '@loopback/core';
+import {AnyObject, repository} from '@loopback/repository';
+import {AuthErrors, ConfigKey, getAge, ILogger, LOGGER} from '@loopx/core';
 
 import {User, UserTenant} from '../models';
 import {AuthUser} from '../modules/auth/models/auth-user.model';

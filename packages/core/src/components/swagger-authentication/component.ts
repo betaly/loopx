@@ -1,4 +1,4 @@
-﻿import {Binding, Component, CoreBindings, ProviderMap, inject} from '@loopback/core';
+﻿import {Binding, Component, CoreBindings, inject, ProviderMap} from '@loopback/core';
 import {Class, Model, Repository} from '@loopback/repository';
 import {RestApplication} from '@loopback/rest';
 

@@ -1,6 +1,5 @@
-﻿import {Provider} from '@loopback/context';
-
-import {IAuthUser, Keycloak} from '@bleco/authentication';
+﻿import {IAuthUser, Keycloak} from '@bleco/authentication';
+import {Provider} from '@loopback/context';
 
 import {KeyCloakPostVerifyFn} from './types';
 

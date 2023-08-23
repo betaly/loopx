@@ -1,7 +1,6 @@
-﻿import {Provider} from '@loopback/context';
+﻿import {VerifyFunction} from '@bleco/authentication';
+import {Provider} from '@loopback/context';
 import {repository} from '@loopback/repository';
-
-import {VerifyFunction} from '@bleco/authentication';
 
 import {AuthClientRepository} from '../../../repositories';
 

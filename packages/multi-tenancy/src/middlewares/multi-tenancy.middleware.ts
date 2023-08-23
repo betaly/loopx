@@ -1,5 +1,5 @@
-import {Next, Provider, inject, injectable} from '@loopback/core';
-import {Middleware, MiddlewareContext, RequestContext, RestMiddlewareGroups, asMiddleware} from '@loopback/rest';
+import {inject, injectable, Next, Provider} from '@loopback/core';
+import {asMiddleware, Middleware, MiddlewareContext, RequestContext, RestMiddlewareGroups} from '@loopback/rest';
 
 import {MultiTenancyBindings} from '../keys';
 import {IdentifyTenantFn} from '../types';

@@ -1,5 +1,5 @@
 import {inject} from '@loopback/core';
-import {Count, CountSchema, Filter, FilterExcludingWhere, Where, repository} from '@loopback/repository';
+import {Count, CountSchema, Filter, FilterExcludingWhere, repository, Where} from '@loopback/repository';
 import {del, get, getModelSchemaRef, param, patch, post, put, requestBody} from '@loopback/rest';
 
 import {ITenant, MultiTenancyBindings} from '../../..';

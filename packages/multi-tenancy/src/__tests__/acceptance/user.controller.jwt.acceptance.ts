@@ -1,6 +1,5 @@
-import {sign} from 'jsonwebtoken';
-
 import {Client, expect, supertest} from '@loopback/testlab';
+import {sign} from 'jsonwebtoken';
 
 import {MultiTenancyBindings} from '../../keys';
 import {MultiTenancyActionOptions} from '../../types';

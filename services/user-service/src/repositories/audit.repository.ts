@@ -1,7 +1,6 @@
+import {AuditDbSourceName} from '@bleco/audit-log';
 import {inject} from '@loopback/core';
 import {DefaultCrudRepository, juggler} from '@loopback/repository';
-
-import {AuditDbSourceName} from '@bleco/audit-log';
 
 import {AuditLog} from '../models';
 

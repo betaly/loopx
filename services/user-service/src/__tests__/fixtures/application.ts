@@ -1,16 +1,13 @@
-﻿import * as path from 'path';
-
+﻿import {AuthenticationComponent, Strategies} from '@bleco/authentication';
+import {AuthorizationBindings, AuthorizationComponent} from '@bleco/authorization';
+import {BootMixin} from '@bleco/boot';
 import {ApplicationConfig} from '@loopback/core';
 import {RepositoryMixin} from '@loopback/repository';
 import {RestApplication} from '@loopback/rest';
 import {RestExplorerBindings, RestExplorerComponent} from '@loopback/rest-explorer';
 import {ServiceMixin} from '@loopback/service-proxy';
-
-import {AuthenticationComponent, Strategies} from '@bleco/authentication';
-import {AuthorizationBindings, AuthorizationComponent} from '@bleco/authorization';
-import {BootMixin} from '@bleco/boot';
-
 import {ServiceSequence} from '@loopx/core';
+import * as path from 'path';
 
 import {UserTenantServiceComponent} from '../../component';
 import {UserTenantServiceBindings} from '../../keys';

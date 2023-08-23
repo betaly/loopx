@@ -1,5 +1,4 @@
 ﻿import {belongsTo, model, property} from '@loopback/repository';
-
 import {ConfigKey, UserUpdatableEntity} from '@loopx/core';
 
 import {Tenant, TenantWithRelations} from './index';

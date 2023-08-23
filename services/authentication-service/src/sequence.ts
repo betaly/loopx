@@ -1,6 +1,5 @@
-import {BErrors} from 'berrors';
-import {isString} from 'lodash';
-
+import {AuthenticateFn, AuthenticationBindings, AuthenticationErrors} from '@bleco/authentication';
+import {AuthorizationBindings, AuthorizationErrors, AuthorizeFn} from '@bleco/authorization';
 import {inject} from '@loopback/context';
 import {
   ExpressRequestHandler,
@@ -14,12 +13,10 @@ import {
   Send,
   SequenceHandler,
 } from '@loopback/rest';
-
-import {AuthenticateFn, AuthenticationBindings, AuthenticationErrors} from '@bleco/authentication';
-import {AuthorizationBindings, AuthorizationErrors, AuthorizeFn} from '@bleco/authorization';
-
 import {ILogger, LOGGER, LxCoreBindings} from '@loopx/core';
 import {IdentifyTenantFn, MultiTenancyBindings} from '@loopx/multi-tenancy';
+import {BErrors} from 'berrors';
+import {isString} from 'lodash';
 
 import {AuthClient, Tenant} from './models';
 import {AuthUser} from './modules/auth';

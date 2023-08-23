@@ -1,7 +1,6 @@
+import {Provider} from '@loopback/core';
 import * as fs from 'fs/promises';
 import * as jwt from 'jsonwebtoken';
-
-import {Provider} from '@loopback/core';
 
 import {JWTVerifierFn} from './types';
 

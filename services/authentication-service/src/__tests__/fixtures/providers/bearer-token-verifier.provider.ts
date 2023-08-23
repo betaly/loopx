@@ -1,8 +1,6 @@
-﻿import {verify} from 'jsonwebtoken';
-
+﻿import {VerifyFunction} from '@bleco/authentication';
 import {Provider} from '@loopback/context';
-
-import {VerifyFunction} from '@bleco/authentication';
+import {verify} from 'jsonwebtoken';
 
 import {IAuthUserWithPermissions} from '../keys';
 

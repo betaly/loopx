@@ -1,6 +1,5 @@
-import {Provider} from '@loopback/context';
-
 import {Cognito, IAuthUser} from '@bleco/authentication';
+import {Provider} from '@loopback/context';
 
 import {CognitoPostVerifyFn} from './types';
 

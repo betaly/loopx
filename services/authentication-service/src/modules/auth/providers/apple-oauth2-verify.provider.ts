@@ -1,9 +1,7 @@
-﻿import * as AppleStrategy from 'passport-apple';
-
-import {Provider, inject} from '@loopback/context';
+﻿import {AuthenticationErrors, IAuthUser, VerifyFunction} from '@bleco/authentication';
+import {inject, Provider} from '@loopback/context';
 import {repository} from '@loopback/repository';
-
-import {AuthenticationErrors, IAuthUser, VerifyFunction} from '@bleco/authentication';
+import * as AppleStrategy from 'passport-apple';
 
 import {ApplePostVerifyFn, ApplePreVerifyFn, AppleSignUpFn, SignUpBindings, VerifyBindings} from '../../../providers';
 import {UserCredentialsRepository, UserRepository} from '../../../repositories';

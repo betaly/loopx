@@ -1,5 +1,4 @@
 ﻿import {hasMany, hasOne, model, property} from '@loopback/repository';
-
 import {UserUpdatableEntity} from '@loopx/core';
 
 import {RoleType} from '../enums';

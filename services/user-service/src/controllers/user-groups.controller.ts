@@ -1,9 +1,7 @@
-﻿import {Count, Filter, Where, repository} from '@loopback/repository';
-import {get, getModelSchemaRef, param} from '@loopback/rest';
-
-import {STRATEGY, authenticate} from '@bleco/authentication';
+﻿import {authenticate, STRATEGY} from '@bleco/authentication';
 import {authorize} from '@bleco/authorization';
-
+import {Count, Filter, repository, Where} from '@loopback/repository';
+import {get, getModelSchemaRef, param} from '@loopback/rest';
 import {CONTENT_TYPE, OPERATION_SECURITY_SPEC, STATUS_CODE} from '@loopx/core';
 
 import {PermissionKey} from '../enums';

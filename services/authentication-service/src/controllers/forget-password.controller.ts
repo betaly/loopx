@@ -1,19 +1,14 @@
-﻿import * as jwt from 'jsonwebtoken';
-import {omit} from 'lodash';
-
-import {inject} from '@loopback/core';
-import {repository} from '@loopback/repository';
-import {get, param, patch, post, requestBody} from '@loopback/rest';
-
-import {
+﻿import {
+  authenticateClient,
   AuthenticationBindings,
   AuthenticationErrors,
   ClientAuthCode,
   STRATEGY,
-  authenticateClient,
 } from '@bleco/authentication';
 import {authorize} from '@bleco/authorization';
-
+import {inject} from '@loopback/core';
+import {repository} from '@loopback/repository';
+import {get, param, patch, post, requestBody} from '@loopback/rest';
 import {
   AuthErrors,
   AuthProvider,
@@ -24,6 +19,8 @@ import {
   STATUS_CODE,
   SuccessResponse,
 } from '@loopx/core';
+import * as jwt from 'jsonwebtoken';
+import {omit} from 'lodash';
 
 import {AuthServiceBindings} from '../keys';
 import {AuthClient, ForgetPasswordDto, ResetPasswordWithClient, User} from '../models';

@@ -1,11 +1,9 @@
-import {configure} from 'i18n';
-import * as swstats from 'swagger-stats';
-
-import {Binding, Component, CoreBindings, ProviderMap, createBindingFromClass, inject} from '@loopback/core';
-import {ExpressRequestHandler, RestApplication} from '@loopback/rest';
-
 import {HelmetComponent} from '@bleco/helmet';
 import {RateLimiterComponent} from '@bleco/ratelimiter';
+import {Binding, Component, CoreBindings, createBindingFromClass, inject, ProviderMap} from '@loopback/core';
+import {ExpressRequestHandler, RestApplication} from '@loopback/rest';
+import {configure} from 'i18n';
+import * as swstats from 'swagger-stats';
 
 import {LoggerExtensionComponent, SwaggerAuthenticationComponent} from './components';
 import {OperationSpecEnhancer} from './enhancer/operation-spec-enhancer';

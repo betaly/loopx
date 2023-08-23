@@ -1,13 +1,10 @@
-﻿import {BErrors} from 'berrors';
-import moment from 'moment-timezone';
-
-import {Provider, inject} from '@loopback/context';
+﻿import {VerifyFunction} from '@bleco/authentication';
+import {inject, Provider} from '@loopback/context';
 import {repository} from '@loopback/repository';
 import {Request} from '@loopback/rest';
-
-import {VerifyFunction} from '@bleco/authentication';
-
 import {AuthErrors, ILogger, LOGGER} from '@loopx/core';
+import {BErrors} from 'berrors';
+import moment from 'moment-timezone';
 
 import {AuthCodeBindings, JWTVerifierFn} from '../../../providers';
 import {RevokedTokenRepository} from '../../../repositories';

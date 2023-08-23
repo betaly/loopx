@@ -1,9 +1,7 @@
-﻿import * as jwt from 'jsonwebtoken';
-
-import {Provider, inject} from '@loopback/context';
+﻿import {ClientAuthCode, STRATEGY} from '@bleco/authentication';
+import {inject, Provider} from '@loopback/context';
 import {service} from '@loopback/core';
-
-import {ClientAuthCode, STRATEGY} from '@bleco/authentication';
+import * as jwt from 'jsonwebtoken';
 
 import {OtpMethodType} from '../enums';
 import {AuthServiceBindings} from '../keys';

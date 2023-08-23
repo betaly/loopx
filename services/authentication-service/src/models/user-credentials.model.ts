@@ -1,5 +1,4 @@
 import {belongsTo, model, property} from '@loopback/repository';
-
 import {ModelTypes, UserUpdatableEntity} from '@loopx/core';
 
 import {User, UserWithRelations} from './user.model';

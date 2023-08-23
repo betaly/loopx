@@ -1,9 +1,7 @@
-﻿import sinon from 'sinon';
-
-import {HttpErrors} from '@loopback/rest';
-import {StubbedInstanceWithSinonAccessor, createStubInstance, expect} from '@loopback/testlab';
-
+﻿import {HttpErrors} from '@loopback/rest';
+import {createStubInstance, expect, StubbedInstanceWithSinonAccessor} from '@loopback/testlab';
 import {UserStatus} from '@loopx/core';
+import sinon from 'sinon';
 
 import {AuthClient, Otp, User, UserTenant, UserTenantWithRelations, UserWithRelations} from '../../../models';
 import {ResourceOwnerVerifyProvider} from '../../../modules/auth/providers/resource-owner-verify.provider';

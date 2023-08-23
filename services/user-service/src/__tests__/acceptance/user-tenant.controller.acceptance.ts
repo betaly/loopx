@@ -1,9 +1,7 @@
-﻿import * as jwt from 'jsonwebtoken';
-import {nanoid} from 'nanoid';
-
+﻿import {AuthenticationBindings} from '@bleco/authentication';
 import {Client, expect} from '@loopback/testlab';
-
-import {AuthenticationBindings} from '@bleco/authentication';
+import * as jwt from 'jsonwebtoken';
+import {nanoid} from 'nanoid';
 
 import {PermissionKey} from '../../enums';
 import {Role, Tenant, User, UserTenant} from '../../models';

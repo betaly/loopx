@@ -1,6 +1,5 @@
-import {Provider, inject} from '@loopback/context';
+import {inject, Provider} from '@loopback/context';
 import {repository} from '@loopback/repository';
-
 import {LxCoreBindings} from '@loopx/core';
 
 import {Tenant} from '../models';

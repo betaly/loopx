@@ -1,17 +1,16 @@
-﻿import {Getter, inject} from '@loopback/core';
-import {BelongsToAccessor, HasManyRepositoryFactory, juggler, repository} from '@loopback/repository';
-
-import {ConditionalAuditRepositoryMixin, IAuditMixinOptions} from '@bleco/audit-log';
+﻿import {ConditionalAuditRepositoryMixin, IAuditMixinOptions} from '@bleco/audit-log';
 import {DefaultSoftCrudRepository} from '@bleco/soft-delete';
+import {Getter, inject} from '@loopback/core';
+import {BelongsToAccessor, HasManyRepositoryFactory, juggler, repository} from '@loopback/repository';
 
 import {UserTenantDataSourceName} from '../keys';
 import {Role, Tenant, User, UserGroup, UserLevelPermission, UserTenant, UserTenantRelations} from '../models';
 import {AuditLogRepository} from './audit.repository';
 import {RoleRepository} from './role.repository';
 import {TenantRepository} from './tenant.repository';
+import {UserRepository} from './user.repository';
 import {UserGroupRepository} from './user-group.repository';
 import {UserLevelPermissionRepository} from './user-level-permission.repository';
-import {UserRepository} from './user.repository';
 
 const UserTenantAuditOpts: IAuditMixinOptions = {
   actionKey: 'User_Tenant_Logs',

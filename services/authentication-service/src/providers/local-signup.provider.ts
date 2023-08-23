@@ -1,7 +1,6 @@
-﻿import uniqid from 'uniqid';
-
-import {Provider} from '@loopback/context';
+﻿import {Provider} from '@loopback/context';
 import {AnyObject} from '@loopback/repository';
+import uniqid from 'uniqid';
 
 import {User} from '../models';
 import {LocalUserProfileDto} from '../models/local-user-profile';

@@ -1,6 +1,5 @@
-import * as jwt from 'jsonwebtoken';
-
 import {Provider} from '@loopback/core';
+import * as jwt from 'jsonwebtoken';
 
 import {JWTSignerFn} from './types';
 

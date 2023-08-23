@@ -1,7 +1,6 @@
 ﻿import * as AuthaStrategy from '@authajs/passport-autha';
-import sinon from 'sinon';
-
 import {expect} from '@loopback/testlab';
+import sinon from 'sinon';
 
 import {AuthaSignupProvider} from '../../providers';
 

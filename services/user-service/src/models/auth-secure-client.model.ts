@@ -1,6 +1,5 @@
-import {model, property} from '@loopback/repository';
-
 import {ClientType, IAuthSecureClient} from '@bleco/authentication';
+import {model, property} from '@loopback/repository';
 
 import {AuthClient} from './auth-client.model';
 

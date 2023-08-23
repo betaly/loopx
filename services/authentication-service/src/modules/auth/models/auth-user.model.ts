@@ -1,5 +1,4 @@
 ﻿import {model, property} from '@loopback/repository';
-
 import {IAuthUserWithPermissions, IUserPrefs, UserStatus} from '@loopx/core';
 
 import {User} from '../../../models';

@@ -1,6 +1,5 @@
-﻿import sinon from 'sinon';
-
-import {expect} from '@loopback/testlab';
+﻿import {expect} from '@loopback/testlab';
+import sinon from 'sinon';
 
 import {OauthCodeReaderProvider} from '../../providers';
 

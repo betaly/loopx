@@ -1,8 +1,6 @@
+import {AuthenticationBindings} from '@bleco/authentication';
 import {Getter, inject} from '@loopback/core';
 import {HasManyRepositoryFactory, juggler, repository} from '@loopback/repository';
-
-import {AuthenticationBindings} from '@bleco/authentication';
-
 import {DefaultUserUpdatableCrudRepository, EntityClass, IAuthUserWithPermissions} from '@loopx/core';
 
 import {Tenant, TenantConfigTypes, TenantTypes} from '../models';

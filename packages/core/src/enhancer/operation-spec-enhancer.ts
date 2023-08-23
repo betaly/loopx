@@ -1,5 +1,5 @@
 ﻿import {inject, injectable} from '@loopback/core';
-import {OASEnhancer, OpenApiSpec, asSpecEnhancer} from '@loopback/rest';
+import {asSpecEnhancer, OASEnhancer, OpenApiSpec} from '@loopback/rest';
 
 import {OASBindings, OasHiddenApi} from '../keys';
 import {apiHide} from './utility';

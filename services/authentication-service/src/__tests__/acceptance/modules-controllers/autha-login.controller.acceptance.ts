@@ -1,7 +1,6 @@
 import {AuthaCallbackParameters, UserClaims} from '@authajs/passport-autha';
-import nock from 'nock';
-
 import {Client, createRestAppClient} from '@loopback/testlab';
+import nock from 'nock';
 
 import {AuthClient} from '../../../models';
 import {isJWTToken} from '../../../utils/tokens';

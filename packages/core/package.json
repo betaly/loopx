@@ -70,7 +70,7 @@
     "@types/jsonwebtoken": "^9.0.2",
     "@types/lodash": "^4.14.197",
     "@types/moment-timezone": "^0.5.13",
-    "@types/node": "^20.5.2",
+    "@types/node": "^20.5.3",
     "@types/swagger-stats": "^0.95.8",
     "eslint": "^8.47.0",
     "jest": "^29.6.3",

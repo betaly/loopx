@@ -1,6 +1,5 @@
-import {Getter, Provider, inject} from '@loopback/core';
+import {Getter, inject, Provider} from '@loopback/core';
 import {repository} from '@loopback/repository';
-
 import {TenantResolverFn} from '@loopx/multi-tenancy';
 
 import {Tenant} from '../models';

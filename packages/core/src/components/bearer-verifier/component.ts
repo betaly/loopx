@@ -1,7 +1,6 @@
-﻿import {Binding, Component, ProviderMap, inject} from '@loopback/core';
+﻿import {Strategies} from '@bleco/authentication';
+import {Binding, Component, inject, ProviderMap} from '@loopback/core';
 import {Class, Model, Repository} from '@loopback/repository';
-
-import {Strategies} from '@bleco/authentication';
 
 import {ILogger, LOGGER} from '../logger-extension';
 import {BearerVerifierBindings, BearerVerifierConfig, BearerVerifierType} from './keys';

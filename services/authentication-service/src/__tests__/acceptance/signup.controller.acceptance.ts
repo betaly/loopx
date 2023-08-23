@@ -1,6 +1,5 @@
-﻿import {randomBytes} from 'crypto';
-
-import {Client, expect} from '@loopback/testlab';
+﻿import {Client, expect} from '@loopback/testlab';
+import {randomBytes} from 'crypto';
 
 import {TestingApplication} from '../fixtures/application';
 import {TestHelperKey} from '../fixtures/keys';

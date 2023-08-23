@@ -1,12 +1,9 @@
-import {BErrors} from 'berrors';
-
+import {AuthenticationErrors} from '@bleco/authentication';
 import {inject} from '@loopback/context';
 import {BindingScope, injectable} from '@loopback/core';
 import {repository} from '@loopback/repository';
-
-import {AuthenticationErrors} from '@bleco/authentication';
-
 import {ILogger, LOGGER, UserStatus} from '@loopx/core';
+import {BErrors} from 'berrors';
 
 import {AuthClient, IAuthClientDTO, UserTenant} from '..';
 import {AuthUser} from '../modules/auth/models/auth-user.model';

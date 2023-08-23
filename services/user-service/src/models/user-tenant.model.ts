@@ -1,5 +1,4 @@
 ﻿import {belongsTo, hasMany, model, property} from '@loopback/repository';
-
 import {BaseEntity, IUserPrefs, UserStatus} from '@loopx/core';
 
 import {Role, Tenant, TenantWithRelations, User, UserLevelPermission, UserWithRelations} from './';

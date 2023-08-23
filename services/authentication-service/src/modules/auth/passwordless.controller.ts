@@ -1,19 +1,16 @@
-import * as jwt from 'jsonwebtoken';
-
-import {inject} from '@loopback/context';
-import {repository} from '@loopback/repository';
-import {post, requestBody} from '@loopback/rest';
-
 import {
+  authenticate,
+  authenticateClient,
   AuthenticationBindings,
   ClientAuthCode,
   STRATEGY,
-  authenticate,
-  authenticateClient,
 } from '@bleco/authentication';
 import {authorize} from '@bleco/authorization';
-
+import {inject} from '@loopback/context';
+import {repository} from '@loopback/repository';
+import {post, requestBody} from '@loopback/rest';
 import {CONTENT_TYPE, ErrorCodes, ILogger, LOGGER, STATUS_CODE} from '@loopx/core';
+import * as jwt from 'jsonwebtoken';
 
 import {User} from '../../models';
 import {AuthCodeBindings, CodeWriterFn, VerifyBindings} from '../../providers';

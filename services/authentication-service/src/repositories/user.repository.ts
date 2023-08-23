@@ -1,6 +1,4 @@
-import * as bcrypt from 'bcrypt';
-import {BErrors} from 'berrors';
-
+import {AuthenticationBindings, AuthenticationErrors} from '@bleco/authentication';
 import {Getter, inject} from '@loopback/core';
 import {Where} from '@loopback/filter/src/query';
 import {
@@ -14,9 +12,6 @@ import {
 } from '@loopback/repository';
 import {Options} from '@loopback/repository/src/common-types';
 import {HttpErrors} from '@loopback/rest';
-
-import {AuthenticationBindings, AuthenticationErrors} from '@bleco/authentication';
-
 import {
   AuthErrors,
   AuthProvider,
@@ -27,6 +22,8 @@ import {
   LOGGER,
   UserStatus,
 } from '@loopx/core';
+import * as bcrypt from 'bcrypt';
+import {BErrors} from 'berrors';
 
 import {Tenant, User, UserCredentials, UserTenant, UserTypes} from '../models';
 import {AuthDbSourceName} from '../types';

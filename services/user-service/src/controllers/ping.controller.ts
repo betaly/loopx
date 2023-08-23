@@ -1,8 +1,6 @@
-﻿import {inject} from '@loopback/core';
-import {ResponseObject, get} from '@loopback/rest';
-
-import {authorize} from '@bleco/authorization';
-
+﻿import {authorize} from '@bleco/authorization';
+import {inject} from '@loopback/core';
+import {get, ResponseObject} from '@loopback/rest';
 import {CONTENT_TYPE, ILogger, LOGGER, STATUS_CODE} from '@loopx/core';
 
 /**

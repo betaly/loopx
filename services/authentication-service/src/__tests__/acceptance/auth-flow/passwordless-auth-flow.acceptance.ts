@@ -1,5 +1,4 @@
 import {Client, expect} from '@loopback/testlab';
-
 import {AuthProvider} from '@loopx/core';
 
 import {UserRepository} from '../../../repositories';

@@ -1,8 +1,6 @@
-﻿import sinon from 'sinon';
-
-import {StubbedInstanceWithSinonAccessor, createStubInstance, expect} from '@loopback/testlab';
-
-import {IAuthUser, Keycloak} from '@bleco/authentication';
+﻿import {IAuthUser, Keycloak} from '@bleco/authentication';
+import {createStubInstance, expect, StubbedInstanceWithSinonAccessor} from '@loopback/testlab';
+import sinon from 'sinon';
 
 import {User, UserCredentials, UserCredentialsWithRelations, UserWithRelations} from '../../../models';
 import {KeycloakVerifyProvider} from '../../../modules/auth/providers/keycloak-verify.provider';

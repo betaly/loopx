@@ -1,8 +1,6 @@
-﻿import * as FacebookStrategy from 'passport-facebook';
-
+﻿import {IAuthUser} from '@bleco/authentication';
 import {Provider} from '@loopback/context';
-
-import {IAuthUser} from '@bleco/authentication';
+import * as FacebookStrategy from 'passport-facebook';
 
 import {FacebookPostVerifyFn} from './types';
 

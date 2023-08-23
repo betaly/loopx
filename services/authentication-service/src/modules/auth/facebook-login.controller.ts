@@ -1,19 +1,16 @@
-﻿import {URLSearchParams} from 'url';
-
-import {inject} from '@loopback/context';
-import {repository} from '@loopback/repository';
-import {Request, Response, RestBindings, get, getModelSchemaRef, param, post, requestBody} from '@loopback/rest';
-
-import {
+﻿import {
+  authenticate,
+  authenticateClient,
   AuthenticationBindings,
   AuthenticationErrors,
   STRATEGY,
-  authenticate,
-  authenticateClient,
 } from '@bleco/authentication';
 import {authorize} from '@bleco/authorization';
-
+import {inject} from '@loopback/context';
+import {repository} from '@loopback/repository';
+import {get, getModelSchemaRef, param, post, Request, requestBody, Response, RestBindings} from '@loopback/rest';
 import {CONTENT_TYPE, ILogger, LOGGER, STATUS_CODE, X_TS_TYPE} from '@loopx/core';
+import {URLSearchParams} from 'url';
 
 import {AuthCodeBindings, AuthCodeGeneratorFn} from '../../providers';
 import {AuthClientRepository} from '../../repositories';

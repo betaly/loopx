@@ -1,10 +1,7 @@
-﻿import {totp} from 'otplib';
-
-import {Provider, inject} from '@loopback/context';
-
-import {AuthenticationErrors} from '@bleco/authentication';
-
+﻿import {AuthenticationErrors} from '@bleco/authentication';
+import {inject, Provider} from '@loopback/context';
 import {ILogger, LOGGER} from '@loopx/core';
+import {totp} from 'otplib';
 
 import {OtpGenerateFn} from './types';
 

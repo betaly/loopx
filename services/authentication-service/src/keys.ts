@@ -1,10 +1,9 @@
 import {BindingKey, CoreBindings} from '@loopback/core';
-
 import {BINDING_PREFIX} from '@loopx/core';
 
 import {AuthenticationServiceComponent} from './component';
 import {ForgotPasswordHandlerFn, JwtPayloadFn} from './providers';
-import {ActorId, IAuthServiceConfig, IAuthaConfig, IMfaConfig, IOtpConfig, IUserActivity} from './types';
+import {ActorId, IAuthaConfig, IAuthServiceConfig, IMfaConfig, IOtpConfig, IUserActivity} from './types';
 
 export {AuthenticationBindings} from '@bleco/authentication';
 export {AuthorizationBindings} from '@bleco/authorization';

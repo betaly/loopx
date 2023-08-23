@@ -1,9 +1,7 @@
-﻿import {Getter, inject} from '@loopback/context';
-import {juggler, repository} from '@loopback/repository';
-
-import {ConditionalAuditRepositoryMixin, IAuditMixinOptions} from '@bleco/audit-log';
+﻿import {ConditionalAuditRepositoryMixin, IAuditMixinOptions} from '@bleco/audit-log';
 import {AuthenticationBindings} from '@bleco/authentication';
-
+import {Getter, inject} from '@loopback/context';
+import {juggler, repository} from '@loopback/repository';
 import {DefaultUserUpdatableCrudRepository, IAuthUserWithPermissions} from '@loopx/core';
 
 import {UserTenantDataSourceName} from '../keys';

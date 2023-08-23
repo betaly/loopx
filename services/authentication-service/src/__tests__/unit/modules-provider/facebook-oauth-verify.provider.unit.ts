@@ -1,9 +1,7 @@
-﻿import * as FacebookStrategy from 'passport-facebook';
+﻿import {IAuthUser} from '@bleco/authentication';
+import {createStubInstance, expect, StubbedInstanceWithSinonAccessor} from '@loopback/testlab';
+import * as FacebookStrategy from 'passport-facebook';
 import sinon from 'sinon';
-
-import {StubbedInstanceWithSinonAccessor, createStubInstance, expect} from '@loopback/testlab';
-
-import {IAuthUser} from '@bleco/authentication';
 
 import {User, UserCredentials, UserCredentialsWithRelations, UserWithRelations} from '../../../models';
 import {FacebookOauth2VerifyProvider} from '../../../modules/auth/providers/facebook-oauth-verify.provider';

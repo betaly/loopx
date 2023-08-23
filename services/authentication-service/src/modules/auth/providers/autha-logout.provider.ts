@@ -1,9 +1,7 @@
 import * as AuthaStrategy from '@authajs/passport-autha';
-
+import {Strategies} from '@bleco/authentication';
 import {inject} from '@loopback/context';
 import {Provider} from '@loopback/core';
-
-import {Strategies} from '@bleco/authentication';
 
 import {AuthLogoutFn} from '../types';
 

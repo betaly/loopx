@@ -1,5 +1,4 @@
 import {model, property} from '@loopback/repository';
-
 import {CoreEntity} from '@loopx/core';
 
 import {LoginType} from '../enums/login-type.enum';

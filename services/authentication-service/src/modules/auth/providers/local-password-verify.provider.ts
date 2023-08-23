@@ -1,8 +1,6 @@
-﻿import {Provider} from '@loopback/context';
+﻿import {AuthenticationErrors, VerifyFunction} from '@bleco/authentication';
+import {Provider} from '@loopback/context';
 import {repository} from '@loopback/repository';
-
-import {AuthenticationErrors, VerifyFunction} from '@bleco/authentication';
-
 import {AuthErrors, UserStatus} from '@loopx/core';
 
 import {Otp} from '../../../models';

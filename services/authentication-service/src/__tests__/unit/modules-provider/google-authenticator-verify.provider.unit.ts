@@ -1,9 +1,7 @@
-﻿import {BErrors} from 'berrors';
+﻿import {AuthenticationErrors} from '@bleco/authentication';
+import {createStubInstance, expect, StubbedInstanceWithSinonAccessor} from '@loopback/testlab';
+import {BErrors} from 'berrors';
 import sinon from 'sinon';
-
-import {StubbedInstanceWithSinonAccessor, createStubInstance, expect} from '@loopback/testlab';
-
-import {AuthenticationErrors} from '@bleco/authentication';
 
 import {User, UserCredentialsWithRelations, UserWithRelations} from '../../../models';
 import {GoogleAuthenticatorVerifyProvider} from '../../../modules/auth/providers/google-authenticator-verify.provider';

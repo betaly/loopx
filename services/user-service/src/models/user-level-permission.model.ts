@@ -1,7 +1,5 @@
-﻿import {belongsTo, model, property} from '@loopback/repository';
-
-import {UserPermission} from '@bleco/authorization';
-
+﻿import {UserPermission} from '@bleco/authorization';
+import {belongsTo, model, property} from '@loopback/repository';
 import {UserUpdatableEntity} from '@loopx/core';
 
 import {UserTenant} from './index';

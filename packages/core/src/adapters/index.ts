@@ -1,2 +1,2 @@
-﻿export * from './any-adapter';
-export * from './adapter';
+﻿export * from './adapter';
+export * from './any-adapter';

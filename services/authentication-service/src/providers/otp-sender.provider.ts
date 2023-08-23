@@ -1,6 +1,5 @@
-﻿import {BErrors} from 'berrors';
-
-import {Provider, inject} from '@loopback/context';
+﻿import {inject, Provider} from '@loopback/context';
+import {BErrors} from 'berrors';
 
 import {IOtpRequest} from '../types';
 import {VerifyBindings} from './keys';

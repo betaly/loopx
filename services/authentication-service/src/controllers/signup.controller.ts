@@ -1,20 +1,17 @@
 ﻿// Uncomment these imports to begin using these cool features!
-import * as jwt from 'jsonwebtoken';
-
+import {authenticate, authenticateClient, AuthenticationBindings, STRATEGY} from '@bleco/authentication';
+import {authorize} from '@bleco/authorization';
 import {inject, service} from '@loopback/core';
 import {AnyObject} from '@loopback/repository';
 import {get, getModelSchemaRef, post, requestBody} from '@loopback/rest';
-
-import {AuthenticationBindings, STRATEGY, authenticate, authenticateClient} from '@bleco/authentication';
-import {authorize} from '@bleco/authorization';
-
 import {CONTENT_TYPE, ErrorCodes, OPERATION_SECURITY_SPEC, STATUS_CODE} from '@loopx/core';
+import * as jwt from 'jsonwebtoken';
 
 import {AuthClient, LocalUserEmailPasswordProfile, LocalUserProfile, User} from '../models';
 import {LocalUserEmailPasswordProfileDto} from '../models/local-user-profile';
 import {SignupFastRequestDto} from '../models/signup-fast-request.dto.model';
-import {SignupRequestDto} from '../models/signup-request-dto.model';
 import {SignupRequest} from '../models/signup-request.model';
+import {SignupRequestDto} from '../models/signup-request-dto.model';
 import {SignupWithTokenResponseDto} from '../models/signup-with-token-response-dto.model';
 import {AuthUser} from '../modules/auth';
 import {

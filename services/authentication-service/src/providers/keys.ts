@@ -1,6 +1,5 @@
-﻿import {BindingKey} from '@loopback/core';
-
-import {VerifyFunction} from '@bleco/authentication';
+﻿import {VerifyFunction} from '@bleco/authentication';
+import {BindingKey} from '@loopback/core';
 
 import {Role, Tenant} from '../models';
 import {PreSignupFn, UserSignupFn} from '../types';

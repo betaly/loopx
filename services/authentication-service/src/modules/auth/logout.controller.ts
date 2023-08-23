@@ -1,14 +1,8 @@
-﻿import crypto from 'crypto';
-import {HttpsProxyAgent} from 'https-proxy-agent';
-import {URLSearchParams} from 'url';
-
+﻿import {authenticate, AuthenticationBindings, AuthenticationErrors, IAuthUser, STRATEGY} from '@bleco/authentication';
+import {authorize} from '@bleco/authorization';
 import {inject} from '@loopback/context';
 import {repository} from '@loopback/repository';
-import {RequestContext, Response, RestBindings, get, getModelSchemaRef, param, post, requestBody} from '@loopback/rest';
-
-import {AuthenticationBindings, AuthenticationErrors, IAuthUser, STRATEGY, authenticate} from '@bleco/authentication';
-import {authorize} from '@bleco/authorization';
-
+import {get, getModelSchemaRef, param, post, requestBody, RequestContext, Response, RestBindings} from '@loopback/rest';
 import {
   AuthErrors,
   CONTENT_TYPE,
@@ -20,6 +14,9 @@ import {
   SuccessResponse,
   X_TS_TYPE,
 } from '@loopx/core';
+import crypto from 'crypto';
+import {HttpsProxyAgent} from 'https-proxy-agent';
+import {URLSearchParams} from 'url';
 
 import {LoginType} from '../../enums';
 import {AuthServiceBindings} from '../../keys';

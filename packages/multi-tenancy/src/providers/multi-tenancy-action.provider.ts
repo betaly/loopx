@@ -1,7 +1,6 @@
-import debugFactory from 'debug';
-
-import {ContextTags, Getter, Provider, config, extensionPoint, extensions, inject} from '@loopback/core';
+import {config, ContextTags, extensionPoint, extensions, Getter, inject, Provider} from '@loopback/core';
 import {RequestContext} from '@loopback/rest';
+import debugFactory from 'debug';
 
 import {MULTI_TENANCY_STRATEGIES, MultiTenancyBindings} from '../keys';
 import {IdentifyTenantFn, MultiTenancyActionOptions, MultiTenancyPostProcess, MultiTenancyStrategy} from '../types';

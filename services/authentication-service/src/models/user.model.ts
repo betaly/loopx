@@ -1,7 +1,5 @@
-import {belongsTo, hasMany, hasOne, model, property} from '@loopback/repository';
-
 import {IAuthUser} from '@bleco/authentication';
-
+import {belongsTo, hasMany, hasOne, model, property} from '@loopback/repository';
 import {Gender, ModelTypes, UserUpdatableEntity} from '@loopx/core';
 
 import {Tenant, TenantWithRelations} from './tenant.model';

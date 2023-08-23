@@ -1,16 +1,14 @@
+import {DefaultSoftCrudRepository} from '@bleco/soft-delete';
 import {Getter, inject} from '@loopback/core';
 import {BelongsToAccessor, HasManyRepositoryFactory, juggler, repository} from '@loopback/repository';
-
-import {DefaultSoftCrudRepository} from '@bleco/soft-delete';
-
 import {EntityClass} from '@loopx/core';
 
 import {Role, Tenant, User, UserLevelPermission, UserTenant, UserTenantTypes} from '../models';
 import {AuthDbSourceName} from '../types';
 import {RoleRepository} from './role.repository';
 import {TenantRepository} from './tenant.repository';
-import {UserLevelPermissionRepository} from './user-level-permission.repository';
 import {UserRepository} from './user.repository';
+import {UserLevelPermissionRepository} from './user-level-permission.repository';
 
 export class UserTenantRepository<UT extends UserTenantTypes = UserTenantTypes> extends DefaultSoftCrudRepository<
   UT['Model'],

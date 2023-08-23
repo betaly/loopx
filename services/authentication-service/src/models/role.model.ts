@@ -1,5 +1,4 @@
 import {DataObject, model, property} from '@loopback/repository';
-
 import {ModelTypes, RoleTypes, UserUpdatableEntity} from '@loopx/core';
 
 @model({

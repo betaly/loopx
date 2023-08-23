@@ -1,9 +1,7 @@
-﻿import * as InstagramStrategy from 'passport-instagram';
+﻿import {IAuthUser} from '@bleco/authentication';
+import {createStubInstance, expect, StubbedInstanceWithSinonAccessor} from '@loopback/testlab';
+import * as InstagramStrategy from 'passport-instagram';
 import sinon from 'sinon';
-
-import {StubbedInstanceWithSinonAccessor, createStubInstance, expect} from '@loopback/testlab';
-
-import {IAuthUser} from '@bleco/authentication';
 
 import {User, UserCredentials, UserCredentialsWithRelations, UserWithRelations} from '../../../models';
 import {InstagramOauth2VerifyProvider} from '../../../modules/auth/providers/instagram-oauth2-verify.provider';

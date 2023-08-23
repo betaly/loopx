@@ -1,13 +1,10 @@
-﻿import Sessions, {SessionOptions} from 'client-sessions';
-
+﻿import {AuthenticationBindings, ClientType, Strategies, StrategiesOptions} from '@bleco/authentication';
 import {Application} from '@loopback/core';
 import {ExpressMiddlewareFactory} from '@loopback/express';
 import {RestTags} from '@loopback/rest';
 import {Client, createRestAppClient, givenHttpServerConfig} from '@loopback/testlab';
-
-import {AuthenticationBindings, ClientType, Strategies, StrategiesOptions} from '@bleco/authentication';
-
-import {RoleTypes, extractPermissions} from '@loopx/core';
+import {extractPermissions, RoleTypes} from '@loopx/core';
+import Sessions, {SessionOptions} from 'client-sessions';
 
 import {
   AuthSecureClientRepository,

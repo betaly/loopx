@@ -1,6 +1,5 @@
-﻿import {BindingScope, bind, service} from '@loopback/core';
-import {Where, WhereBuilder, repository} from '@loopback/repository';
-
+﻿import {bind, BindingScope, service} from '@loopback/core';
+import {repository, Where, WhereBuilder} from '@loopback/repository';
 import {IAuthUserWithPermissions} from '@loopx/core';
 
 import {Group, UserGroup} from '../models';

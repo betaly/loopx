@@ -1,6 +1,5 @@
-﻿import {BErrors} from 'berrors';
-
-import {Provider} from '@loopback/context';
+﻿import {Provider} from '@loopback/context';
+import {BErrors} from 'berrors';
 
 import {IOtpRequest} from '../types';
 import {OtpSenderFn} from './types';

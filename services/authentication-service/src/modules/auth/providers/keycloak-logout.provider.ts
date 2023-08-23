@@ -1,12 +1,10 @@
+import {Keycloak, Strategies} from '@bleco/authentication';
+import {inject} from '@loopback/context';
+import {Provider} from '@loopback/core';
 import {encode} from 'base-64';
 import {HttpsProxyAgent} from 'https-proxy-agent';
 import fetch from 'node-fetch';
 import {URLSearchParams} from 'url';
-
-import {inject} from '@loopback/context';
-import {Provider} from '@loopback/core';
-
-import {Keycloak, Strategies} from '@bleco/authentication';
 
 import {AuthLogoutFn} from '../types';
 

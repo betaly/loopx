@@ -1,7 +1,6 @@
-﻿import {Provider, inject} from '@loopback/context';
+﻿import {AuthenticationErrors, IAuthUser, Keycloak, VerifyFunction} from '@bleco/authentication';
+import {inject, Provider} from '@loopback/context';
 import {repository} from '@loopback/repository';
-
-import {AuthenticationErrors, IAuthUser, Keycloak, VerifyFunction} from '@bleco/authentication';
 
 import {SignUpBindings, VerifyBindings} from '../../../providers';
 import {KeyCloakPostVerifyFn, KeyCloakPreVerifyFn, KeyCloakSignUpFn} from '../../../providers/types';

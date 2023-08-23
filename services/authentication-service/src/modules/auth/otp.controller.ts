@@ -1,23 +1,20 @@
-﻿import {BErrors} from 'berrors';
-import * as jwt from 'jsonwebtoken';
-import {authenticator} from 'otplib';
-import qrcode from 'qrcode';
-
-import {inject} from '@loopback/context';
-import {repository} from '@loopback/repository';
-import {get, param, post, requestBody} from '@loopback/rest';
-
-import {
+﻿import {
+  authenticate,
+  authenticateClient,
   AuthenticationBindings,
   AuthenticationErrors,
   ClientAuthCode,
   STRATEGY,
-  authenticate,
-  authenticateClient,
 } from '@bleco/authentication';
 import {authorize} from '@bleco/authorization';
-
+import {inject} from '@loopback/context';
+import {repository} from '@loopback/repository';
+import {get, param, post, requestBody} from '@loopback/rest';
 import {AuthErrors, CONTENT_TYPE, ErrorCodes, ILogger, LOGGER, STATUS_CODE} from '@loopx/core';
+import {BErrors} from 'berrors';
+import * as jwt from 'jsonwebtoken';
+import {authenticator} from 'otplib';
+import qrcode from 'qrcode';
 
 import {User, UserCredentials} from '../../models';
 import {AuthCodeBindings, CodeReaderFn, CodeWriterFn} from '../../providers';

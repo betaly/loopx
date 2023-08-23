@@ -1,7 +1,6 @@
+import {Entity} from '@loopback/repository';
 import {IncomingMessage} from 'http';
 import {SWStats} from 'swagger-stats';
-
-import {Entity} from '@loopback/repository';
 
 export interface JwtConfig {
   secret: string;

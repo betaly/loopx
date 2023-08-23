@@ -1,13 +1,10 @@
-﻿import * as fs from 'fs';
-import * as path from 'path';
-
+﻿import {authorize} from '@bleco/authorization';
 import {inject} from '@loopback/context';
-import {OperationVisibility, get, oas} from '@loopback/openapi-v3';
+import {get, oas, OperationVisibility} from '@loopback/openapi-v3';
 import {Response, RestBindings} from '@loopback/rest';
-
-import {authorize} from '@bleco/authorization';
-
 import {STATUS_CODE} from '@loopx/core';
+import * as fs from 'fs';
+import * as path from 'path';
 
 export class HomePageController {
   private readonly html: string;

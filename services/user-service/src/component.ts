@@ -2,17 +2,16 @@
   Application,
   Binding,
   Component,
+  config,
   ContextTags,
   ControllerClass,
   CoreBindings,
-  ProviderMap,
-  config,
   inject,
   injectable,
+  ProviderMap,
 } from '@loopback/core';
 import {ServiceOrProviderClass} from '@loopback/core/dist/application';
 import {Class, Model, Repository} from '@loopback/repository';
-
 import {CoreComponent, matchResources} from '@loopx/core';
 
 import {

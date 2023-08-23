@@ -1,6 +1,5 @@
 import {DataObject, model, property} from '@loopback/repository';
 import {Model} from '@loopback/repository-json-schema';
-
 import {UserStatus} from '@loopx/core';
 
 @model()

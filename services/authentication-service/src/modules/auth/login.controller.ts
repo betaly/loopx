@@ -1,20 +1,16 @@
-﻿import {BErrors} from 'berrors';
-
-import {inject} from '@loopback/context';
-import {service} from '@loopback/core';
-import {repository} from '@loopback/repository';
-import {Request, RestBindings, getModelSchemaRef, param, patch, post, requestBody} from '@loopback/rest';
-
-import {
+﻿import {
+  authenticate,
+  authenticateClient,
   AuthenticationBindings,
   AuthenticationErrors,
   ClientAuthCode,
   STRATEGY,
-  authenticate,
-  authenticateClient,
 } from '@bleco/authentication';
 import {AuthorizationErrors, authorize} from '@bleco/authorization';
-
+import {inject} from '@loopback/context';
+import {service} from '@loopback/core';
+import {repository} from '@loopback/repository';
+import {getModelSchemaRef, param, patch, post, Request, requestBody, RestBindings} from '@loopback/rest';
 import {
   AuthErrors,
   CONTENT_TYPE,
@@ -28,11 +24,12 @@ import {
   UserStatus,
   X_TS_TYPE,
 } from '@loopx/core';
+import {BErrors} from 'berrors';
 
 import {LoginType} from '../../enums';
 import {AuthServiceBindings} from '../../keys';
 import {AuthClient, User} from '../../models';
-import {AuthCodeBindings, AuthCodeGeneratorFn, JWTSignerFn, JwtPayloadFn} from '../../providers';
+import {AuthCodeBindings, AuthCodeGeneratorFn, JwtPayloadFn, JWTSignerFn} from '../../providers';
 import {
   AuthClientRepository,
   OtpCacheRepository,

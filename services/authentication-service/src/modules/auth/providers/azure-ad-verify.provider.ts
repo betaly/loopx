@@ -1,9 +1,7 @@
-import * as AzureADStrategy from 'passport-azure-ad';
-
-import {Provider, inject} from '@loopback/core';
-import {repository} from '@loopback/repository';
-
 import {AuthenticationErrors, IAuthUser, VerifyFunction} from '@bleco/authentication';
+import {inject, Provider} from '@loopback/core';
+import {repository} from '@loopback/repository';
+import * as AzureADStrategy from 'passport-azure-ad';
 
 import {
   AzureAdPostVerifyFn,

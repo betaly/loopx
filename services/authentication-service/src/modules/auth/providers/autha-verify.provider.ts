@@ -1,10 +1,8 @@
 import * as AuthaStrategy from '@authajs/passport-autha';
-
-import {Provider, inject} from '@loopback/context';
+import {AuthenticationErrors, IAuthUser, VerifyFunction} from '@bleco/authentication';
+import {inject, Provider} from '@loopback/context';
 import {Where} from '@loopback/filter/src/query';
 import {repository} from '@loopback/repository';
-
-import {AuthenticationErrors, IAuthUser, VerifyFunction} from '@bleco/authentication';
 
 import {User} from '../../../models';
 import {AuthaPostVerifyFn, AuthaPreVerifyFn, AuthaSignUpFn, SignUpBindings, VerifyBindings} from '../../../providers';

@@ -1,6 +1,5 @@
 import {Provider} from '@loopback/context';
 import {repository} from '@loopback/repository';
-
 import {RoleTypes} from '@loopx/core';
 
 import {Role} from '../models';

@@ -1,6 +1,5 @@
-import {BErrors} from 'berrors';
-
 import {Provider} from '@loopback/context';
+import {BErrors} from 'berrors';
 
 import {AuthaSignUpFn} from './types';
 

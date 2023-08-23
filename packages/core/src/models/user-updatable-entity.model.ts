@@ -1,7 +1,6 @@
-import {DataObject, Model} from '@loopback/repository';
-
 import {UserUpdatableModel, UserUpdatableModelMixin} from '@bleco/ds-user-updatable';
 import {mixin} from '@bleco/mixin';
+import {DataObject, Model} from '@loopback/repository';
 
 import {BaseEntity} from './base-entity.model';
 

@@ -1,6 +1,5 @@
-﻿import {BErrors} from 'berrors';
-
-import {Provider} from '@loopback/core';
+﻿import {Provider} from '@loopback/core';
+import {BErrors} from 'berrors';
 
 import {SignupTokenHandlerFn} from './types';
 

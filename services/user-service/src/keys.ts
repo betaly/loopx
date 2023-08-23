@@ -1,5 +1,4 @@
 ﻿import {BindingKey, CoreBindings} from '@loopback/core';
-
 import {BINDING_PREFIX} from '@loopx/core';
 
 import {UserTenantServiceComponent} from './component';

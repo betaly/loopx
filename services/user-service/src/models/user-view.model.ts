@@ -1,5 +1,4 @@
 ﻿import {DataObject, Model, model, property} from '@loopback/repository';
-
 import {Gender, UserStatus, UserUpdatableEntity} from '@loopx/core';
 
 @model({

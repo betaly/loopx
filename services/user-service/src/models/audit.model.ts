@@ -1,7 +1,5 @@
-import {model, property} from '@loopback/repository';
-
 import {Action} from '@bleco/audit-log';
-
+import {model, property} from '@loopback/repository';
 import {CoreEntity} from '@loopx/core';
 
 /**

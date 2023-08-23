@@ -1,6 +1,5 @@
-﻿import sinon from 'sinon';
-
-import {expect} from '@loopback/testlab';
+﻿import {expect} from '@loopback/testlab';
+import sinon from 'sinon';
 
 import {AuthUser} from '../../modules/auth';
 import {MfaProvider} from '../../providers/mfa.provider';

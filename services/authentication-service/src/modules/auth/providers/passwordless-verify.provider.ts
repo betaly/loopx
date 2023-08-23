@@ -1,12 +1,9 @@
-import {totp} from 'otplib';
-
-import {Provider, inject} from '@loopback/context';
+import {AuthenticationBindings, AuthenticationErrors, VerifyFunction} from '@bleco/authentication';
+import {inject, Provider} from '@loopback/context';
 import {service} from '@loopback/core';
 import {repository} from '@loopback/repository';
-
-import {AuthenticationBindings, AuthenticationErrors, VerifyFunction} from '@bleco/authentication';
-
 import {ILogger, LOGGER} from '@loopx/core';
+import {totp} from 'otplib';
 
 import {AuthClient, LocalUserProfile, User} from '../../../models';
 import {OtpRequest} from '../../../otp/otp';

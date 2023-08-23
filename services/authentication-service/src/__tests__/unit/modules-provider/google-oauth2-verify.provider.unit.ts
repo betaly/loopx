@@ -1,9 +1,7 @@
-﻿import * as GoogleStrategy from 'passport-google-oauth20';
+﻿import {IAuthUser} from '@bleco/authentication';
+import {createStubInstance, expect, StubbedInstanceWithSinonAccessor} from '@loopback/testlab';
+import * as GoogleStrategy from 'passport-google-oauth20';
 import sinon from 'sinon';
-
-import {StubbedInstanceWithSinonAccessor, createStubInstance, expect} from '@loopback/testlab';
-
-import {IAuthUser} from '@bleco/authentication';
 
 import {User, UserCredentials, UserCredentialsWithRelations, UserWithRelations} from '../../../models';
 import {GoogleOauth2VerifyProvider} from '../../../modules/auth/providers/google-oauth2-verify.provider';

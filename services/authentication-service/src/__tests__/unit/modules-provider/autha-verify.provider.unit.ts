@@ -1,9 +1,7 @@
 ﻿import * as AuthaStrategy from '@authajs/passport-autha';
-import sinon from 'sinon';
-
-import {StubbedInstanceWithSinonAccessor, createStubInstance, expect} from '@loopback/testlab';
-
 import {IAuthUser} from '@bleco/authentication';
+import {createStubInstance, expect, StubbedInstanceWithSinonAccessor} from '@loopback/testlab';
+import sinon from 'sinon';
 
 import {User, UserCredentials, UserCredentialsWithRelations, UserWithRelations} from '../../../models';
 import {AuthaVerifyProvider} from '../../../modules/auth/providers/autha-verify.provider';

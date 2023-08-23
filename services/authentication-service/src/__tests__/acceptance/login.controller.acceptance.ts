@@ -1,7 +1,5 @@
-﻿import {Client, expect} from '@loopback/testlab';
-
-import {AuthenticationErrors} from '@bleco/authentication';
-
+﻿import {AuthenticationErrors} from '@bleco/authentication';
+import {Client, expect} from '@loopback/testlab';
 import {AuthErrors, AuthProvider} from '@loopx/core';
 
 import {

@@ -1,8 +1,7 @@
-﻿import {Getter, inject} from '@loopback/core';
-import {BelongsToAccessor, juggler, repository} from '@loopback/repository';
-
-import {ConditionalAuditRepositoryMixin, IAuditMixinOptions} from '@bleco/audit-log';
+﻿import {ConditionalAuditRepositoryMixin, IAuditMixinOptions} from '@bleco/audit-log';
 import {DefaultSoftCrudRepository} from '@bleco/soft-delete';
+import {Getter, inject} from '@loopback/core';
+import {BelongsToAccessor, juggler, repository} from '@loopback/repository';
 
 import {UserTenantDataSourceName} from '../keys';
 import {User, UserCredentials, UserCredentialsRelations} from '../models';

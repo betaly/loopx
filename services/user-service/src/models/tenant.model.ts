@@ -1,5 +1,4 @@
 ﻿import {hasMany, model, property} from '@loopback/repository';
-
 import {TenantStatus, UserUpdatableEntity} from '@loopx/core';
 
 import {TenantConfig, TenantConfigWithRelations, UserTenant, UserTenantWithRelations} from '../models';

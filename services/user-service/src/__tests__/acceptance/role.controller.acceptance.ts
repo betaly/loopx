@@ -1,8 +1,6 @@
-﻿import * as jwt from 'jsonwebtoken';
-
+﻿import {AuthenticationBindings} from '@bleco/authentication';
 import {Client, expect} from '@loopback/testlab';
-
-import {AuthenticationBindings} from '@bleco/authentication';
+import * as jwt from 'jsonwebtoken';
 
 import {PermissionKey} from '../../enums';
 import {Role} from '../../models';

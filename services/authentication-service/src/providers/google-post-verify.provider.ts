@@ -1,8 +1,6 @@
-﻿import * as GoogleStrategy from 'passport-google-oauth20';
-
+﻿import {IAuthUser} from '@bleco/authentication';
 import {Provider} from '@loopback/context';
-
-import {IAuthUser} from '@bleco/authentication';
+import * as GoogleStrategy from 'passport-google-oauth20';
 
 import {GooglePostVerifyFn} from './types';
 

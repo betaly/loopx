@@ -1,25 +1,23 @@
+import {
+  authenticate,
+  authenticateClient,
+  AuthenticationBindings,
+  AuthenticationErrors,
+  STRATEGY,
+} from '@bleco/authentication';
+import {authorize} from '@bleco/authorization';
 import {inject} from '@loopback/context';
 import {repository} from '@loopback/repository';
 import {
-  RequestWithSession,
-  Response,
-  RestBindings,
   get,
   getModelSchemaRef,
   param,
   post,
   requestBody,
+  RequestWithSession,
+  Response,
+  RestBindings,
 } from '@loopback/rest';
-
-import {
-  AuthenticationBindings,
-  AuthenticationErrors,
-  STRATEGY,
-  authenticate,
-  authenticateClient,
-} from '@bleco/authentication';
-import {authorize} from '@bleco/authorization';
-
 import {CONTENT_TYPE, ILogger, LOGGER, STATUS_CODE, X_TS_TYPE} from '@loopx/core';
 
 import {AuthCodeBindings, AuthCodeGeneratorFn} from '../../providers';

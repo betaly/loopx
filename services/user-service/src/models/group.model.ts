@@ -1,5 +1,4 @@
-﻿import {DataObject, Model, hasMany, model, property} from '@loopback/repository';
-
+﻿import {DataObject, hasMany, Model, model, property} from '@loopback/repository';
 import {UserUpdatableEntity} from '@loopx/core';
 
 import {UserTenantGroupType} from '../enums';

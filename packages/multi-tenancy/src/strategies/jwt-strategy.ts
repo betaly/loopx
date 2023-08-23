@@ -1,8 +1,7 @@
-import debugFactory from 'debug';
-import {decode} from 'jsonwebtoken';
-
 import {inject} from '@loopback/core';
 import {RequestContext} from '@loopback/rest';
+import debugFactory from 'debug';
+import {decode} from 'jsonwebtoken';
 
 import {MultiTenancyBindings} from '../keys';
 import {MultiTenancyStrategy, TenantResolverFn} from '../types';

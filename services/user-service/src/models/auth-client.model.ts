@@ -1,7 +1,5 @@
-﻿import {DataObject, Model, model, property} from '@loopback/repository';
-
-import {IAuthClient} from '@bleco/authentication';
-
+﻿import {IAuthClient} from '@bleco/authentication';
+import {DataObject, Model, model, property} from '@loopback/repository';
 import {UserUpdatableEntity} from '@loopx/core';
 
 @model({

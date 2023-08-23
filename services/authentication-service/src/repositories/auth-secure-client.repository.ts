@@ -1,7 +1,6 @@
+import {DefaultSoftCrudRepository} from '@bleco/soft-delete';
 import {inject} from '@loopback/core';
 import {juggler} from '@loopback/repository';
-
-import {DefaultSoftCrudRepository} from '@bleco/soft-delete';
 
 import {AuthSecureClient, AuthSecureClientTypes} from '../models';
 import {AuthDbSourceName} from '../types';

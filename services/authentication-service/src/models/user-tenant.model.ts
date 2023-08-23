@@ -1,11 +1,10 @@
 import {belongsTo, hasMany, model, property} from '@loopback/repository';
-
 import {IUserPrefs, ModelTypes, UserStatus, UserUpdatableEntity} from '@loopx/core';
 
 import {Role, RoleWithRelations} from './role.model';
 import {Tenant, TenantWithRelations} from './tenant.model';
-import {UserLevelPermission} from './user-level-permission.model';
 import {User, UserWithRelations} from './user.model';
+import {UserLevelPermission} from './user-level-permission.model';
 
 @model({
   name: 'user_tenants',

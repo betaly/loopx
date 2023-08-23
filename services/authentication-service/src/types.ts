@@ -1,7 +1,5 @@
-import {AnyObject} from '@loopback/repository';
-
 import {STRATEGY} from '@bleco/authentication';
-
+import {AnyObject} from '@loopback/repository';
 import {IServiceConfig} from '@loopx/core';
 
 import {OtpMethodType} from './enums';

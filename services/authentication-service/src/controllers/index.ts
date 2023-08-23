@@ -18,10 +18,10 @@ import {TokensController} from './tokens.controller';
 export * from '../modules/auth/login.controller';
 export * from '../modules/auth/logout.controller';
 export * from '../modules/auth/otp.controller';
-export * from './tokens.controller';
 export * from './forget-password.controller';
-export * from './signup.controller';
 export * from './login-activity.controller';
+export * from './signup.controller';
+export * from './tokens.controller';
 
 export const controllers = [
   TokensController,

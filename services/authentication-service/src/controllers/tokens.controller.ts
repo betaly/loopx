@@ -1,21 +1,18 @@
-import {BErrors} from 'berrors';
-import * as jwt from 'jsonwebtoken';
-
-import {inject} from '@loopback/context';
-import {service} from '@loopback/core';
-import {AnyObject, repository} from '@loopback/repository';
-import {get, post, requestBody} from '@loopback/rest';
-
 import {
+  authenticate,
   AuthenticationBindings,
   AuthenticationErrors,
   ClientAuthCode,
   STRATEGY,
-  authenticate,
 } from '@bleco/authentication';
 import {authorize} from '@bleco/authorization';
-
+import {inject} from '@loopback/context';
+import {service} from '@loopback/core';
+import {AnyObject, repository} from '@loopback/repository';
+import {get, post, requestBody} from '@loopback/rest';
 import {CONTENT_TYPE, ErrorCodes, ILogger, LOGGER, OPERATION_SECURITY_SPEC, STATUS_CODE, X_TS_TYPE} from '@loopx/core';
+import {BErrors} from 'berrors';
+import * as jwt from 'jsonwebtoken';
 
 import {LoginType} from '../enums';
 import {RefreshToken, User} from '../models';

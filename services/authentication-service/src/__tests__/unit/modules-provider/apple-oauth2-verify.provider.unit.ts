@@ -1,9 +1,7 @@
-﻿import * as AppleStrategy from 'passport-apple';
+﻿import {IAuthUser} from '@bleco/authentication';
+import {createStubInstance, expect, StubbedInstanceWithSinonAccessor} from '@loopback/testlab';
+import * as AppleStrategy from 'passport-apple';
 import sinon from 'sinon';
-
-import {StubbedInstanceWithSinonAccessor, createStubInstance, expect} from '@loopback/testlab';
-
-import {IAuthUser} from '@bleco/authentication';
 
 import {User, UserCredentials, UserCredentialsWithRelations, UserWithRelations} from '../../../models';
 import {AppleOauth2VerifyProvider} from '../../../modules/auth/providers/apple-oauth2-verify.provider';

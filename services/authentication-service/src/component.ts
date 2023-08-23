@@ -1,31 +1,28 @@
-import bodyParser from 'body-parser';
-import cookieParser from 'cookie-parser';
-
+import {
+  AuthenticationBindings,
+  AuthenticationComponent,
+  AuthenticationConfig,
+  Strategies,
+  STRATEGY,
+} from '@bleco/authentication';
+import {AuthorizationBindings, AuthorizationComponent} from '@bleco/authorization';
 import {
   Binding,
   Component,
   ContextTags,
   ControllerClass,
   CoreBindings,
-  ProviderMap,
-  ServiceOrProviderClass,
   inject,
   injectable,
+  ProviderMap,
+  ServiceOrProviderClass,
 } from '@loopback/core';
 import {Class, Model, Repository} from '@loopback/repository';
 import {RestApplication, RestBindings} from '@loopback/rest';
-
-import {
-  AuthenticationBindings,
-  AuthenticationComponent,
-  AuthenticationConfig,
-  STRATEGY,
-  Strategies,
-} from '@bleco/authentication';
-import {AuthorizationBindings, AuthorizationComponent} from '@bleco/authorization';
-
-import {CoreComponent, LxCoreBindings, SECURITY_SCHEME_SPEC, matchResources} from '@loopx/core';
+import {CoreComponent, LxCoreBindings, matchResources, SECURITY_SCHEME_SPEC} from '@loopx/core';
 import {MultiTenancyActionOptions, MultiTenancyBindings, MultiTenancyComponent} from '@loopx/multi-tenancy';
+import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
 
 import {ConfigAliaser} from './aliaser';
 import {controllers} from './controllers';
@@ -34,9 +31,9 @@ import {AuthServiceBindings} from './keys';
 import {models} from './models';
 import {
   AppleOauth2VerifyProvider,
-  AuthUser,
   AuthaLogoutProvider,
   AuthaVerifyProvider,
+  AuthUser,
   AzureAdVerifyProvider,
   BearerTokenVerifyProvider,
   ClientPasswordVerifyProvider,
@@ -58,10 +55,10 @@ import {
   AppleOauth2SignupProvider,
   ApplePostVerifyProvider,
   ApplePreVerifyProvider,
-  AuthEntityBindings,
   AuthaPostVerifyProvider,
   AuthaPreVerifyProvider,
   AuthaSignupProvider,
+  AuthEntityBindings,
   AzureAdSignupProvider,
   AzurePostVerifyProvider,
   AzurePreVerifyProvider,
@@ -81,9 +78,9 @@ import {
   InstagramPreVerifyProvider,
   JWTAsymmetricSignerProvider,
   JWTAsymmetricVerifierProvider,
+  JwtPayloadProvider,
   JWTSymmetricSignerProvider,
   JWTSymmetricVerifierProvider,
-  JwtPayloadProvider,
   KeyCloakPostVerifyProvider,
   KeyCloakPreVerifyProvider,
   KeyCloakSignupProvider,

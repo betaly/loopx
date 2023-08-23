@@ -1,10 +1,8 @@
-﻿import {inject} from '@loopback/context';
+﻿import {authenticate, AuthenticationBindings, STRATEGY} from '@bleco/authentication';
+import {authorize} from '@bleco/authorization';
+import {inject} from '@loopback/context';
 import {Filter, repository} from '@loopback/repository';
 import {get, getFilterSchemaFor, getModelSchemaRef, param, post, requestBody} from '@loopback/rest';
-
-import {AuthenticationBindings, STRATEGY, authenticate} from '@bleco/authentication';
-import {authorize} from '@bleco/authorization';
-
 import {CONTENT_TYPE, IAuthUserWithPermissions, STATUS_CODE} from '@loopx/core';
 
 import {PermissionKey} from '../enums';

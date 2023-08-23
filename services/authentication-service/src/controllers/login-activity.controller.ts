@@ -1,21 +1,18 @@
-import moment from 'moment';
-
+import {authenticate, STRATEGY} from '@bleco/authentication';
+import {authorize} from '@bleco/authorization';
 import {inject} from '@loopback/core';
-import {Count, CountSchema, Filter, Where, repository} from '@loopback/repository';
+import {Count, CountSchema, Filter, repository, Where} from '@loopback/repository';
 import {
-  ResponseObject,
-  RestBindings,
   get,
   getFilterSchemaFor,
   getModelSchemaRef,
   getWhereSchemaFor,
   param,
+  ResponseObject,
+  RestBindings,
 } from '@loopback/rest';
-
-import {STRATEGY, authenticate} from '@bleco/authentication';
-import {authorize} from '@bleco/authorization';
-
 import {CONTENT_TYPE, OPERATION_SECURITY_SPEC, STATUS_CODE} from '@loopx/core';
+import moment from 'moment';
 
 import {ActiveUsersRange, PermissionKey} from '../enums';
 import {LoginActivity} from '../models';

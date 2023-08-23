@@ -1,6 +1,5 @@
-﻿import {BindingKey} from '@loopback/context';
-
-import {IAuthUser} from '@bleco/authentication';
+﻿import {IAuthUser} from '@bleco/authentication';
+import {BindingKey} from '@loopback/context';
 
 import {BINDING_PREFIX} from './globals';
 

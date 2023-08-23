@@ -1,4 +1,4 @@
-﻿import {Provider, inject} from '@loopback/core';
+﻿import {inject, Provider} from '@loopback/core';
 
 import {LxCoreBindings} from '../../../keys';
 import {CoreConfig} from '../../../types';

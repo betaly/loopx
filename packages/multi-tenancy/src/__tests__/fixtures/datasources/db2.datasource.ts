@@ -2,7 +2,7 @@
 // Node module: @loopback/example-multi-tenancy
 // This file is licensed under the MIT License.
 // License text available at https://opensource.org/licenses/MIT
-import {LifeCycleObserver, inject, lifeCycleObserver} from '@loopback/core';
+import {inject, LifeCycleObserver, lifeCycleObserver} from '@loopback/core';
 import {juggler} from '@loopback/repository';
 
 const config = {
