@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.6.6](https://github.com/betaly/loopx/compare/@loopx/authentication-service@0.6.5...@loopx/authentication-service@0.6.6) (2023-08-23)
+
+
+### Bug Fixes
+
+* **authentication-service:** tenant resolver to return undefined if we can not find by id ([9af5170](https://github.com/betaly/loopx/commit/9af5170686d2f62e83375dc97e2bb4aff9444a96))
+
+
+
+
+
 ## [0.6.5](https://github.com/betaly/loopx/compare/@loopx/authentication-service@0.6.4...@loopx/authentication-service@0.6.5) (2023-08-22)
 
 **Note:** Version bump only for package @loopx/authentication-service
