@@ -1,5 +1,12 @@
 
 
+## [0.9.6](https://github.com/betaly/loopx/compare/0.9.5...0.9.6) (2023-08-23)
+
+
+### Bug Fixes
+
+* **authentication-service:** tenant resolver to return undefined if we can not find by id ([9af5170](https://github.com/betaly/loopx/commit/9af5170686d2f62e83375dc97e2bb4aff9444a96))
+
 ## [0.9.5](https://github.com/betaly/loopx/compare/0.9.4...0.9.5) (2023-08-23)
 
 ## [0.9.4](https://github.com/betaly/loopx/compare/0.9.3...0.9.4) (2023-08-22)
