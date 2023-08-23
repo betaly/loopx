@@ -108,7 +108,7 @@ export class Seeder implements LifeCycleObserver {
     await this.userOpsService.createUser(
       new UserDto({
         username: superadminUsername,
-        email: 'admin@taok.io',
+        email: `${superadminUsername}@example.com`,
         roleId: adminRole.id,
         tenantId: defaultTenant.id,
         password: superadminPassword,
