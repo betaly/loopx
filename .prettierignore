@@ -7,3 +7,4 @@ clients/*/dist
 *.json
 CHANGELOG.md
 *.yml
+openapi.md
