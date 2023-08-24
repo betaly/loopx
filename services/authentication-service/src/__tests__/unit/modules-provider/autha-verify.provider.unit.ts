@@ -26,6 +26,7 @@ describe('Autha Verify Provider', () => {
   const refreshToken = 'test_refresh_token';
   const profile = {
     id: '1',
+    email: 'xyz@gmail.com',
     _json: {
       email: 'xyz@gmail.com',
     },
@@ -50,18 +51,18 @@ describe('Autha Verify Provider', () => {
       expect(result).to.be.Function();
     });
 
-    it('return error promise for no user', async () => {
+    it('return error promise with bad profile', async () => {
       const func = authaVerifyProvider.value();
-      const result = await func(accessToken, refreshToken, profile).catch(err => err.message);
-      expect(result).to.be.eql('Invalid Credentials');
+      const result = await func(accessToken, refreshToken, {}).catch(err => err.errorCode);
+      expect(result).to.be.eql('invalid_credentials');
     });
 
     it('return error promise if there is no user cred', async () => {
       const findOne = userRepo.stubs.findOne;
       findOne.resolves(user as UserWithRelations);
       const func = authaVerifyProvider.value();
-      const result = await func(accessToken, refreshToken, profile).catch(err => err.message);
-      expect(result).to.be.eql('Invalid Credentials');
+      const result = await func(accessToken, refreshToken, profile).catch(err => err.errorCode);
+      expect(result).to.be.eql('invalid_credentials');
       sinon.assert.calledOnce(findOne);
     });
 

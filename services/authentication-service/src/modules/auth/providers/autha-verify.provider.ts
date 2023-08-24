@@ -3,6 +3,7 @@ import {AuthenticationErrors, IAuthUser, VerifyFunction} from '@bleco/authentica
 import {inject, Provider} from '@loopback/context';
 import {Where} from '@loopback/filter/src/query';
 import {repository} from '@loopback/repository';
+import {AuthProvider} from '@loopx/core';
 
 import {User} from '../../../models';
 import {AuthaPostVerifyFn, AuthaPreVerifyFn, AuthaSignUpFn, SignUpBindings, VerifyBindings} from '../../../providers';
@@ -34,6 +35,9 @@ export class AuthaVerifyProvider implements Provider<VerifyFunction.AuthaFn> {
       }
       if (profile.username) {
         or.push({username: profile.username});
+      }
+      if (!or.length) {
+        throw new AuthenticationErrors.InvalidCredentials('No email, phone or username provided');
       }
       let user: IAuthUser | null = await this.userRepository.findOne({
         where: {or},
