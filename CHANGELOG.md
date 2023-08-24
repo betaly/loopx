@@ -1,5 +1,12 @@
 
 
+# [0.10.0](https://github.com/betaly/loopx/compare/0.9.6...0.10.0) (2023-08-24)
+
+
+### Features
+
+* **auth:** improve autha-verify provider logic (main) ([60c0bde](https://github.com/betaly/loopx/commit/60c0bde7150d86e7c13013979b7bc94912f473ca))
+
 ## [0.9.6](https://github.com/betaly/loopx/compare/0.9.5...0.9.6) (2023-08-23)
 
 
