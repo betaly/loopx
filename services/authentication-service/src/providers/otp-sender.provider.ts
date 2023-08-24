@@ -15,12 +15,12 @@ export class OtpSenderProvider implements Provider<OtpSenderFn> {
 
   value(): OtpSenderFn {
     return async (otp: string, request: IOtpRequest) => {
-      if (request.conn === 'email') {
+      if (request.method === 'email') {
         return this.sendEmail(otp, request);
-      } else if (request.conn === 'sms') {
+      } else if (request.method === 'sms') {
         return this.sendSms(otp, request);
       } else {
-        throw new BErrors.BadRequest('Unsupported otp request connection type: ' + request.conn);
+        throw new BErrors.BadRequest('Unsupported otp request connection type: ' + request.method);
       }
     };
   }

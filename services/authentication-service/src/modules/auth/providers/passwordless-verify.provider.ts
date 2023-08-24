@@ -29,44 +29,43 @@ export class PasswordlessVerifyProvider implements Provider<VerifyFunction.OtpAu
   ) {}
 
   value(): VerifyFunction.OtpAuthFn {
-    return async (uci: string, otp: string) => {
-      let request = OtpRequest.from(uci);
+    return async (contact: string, otp: string) => {
+      let request = OtpRequest.from(contact);
 
-      const userPropKey = request ? request.key : 'username';
-      const userPropValue = request ? request.upn : uci;
+      const contactPropName = request ? request.contactPropName : 'username';
 
       const user = (await this.userRepository.findOne({
         where: {
-          [userPropKey]: userPropValue,
+          [contactPropName]: contact,
         },
       })) as User;
 
       if (!request) {
         if (!user) {
-          this.logger.error(`Invalid OTP Request. Cannot find user with {${userPropKey}: "${userPropValue}"}`);
+          this.logger.error(`Invalid OTP Request. Cannot find user with {${contactPropName}: "${contact}"}`);
           throw new AuthenticationErrors.InvalidCredentials();
         }
-        request = OtpRequest.fromUser(user, uci);
+        request = OtpRequest.fromUser(user, contact);
       }
 
       request.user = user;
 
       // sender
       if (!otp) {
-        this.logger.debug(`Sending OTP to ${uci}`);
+        this.logger.debug(`Sending OTP to ${contact}`);
         await this.otpService.sendOtp(request, this.client);
         // create a fake user to avoid pass the passport validation
         return (
           user ??
           new User({
-            [request.key]: request.upn,
+            [request.contactPropName]: request.contact,
           })
         );
       }
 
       // verifier
-      this.logger.debug(`Verifying OTP for ${uci}`);
-      const otpCache = await this.otpCacheRepo.get(request.uci);
+      this.logger.debug(`Verifying OTP for ${contact}`);
+      const otpCache = await this.otpCacheRepo.get(request.contact);
       if (!otpCache) {
         this.logger.error('Invalid OTP Request');
         throw new AuthenticationErrors.OtpExpired();
@@ -85,9 +84,9 @@ export class PasswordlessVerifyProvider implements Provider<VerifyFunction.OtpAu
 
       // otp validation passed, sign up the user if not exists
       if (!user) {
-        this.logger.debug(`Signing up user ${request.upn}`);
+        this.logger.debug(`Signing up user ${request.contact}`);
         const newUser = await this.signup({
-          [request.key]: request.upn,
+          [request.contactPropName]: request.contact,
         });
         if (!newUser.id) {
           throw new AuthenticationErrors.InvalidCredentials();

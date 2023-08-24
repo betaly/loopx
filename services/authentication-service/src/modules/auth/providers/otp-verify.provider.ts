@@ -25,25 +25,24 @@ export class OtpVerifyProvider implements Provider<VerifyFunction.OtpAuthFn> {
   ) {}
 
   value(): VerifyFunction.OtpAuthFn {
-    return async (uci: string, otp: string) => {
-      let request = OtpRequest.from(uci);
+    return async (contact: string, otp: string) => {
+      let request = OtpRequest.from(contact);
 
-      const userPropKey = request ? request.key : 'username';
-      const userPropValue = request ? request.upn : uci;
+      const contactPropName = request ? request.contactPropName : 'username';
 
       const user = (await this.userRepository.findOne({
         where: {
-          [userPropKey]: userPropValue,
+          [contactPropName]: contact,
         },
       })) as User;
 
       if (!user) {
-        this.logger.error(`Invalid OTP Request. Cannot find user with {${userPropKey}: "${userPropValue}"}`);
+        this.logger.error(`Invalid OTP Request. Cannot find user with {${contactPropName}: "${contact}"}`);
         throw new AuthenticationErrors.InvalidCredentials();
       }
 
       if (!request) {
-        request = OtpRequest.fromUser(user, uci);
+        request = OtpRequest.fromUser(user, contact);
       }
       request.user = user;
 
@@ -54,7 +53,7 @@ export class OtpVerifyProvider implements Provider<VerifyFunction.OtpAuthFn> {
       }
 
       // verifier
-      const otpCache = await this.otpCacheRepo.get(request.uci);
+      const otpCache = await this.otpCacheRepo.get(request.contact);
       if (!otpCache) {
         this.logger.error('Invalid OTP Request');
         throw new AuthenticationErrors.OtpExpired();

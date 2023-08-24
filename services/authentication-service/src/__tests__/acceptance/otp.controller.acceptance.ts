@@ -148,7 +148,7 @@ describe('OTP Controller', () => {
       const reqData = {
         client_id: 'web',
         client_secret: 'test',
-        key: 'email:new_user@example.com',
+        key: 'new_user@example.com',
       };
       await client.post(`/auth/send-otp`).send(reqData).expect(401);
     });
@@ -157,7 +157,7 @@ describe('OTP Controller', () => {
       const reqData = {
         client_id: 'web',
         client_secret: 'test',
-        key: 'sms:12673800457',
+        key: '12673800457',
       };
       await client.post(`/auth/send-otp`).send(reqData).expect(401);
     });

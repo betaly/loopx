@@ -39,7 +39,7 @@ describe('Passwordless Auth Flow', () => {
     const reqDataForSendOtp = {
       client_id: 'web',
       client_secret: 'test',
-      key: 'sms:12673800457',
+      key: '+12673800457',
     };
     await client.post(`${basePath}/start`).send(reqDataForSendOtp);
 

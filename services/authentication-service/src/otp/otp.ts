@@ -1,50 +1,45 @@
 import {User} from '../models';
-import {IOtpRequest, OtpRequestConnectionType} from '../types';
+import {IOtpRequest, OtpRequestMethod} from '../types';
+import {isValidEmail} from '../utils/email';
+import {isValidPhoneNumber} from '../utils/phone';
 
 export type OtpConnectionUserKey = 'phone' | 'email';
 
-export const OtpSupportedConnections: OtpRequestConnectionType[] = ['sms', 'email'];
-export const OtpConnectionUserKeyMap: Record<OtpRequestConnectionType, OtpConnectionUserKey> = {
+export const OtpSupportedMethods: OtpRequestMethod[] = ['sms', 'email'];
+export const OtpMethodUserKeyMap: Record<OtpRequestMethod, OtpConnectionUserKey> = {
   sms: 'phone',
   email: 'email',
 };
 
 export class OtpRequest implements IOtpRequest {
-  public readonly uci: string;
-  public conn: OtpRequestConnectionType;
-  public upn: string;
-  public user?: User | null;
-  public key: OtpConnectionUserKey;
+  readonly contactPropName: string;
 
-  constructor(uci: string, connection: OtpRequestConnectionType, upn: string, user?: User) {
-    this.uci = uci;
-    this.conn = connection;
-    this.upn = upn;
-    this.key = OtpConnectionUserKeyMap[this.conn];
-    this.user = user || null;
+  constructor(readonly method: OtpRequestMethod, readonly contact: string, public user?: User) {
+    this.contactPropName = OtpMethodUserKeyMap[this.method];
   }
 
-  static from(uci: string): OtpRequest | undefined {
-    const parts = uci.split(':', 2).map(s => s.trim());
-    if (parts.length === 1) {
-      return;
+  static from(contact: string): OtpRequest | undefined {
+    const method = resolveMethodByContact(contact);
+    if (method) {
+      return new OtpRequest(method, contact);
     }
-
-    const connection = parts[0] as OtpRequestConnectionType;
-    if (!OtpSupportedConnections.includes(connection)) {
-      throw new Error(`Invalid otp request, unsupported connection type: ${connection}`);
-    }
-    const target = parts[1];
-    return new OtpRequest(uci, connection, target);
   }
 
-  static fromUser(user: User, uci: string): OtpRequest {
-    for (const conn of OtpSupportedConnections) {
-      const key = OtpConnectionUserKeyMap[conn];
+  static fromUser(user: User, contact: string): OtpRequest {
+    for (const method of OtpSupportedMethods) {
+      const key = OtpMethodUserKeyMap[method];
       if (user[key]) {
-        return new OtpRequest(uci, conn, user[key] as string, user);
+        return new OtpRequest(method, contact, user);
       }
     }
     throw new Error(`Cannot find any contact (both email and phone number) from user ${user.id}`);
+  }
+}
+
+function resolveMethodByContact(contact: string): OtpRequestMethod | undefined {
+  if (isValidEmail(contact)) {
+    return 'email';
+  } else if (isValidPhoneNumber(contact)) {
+    return 'sms';
   }
 }

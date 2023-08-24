@@ -37,8 +37,8 @@ export class OtpService {
 
     const res: OtpResponse = await this.otpSender(req);
 
-    await this.otpCacheRepo.delete(req.uci);
-    await this.otpCacheRepo.set(req.uci, {
+    await this.otpCacheRepo.delete(req.contact);
+    await this.otpCacheRepo.set(req.contact, {
       otpSecret: res.key,
       clientId: client.clientId,
       clientSecret: client.secret,

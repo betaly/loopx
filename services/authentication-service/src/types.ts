@@ -58,24 +58,17 @@ export interface ActiveUsersGroupData {
   };
 }
 
-export type OtpRequestConnectionType = 'email' | 'sms';
+export type OtpRequestMethod = 'email' | 'sms';
 
 export interface IOtpRequest {
   /**
-   * The user contact identifier of the user. It is a string in the format of `<conn>:<upn>`.
-   * For example:
-   * - email:xyz@example.com
-   * - sms:+1234567890
-   */
-  readonly uci: string;
-  /**
    * The connection type of the user contact identifier.
    */
-  conn: OtpRequestConnectionType;
+  method: OtpRequestMethod;
   /**
-   * User principal name. It can be phone number or email address.
+   * The contact identifier. It can be phone number or email address.
    */
-  upn: string;
+  contact: string;
   /**
    * The user object if the user is already registered.
    */

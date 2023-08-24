@@ -1,11 +1,9 @@
-import {PhoneNumberFormat, PhoneNumberUtil} from 'google-libphonenumber';
+import parsePhoneNumber from 'libphonenumber-js';
 
-const phoneUtil = PhoneNumberUtil.getInstance();
-
-export function isValidPhoneNumber(number: string) {
-  return phoneUtil.isValidNumber(phoneUtil.parseAndKeepRawInput(number, 'CN'));
-}
+export {isValidPhoneNumber} from 'libphonenumber-js';
 
 export function normalizePhoneNumber(number: string) {
-  return phoneUtil.format(phoneUtil.parseAndKeepRawInput(number, 'CN'), PhoneNumberFormat.E164);
+  // return phoneUtil.format(phoneUtil.parseAndKeepRawInput(number, 'CN'), PhoneNumberFormat.E164);
+  const phoneNumber = parsePhoneNumber(number);
+  return phoneNumber?.format('E.164');
 }
