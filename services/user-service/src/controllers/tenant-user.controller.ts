@@ -14,12 +14,12 @@ import {
   requestBody,
 } from '@loopback/rest';
 import {CONTENT_TYPE, ErrorCodes, IAuthUserWithPermissions, OPERATION_SECURITY_SPEC, STATUS_CODE} from '@loopx/core';
-import {ITenant, MultiTenancyBindings} from '@loopx/multi-tenancy';
+import {TENANT_HEADER_NAME} from '@loopx/multi-tenancy';
 
 import {PermissionKey, RoleKey} from '../enums';
 import {UserDto, UserView} from '../models';
 import {NonRestrictedUserViewRepository, UserViewRepository} from '../repositories';
-import {UserOperationsService} from '../services/user-operations.service';
+import {UserOperationsService} from '../services';
 
 const basePath = '/users';
 const superAdminRoleType = 10;
@@ -64,8 +64,11 @@ export class TenantUserController {
   async find(
     @inject(AuthenticationBindings.CURRENT_USER)
     currentUser: IAuthUserWithPermissions,
-    @inject(MultiTenancyBindings.CURRENT_TENANT)
-    {id}: ITenant,
+    @param.header.string(TENANT_HEADER_NAME, {
+      required: true,
+      description: 'The unique Id of the tenant used to scope this API request.',
+    })
+    id: string,
     @param.query.object('filter', getFilterSchemaFor(UserView))
     filter?: Filter<UserView>,
   ): Promise<UserView[]> {
@@ -116,8 +119,11 @@ export class TenantUserController {
     },
   })
   async findAllUsers(
-    @inject(MultiTenancyBindings.CURRENT_TENANT)
-    {id}: ITenant,
+    @param.header.string(TENANT_HEADER_NAME, {
+      required: true,
+      description: 'The unique Id of the tenant used to scope this API request.',
+    })
+    id: string,
     @param.query.object('filter', getFilterSchemaFor(UserView))
     filter?: Filter<UserView>,
   ): Promise<UserView[]> {
@@ -155,8 +161,11 @@ export class TenantUserController {
   async count(
     @inject(AuthenticationBindings.CURRENT_USER)
     currentUser: IAuthUserWithPermissions,
-    @inject(MultiTenancyBindings.CURRENT_TENANT)
-    {id}: ITenant,
+    @param.header.string(TENANT_HEADER_NAME, {
+      required: true,
+      description: 'The unique Id of the tenant used to scope this API request.',
+    })
+    id: string,
     @param.query.object('where')
     where?: Where<UserView>,
   ): Promise<Count> {
@@ -218,8 +227,11 @@ export class TenantUserController {
   async findById(
     @inject(AuthenticationBindings.CURRENT_USER)
     currentUser: IAuthUserWithPermissions,
-    @inject(MultiTenancyBindings.CURRENT_TENANT)
-    {id}: ITenant,
+    @param.header.string(TENANT_HEADER_NAME, {
+      required: true,
+      description: 'The unique Id of the tenant used to scope this API request.',
+    })
+    id: string,
     @param.path.string('userid') userId: string,
     @param.query.object('filter', getFilterSchemaFor(UserView))
     filter?: Filter<UserView>,
@@ -266,8 +278,11 @@ export class TenantUserController {
     },
   })
   async create(
-    @inject(MultiTenancyBindings.CURRENT_TENANT)
-    {id}: ITenant,
+    @param.header.string(TENANT_HEADER_NAME, {
+      required: true,
+      description: 'The unique Id of the tenant used to scope this API request.',
+    })
+    id: string,
     @requestBody({
       content: {
         [CONTENT_TYPE.JSON]: {
@@ -322,8 +337,11 @@ export class TenantUserController {
     @param.header.string('Authorization') token: string,
     @inject(AuthenticationBindings.CURRENT_USER)
     currentUser: IAuthUserWithPermissions,
-    @inject(MultiTenancyBindings.CURRENT_TENANT)
-    {id}: ITenant,
+    @param.header.string(TENANT_HEADER_NAME, {
+      required: true,
+      description: 'The unique Id of the tenant used to scope this API request.',
+    })
+    id: string,
     @param.path.string('userId') userId: string,
     @requestBody({
       content: {
@@ -367,8 +385,11 @@ export class TenantUserController {
   async deleteById(
     @inject(AuthenticationBindings.CURRENT_USER)
     currentUser: IAuthUserWithPermissions,
-    @inject(MultiTenancyBindings.CURRENT_TENANT)
-    {id}: ITenant,
+    @param.header.string(TENANT_HEADER_NAME, {
+      required: true,
+      description: 'The unique Id of the tenant used to scope this API request.',
+    })
+    id: string,
     @param.path.string('userId') userId: string,
   ): Promise<void> {
     await this.userOpService.deleteById(currentUser, userId, id);

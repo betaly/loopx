@@ -1,6 +1,6 @@
 ﻿import {AuthenticationBindings} from '@bleco/authentication';
 import {Client, expect} from '@loopback/testlab';
-import {MultiTenancyBindings} from '@loopx/multi-tenancy';
+import {TENANT_HEADER_NAME} from '@loopx/multi-tenancy';
 import * as jwt from 'jsonwebtoken';
 
 import {PermissionKey} from '../../enums';
@@ -56,19 +56,19 @@ describe('TenantUser Controller', function () {
   });
 
   it('gives status 200 when token is passed ', async () => {
-    await client.get(`/users`).set('authorization', `Bearer ${token}`).expect(200);
+    await client.get(`/users`).set(TENANT_HEADER_NAME, id).set('authorization', `Bearer ${token}`).expect(200);
   });
 
   it('gives view-all when token is passed ', async () => {
-    await client.get(`/users/view-all`).set('authorization', `Bearer ${token}`).expect(200);
+    await client.get(`/users/view-all`).set(TENANT_HEADER_NAME, id).set('authorization', `Bearer ${token}`).expect(200);
   });
 
   it('gives count when token is passed ', async () => {
-    await client.get(`/users/count`).set('authorization', `Bearer ${token}`).expect(200);
+    await client.get(`/users/count`).set(TENANT_HEADER_NAME, id).set('authorization', `Bearer ${token}`).expect(200);
   });
 
   it('when user details is not present and token is passed gives 404', async () => {
-    await client.get(`/users/${id}`).set('authorization', `Bearer ${token}`).expect(404);
+    await client.get(`/users/${id}`).set(TENANT_HEADER_NAME, id).set('authorization', `Bearer ${token}`).expect(404);
   });
 
   it('gives status 404 when entity not found', async () => {
@@ -82,12 +82,17 @@ describe('TenantUser Controller', function () {
         firstName: 'test_user',
       },
     };
-    await client.post(`/users`).set('authorization', `Bearer ${token}`).send(newUser).expect(404);
+    await client
+      .post(`/users`)
+      .set(TENANT_HEADER_NAME, id)
+      .set('authorization', `Bearer ${token}`)
+      .send(newUser)
+      .expect(404);
   });
 
   function setCurrentUser() {
     app.bind(AuthenticationBindings.CURRENT_USER).to(testUser);
-    app.bind(MultiTenancyBindings.CURRENT_TENANT).to({id});
+    // app.bind(MultiTenancyBindings.CURRENT_TENANT).to({id});
     app.bind('services.UserOperationsService').toClass(UserOperationsService);
     token = jwt.sign(testUser, JWT_SECRET, {
       expiresIn: 180000,
