@@ -56,7 +56,11 @@ export class AuthaVerifyProvider implements Provider<VerifyFunction.AuthaFn> {
           userId: user.id as string,
         },
       });
-      if (!creds || creds.authProvider !== 'autha' || creds.authId !== profile.id) {
+
+      if (
+        !(creds?.authProvider === AuthProvider.AUTHA && creds?.authId === profile.id) &&
+        !(creds?.authProvider === AuthProvider.INTERNAL)
+      ) {
         throw new AuthenticationErrors.InvalidCredentials();
       }
 
