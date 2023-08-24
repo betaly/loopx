@@ -1,13 +1,13 @@
 ﻿import {inject, Provider} from '@loopback/core';
 
 import {LxCoreBindings} from '../../../keys';
-import {CoreConfig} from '../../../types';
+import {LxCoreConfig} from '../../../types';
 import {HttpAuthenticationVerifier} from '../types';
 
 export class HttpAuthenticationVerifierProvider implements Provider<HttpAuthenticationVerifier> {
   constructor(
     @inject(LxCoreBindings.config, {optional: true})
-    private readonly coreConfig: CoreConfig,
+    private readonly coreConfig: LxCoreConfig,
   ) {}
   value(): HttpAuthenticationVerifier {
     return (username, password) => {

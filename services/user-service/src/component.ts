@@ -12,7 +12,7 @@
 } from '@loopback/core';
 import {ServiceOrProviderClass} from '@loopback/core/dist/application';
 import {Class, Model, Repository} from '@loopback/repository';
-import {CoreComponent, matchResources} from '@loopx/core';
+import {LxCoreComponent, matchResources} from '@loopx/core';
 
 import {
   GroupController,
@@ -100,8 +100,8 @@ export class UserTenantServiceComponent implements Component {
     private readonly options: UserTenantServiceComponentOptions = DEFAULT_USER_TENANT_SERVICE_OPTIONS,
   ) {
     this.bindings = [];
-    if (!this.application.isBound(`${CoreBindings.COMPONENTS}.${CoreComponent.name}`)) {
-      this.application.component(CoreComponent);
+    if (!this.application.isBound(`${CoreBindings.COMPONENTS}.${LxCoreComponent.name}`)) {
+      this.application.component(LxCoreComponent);
     }
     this.models = [
       AuditLog,

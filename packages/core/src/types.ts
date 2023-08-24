@@ -11,7 +11,7 @@ export interface IServiceConfig {
   useCustomSequence: boolean;
 }
 
-export interface CoreConfig {
+export interface LxCoreConfig {
   name?: string;
   configObject?: i18n.ConfigurationOptions;
   enableObf?: boolean;

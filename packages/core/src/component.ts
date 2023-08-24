@@ -9,9 +9,9 @@ import {LoggerExtensionComponent, SwaggerAuthenticationComponent} from './compon
 import {OperationSpecEnhancer} from './enhancer/operation-spec-enhancer';
 import {LocaleKey} from './enums';
 import {LxCoreBindings, OASBindings} from './keys';
-import {CoreConfig} from './types';
+import {LxCoreConfig} from './types';
 
-export class CoreComponent implements Component {
+export class LxCoreComponent implements Component {
   localeObj: i18nAPI = {} as i18nAPI;
   providers?: ProviderMap = {};
   bindings: Binding[] = [];
@@ -20,7 +20,7 @@ export class CoreComponent implements Component {
     @inject(CoreBindings.APPLICATION_INSTANCE)
     private readonly application: RestApplication,
     @inject(LxCoreBindings.config, {optional: true})
-    private readonly coreOptions: CoreConfig,
+    private readonly coreOptions: LxCoreConfig,
     @inject(LxCoreBindings.EXPRESS_MIDDLEWARES, {optional: true})
     private readonly expressMiddlewares: ExpressRequestHandler[],
   ) {

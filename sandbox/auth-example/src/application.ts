@@ -22,7 +22,7 @@ import {
   AuthServiceBindings,
   SignUpBindings,
 } from '@loopx/authentication-service';
-import {CoreComponent, LxCoreBindings, SECURITY_SCHEME_SPEC} from '@loopx/core';
+import {LxCoreBindings, LxCoreComponent, SECURITY_SCHEME_SPEC} from '@loopx/core';
 import {UserTenantServiceBindings, UserTenantServiceComponent} from '@loopx/user-service';
 
 import {KvDataSource} from './datasources';
@@ -91,7 +91,7 @@ export class AuthExampleApplication extends BootMixin(ServiceMixin(RepositoryMix
       swaggerUsername: swaggerUsername,
       swaggerPassword: swaggerPassword,
     });
-    this.component(CoreComponent);
+    this.component(LxCoreComponent);
 
     // AuthenticationServiceComponent
     this.bind(AuthenticationBindings.CONFIG).to({

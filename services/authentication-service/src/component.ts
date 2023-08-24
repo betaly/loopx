@@ -19,7 +19,7 @@ import {
 } from '@loopback/core';
 import {Class, Model, Repository} from '@loopback/repository';
 import {RestApplication, RestBindings} from '@loopback/rest';
-import {CoreComponent, LxCoreBindings, matchResources, SECURITY_SCHEME_SPEC} from '@loopx/core';
+import {LxCoreBindings, LxCoreComponent, matchResources, SECURITY_SCHEME_SPEC} from '@loopx/core';
 import {MultiTenancyActionOptions, MultiTenancyBindings, MultiTenancyComponent} from '@loopx/multi-tenancy';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
@@ -149,9 +149,9 @@ export class AuthenticationServiceComponent implements Component {
     this.bindings = [];
     this.providers = {};
 
-    if (!this.application.isBound(`${CoreBindings.COMPONENTS}.${CoreComponent.name}`)) {
+    if (!this.application.isBound(`${CoreBindings.COMPONENTS}.${LxCoreComponent.name}`)) {
       // Mount core component
-      this.application.component(CoreComponent);
+      this.application.component(LxCoreComponent);
     }
 
     if (+(process.env.AZURE_AUTH_ENABLED ?? 0)) {
