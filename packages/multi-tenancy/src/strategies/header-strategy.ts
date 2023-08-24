@@ -7,7 +7,7 @@ import {MultiTenancyStrategy, TenantResolverFn} from '../types';
 
 const debug = debugFactory('loopx:multi-tenancy:strategy:header');
 
-export const TENANT_ID_HEADER = 'x-tenant-id';
+export const TENANT_HEADER_NAME = 'x-tenant-id';
 /**
  * Use `x-tenant-id` http header to identify the tenant id
  */
@@ -20,8 +20,8 @@ export class HeaderStrategy implements MultiTenancyStrategy {
   ) {}
 
   async identifyTenant(requestContext: RequestContext) {
-    const tenantId = requestContext.request.headers[TENANT_ID_HEADER] as string;
-    debug(TENANT_ID_HEADER, tenantId);
+    const tenantId = requestContext.request.headers[TENANT_HEADER_NAME] as string;
+    debug(TENANT_HEADER_NAME, tenantId);
     return tenantId == null ? undefined : this.resolveTenant(tenantId);
   }
 }
