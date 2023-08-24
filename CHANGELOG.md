@@ -1,5 +1,7 @@
 
 
+## [0.10.1](https://github.com/betaly/loopx/compare/0.10.0...0.10.1) (2023-08-24)
+
 # [0.10.0](https://github.com/betaly/loopx/compare/0.9.6...0.10.0) (2023-08-24)
 
 
