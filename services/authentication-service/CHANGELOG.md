@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.7.0](https://github.com/betaly/loopx/compare/@loopx/authentication-service@0.6.6...@loopx/authentication-service@0.7.0) (2023-08-24)
+
+
+### Features
+
+* **auth:** improve autha-verify provider logic (main) ([60c0bde](https://github.com/betaly/loopx/commit/60c0bde7150d86e7c13013979b7bc94912f473ca))
+
+
+
+
+
 ## [0.6.6](https://github.com/betaly/loopx/compare/@loopx/authentication-service@0.6.5...@loopx/authentication-service@0.6.6) (2023-08-23)
 
 
