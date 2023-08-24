@@ -1,6 +1,7 @@
 ﻿import * as AuthaStrategy from '@authajs/passport-autha';
 import {IAuthUser} from '@bleco/authentication';
 import {createStubInstance, expect, StubbedInstanceWithSinonAccessor} from '@loopback/testlab';
+import {AuthProvider} from '@loopx/core';
 import sinon from 'sinon';
 
 import {User, UserCredentials, UserCredentialsWithRelations, UserWithRelations} from '../../../models';
@@ -70,7 +71,7 @@ describe('Autha Verify Provider', () => {
       const userCred = new UserCredentials({
         id: '1',
         userId: '1',
-        authProvider: 'autha',
+        authProvider: AuthProvider.AUTHA,
         authId: '1',
       });
       const findOne = userRepo.stubs.findOne;
@@ -82,6 +83,54 @@ describe('Autha Verify Provider', () => {
       expect(result).to.have.properties('id', 'firstName', 'lastName', 'username', 'email');
       expect(result?.username).to.be.eql('test_user');
       sinon.assert.calledOnce(findOne);
+    });
+
+    it('should support autha profile for internal creds', async () => {
+      const userCred = new UserCredentials({
+        id: '1',
+        userId: '1',
+        authProvider: AuthProvider.INTERNAL,
+        authId: '__any_auth_id__',
+      });
+      const findOne = userRepo.stubs.findOne;
+      findOne.resolves(user as UserWithRelations);
+      const findTwo = userCredentialRepo.stubs.findOne;
+      findTwo.resolves(userCred as UserCredentialsWithRelations);
+      const func = authaVerifyProvider.value();
+      const result = await func(accessToken, refreshToken, profile);
+      expect(result).to.have.properties('id', 'firstName', 'lastName', 'username', 'email');
+      expect(result?.username).to.be.eql('test_user');
+      sinon.assert.calledOnce(findOne);
+    });
+
+    it('return reject autha profile if authId not matched', async () => {
+      const userCred = new UserCredentials({
+        id: '1',
+        userId: '1',
+        authProvider: AuthProvider.AUTHA,
+        authId: '__any_auth_id__',
+      });
+      const findOne = userRepo.stubs.findOne;
+      findOne.resolves(user as UserWithRelations);
+      const findTwo = userCredentialRepo.stubs.findOne;
+      findTwo.resolves(userCred as UserCredentialsWithRelations);
+      const func = authaVerifyProvider.value();
+      await expect(func(accessToken, refreshToken, profile)).rejectedWith('Invalid Credentials');
+    });
+
+    it('should reject autha profile except autha and internal auth provider', async () => {
+      const userCred = new UserCredentials({
+        id: '1',
+        userId: '1',
+        authProvider: AuthProvider.APPLE,
+        authId: '__any_auth_id__',
+      });
+      const findOne = userRepo.stubs.findOne;
+      findOne.resolves(user as UserWithRelations);
+      const findTwo = userCredentialRepo.stubs.findOne;
+      findTwo.resolves(userCred as UserCredentialsWithRelations);
+      const func = authaVerifyProvider.value();
+      await expect(func(accessToken, refreshToken, profile)).rejectedWith('Invalid Credentials');
     });
   });
 
