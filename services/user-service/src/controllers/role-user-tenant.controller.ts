@@ -8,7 +8,7 @@ import {PermissionKey} from '../enums';
 import {Role, UserTenant} from '../models';
 import {RoleRepository, UserTenantRepository} from '../repositories';
 
-const basePath = '/roles/{id}/user-tenants';
+const basePath = '/roles/{id}/ut';
 
 export class RoleUserTenantController {
   constructor(

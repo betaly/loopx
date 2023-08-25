@@ -1,5 +1,5 @@
 ﻿import {AuthenticationBindings} from '@bleco/authentication';
-import {Client, expect} from '@loopback/testlab';
+import {Client} from '@loopback/testlab';
 import * as jwt from 'jsonwebtoken';
 import {nanoid} from 'nanoid';
 
@@ -26,7 +26,7 @@ describe('UserTenant Controller', function () {
   let roleRepo: RoleRepository;
   let tenantRepo: TenantRepository;
   let userRepo: UserRepository;
-  const basePath = '/user-tenants';
+  const basePath = '/ut';
   let client: Client;
   let token: string;
   const pass = 'test_password';
@@ -64,11 +64,19 @@ describe('UserTenant Controller', function () {
 
   it('gives status 401 when no token is passed', async () => {
     const response = await client.get(`${basePath}/3`).expect(401);
-    expect(response).to.have.property('error');
+    expect(response).toHaveProperty('error');
   });
 
   it('gives status 404 when entity not found ', async () => {
-    await client.get(`${basePath}/${testUser.id}`).set('authorization', `Bearer ${token}`).expect(404);
+    await client.get(`${basePath}/unknown_id`).set('authorization', `Bearer ${token}`).expect(404);
+  });
+
+  it('gives status 200 when entity found', async () => {
+    const res = await client
+      .get(`${basePath}/${data.userTenantId}`)
+      .set('authorization', `Bearer ${token}`)
+      .expect(200);
+    expect(res.body).toHaveProperty('id', testUser.id);
   });
 
   async function givenRepositories() {
@@ -79,13 +87,18 @@ describe('UserTenant Controller', function () {
   }
 
   async function setupMockData() {
-    const user = await userRepo.create(
+    const [user, user2] = await userRepo.createAll([
       new User({
-        firstName: 'tenant_pref_user',
-        username: 'tenant_pref_test_user',
-        email: 'abc@xyz',
+        firstName: 'firstname1',
+        username: 'user1',
+        email: 'user1@xyz',
       }),
-    );
+      new User({
+        firstName: 'firstname2',
+        username: 'user2',
+        email: 'user2@xyz',
+      }),
+    ]);
 
     const role = await roleRepo.create(
       new Role({
@@ -105,6 +118,11 @@ describe('UserTenant Controller', function () {
     const userTenant = await userTenantRepo.create(
       new UserTenant({
         userId: user.id,
+        tenantId: tenant.id,
+        roleId: role.id,
+      }),
+      new UserTenant({
+        userId: user2.id,
         tenantId: tenant.id,
         roleId: role.id,
       }),
@@ -131,7 +149,7 @@ describe('UserTenant Controller', function () {
 
   function setCurrentUser() {
     app.bind(AuthenticationBindings.CURRENT_USER).to(testUser);
-    app.bind('services.UserOperationsService').toClass(UserOperationsService);
+    app.bind(`services.${UserOperationsService.name}`).toClass(UserOperationsService);
     token = jwt.sign(testUser, JWT_SECRET, {
       expiresIn: 180000,
       issuer: JWT_ISSUER,

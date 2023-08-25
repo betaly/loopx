@@ -17,7 +17,7 @@ import {CONTENT_TYPE, ErrorCodes, IAuthUserWithPermissions, OPERATION_SECURITY_S
 import {TENANT_HEADER_NAME} from '@loopx/multi-tenancy';
 
 import {PermissionKey, RoleKey} from '../enums';
-import {UserDto, UserView} from '../models';
+import {User, UserDto} from '../models';
 import {NonRestrictedUserViewRepository, UserViewRepository} from '../repositories';
 import {UserOperationsService} from '../services';
 
@@ -69,9 +69,9 @@ export class TenantUserController {
       description: 'The unique Id of the tenant used to scope this API request.',
     })
     id: string,
-    @param.query.object('filter', getFilterSchemaFor(UserView))
-    filter?: Filter<UserView>,
-  ): Promise<UserView[]> {
+    @param.query.object('filter', getFilterSchemaFor(User))
+    filter?: Filter<User>,
+  ): Promise<User[]> {
     if (currentUser.permissions.indexOf(PermissionKey.ViewAnyUser) < 0 && currentUser.tenantId !== id) {
       throw new AuthorizationErrors.NotAllowedAccess();
     }
@@ -82,7 +82,7 @@ export class TenantUserController {
     }
 
     const filterBuilder = new FilterBuilder(filter);
-    const whereBuilder = new WhereBuilder<UserView>();
+    const whereBuilder = new WhereBuilder<User>();
     if (whereClause) {
       whereBuilder.and(whereClause, {
         tenantId: id,
@@ -124,11 +124,11 @@ export class TenantUserController {
       description: 'The unique Id of the tenant used to scope this API request.',
     })
     id: string,
-    @param.query.object('filter', getFilterSchemaFor(UserView))
-    filter?: Filter<UserView>,
-  ): Promise<UserView[]> {
+    @param.query.object('filter', getFilterSchemaFor(User))
+    filter?: Filter<User>,
+  ): Promise<User[]> {
     const filterBuilder = new FilterBuilder(filter);
-    const whereBuilder = new WhereBuilder<UserView>();
+    const whereBuilder = new WhereBuilder<User>();
     whereBuilder.eq('tenantId', id);
     whereBuilder.neq('roleType', superAdminRoleType);
     filterBuilder.where(whereBuilder.build());
@@ -167,7 +167,7 @@ export class TenantUserController {
     })
     id: string,
     @param.query.object('where')
-    where?: Where<UserView>,
+    where?: Where<User>,
   ): Promise<Count> {
     if (currentUser.permissions.indexOf(PermissionKey.ViewAnyUser) < 0 && currentUser.tenantId !== id) {
       throw new AuthorizationErrors.NotAllowedAccess();
@@ -178,7 +178,7 @@ export class TenantUserController {
       whereClause = await this.userOpService.checkViewTenantRestrictedPermissions(currentUser, where);
     }
 
-    const whereBuilder = new WhereBuilder<UserView>();
+    const whereBuilder = new WhereBuilder<User>();
     if (whereClause) {
       whereBuilder.and(whereClause, {
         tenantId: id,
@@ -216,7 +216,7 @@ export class TenantUserController {
         description: 'User model instance',
         content: {
           [CONTENT_TYPE.JSON]: {
-            schema: getModelSchemaRef(UserView, {
+            schema: getModelSchemaRef(User, {
               includeRelations: true,
             }),
           },
@@ -233,9 +233,9 @@ export class TenantUserController {
     })
     id: string,
     @param.path.string('userid') userId: string,
-    @param.query.object('filter', getFilterSchemaFor(UserView))
-    filter?: Filter<UserView>,
-  ): Promise<UserView> {
+    @param.query.object('filter', getFilterSchemaFor(User))
+    filter?: Filter<User>,
+  ): Promise<User> {
     if (currentUser.permissions.indexOf(PermissionKey.ViewAnyUser) < 0 && currentUser.tenantId !== id) {
       throw new AuthorizationErrors.NotAllowedAccess();
     }
@@ -346,11 +346,11 @@ export class TenantUserController {
     @requestBody({
       content: {
         [CONTENT_TYPE.JSON]: {
-          schema: getModelSchemaRef(UserView, {partial: true}),
+          schema: getModelSchemaRef(User, {partial: true}),
         },
       },
     })
-    user: Omit<UserView, 'id' | 'authClientIds' | 'lastLogin' | 'status' | 'tenantId'>,
+    user: Omit<User, 'id' | 'authClientIds' | 'lastLogin' | 'status' | 'tenantId'>,
   ): Promise<void> {
     if (currentUser.id === userId && user.roleId !== undefined) {
       throw new AuthorizationErrors.NotAllowedAccess();

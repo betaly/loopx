@@ -3,8 +3,7 @@ import {repository, Where, WhereBuilder} from '@loopback/repository';
 import {IAuthUserWithPermissions} from '@loopx/core';
 
 import {Group, UserGroup} from '../models';
-import {UserGroupView} from '../models/group-user-view.model';
-import {GroupRepository, UserGroupRepository, UserGroupViewRepository} from '../repositories';
+import {GroupRepository, UserGroupRepository} from '../repositories';
 import {UserGroupHelperService} from './user-group-helper.service';
 
 @bind({scope: BindingScope.REQUEST})
@@ -16,8 +15,6 @@ export class UserGroupService {
     public userGroupRepository: UserGroupRepository,
     @service(UserGroupHelperService)
     private readonly userGroupHelperService: UserGroupHelperService,
-    @repository(UserGroupViewRepository)
-    public userGroupViewRepository: UserGroupViewRepository,
   ) {}
 
   async create(userGroupToCreate: Partial<UserGroup>) {
@@ -40,7 +37,7 @@ export class UserGroupService {
   }
 
   getAccessCountFilter(currentUser: IAuthUserWithPermissions, where?: Where<Group>) {
-    const whereBuilder = new WhereBuilder<UserGroupView>(where);
+    const whereBuilder = new WhereBuilder<UserGroup>(where);
     whereBuilder.eq('userTenantId', `${currentUser.userTenantId}`);
     return whereBuilder.build();
   }

@@ -10,9 +10,10 @@ import {ServiceSequence} from '@loopx/core';
 import * as path from 'path';
 
 import {UserTenantServiceComponent} from '../../component';
-import {UserTenantServiceBindings} from '../../keys';
+import {UserTenantDataSourceName, UserTenantServiceBindings} from '../../keys';
 import {UserTenantServiceComponentOptions} from '../../types';
 import {BearerTokenVerifyProvider} from './bearer-token-verifier.provider';
+import {AuditDbSourceName} from '@bleco/audit-log';
 
 export {ApplicationConfig};
 
@@ -42,6 +43,8 @@ export class UserTenantServiceApplication extends BootMixin(ServiceMixin(Reposit
     });
     this.sequence(ServiceSequence);
     this.component(AuthorizationComponent);
+
+    this.bind(`datasources.${AuditDbSourceName}`).toAlias(`datasources.${UserTenantDataSourceName}`);
 
     this.projectRoot = __dirname;
     // Customize @loopback/boot Booter Conventions here

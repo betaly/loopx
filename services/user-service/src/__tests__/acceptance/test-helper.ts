@@ -17,10 +17,7 @@ export async function setupApplication(): Promise<AppWithClient> {
 
   await app.boot();
   setUpEnv();
-  app.bind('datasources.config.pgdb').to({
-    name: 'pgdb',
-    connector: 'memory',
-  });
+  await app.migrateSchema({existingSchema: 'drop'});
 
   await app.start();
 

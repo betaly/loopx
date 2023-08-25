@@ -6,16 +6,16 @@ import {juggler, repository} from '@loopback/repository';
 import {DefaultUserUpdatableCrudRepository} from '@loopx/core';
 
 import {UserTenantDataSourceName} from '../keys';
-import {UserGroupView} from '../models/group-user-view.model';
 import {AuditLogRepository} from './audit.repository';
 import {UserGroupRepository} from './user-group.repository';
+import {UserGroup} from '../models';
 
 const UserGroupViewAuditOpts: IAuditMixinOptions = {
   actionKey: 'User_Group_View_Logs',
 };
 
 export class UserGroupViewRepository extends ConditionalAuditRepositoryMixin(
-  DefaultUserUpdatableCrudRepository<UserGroupView, typeof UserGroupView.prototype.id, UserGroupView>,
+  DefaultUserUpdatableCrudRepository<UserGroup, typeof UserGroup.prototype.id, UserGroup>,
   UserGroupViewAuditOpts,
 ) {
   constructor(
@@ -28,6 +28,6 @@ export class UserGroupViewRepository extends ConditionalAuditRepositoryMixin(
     @inject.getter(AuthenticationBindings.CURRENT_USER, {optional: true})
     getCurrentUser?: Getter<IAuthUserWithPermissions | undefined>,
   ) {
-    super(UserGroupView, dataSource, getCurrentUser);
+    super(UserGroup, dataSource, getCurrentUser);
   }
 }

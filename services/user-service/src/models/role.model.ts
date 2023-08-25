@@ -2,8 +2,8 @@
 import {UserUpdatableEntity} from '@loopx/core';
 
 import {RoleType} from '../enums';
+import {User} from './user.model';
 import {UserTenant, UserTenantRelations} from './user-tenant.model';
-import {UserView} from './user-view.model';
 
 @model({
   name: 'roles',
@@ -50,11 +50,11 @@ export class Role extends UserUpdatableEntity<Role> {
   @hasMany(() => UserTenant, {keyTo: 'roleId'})
   userTenants: UserTenant[];
 
-  @hasOne(() => UserView, {keyFrom: 'createdBy', keyTo: 'id'})
-  createdByUser?: UserView;
+  @hasOne(() => User, {keyFrom: 'createdBy', keyTo: 'id'})
+  createdByUser?: User;
 
-  @hasOne(() => UserView, {keyFrom: 'updatedBy', keyTo: 'id'})
-  updatedByUser?: UserView;
+  @hasOne(() => User, {keyFrom: 'updatedBy', keyTo: 'id'})
+  updatedByUser?: User;
 }
 
 export interface RoleRelations {

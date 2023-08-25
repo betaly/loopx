@@ -5,7 +5,7 @@ import {HttpErrors} from '@loopback/rest';
 import {IAuthUserWithPermissions, UserStatus} from '@loopx/core';
 
 import {PermissionKey, RoleTypeMap, RoleTypeMapValue} from '../enums';
-import {Role, User, UserDto, UserTenant, UserTenantWithRelations, UserView} from '../models';
+import {Role, User, UserDto, UserTenant, UserTenantWithRelations} from '../models';
 import {
   AuthClientRepository,
   RoleRepository,
@@ -169,7 +169,7 @@ export class UserOperationsService {
   async updateById(
     currentUser: IAuthUserWithPermissions,
     id: string,
-    userData: Omit<UserView, 'id' | 'authClientIds' | 'lastLogin' | 'status' | 'tenantId'>,
+    userData: Omit<User, 'id' | 'authClientIds' | 'lastLogin' | 'status' | 'tenantId'>,
     tenantId: string,
   ): Promise<void> {
     await this.checkForUpdatePermissions(currentUser, id, tenantId);
@@ -249,9 +249,9 @@ export class UserOperationsService {
 
   async checkViewTenantRestrictedPermissions(
     currentUser: IAuthUserWithPermissions,
-    where?: Where<UserView>,
-  ): Promise<Where<UserView>> {
-    const whereBuilder = new WhereBuilder<UserView>();
+    where?: Where<User>,
+  ): Promise<Where<User>> {
+    const whereBuilder = new WhereBuilder<User>();
     const role = await this.roleRepo.find();
     const allowedRoles: string[] = [];
     role.forEach(r => {

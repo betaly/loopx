@@ -42,12 +42,10 @@ import {
   UserCredentials,
   UserDto,
   UserGroup,
-  UserGroupView,
   UserLevelPermission,
   UserSignupCheckDto,
   UserTenant,
   UserTenantPrefs,
-  UserView,
 } from './models';
 import {DefaultTenantProvider} from './providers';
 import {
@@ -70,7 +68,7 @@ import {
   UserViewRepository,
 } from './repositories';
 import {AuthClientService, UserGroupHelperService, UserGroupService, UserOperationsService} from './services';
-import {DEFAULT_USER_TENANT_SERVICE_OPTIONS, UserTenantServiceComponentOptions} from './types';
+import {DEFAULT_USER_TENANT_SERVICE_OPTIONS, UserTenantServiceComponentOptions} from './types'; // Configure the binding for UserTenantServiceComponent
 
 // Configure the binding for UserTenantServiceComponent
 @injectable({
@@ -108,7 +106,6 @@ export class UserTenantServiceComponent implements Component {
       AuthClient,
       AuthSecureClient,
       GroupUserCountView,
-      UserGroupView,
       Group,
       Role,
       TenantConfig,
@@ -120,7 +117,6 @@ export class UserTenantServiceComponent implements Component {
       UserSignupCheckDto,
       UserTenantPrefs,
       UserTenant,
-      UserView,
       User,
     ];
     this.repositories = [

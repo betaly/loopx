@@ -17,5 +17,6 @@
 	"Otp Invalid": "Otp Invalid",
 	"Bearer realm=\"Users\"": "Bearer realm=\"Users\"",
 	"Not allowed access": "Not allowed access",
-	"Entity not found": "Entity not found"
+	"Entity not found": "Entity not found",
+	"Required parameter x-tenant-id is missing!": "Required parameter x-tenant-id is missing!"
 }

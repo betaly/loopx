@@ -1,8 +1,9 @@
 ﻿import {inject, LifeCycleObserver, lifeCycleObserver, ValueOrPromise} from '@loopback/core';
 import {juggler} from '@loopback/repository';
+import {UserTenantCacheSourceName} from '../../../keys';
 
 const config = {
-  name: 'AuthCache',
+  name: UserTenantCacheSourceName,
   connector: 'memory',
   localStorage: '',
   file: '',
@@ -10,10 +11,10 @@ const config = {
 
 @lifeCycleObserver('datasource')
 export class AuthenticationCacheDbDataSource extends juggler.DataSource implements LifeCycleObserver {
-  static dataSourceName = 'AuthCache';
+  static dataSourceName = UserTenantCacheSourceName;
 
   constructor(
-    @inject('datasources.config.AuthCache', {optional: true})
+    @inject(`datasources.config.${UserTenantCacheSourceName}`, {optional: true})
     dsConfig: object = config,
   ) {
     super(dsConfig);

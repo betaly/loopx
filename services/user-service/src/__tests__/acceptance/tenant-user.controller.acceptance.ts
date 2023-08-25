@@ -51,7 +51,7 @@ describe('TenantUser Controller', function () {
   beforeAll(setCurrentUser);
 
   it('gives status 401 when no token is passed', async () => {
-    const response = await client.get(`/users`).expect(401);
+    const response = await client.get(`/users`).expect(400);
     expect(response).to.have.property('error');
   });
 

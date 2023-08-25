@@ -5,7 +5,7 @@ import {HasManyRepositoryFactory, HasOneRepositoryFactory, juggler, repository} 
 import {DefaultUserUpdatableCrudRepository, IAuthUserWithPermissions} from '@loopx/core';
 
 import {UserTenantDataSourceName} from '../keys';
-import {Role, RoleRelations, UserTenant, UserView} from '../models';
+import {Role, RoleRelations, User, UserTenant} from '../models';
 import {AuditLogRepository} from './audit.repository';
 import {UserTenantRepository} from './user-tenant.repository';
 import {UserViewRepository} from './user-view.repository';
@@ -20,9 +20,9 @@ export class RoleRepository extends ConditionalAuditRepositoryMixin(
 ) {
   public readonly userTenants: HasManyRepositoryFactory<UserTenant, typeof Role.prototype.id>;
 
-  public readonly createdByUser: HasOneRepositoryFactory<UserView, typeof Role.prototype.id>;
+  public readonly createdByUser: HasOneRepositoryFactory<User, typeof Role.prototype.id>;
 
-  public readonly updatedByUser: HasOneRepositoryFactory<UserView, typeof Role.prototype.id>;
+  public readonly updatedByUser: HasOneRepositoryFactory<User, typeof Role.prototype.id>;
 
   constructor(
     @inject(`datasources.${UserTenantDataSourceName}`)

@@ -6,7 +6,7 @@ import {juggler, repository} from '@loopback/repository';
 import {DefaultUserUpdatableCrudRepository, IAuthUserWithPermissions} from '@loopx/core';
 
 import {UserTenantDataSourceName} from '../keys';
-import {UserView} from '../models';
+import {User} from '../models';
 import {AuditLogRepository} from './audit.repository';
 
 const UserViewAuditOpts: IAuditMixinOptions = {
@@ -14,7 +14,7 @@ const UserViewAuditOpts: IAuditMixinOptions = {
 };
 
 export class UserViewRepository extends ConditionalAuditRepositoryMixin(
-  DefaultUserUpdatableCrudRepository<UserView, typeof UserView.prototype.id>,
+  DefaultUserUpdatableCrudRepository<User, typeof User.prototype.id>,
   UserViewAuditOpts,
 ) {
   constructor(
@@ -25,6 +25,6 @@ export class UserViewRepository extends ConditionalAuditRepositoryMixin(
     @inject.getter(AuthenticationBindings.CURRENT_USER, {optional: true})
     getCurrentUser?: Getter<IAuthUserWithPermissions | undefined>,
   ) {
-    super(UserView, dataSource, getCurrentUser);
+    super(User, dataSource, getCurrentUser);
   }
 }
