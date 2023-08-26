@@ -9,7 +9,7 @@ import {PermissionKey} from '../enums';
 import {UserTenantPrefs} from '../models';
 import {UserTenantPrefsRepository} from '../repositories/user-tenant-prefs.repository';
 
-const basePath = '/user-tenant-prefs';
+const basePath = '/ut-prefs';
 
 export class UserTenantPrefsController {
   constructor(

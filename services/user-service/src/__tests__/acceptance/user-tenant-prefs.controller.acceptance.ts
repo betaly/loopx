@@ -25,7 +25,7 @@ describe('UserTenantPrefs Controller', function () {
   let roleRepo: RoleRepository;
   let tenantRepo: TenantRepository;
   let userRepo: UserRepository;
-  const basePath = '/user-tenant-prefs';
+  const basePath = '/ut-prefs';
   let client: Client;
   let token: string;
   const pass = 'test_password';
