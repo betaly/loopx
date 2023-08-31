@@ -9,8 +9,8 @@
   inject,
   injectable,
   ProviderMap,
+  ServiceOrProviderClass,
 } from '@loopback/core';
-import {ServiceOrProviderClass} from '@loopback/core/dist/application';
 import {Class, Model, Repository} from '@loopback/repository';
 import {LxCoreComponent, matchResources} from '@loopx/core';
 
