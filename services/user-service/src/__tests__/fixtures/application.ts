@@ -1,4 +1,5 @@
-﻿import {AuthenticationComponent, Strategies} from '@bleco/authentication';
+﻿import {AuditDbSourceName} from '@bleco/audit-log';
+import {AuthenticationComponent, Strategies} from '@bleco/authentication';
 import {AuthorizationBindings, AuthorizationComponent} from '@bleco/authorization';
 import {BootMixin} from '@bleco/boot';
 import {ApplicationConfig} from '@loopback/core';
@@ -13,7 +14,6 @@ import {UserTenantServiceComponent} from '../../component';
 import {UserTenantDataSourceName, UserTenantServiceBindings} from '../../keys';
 import {UserTenantServiceComponentOptions} from '../../types';
 import {BearerTokenVerifyProvider} from './bearer-token-verifier.provider';
-import {AuditDbSourceName} from '@bleco/audit-log';
 
 export {ApplicationConfig};
 

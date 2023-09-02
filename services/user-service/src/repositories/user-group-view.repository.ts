@@ -6,9 +6,9 @@ import {juggler, repository} from '@loopback/repository';
 import {DefaultUserUpdatableCrudRepository} from '@loopx/core';
 
 import {UserTenantDataSourceName} from '../keys';
+import {UserGroup} from '../models';
 import {AuditLogRepository} from './audit.repository';
 import {UserGroupRepository} from './user-group.repository';
-import {UserGroup} from '../models';
 
 const UserGroupViewAuditOpts: IAuditMixinOptions = {
   actionKey: 'User_Group_View_Logs',

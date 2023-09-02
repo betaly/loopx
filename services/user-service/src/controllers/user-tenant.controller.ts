@@ -4,12 +4,12 @@ import {inject} from '@loopback/core';
 import {FilterBuilder, FilterExcludingWhere, repository, WhereBuilder} from '@loopback/repository';
 import {get, getModelSchemaRef, HttpErrors, param} from '@loopback/rest';
 import {CONTENT_TYPE, IAuthUserWithPermissions, STATUS_CODE} from '@loopx/core';
+import {DefaultQuery, Query} from 'loopback4-query';
 
 import {PermissionKey} from '../enums';
 import {User} from '../models';
 import {UserRepository, UserTenantRepository} from '../repositories';
 import {UserOperationsService} from '../services';
-import {DefaultQuery, Query} from 'loopback4-query';
 
 export class UserTenantController {
   protected userQuery: Query<User>;

@@ -1,5 +1,6 @@
 ﻿import {inject, LifeCycleObserver, lifeCycleObserver, ValueOrPromise} from '@loopback/core';
 import {juggler} from '@loopback/repository';
+
 import {UserTenantCacheSourceName} from '../../../keys';
 
 const config = {
