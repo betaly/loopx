@@ -9,7 +9,7 @@
   "author": "TY",
   "license": "MIT",
   "scripts": {
-    "postinstall": "husky install && yarn build",
+    "postinstall": "husky install",
     "prerelease": "yarn build:full && yarn lint:fix",
     "release": "yarn prerelease && yarn run release:version && yarn run release:push && yarn run release:publish",
     "release:version": "lerna version --no-push --no-private",
@@ -39,9 +39,9 @@
     "@nutol/eslint-config": "^0.2.9",
     "@nutol/monorepo": "^0.2.11",
     "@nutol/ts-config": "^0.2.1",
-    "@release-it/conventional-changelog": "^7.0.0",
+    "@release-it/conventional-changelog": "^7.0.1",
     "@types/jest": "^29.5.4",
-    "@types/node": "^20.5.8",
+    "@types/node": "^20.5.9",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
     "@typescript-eslint/parser": "^5.62.0",
     "cross-env": "^7.0.3",
@@ -79,9 +79,9 @@
   },
   "workspaces": [
     "packages/*",
-    "sandbox/*",
+    "extensions/*",
     "services/*",
-    "clients/*"
+    "sandbox/*"
   ],
   "packageManager": "yarn@3.6.1"
 }
