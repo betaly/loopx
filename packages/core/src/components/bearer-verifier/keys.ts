@@ -1,7 +1,9 @@
-﻿import {IAuthUser} from '@bleco/authentication';
-import {BindingKey} from '@loopback/context';
+﻿import {BindingKey} from '@loopback/context';
+import {MarkOptional} from 'ts-essentials';
 
+import {IAuthTenantUser} from '../../auth.types';
 import {BINDING_PREFIX} from '../../constants';
+import {OmitIndexSignature} from '../../types';
 
 export namespace BearerVerifierBindings {
   export const Config = BindingKey.create<BearerVerifierConfig>(`${BINDING_PREFIX}.bearer-verfier.config`);
@@ -16,26 +18,10 @@ export interface BearerVerifierConfig {
   type: BearerVerifierType;
 }
 
-export interface IUserPrefs {
-  locale?: string;
-}
-
-export interface IAuthUserWithPermissions<ID = string, TID = string, UTID = string> extends IAuthUser {
-  id?: string;
-  identifier?: ID;
+export interface IAuthUserWithPermissions<ID = string, TID = string, UTID = string>
+  extends MarkOptional<OmitIndexSignature<IAuthTenantUser<ID, TID, UTID>>, 'id'> {
   permissions: string[];
-  authClientId: number;
-  userPreferences?: IUserPrefs;
-  email?: string;
-  role: string;
-  name?: string;
-  firstName?: string;
-  lastName?: string;
-  middleName?: string;
-  tenantId?: TID;
-  userTenantId?: UTID;
-  passwordExpiryTime?: Date;
-  allowedResources?: string[];
 
-  getIdentifier?(): string | undefined;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  [attribute: string]: any;
 }

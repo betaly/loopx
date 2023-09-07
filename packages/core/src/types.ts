@@ -2,6 +2,10 @@ import {Entity} from '@loopback/repository';
 import {IncomingMessage} from 'http';
 import {SWStats} from 'swagger-stats';
 
+export type OmitIndexSignature<T> = {
+  [K in keyof T as string extends K ? never : K]: T[K];
+};
+
 export interface JwtConfig {
   secret: string;
   issuer: string;

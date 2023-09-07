@@ -1,5 +1,4 @@
 import {AuthenticateFn, AuthenticationBindings, AuthenticationErrors} from '@bleco/authentication';
-import {AuthorizationBindings, AuthorizationErrors, AuthorizeFn} from '@bleco/authorization';
 import {inject} from '@loopback/context';
 import {
   ExpressRequestHandler,
@@ -44,8 +43,8 @@ export class ServiceSequence implements SequenceHandler {
     @inject(LOGGER.LOGGER_INJECT) public logger: ILogger,
     @inject(AuthenticationBindings.USER_AUTH_ACTION)
     protected authenticateRequest: AuthenticateFn<IAuthUserWithPermissions>,
-    @inject(AuthorizationBindings.AUTHORIZE_ACTION)
-    protected checkAuthorisation: AuthorizeFn,
+    // @inject(AuthorizationBindings.AUTHORIZE_ACTION)
+    // protected checkAuthorisation: AuthorizeFn,
     @inject(LxCoreBindings.i18n)
     protected i18n: i18nAPI,
   ) {}
@@ -74,11 +73,12 @@ export class ServiceSequence implements SequenceHandler {
       const route = this.findRoute(request);
       const args = await this.parseParams(request, route);
 
-      const authUser: IAuthUserWithPermissions = await this.authenticateRequest(request, response);
-      const isAccessAllowed: boolean = await this.checkAuthorisation(authUser?.permissions, request);
-      if (!isAccessAllowed) {
-        throw new AuthorizationErrors.NotAllowedAccess();
-      }
+      await this.authenticateRequest(request, response);
+      // const authUser: IAuthUserWithPermissions = await this.authenticateRequest(request, response);
+      // const isAccessAllowed: boolean = await this.checkAuthorisation(authUser?.permissions, request);
+      // if (!isAccessAllowed) {
+      //   throw new AuthorizationErrors.NotAllowedAccess();
+      // }
 
       const result = await this.invoke(route, args);
       this.send(response, result);

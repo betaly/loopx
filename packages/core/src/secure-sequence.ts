@@ -1,5 +1,4 @@
 import {AuthenticateFn, AuthenticationBindings, IAuthClient} from '@bleco/authentication';
-import {AuthorizationBindings, AuthorizationErrors, AuthorizeFn} from '@bleco/authorization';
 import {HelmetAction, HelmetSecurityBindings} from '@bleco/helmet';
 import {RateLimitAction, RateLimitSecurityBindings} from '@bleco/ratelimiter';
 import {inject} from '@loopback/context';
@@ -48,8 +47,8 @@ export class SecureSequence implements SequenceHandler {
     protected authenticateRequest: AuthenticateFn<IAuthUserWithPermissions>,
     @inject(AuthenticationBindings.CLIENT_AUTH_ACTION)
     protected authenticateClientRequest: AuthenticateFn<IAuthClient>,
-    @inject(AuthorizationBindings.AUTHORIZE_ACTION)
-    protected checkAuthorisation: AuthorizeFn,
+    // @inject(AuthorizationBindings.AUTHORIZE_ACTION)
+    // protected checkAuthorisation: AuthorizeFn,
     @inject(HelmetSecurityBindings.HELMET_SECURITY_ACTION)
     protected helmetAction: HelmetAction,
     @inject(RateLimitSecurityBindings.ACTION)
@@ -95,11 +94,12 @@ export class SecureSequence implements SequenceHandler {
       }
 
       await this.authenticateClientRequest(request);
-      const authUser: IAuthUserWithPermissions = await this.authenticateRequest(request, response);
-      const isAccessAllowed: boolean = await this.checkAuthorisation(authUser?.permissions, request);
-      if (!isAccessAllowed) {
-        throw new AuthorizationErrors.NotAllowedAccess();
-      }
+      await this.authenticateRequest(request, response);
+      // const authUser: IAuthUserWithPermissions = await this.authenticateRequest(request, response);
+      // const isAccessAllowed: boolean = await this.checkAuthorisation(authUser?.permissions, request);
+      // if (!isAccessAllowed) {
+      //   throw new AuthorizationErrors.NotAllowedAccess();
+      // }
 
       const result = await this.invoke(route, args);
       this.send(response, result);

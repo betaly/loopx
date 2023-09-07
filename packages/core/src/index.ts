@@ -1,5 +1,5 @@
 export * from './adapters';
-export * from './casbin-secure-sequence';
+export * from './auth.types';
 export * from './command';
 export * from './component';
 export * from './components';
