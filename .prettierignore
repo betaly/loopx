@@ -1,9 +1,9 @@
 .github/
 /coverage
 packages/*/dist
-sandbox/*/dist
+extensions/*/dist
 services/*/dist
-clients/*/dist
+sandbox/*/dist
 *.json
 CHANGELOG.md
 *.yml

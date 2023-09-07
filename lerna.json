@@ -3,9 +3,9 @@
   "npmClient": "yarn",
   "packages": [
     "packages/*",
-    "sandbox/*",
+    "extensions/*",
     "services/*",
-    "clients/*"
+    "sandbox/*"
   ],
   "command": {
     "bootstrap": {
