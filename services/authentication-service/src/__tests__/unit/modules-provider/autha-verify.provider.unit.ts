@@ -2,12 +2,18 @@
 import {IAuthUser} from '@bleco/authentication';
 import {createStubInstance, expect, StubbedInstanceWithSinonAccessor} from '@loopback/testlab';
 import {AuthProvider} from '@loopx/core';
+import {
+  User,
+  UserCredentials,
+  UserCredentialsRepository,
+  UserCredentialsWithRelations,
+  UserRepository,
+  UserWithRelations,
+} from '@loopx/user-core';
 import sinon from 'sinon';
 
-import {User, UserCredentials, UserCredentialsWithRelations, UserWithRelations} from '../../../models';
-import {AuthaVerifyProvider} from '../../../modules/auth/providers/autha-verify.provider';
+import {AuthaVerifyProvider} from '../../../modules/auth/';
 import {AuthaSignUpFn} from '../../../providers';
-import {UserCredentialsRepository, UserRepository} from '../../../repositories';
 
 describe('Autha Verify Provider', () => {
   let userRepo: StubbedInstanceWithSinonAccessor<UserRepository>;

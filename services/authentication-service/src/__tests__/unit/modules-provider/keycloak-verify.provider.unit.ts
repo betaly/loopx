@@ -1,11 +1,17 @@
 ﻿import {IAuthUser, Keycloak} from '@bleco/authentication';
 import {createStubInstance, expect, StubbedInstanceWithSinonAccessor} from '@loopback/testlab';
+import {
+  User,
+  UserCredentials,
+  UserCredentialsRepository,
+  UserCredentialsWithRelations,
+  UserRepository,
+  UserWithRelations,
+} from '@loopx/user-core';
 import sinon from 'sinon';
 
-import {User, UserCredentials, UserCredentialsWithRelations, UserWithRelations} from '../../../models';
 import {KeycloakVerifyProvider} from '../../../modules/auth/providers/keycloak-verify.provider';
 import {KeyCloakSignUpFn} from '../../../providers';
-import {UserCredentialsRepository, UserRepository} from '../../../repositories';
 
 describe('Keycloak Verify Provider', () => {
   let userRepo: StubbedInstanceWithSinonAccessor<UserRepository>;

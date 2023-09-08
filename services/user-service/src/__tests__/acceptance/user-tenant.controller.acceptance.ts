@@ -1,27 +1,33 @@
 ﻿import {AuthenticationBindings} from '@bleco/authentication';
 import {Client} from '@loopback/testlab';
-import * as jwt from 'jsonwebtoken';
+import {IAuthTenantUser} from '@loopx/core';
+import {
+  DefaultRole,
+  Role,
+  RoleRepository,
+  Tenant,
+  TenantRepository,
+  User,
+  UserRepository,
+  UserTenant,
+  UserTenantRepository,
+} from '@loopx/user-core';
 import {nanoid} from 'nanoid';
 
-import {PermissionKey} from '../../enums';
-import {Role, Tenant, User, UserTenant} from '../../models';
-import {RoleRepository, TenantRepository, UserRepository, UserTenantRepository} from '../../repositories';
-import {UserOperationsService} from '../../services';
-import {UserTenantServiceApplication} from '../fixtures/application';
-import {JWT_ISSUER, JWT_SECRET} from '../fixtures/consts';
-import {setupApplication} from './test-helper';
+import {UserServiceApplication} from '../fixtures/application';
+import {buildAccessToken, createTenantUser, setupApplication} from './test-helper';
 
-interface USER {
-  id: string | undefined;
-  userTenantId: string | undefined;
-  username: string;
-  tenantId: string | undefined;
-  password: string;
-  permissions: PermissionKey[];
-}
+// interface USER {
+//   id: string | undefined;
+//   userTenantId: string | undefined;
+//   username: string;
+//   tenantId: string | undefined;
+//   password: string;
+//   permissions: PermissionKey[];
+// }
 
 describe('UserTenant Controller', function () {
-  let app: UserTenantServiceApplication;
+  let app: UserServiceApplication;
   let userTenantRepo: UserTenantRepository;
   let roleRepo: RoleRepository;
   let tenantRepo: TenantRepository;
@@ -29,21 +35,8 @@ describe('UserTenant Controller', function () {
   const basePath = '/ut';
   let client: Client;
   let token: string;
-  const pass = 'test_password';
   const tenantName = 'sample_tenant';
-  let testUser: USER = {
-    id: '',
-    userTenantId: undefined,
-    username: '',
-    tenantId: undefined,
-    password: pass,
-    permissions: [
-      PermissionKey.ViewAnyUser,
-      PermissionKey.ViewOwnUser,
-      PermissionKey.ViewTenantUser,
-      PermissionKey.ViewTenantUserRestricted,
-    ],
-  };
+  let testUser: IAuthTenantUser;
 
   const data = {
     userTenantId: '',
@@ -59,7 +52,7 @@ describe('UserTenant Controller', function () {
     await app.stop();
   });
   beforeAll(givenRepositories);
-  beforeAll(setCurrentUser);
+  // beforeAll(setCurrentUser);
   beforeAll(setupMockData);
 
   it('gives status 401 when no token is passed', async () => {
@@ -103,15 +96,15 @@ describe('UserTenant Controller', function () {
     const role = await roleRepo.create(
       new Role({
         name: 'test_admin',
-        roleType: 0 as unknown as undefined,
+        code: DefaultRole.Admin,
       }),
     );
 
-    const key = nanoid(10);
+    const code = nanoid(10);
     const tenant = await tenantRepo.create(
       new Tenant({
         name: tenantName,
-        key: key,
+        code,
         status: 1,
       }),
     );
@@ -128,19 +121,12 @@ describe('UserTenant Controller', function () {
       }),
     );
 
-    testUser = {
-      id: user.id,
+    testUser = createTenantUser({
+      ...user,
       userTenantId: userTenant.id,
-      username: user.username,
       tenantId: tenant.id,
-      password: pass,
-      permissions: [
-        PermissionKey.ViewAnyUser,
-        PermissionKey.ViewOwnUser,
-        PermissionKey.ViewTenantUser,
-        PermissionKey.ViewTenantUserRestricted,
-      ],
-    };
+      role: DefaultRole.Owner,
+    });
     if (testUser.userTenantId) {
       data.userTenantId = testUser.userTenantId;
     }
@@ -149,10 +135,7 @@ describe('UserTenant Controller', function () {
 
   function setCurrentUser() {
     app.bind(AuthenticationBindings.CURRENT_USER).to(testUser);
-    app.bind(`services.${UserOperationsService.name}`).toClass(UserOperationsService);
-    token = jwt.sign(testUser, JWT_SECRET, {
-      expiresIn: 180000,
-      issuer: JWT_ISSUER,
-    });
+    // app.bind(`services.${UserOperationsService.name}`).toClass(UserOperationsService);
+    token = buildAccessToken(testUser);
   }
 });

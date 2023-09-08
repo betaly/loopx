@@ -2,9 +2,10 @@
 import {Provider} from '@loopback/context';
 import {repository} from '@loopback/repository';
 import {AuthErrors, UserStatus} from '@loopx/core';
+import {AuthClientRepository, UserRepository, UserTenantRepository} from '@loopx/user-core';
 
 import {Otp} from '../../../models';
-import {AuthClientRepository, OtpRepository, UserRepository, UserTenantRepository} from '../../../repositories';
+import {OtpRepository} from '../../../repositories';
 
 export class ResourceOwnerVerifyProvider implements Provider<VerifyFunction.ResourceOwnerPasswordFn> {
   constructor(

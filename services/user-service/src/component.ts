@@ -13,68 +13,29 @@
 } from '@loopback/core';
 import {Class, Model, Repository} from '@loopback/repository';
 import {LxCoreComponent, matchResources} from '@loopx/core';
+import {UserCoreComponent} from '@loopx/user-core';
+import {createBindingFromPermissions} from 'loopback4-acl';
 
+import {permissions} from './auth.permissions';
 import {
-  GroupController,
   HomePageController,
   PingController,
-  RoleController,
   RoleUserTenantController,
   TenantController,
   TenantUserController,
-  UserGroupController,
-  UserGroupsController,
   UserSignupController,
   UserTenantController,
   UserTenantPrefsController,
 } from './controllers';
-import {UserTenantServiceBindings} from './keys';
-import {
-  AuditLog,
-  AuthClient,
-  AuthSecureClient,
-  Group,
-  GroupUserCountView,
-  Role,
-  Tenant,
-  TenantConfig,
-  User,
-  UserCredentials,
-  UserDto,
-  UserGroup,
-  UserLevelPermission,
-  UserSignupCheckDto,
-  UserTenant,
-  UserTenantPrefs,
-} from './models';
+import {UserServiceBindings} from './keys';
 import {DefaultTenantProvider} from './providers';
-import {
-  AuditLogRepository,
-  AuthClientRepository,
-  AuthSecureClientRepository,
-  GroupRepository,
-  NonRestrictedUserViewRepository,
-  RoleRepository,
-  TenantConfigRepository,
-  TenantRepository,
-  UserCredentialsRepository,
-  UserGroupCountViewRepository,
-  UserGroupRepository,
-  UserGroupViewRepository,
-  UserLevelPermissionRepository,
-  UserRepository,
-  UserTenantPrefsRepository,
-  UserTenantRepository,
-  UserViewRepository,
-} from './repositories';
-import {AuthClientService, UserGroupHelperService, UserGroupService, UserOperationsService} from './services';
-import {DEFAULT_USER_TENANT_SERVICE_OPTIONS, UserTenantServiceComponentOptions} from './types'; // Configure the binding for UserTenantServiceComponent
+import {DEFAULT_USER_TENANT_SERVICE_OPTIONS, UserServiceComponentOptions} from './types';
 
-// Configure the binding for UserTenantServiceComponent
+// Configure the binding for UserServiceComponent
 @injectable({
-  tags: {[ContextTags.KEY]: UserTenantServiceBindings.COMPONENT},
+  tags: {[ContextTags.KEY]: UserServiceBindings.COMPONENT},
 })
-export class UserTenantServiceComponent implements Component {
+export class UserServiceComponent implements Component {
   repositories?: Class<Repository<Model>>[];
 
   /**
@@ -95,72 +56,28 @@ export class UserTenantServiceComponent implements Component {
     @inject(CoreBindings.APPLICATION_INSTANCE)
     private readonly application: Application,
     @config()
-    private readonly options: UserTenantServiceComponentOptions = DEFAULT_USER_TENANT_SERVICE_OPTIONS,
+    private readonly options: UserServiceComponentOptions = DEFAULT_USER_TENANT_SERVICE_OPTIONS,
   ) {
-    this.bindings = [];
+    this.bindings = [createBindingFromPermissions(permissions, 'user-service')];
     if (!this.application.isBound(`${CoreBindings.COMPONENTS}.${LxCoreComponent.name}`)) {
       this.application.component(LxCoreComponent);
     }
-    this.models = [
-      AuditLog,
-      AuthClient,
-      AuthSecureClient,
-      GroupUserCountView,
-      Group,
-      Role,
-      TenantConfig,
-      Tenant,
-      UserCredentials,
-      UserDto,
-      UserGroup,
-      UserLevelPermission,
-      UserSignupCheckDto,
-      UserTenantPrefs,
-      UserTenant,
-      User,
-    ];
-    this.repositories = [
-      AuditLogRepository,
-      AuthClientRepository,
-      AuthSecureClientRepository,
-      UserGroupCountViewRepository,
-      GroupRepository,
-      NonRestrictedUserViewRepository,
-      RoleRepository,
-      TenantConfigRepository,
-      TenantRepository,
-      UserCredentialsRepository,
-      UserGroupViewRepository,
-      UserGroupRepository,
-      UserLevelPermissionRepository,
-      UserTenantPrefsRepository,
-      UserTenantRepository,
-      UserViewRepository,
-      UserRepository,
-    ];
+    this.application.component(UserCoreComponent);
     this.providers = {
-      [UserTenantServiceBindings.DEFAULT_TENANT.key]: DefaultTenantProvider,
+      [UserServiceBindings.DEFAULT_TENANT.key]: DefaultTenantProvider,
     };
     this.controllers = matchResources(
       [
-        GroupController,
         HomePageController,
         PingController,
         RoleUserTenantController,
-        RoleController,
         TenantUserController,
         TenantController,
-        UserGroupController,
-        UserGroupsController,
         UserSignupController,
         UserTenantPrefsController,
         UserTenantController,
       ],
       options?.controllers,
-    );
-    this.services = matchResources(
-      [AuthClientService, UserGroupService, UserGroupHelperService, UserOperationsService],
-      options?.services,
     );
   }
 }

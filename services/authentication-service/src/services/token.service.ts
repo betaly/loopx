@@ -4,16 +4,17 @@ import {BindingScope, injectable} from '@loopback/core';
 import {AnyObject, repository} from '@loopback/repository';
 import {RequestContext} from '@loopback/rest';
 import {AuthErrors, ILogger, LOGGER} from '@loopx/core';
+import {AuthClient, User, UserRepository, UserTenant, UserTenantRepository} from '@loopx/user-core';
 import {BErrors} from 'berrors';
 import crypto, {randomBytes} from 'crypto';
 import moment from 'moment-timezone';
 
 import {LoginType} from '../enums';
 import {AuthServiceBindings} from '../keys';
-import {AuthClient, LoginActivity, User, UserTenant} from '../models';
+import {LoginActivity} from '../models';
 import {AuthUser, TokenResponse} from '../modules/auth';
 import {AuthCodeBindings, JwtPayloadFn, JWTSignerFn} from '../providers';
-import {LoginActivityRepository, RefreshTokenRepository, UserRepository, UserTenantRepository} from '../repositories';
+import {LoginActivityRepository, RefreshTokenRepository} from '../repositories';
 import {ActorId, ExternalTokens, IUserActivity} from '../types';
 
 const REFRESH_TOKENS_IZE = 32;
@@ -148,8 +149,8 @@ export class TokenService {
         authTag: authTagPayload.toString('hex'),
       });
       // make an entry to mark the users login activity
-      let actor: string;
-      let tenantId: string;
+      let actor;
+      let tenantId;
       if (userTenant) {
         actor = userTenant[this.actorKey]?.toString() ?? '0';
         tenantId = userTenant.tenantId;

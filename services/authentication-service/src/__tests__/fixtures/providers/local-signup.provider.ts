@@ -1,17 +1,41 @@
 import {Provider, service} from '@loopback/core';
+import {repository} from '@loopback/repository';
+import {DEFAULT_TENANT_CODE} from '@loopx/user-common';
+import {DefaultRole, User, UserDto, UserOperationsService, UserRepository} from '@loopx/user-core';
+import pick from 'tily/object/pick';
 
-import {User} from '../../../models';
 import {UserSignupFn} from '../../../types';
-import {UserDto} from '../models';
-import {UserOpsService} from '../services';
+import {SignupDto} from '../models';
 
-export class TestLocalSignupProvider implements Provider<UserSignupFn<UserDto, User>> {
+export class TestLocalSignupProvider implements Provider<UserSignupFn<SignupDto, User>> {
   constructor(
-    @service(UserOpsService)
-    private readonly userOps: UserOpsService,
+    @repository(UserRepository)
+    public userRepository: UserRepository,
+    @service(UserOperationsService)
+    public userOps: UserOperationsService,
   ) {}
 
-  value(): UserSignupFn<UserDto, User> {
-    return async (model, token) => this.userOps.createUser(model, {});
+  value(): UserSignupFn<SignupDto, User> {
+    return async (model, token) => {
+      const {password, ...data} = model;
+
+      const user = await this.userOps.create(
+        new UserDto({
+          roleId: data.roleId ?? DefaultRole.Member,
+          tenantId: data.tenantId ?? DEFAULT_TENANT_CODE,
+          userTenantId: data.userTenantId,
+          details: new User(pick(Object.keys(SignupDto.definition.properties), data)),
+        }),
+        null,
+        {activate: true},
+      );
+      if (password) {
+        await this.userRepository.setPassword(
+          user.details.username ?? user.details.email ?? user.details.phone,
+          password,
+        );
+      }
+      return user.details;
+    };
   }
 }

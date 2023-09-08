@@ -1,13 +1,12 @@
 ﻿import {authenticate, AuthenticationBindings, STRATEGY} from '@bleco/authentication';
-import {AuthorizationErrors, authorize} from '@bleco/authorization';
 import {inject} from '@loopback/core';
 import {Count, CountSchema, Filter, FilterExcludingWhere, repository, Where} from '@loopback/repository';
 import {del, get, getModelSchemaRef, param, patch, post, requestBody} from '@loopback/rest';
-import {CONTENT_TYPE, IAuthUserWithPermissions, OPERATION_SECURITY_SPEC, STATUS_CODE, TenantStatus} from '@loopx/core';
+import {CONTENT_TYPE, IAuthTenantUser, OPERATION_SECURITY_SPEC, STATUS_CODE, TenantStatus} from '@loopx/core';
+import {Tenant, TenantConfig, TenantConfigRepository, TenantRepository, UserAuthSubjects} from '@loopx/user-core';
+import {Actions, authorise} from 'loopback4-acl';
 
-import {PermissionKey} from '../enums';
-import {Tenant, TenantConfig} from '../models';
-import {TenantConfigRepository, TenantRepository} from '../repositories';
+import {TenantActions} from '../auth.actions';
 
 const basePath = '/tenants';
 
@@ -22,9 +21,10 @@ export class TenantController {
   @authenticate(STRATEGY.BEARER, {
     passReqToCallback: true,
   })
-  @authorize({
-    permissions: [PermissionKey.CreateTenant, PermissionKey.CreateTenantNum],
-  })
+  // @authorize({
+  //   permissions: [PermissionKey.CreateTenant, PermissionKey.CreateTenantNum],
+  // })
+  @authorise(TenantActions.create, UserAuthSubjects.Tenant)
   @post(basePath, {
     security: OPERATION_SECURITY_SPEC,
     responses: {
@@ -56,9 +56,10 @@ export class TenantController {
   @authenticate(STRATEGY.BEARER, {
     passReqToCallback: true,
   })
-  @authorize({
-    permissions: [PermissionKey.ViewTenant, PermissionKey.ViewTenantNum],
-  })
+  // @authorize({
+  //   permissions: [PermissionKey.ViewTenant, PermissionKey.ViewTenantNum],
+  // })
+  @authorise(Actions.read, UserAuthSubjects.Tenant)
   @get(`${basePath}/count`, {
     security: OPERATION_SECURITY_SPEC,
     responses: {
@@ -75,9 +76,10 @@ export class TenantController {
   @authenticate(STRATEGY.BEARER, {
     passReqToCallback: true,
   })
-  @authorize({
-    permissions: [PermissionKey.ViewTenant, PermissionKey.ViewTenantNum],
-  })
+  // @authorize({
+  //   permissions: [PermissionKey.ViewTenant, PermissionKey.ViewTenantNum],
+  // })
+  @authorise(Actions.read, UserAuthSubjects.Tenant)
   @get(basePath, {
     security: OPERATION_SECURITY_SPEC,
     responses: {
@@ -101,9 +103,10 @@ export class TenantController {
   @authenticate(STRATEGY.BEARER, {
     passReqToCallback: true,
   })
-  @authorize({
-    permissions: [PermissionKey.UpdateTenant, PermissionKey.UpdateTenantNum],
-  })
+  // @authorize({
+  //   permissions: [PermissionKey.UpdateTenant, PermissionKey.UpdateTenantNum],
+  // })
+  @authorise(Actions.update, UserAuthSubjects.Tenant)
   @patch(basePath, {
     security: OPERATION_SECURITY_SPEC,
     responses: {
@@ -130,14 +133,15 @@ export class TenantController {
   @authenticate(STRATEGY.BEARER, {
     passReqToCallback: true,
   })
-  @authorize({
-    permissions: [
-      PermissionKey.ViewTenant,
-      PermissionKey.ViewTenantNum,
-      PermissionKey.ViewOwnTenantNum,
-      PermissionKey.ViewOwnTenant,
-    ],
-  })
+  // @authorize({
+  //   permissions: [
+  //     PermissionKey.ViewTenant,
+  //     PermissionKey.ViewTenantNum,
+  //     PermissionKey.ViewOwnTenantNum,
+  //     PermissionKey.ViewOwnTenant,
+  //   ],
+  // })
+  @authorise(Actions.read, UserAuthSubjects.Tenant, async ({params}) => ({id: params.id}))
   @get(`${basePath}/{id}`, {
     security: OPERATION_SECURITY_SPEC,
     responses: {
@@ -153,28 +157,29 @@ export class TenantController {
   })
   async findById(
     @inject(AuthenticationBindings.CURRENT_USER)
-    currentUser: IAuthUserWithPermissions,
+    currentUser: IAuthTenantUser,
     @param.path.string('id') id: string,
     @param.filter(Tenant, {exclude: 'where'})
     filter?: FilterExcludingWhere<Tenant>,
   ): Promise<Tenant> {
-    if (currentUser.permissions.indexOf(PermissionKey.ViewOwnTenant) < 0 && currentUser.tenantId !== id) {
-      throw new AuthorizationErrors.NotAllowedAccess();
-    }
+    // if (currentUser.permissions.indexOf(PermissionKey.ViewOwnTenant) < 0 && currentUser.tenantId !== id) {
+    //   throw new AuthorizationErrors.NotAllowedAccess();
+    // }
     return this.tenantRepository.findById(id, filter);
   }
 
   @authenticate(STRATEGY.BEARER, {
     passReqToCallback: true,
   })
-  @authorize({
-    permissions: [
-      PermissionKey.UpdateTenant,
-      PermissionKey.UpdateTenantNum,
-      PermissionKey.UpdateOwnTenantNum,
-      PermissionKey.UpdateOwnTenant,
-    ],
-  })
+  // @authorize({
+  //   permissions: [
+  //     PermissionKey.UpdateTenant,
+  //     PermissionKey.UpdateTenantNum,
+  //     PermissionKey.UpdateOwnTenantNum,
+  //     PermissionKey.UpdateOwnTenant,
+  //   ],
+  // })
+  @authorise(Actions.update, UserAuthSubjects.Tenant, async ({params}) => ({id: params.id}))
   @patch(`${basePath}/{id}`, {
     security: OPERATION_SECURITY_SPEC,
     responses: {
@@ -185,7 +190,7 @@ export class TenantController {
   })
   async updateById(
     @inject(AuthenticationBindings.CURRENT_USER)
-    currentUser: IAuthUserWithPermissions,
+    currentUser: IAuthTenantUser,
     @param.path.string('id') id: string,
     @requestBody({
       content: {
@@ -196,18 +201,19 @@ export class TenantController {
     })
     tenant: Tenant,
   ): Promise<void> {
-    if (currentUser.permissions.indexOf(PermissionKey.ViewOwnTenant) < 0 && currentUser.tenantId !== id) {
-      throw new AuthorizationErrors.NotAllowedAccess();
-    }
+    // if (currentUser.permissions.indexOf(PermissionKey.ViewOwnTenant) < 0 && currentUser.tenantId !== id) {
+    //   throw new AuthorizationErrors.NotAllowedAccess();
+    // }
     await this.tenantRepository.updateById(id, tenant);
   }
 
   @authenticate(STRATEGY.BEARER, {
     passReqToCallback: true,
   })
-  @authorize({
-    permissions: [PermissionKey.DeleteTenant, PermissionKey.DeleteTenantUser],
-  })
+  // @authorize({
+  //   permissions: [PermissionKey.DeleteTenant, PermissionKey.DeleteTenantUser],
+  // })
+  @authorise(Actions.delete, UserAuthSubjects.Tenant, async ({params}) => ({id: params.id}))
   @del(`${basePath}/{id}`, {
     security: OPERATION_SECURITY_SPEC,
     responses: {
@@ -223,14 +229,15 @@ export class TenantController {
   @authenticate(STRATEGY.BEARER, {
     passReqToCallback: true,
   })
-  @authorize({
-    permissions: [
-      PermissionKey.ViewTenant,
-      PermissionKey.ViewTenantNum,
-      PermissionKey.ViewOwnTenantNum,
-      PermissionKey.ViewOwnTenant,
-    ],
-  })
+  // @authorize({
+  //   permissions: [
+  //     PermissionKey.ViewTenant,
+  //     PermissionKey.ViewTenantNum,
+  //     PermissionKey.ViewOwnTenantNum,
+  //     PermissionKey.ViewOwnTenant,
+  //   ],
+  // })
+  @authorise(Actions.read, UserAuthSubjects.Tenant, async ({params}) => ({id: params.id}))
   @get(`${basePath}/{id}/config`, {
     security: OPERATION_SECURITY_SPEC,
     responses: {
@@ -249,12 +256,12 @@ export class TenantController {
   })
   async getTenantConfig(
     @inject(AuthenticationBindings.CURRENT_USER)
-    currentUser: IAuthUserWithPermissions,
+    currentUser: IAuthTenantUser,
     @param.path.string('id') id: string,
   ): Promise<TenantConfig[]> {
-    if (currentUser.permissions.indexOf(PermissionKey.ViewOwnTenant) < 0 && currentUser.tenantId !== id) {
-      throw new AuthorizationErrors.NotAllowedAccess();
-    }
+    // if (currentUser.permissions.indexOf(PermissionKey.ViewOwnTenant) < 0 && currentUser.tenantId !== id) {
+    //   throw new AuthorizationErrors.NotAllowedAccess();
+    // }
     return this.tenantConfigRepository.find({
       where: {
         tenantId: id,

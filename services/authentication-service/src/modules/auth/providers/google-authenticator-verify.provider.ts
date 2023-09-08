@@ -2,10 +2,10 @@
 import {inject, Provider} from '@loopback/context';
 import {repository} from '@loopback/repository';
 import {ILogger, LOGGER} from '@loopx/core';
+import {UserCredentials, UserCredentialsRepository, UserRepository} from '@loopx/user-core';
 import {authenticator} from 'otplib';
 
-import {UserCredentials} from '../../../models';
-import {OtpCacheRepository, UserCredentialsRepository, UserRepository} from '../../../repositories';
+import {OtpCacheRepository} from '../../../repositories';
 
 export class GoogleAuthenticatorVerifyProvider implements Provider<VerifyFunction.OtpAuthFn> {
   constructor(

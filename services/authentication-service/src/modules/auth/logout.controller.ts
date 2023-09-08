@@ -1,5 +1,4 @@
 ﻿import {authenticate, AuthenticationBindings, AuthenticationErrors, IAuthUser, STRATEGY} from '@bleco/authentication';
-import {authorize} from '@bleco/authorization';
 import {inject} from '@loopback/context';
 import {repository} from '@loopback/repository';
 import {get, getModelSchemaRef, param, post, requestBody, RequestContext, Response, RestBindings} from '@loopback/rest';
@@ -14,21 +13,15 @@ import {
   SuccessResponse,
   X_TS_TYPE,
 } from '@loopx/core';
+import {AuthClientRepository, User, UserRepository, UserTenant, UserTenantRepository} from '@loopx/user-core';
 import crypto from 'crypto';
 import {HttpsProxyAgent} from 'https-proxy-agent';
 import {URLSearchParams} from 'url';
 
 import {LoginType} from '../../enums';
 import {AuthServiceBindings} from '../../keys';
-import {LoginActivity, RefreshToken, RefreshTokenRequest, User, UserTenant} from '../../models';
-import {
-  AuthSecureClientRepository,
-  LoginActivityRepository,
-  RefreshTokenRepository,
-  RevokedTokenRepository,
-  UserRepository,
-  UserTenantRepository,
-} from '../../repositories';
+import {LoginActivity, RefreshToken, RefreshTokenRequest} from '../../models';
+import {LoginActivityRepository, RefreshTokenRepository, RevokedTokenRepository} from '../../repositories';
 import {ActorId, IUserActivity} from '../../types';
 import {buildLogoutBindingKey} from './keys';
 import {AuthLogoutFn} from './types';
@@ -60,8 +53,8 @@ export class LogoutController {
     public refreshTokenRepo: RefreshTokenRepository,
     @repository(UserRepository)
     public userRepo: UserRepository,
-    @repository(AuthSecureClientRepository)
-    public authClientRepo: AuthSecureClientRepository,
+    @repository(AuthClientRepository)
+    public authClientRepo: AuthClientRepository,
     @inject(LOGGER.LOGGER_INJECT)
     public logger: ILogger,
     @inject(AuthServiceBindings.ActorIdKey)
@@ -77,7 +70,6 @@ export class LogoutController {
   @authenticate(STRATEGY.BEARER, {
     passReqToCallback: true,
   })
-  @authorize({permissions: ['*']})
   @post('/logout', {
     security: OPERATION_SECURITY_SPEC,
     description: 'To logout',
@@ -163,7 +155,6 @@ export class LogoutController {
     });
   }
 
-  @authorize({permissions: ['*']})
   @get('/logout/redirect')
   async logoutRedirect(
     @param.query.string('state')

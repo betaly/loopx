@@ -1,6 +1,5 @@
 ﻿import {Model, model, property} from '@loopback/repository';
-
-import {User} from './user.model';
+import {User} from '@loopx/user-core';
 
 @model()
 export class ForgetPasswordResponseDto extends Model {

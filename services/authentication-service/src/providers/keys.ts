@@ -1,7 +1,7 @@
 ﻿import {VerifyFunction} from '@bleco/authentication';
 import {BindingKey} from '@loopback/core';
+import {Role, Tenant} from '@loopx/user-core';
 
-import {Role, Tenant} from '../models';
 import {PreSignupFn, UserSignupFn} from '../types';
 import {AuthCodeGeneratorProvider} from './auth-code-generator.provider';
 import {

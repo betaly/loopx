@@ -1,13 +1,11 @@
 import {model, property} from '@loopback/repository';
 
-import {IUserResource} from '@bleco/authorization';
-
 import {UserUpdatableEntity} from '@loopx/core';
 
 @model({
   name: 'user_resources',
 })
-export class UserLevelResource extends UserUpdatableEntity implements IUserResource<string> {
+export class UserLevelResource extends UserUpdatableEntity {
   @property({
     type: 'string',
     id: true,

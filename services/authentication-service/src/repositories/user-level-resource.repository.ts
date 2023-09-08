@@ -1,11 +1,11 @@
 import {AuthenticationBindings} from '@bleco/authentication';
 import {Getter, inject} from '@loopback/core';
 import {BelongsToAccessor, juggler, repository} from '@loopback/repository';
-import {DefaultUserUpdatableCrudRepository, EntityClass, IAuthUserWithPermissions} from '@loopx/core';
+import {DefaultUserUpdatableCrudRepository, EntityClass, IAuthTenantUser} from '@loopx/core';
+import {UserTenant, UserTenantRepository} from '@loopx/user-core';
 
-import {UserLevelResource, UserLevelResourceTypes, UserTenant} from '../models';
+import {UserLevelResource, UserLevelResourceTypes} from '../models';
 import {AuthDbSourceName} from '../types';
-import {UserTenantRepository} from './user-tenant.repository';
 
 export class UserLevelResourceRepository<
   ULR extends UserLevelResourceTypes = UserLevelResourceTypes,
@@ -18,7 +18,7 @@ export class UserLevelResourceRepository<
     @repository.getter('UserTenantRepository')
     protected userTenantRepositoryGetter: Getter<UserTenantRepository>,
     @inject.getter(AuthenticationBindings.CURRENT_USER, {optional: true})
-    getCurrentUser?: Getter<IAuthUserWithPermissions | undefined>,
+    getCurrentUser?: Getter<IAuthTenantUser | undefined>,
     entityClass: EntityClass<ULR['Model']> = UserLevelResource,
   ) {
     super(entityClass, dataSource, getCurrentUser);

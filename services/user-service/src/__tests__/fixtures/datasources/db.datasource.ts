@@ -1,11 +1,10 @@
 ﻿import {inject, LifeCycleObserver, lifeCycleObserver, ValueOrPromise} from '@loopback/core';
 import {juggler} from '@loopback/repository';
+import {UserDataSourceName} from '@loopx/user-core';
 import temp from 'temp';
 
-import {UserTenantDataSourceName} from '../../../keys';
-
 const config = {
-  name: UserTenantDataSourceName,
+  name: UserDataSourceName,
   connector: 'sqlite3s',
   localStorage: '',
   file: temp.path('.db'),
@@ -13,10 +12,10 @@ const config = {
 
 @lifeCycleObserver('datasource')
 export class AuthenticationDbDataSource extends juggler.DataSource implements LifeCycleObserver {
-  static dataSourceName = UserTenantDataSourceName;
+  static dataSourceName = UserDataSourceName;
 
   constructor(
-    @inject(`datasources.config.${UserTenantDataSourceName}`, {optional: true})
+    @inject(`datasources.config.${UserDataSourceName}`, {optional: true})
     dsConfig: object = config,
   ) {
     super(dsConfig);

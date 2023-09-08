@@ -3,12 +3,13 @@ import {inject, Provider} from '@loopback/context';
 import {service} from '@loopback/core';
 import {repository} from '@loopback/repository';
 import {ILogger, LOGGER} from '@loopx/core';
+import {AuthClient, User, UserRepository} from '@loopx/user-core';
 import {totp} from 'otplib';
 
-import {AuthClient, LocalUserProfile, User} from '../../../models';
+import {LocalUserProfile} from '../../../models';
 import {OtpRequest} from '../../../otp/otp';
 import {SignUpBindings} from '../../../providers';
-import {OtpCacheRepository, UserRepository} from '../../../repositories';
+import {OtpCacheRepository} from '../../../repositories';
 import {OtpService} from '../../../services/otp.service';
 import {UserSignupFn} from '../../../types';
 

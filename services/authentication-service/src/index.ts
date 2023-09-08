@@ -1,4 +1,5 @@
 export * from './application';
+export * from './auth.subjects';
 export * from './component';
 export * from './controllers';
 export * from './enums';

@@ -1,8 +1,7 @@
 ﻿import {VerifyFunction} from '@bleco/authentication';
 import {Provider} from '@loopback/context';
 import {repository} from '@loopback/repository';
-
-import {AuthClientRepository} from '../../../repositories';
+import {AuthClientRepository} from '@loopx/user-core';
 
 export class ClientPasswordVerifyProvider implements Provider<VerifyFunction.OauthClientPasswordFn> {
   constructor(

@@ -1,12 +1,18 @@
 ﻿import {IAuthUser} from '@bleco/authentication';
 import {createStubInstance, expect, StubbedInstanceWithSinonAccessor} from '@loopback/testlab';
+import {
+  User,
+  UserCredentials,
+  UserCredentialsRepository,
+  UserCredentialsWithRelations,
+  UserRepository,
+  UserWithRelations,
+} from '@loopx/user-core';
 import * as AppleStrategy from 'passport-apple';
 import sinon from 'sinon';
 
-import {User, UserCredentials, UserCredentialsWithRelations, UserWithRelations} from '../../../models';
-import {AppleOauth2VerifyProvider} from '../../../modules/auth/providers/apple-oauth2-verify.provider';
+import {AppleOauth2VerifyProvider} from '../../../modules/auth';
 import {AppleSignUpFn} from '../../../providers';
-import {UserCredentialsRepository, UserRepository} from '../../../repositories';
 
 describe('Apple Verify Provider', () => {
   let userRepo: StubbedInstanceWithSinonAccessor<UserRepository>;

@@ -1,6 +1,7 @@
 ﻿import {AuthenticationErrors, IAuthUser, VerifyFunction} from '@bleco/authentication';
 import {inject, Provider} from '@loopback/context';
 import {repository} from '@loopback/repository';
+import {UserCredentialsRepository, UserRepository} from '@loopx/user-core';
 import * as InstagramStrategy from 'passport-instagram';
 
 import {
@@ -10,7 +11,6 @@ import {
   SignUpBindings,
   VerifyBindings,
 } from '../../../providers';
-import {UserCredentialsRepository, UserRepository} from '../../../repositories';
 import {AuthUser} from '../models/auth-user.model';
 
 export class InstagramOauth2VerifyProvider implements Provider<VerifyFunction.InstagramAuthFn> {
@@ -36,12 +36,10 @@ export class InstagramOauth2VerifyProvider implements Provider<VerifyFunction.In
       });
       user = await this.preVerifyProvider(accessToken, refreshToken, profile, user);
       if (!user) {
-        const newUser = await this.signupProvider(profile);
-        if (newUser) {
-          user = newUser;
-        } else {
-          throw new AuthenticationErrors.InvalidCredentials();
-        }
+        user = await this.signupProvider(profile);
+      }
+      if (!user) {
+        throw new AuthenticationErrors.InvalidCredentials();
       }
       const creds = await this.userCredsRepository.findOne({
         where: {

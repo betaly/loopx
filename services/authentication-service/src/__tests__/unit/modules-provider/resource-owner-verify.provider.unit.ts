@@ -1,11 +1,21 @@
 ﻿import {HttpErrors} from '@loopback/rest';
 import {createStubInstance, expect, StubbedInstanceWithSinonAccessor} from '@loopback/testlab';
 import {UserStatus} from '@loopx/core';
+import {
+  AuthClient,
+  AuthClientRepository,
+  User,
+  UserRepository,
+  UserTenant,
+  UserTenantRepository,
+  UserTenantWithRelations,
+  UserWithRelations,
+} from '@loopx/user-core';
 import sinon from 'sinon';
 
-import {AuthClient, Otp, User, UserTenant, UserTenantWithRelations, UserWithRelations} from '../../../models';
-import {ResourceOwnerVerifyProvider} from '../../../modules/auth/providers/resource-owner-verify.provider';
-import {AuthClientRepository, OtpRepository, UserRepository, UserTenantRepository} from '../../../repositories';
+import {Otp} from '../../../models';
+import {ResourceOwnerVerifyProvider} from '../../../modules/auth';
+import {OtpRepository} from '../../../repositories';
 
 describe('Resource Owner Verify Provider', () => {
   let userRepo: StubbedInstanceWithSinonAccessor<UserRepository>;

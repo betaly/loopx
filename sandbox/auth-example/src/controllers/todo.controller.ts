@@ -1,13 +1,12 @@
-import {BindingScope, bind, inject} from '@loopback/core';
-import {AnyObject, Count, CountSchema, Filter, FilterExcludingWhere, Where, repository} from '@loopback/repository';
+import {bind, BindingScope, inject} from '@loopback/core';
+import {AnyObject, Count, CountSchema, Filter, FilterExcludingWhere, repository, Where} from '@loopback/repository';
 import {del, get, getModelSchemaRef, param, patch, post, requestBody} from '@loopback/rest';
 
-import {AuthenticationBindings, STRATEGY, authenticate} from '@bleco/authentication';
-import {IAuthUserWithPermissions, authorize} from '@bleco/authorization';
+import {authenticate, AuthenticationBindings, STRATEGY} from '@bleco/authentication';
 
-import {PermissionKey} from '../enums';
 import {ToDo, UserLevelResource} from '../models';
 import {ToDoRepository, UserLevelResourceRepository} from '../repositories';
+import {IAuthTenantUser} from '@loopx/core';
 
 const BASE_PATH = '/todos';
 
@@ -23,7 +22,7 @@ export class TodoController {
   @authenticate(STRATEGY.BEARER, {
     passReqToCallback: true,
   })
-  @authorize({permissions: [PermissionKey.TodoCreator]})
+  // @authorize({permissions: [PermissionKey.TodoCreator]})
   @post(BASE_PATH, {
     responses: {
       '200': {
@@ -34,7 +33,7 @@ export class TodoController {
   })
   async create(
     @inject(AuthenticationBindings.CURRENT_USER)
-    currentUser: IAuthUserWithPermissions,
+    currentUser: IAuthTenantUser,
     @requestBody({
       content: {
         'application/json': {
@@ -50,7 +49,7 @@ export class TodoController {
     const todoCreated = await this.toDoRepository.create(toDo);
     await this.userLevelResourceRepo.create(
       new UserLevelResource({
-        resourceName: PermissionKey.TodoOwner,
+        resourceName: 'Todo',
         resourceValue: todoCreated.id,
         userTenantId: (currentUser as AnyObject)?.userTenantId,
       }),
@@ -61,7 +60,7 @@ export class TodoController {
   @authenticate(STRATEGY.BEARER, {
     passReqToCallback: true,
   })
-  @authorize({permissions: [PermissionKey.TodoOwner]})
+  // @authorize({permissions: [PermissionKey.TodoOwner]})
   @get(`${BASE_PATH}/count`, {
     responses: {
       '200': {
@@ -77,7 +76,7 @@ export class TodoController {
   @authenticate(STRATEGY.BEARER, {
     passReqToCallback: true,
   })
-  @authorize({permissions: [PermissionKey.TodoOwner]})
+  // @authorize({permissions: [PermissionKey.TodoOwner]})
   @get(BASE_PATH, {
     responses: {
       '200': {
@@ -100,7 +99,7 @@ export class TodoController {
   @authenticate(STRATEGY.BEARER, {
     passReqToCallback: true,
   })
-  @authorize({permissions: [PermissionKey.TodoOwner]})
+  // @authorize({permissions: [PermissionKey.TodoOwner]})
   @get(`${BASE_PATH}/{id}`, {
     responses: {
       '200': {
@@ -123,7 +122,7 @@ export class TodoController {
   @authenticate(STRATEGY.BEARER, {
     passReqToCallback: true,
   })
-  @authorize({permissions: [PermissionKey.TodoOwner]})
+  // @authorize({permissions: [PermissionKey.TodoOwner]})
   @patch(`${BASE_PATH}/{id}`, {
     responses: {
       '204': {
@@ -148,7 +147,7 @@ export class TodoController {
   @authenticate(STRATEGY.BEARER, {
     passReqToCallback: true,
   })
-  @authorize({permissions: [PermissionKey.TodoOwner]})
+  // @authorize({permissions: [PermissionKey.TodoOwner]})
   @del(`${BASE_PATH}/{id}`, {
     responses: {
       '204': {

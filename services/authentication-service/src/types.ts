@@ -1,9 +1,10 @@
 import {STRATEGY} from '@bleco/authentication';
 import {AnyObject} from '@loopback/repository';
 import {IServiceConfig} from '@loopx/core';
+import {User, UserTenant} from '@loopx/user-core';
 
 import {OtpMethodType} from './enums';
-import {LocalUserProfile, LoginActivity, SignupRequestDto, User, UserTenant} from './models';
+import {LocalUserProfile, LoginActivity, SignupRequestDto} from './models';
 
 export const AuthDbSourceName = 'AuthDB';
 export const AuthCacheSourceName = 'AuthCache';

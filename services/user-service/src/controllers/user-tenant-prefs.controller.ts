@@ -1,13 +1,10 @@
 ﻿import {authenticate, AuthenticationBindings, STRATEGY} from '@bleco/authentication';
-import {authorize} from '@bleco/authorization';
 import {inject} from '@loopback/context';
 import {Filter, repository} from '@loopback/repository';
 import {get, getFilterSchemaFor, getModelSchemaRef, param, post, requestBody} from '@loopback/rest';
-import {CONTENT_TYPE, IAuthUserWithPermissions, STATUS_CODE} from '@loopx/core';
-
-import {PermissionKey} from '../enums';
-import {UserTenantPrefs} from '../models';
-import {UserTenantPrefsRepository} from '../repositories/user-tenant-prefs.repository';
+import {CONTENT_TYPE, IAuthTenantUser, STATUS_CODE} from '@loopx/core';
+import {UserAuthSubjects, UserTenantPrefs, UserTenantPrefsRepository} from '@loopx/user-core';
+import {Actions, authorise} from 'loopback4-acl';
 
 const basePath = '/ut-prefs';
 
@@ -16,15 +13,16 @@ export class UserTenantPrefsController {
     @repository(UserTenantPrefsRepository)
     public userTenantPrefsRepository: UserTenantPrefsRepository,
     @inject(AuthenticationBindings.CURRENT_USER)
-    private readonly currentUser: IAuthUserWithPermissions,
+    private readonly currentUser: IAuthTenantUser,
   ) {}
 
   @authenticate(STRATEGY.BEARER, {
     passReqToCallback: true,
   })
-  @authorize({
-    permissions: [PermissionKey.UpdateUserTenantPreference, PermissionKey.UpdateUserTenantPreferenceNum],
-  })
+  // @authorize({
+  //   permissions: [PermissionKey.UpdateUserTenantPreference, PermissionKey.UpdateUserTenantPreferenceNum],
+  // })
+  @authorise(Actions.update, UserAuthSubjects.UserTenantPrefs, async ({body}) => body)
   @post(basePath, {
     responses: {
       [STATUS_CODE.OK]: {
@@ -69,9 +67,10 @@ export class UserTenantPrefsController {
   @authenticate(STRATEGY.BEARER, {
     passReqToCallback: true,
   })
-  @authorize({
-    permissions: [PermissionKey.ViewUserTenantPreference, PermissionKey.ViewUserTenantPreferenceNum],
-  })
+  // @authorize({
+  //   permissions: [PermissionKey.ViewUserTenantPreference, PermissionKey.ViewUserTenantPreferenceNum],
+  // })
+  @authorise(Actions.read, UserAuthSubjects.UserTenantPrefs)
   @get(basePath, {
     responses: {
       [STATUS_CODE.OK]: {

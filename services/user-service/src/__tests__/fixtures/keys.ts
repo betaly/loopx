@@ -21,7 +21,7 @@ export interface IUserPrefs {
   locale?: string;
 }
 
-export interface IAuthUserWithPermissions<ID = string, TID = string, UTID = string> extends IAuthUser {
+export interface IAuthTenantUser<ID = string, TID = string, UTID = string> extends IAuthUser {
   id?: string;
   identifier?: ID;
   permissions: string[];

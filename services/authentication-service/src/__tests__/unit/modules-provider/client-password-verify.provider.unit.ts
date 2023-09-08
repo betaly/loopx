@@ -1,9 +1,8 @@
 ﻿import {createStubInstance, expect, StubbedInstanceWithSinonAccessor} from '@loopback/testlab';
+import {AuthClient, AuthClientRepository} from '@loopx/user-core';
 import sinon from 'sinon';
 
-import {AuthClient} from '../../../models';
-import {ClientPasswordVerifyProvider} from '../../../modules/auth/providers/client-password-verify.provider';
-import {AuthClientRepository} from '../../../repositories';
+import {ClientPasswordVerifyProvider} from '../../../modules/auth';
 
 describe('Client Password Verify Provider', () => {
   let authClientRepo: StubbedInstanceWithSinonAccessor<AuthClientRepository>;

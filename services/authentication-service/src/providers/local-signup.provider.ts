@@ -1,8 +1,8 @@
 ﻿import {Provider} from '@loopback/context';
 import {AnyObject} from '@loopback/repository';
+import {User} from '@loopx/user-core';
 import uniqid from 'uniqid';
 
-import {User} from '../models';
 import {LocalUserProfileDto} from '../models/local-user-profile';
 import {UserSignupFn} from '../types';
 

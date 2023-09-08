@@ -1,8 +1,8 @@
 import {AuthaCallbackParameters, UserClaims} from '@authajs/passport-autha';
 import {Client, createRestAppClient} from '@loopback/testlab';
+import {AuthClient} from '@loopx/user-core';
 import nock from 'nock';
 
-import {AuthClient} from '../../../models';
 import {isJWTToken} from '../../../utils/tokens';
 import {TestingApplication} from '../../fixtures/application';
 import {TestHelperKey} from '../../fixtures/keys';

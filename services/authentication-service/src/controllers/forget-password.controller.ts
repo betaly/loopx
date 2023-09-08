@@ -5,8 +5,7 @@
   ClientAuthCode,
   STRATEGY,
 } from '@bleco/authentication';
-import {authorize} from '@bleco/authorization';
-import {inject} from '@loopback/core';
+import {inject, service} from '@loopback/core';
 import {repository} from '@loopback/repository';
 import {get, param, patch, post, requestBody} from '@loopback/rest';
 import {
@@ -19,14 +18,15 @@ import {
   STATUS_CODE,
   SuccessResponse,
 } from '@loopx/core';
+import {AuthClient, User, UserRepository} from '@loopx/user-core';
 import * as jwt from 'jsonwebtoken';
 import {omit} from 'lodash';
 
 import {AuthServiceBindings} from '../keys';
-import {AuthClient, ForgetPasswordDto, ResetPasswordWithClient, User} from '../models';
+import {ForgetPasswordDto, ResetPasswordWithClient} from '../models';
 import {ForgotPasswordHandlerFn} from '../providers';
-import {RevokedTokenRepository, UserRepository} from '../repositories';
-import {LoginHelperService} from '../services';
+import {RevokedTokenRepository} from '../repositories';
+import {LoginHelperService, UserAuthService} from '../services';
 
 export class ForgetPasswordController {
   constructor(
@@ -34,13 +34,14 @@ export class ForgetPasswordController {
     private readonly userRepo: UserRepository,
     @repository(RevokedTokenRepository)
     private readonly revokedTokensRepo: RevokedTokenRepository,
-    @inject('services.LoginHelperService')
+    @service(UserAuthService)
+    private readonly userAuthService: UserAuthService,
+    @service(LoginHelperService)
     private readonly loginHelperService: LoginHelperService,
     @inject(LOGGER.LOGGER_INJECT) public logger: ILogger,
   ) {}
 
   @authenticateClient(STRATEGY.CLIENT_PASSWORD)
-  @authorize({permissions: ['*']})
   @post(`auth/forget-password`, {
     security: OPERATION_SECURITY_SPEC,
     responses: {
@@ -110,7 +111,6 @@ export class ForgetPasswordController {
     });
   }
 
-  @authorize({permissions: ['*']})
   @get(`auth/verify-reset-password-link`, {
     responses: {
       [STATUS_CODE.OK]: {
@@ -147,7 +147,6 @@ export class ForgetPasswordController {
   }
 
   @authenticateClient(STRATEGY.CLIENT_PASSWORD)
-  @authorize({permissions: ['*']})
   @patch(`auth/reset-password`, {
     security: OPERATION_SECURITY_SPEC,
     responses: {
@@ -196,7 +195,7 @@ export class ForgetPasswordController {
     });
     await this.loginHelperService.verifyClientUserLogin(req, client, user);
 
-    await this.userRepo.changePassword(payload.user.username, req.password);
+    await this.userAuthService.changePassword(payload.user.username, req.password);
 
     await this.revokedTokensRepo.set(req.token, {
       token: req.token,

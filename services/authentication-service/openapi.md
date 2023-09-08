@@ -83,10 +83,6 @@ fetch('/active-users/{range}',
 
 `GET /active-users/{range}`
 
-| Permissions |
-| ------- |
-| ViewLoginActivity   |
-
 <h3 id="loginactivitycontroller.getactiveusers-parameters">Parameters</h3>
 
 |Name|In|Type|Required|Description|
@@ -167,10 +163,6 @@ fetch('/login-activity/count',
 
 `GET /login-activity/count`
 
-| Permissions |
-| ------- |
-| ViewLoginActivity   |
-
 <h3 id="loginactivitycontroller.count-parameters">Parameters</h3>
 
 |Name|In|Type|Required|Description|
@@ -248,10 +240,6 @@ fetch('/login-activity/{id}',
 ```
 
 `GET /login-activity/{id}`
-
-| Permissions |
-| ------- |
-| ViewLoginActivity   |
 
 <h3 id="loginactivitycontroller.findbyid-parameters">Parameters</h3>
 
@@ -338,10 +326,6 @@ fetch('/login-activity',
 ```
 
 `GET /login-activity`
-
-| Permissions |
-| ------- |
-| ViewLoginActivity   |
 
 <h3 id="loginactivitycontroller.find-parameters">Parameters</h3>
 
@@ -3147,20 +3131,21 @@ To get the user details
   "createdBy": "string",
   "updatedBy": "string",
   "id": "string",
+  "username": "string",
   "name": "string",
   "firstName": "string",
   "lastName": "string",
   "middleName": "string",
-  "photoUrl": "string",
-  "username": "string",
   "email": "string",
+  "designation": "string",
   "phone": "string",
   "authClientIds": [
     0
   ],
   "lastLogin": "2019-08-24T14:15:22Z",
-  "dob": "2019-08-24T14:15:22Z",
+  "photoUrl": "string",
   "gender": "M",
+  "dob": "2019-08-24T14:15:22Z",
   "defaultTenantId": "string",
   "permissions": [
     "string"
@@ -4309,20 +4294,21 @@ AuthRefreshTokenRequest
   "createdBy": "string",
   "updatedBy": "string",
   "id": "string",
+  "username": "string",
   "name": "string",
   "firstName": "string",
   "lastName": "string",
   "middleName": "string",
-  "photoUrl": "string",
-  "username": "string",
   "email": "string",
+  "designation": "string",
   "phone": "string",
   "authClientIds": [
     0
   ],
   "lastLogin": "2019-08-24T14:15:22Z",
-  "dob": "2019-08-24T14:15:22Z",
+  "photoUrl": "string",
   "gender": "M",
+  "dob": "2019-08-24T14:15:22Z",
   "defaultTenantId": "string",
   "permissions": [
     "string"
@@ -4356,18 +4342,19 @@ AuthUser
 |createdBy|string|false|none|none|
 |updatedBy|string|false|none|none|
 |id|string|false|none|none|
+|username|string|true|none|none|
 |name|string|false|none|none|
 |firstName|string|false|none|none|
 |lastName|string|false|none|none|
 |middleName|string|false|none|none|
-|photoUrl|string|false|none|none|
-|username|string|true|none|none|
 |email|string|false|none|none|
+|designation|string|false|none|none|
 |phone|string|false|none|none|
 |authClientIds|[number]|false|none|none|
 |lastLogin|string(date-time)|false|none|none|
-|dob|string(date-time)|false|none|none|
+|photoUrl|string|false|none|none|
 |gender|string|false|none|This field takes a single character as input in database.<br>    'M' for male and 'F' for female.|
+|dob|string(date-time)|false|none|none|
 |defaultTenantId|string|false|none|none|
 |permissions|[string]|false|none|none|
 |role|string|true|none|none|
@@ -4686,11 +4673,12 @@ ForgetPasswordDto
   "id": 0,
   "name": "string",
   "description": "string",
+  "clientType": "string",
   "clientId": "string",
   "clientSecret": "string",
-  "secret": "string",
   "redirectUrl": "string",
   "logoutRedirectUrl": "string",
+  "secret": "string",
   "accessTokenExpiration": 0,
   "refreshTokenExpiration": 0,
   "authCodeExpiration": 0
@@ -4714,12 +4702,13 @@ AuthClient
 |id|number|false|none|none|
 |name|string|false|none|none|
 |description|string|false|none|none|
+|clientType|string|false|none|none|
 |clientId|string|true|none|none|
-|clientSecret|string|true|none|none|
-|secret|string|true|none|none|
+|clientSecret|string|false|none|none|
 |redirectUrl|string|false|none|none|
 |logoutRedirectUrl|string|false|none|none|
-|accessTokenExpiration|number|true|none|Expires in seconds|
+|secret|string|true|none|none|
+|accessTokenExpiration|number|true|none|none|
 |refreshTokenExpiration|number|true|none|none|
 |authCodeExpiration|number|true|none|none|
 

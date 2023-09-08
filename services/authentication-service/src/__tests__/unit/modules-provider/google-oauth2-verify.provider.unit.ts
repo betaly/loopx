@@ -1,12 +1,18 @@
 ﻿import {IAuthUser} from '@bleco/authentication';
 import {createStubInstance, expect, StubbedInstanceWithSinonAccessor} from '@loopback/testlab';
+import {
+  User,
+  UserCredentials,
+  UserCredentialsRepository,
+  UserCredentialsWithRelations,
+  UserRepository,
+  UserWithRelations,
+} from '@loopx/user-core';
 import * as GoogleStrategy from 'passport-google-oauth20';
 import sinon from 'sinon';
 
-import {User, UserCredentials, UserCredentialsWithRelations, UserWithRelations} from '../../../models';
-import {GoogleOauth2VerifyProvider} from '../../../modules/auth/providers/google-oauth2-verify.provider';
+import {GoogleOauth2VerifyProvider} from '../../../modules/auth';
 import {GoogleSignUpFn} from '../../../providers';
-import {UserCredentialsRepository, UserRepository} from '../../../repositories';
 
 describe('Google Verify Provider', () => {
   let userRepo: StubbedInstanceWithSinonAccessor<UserRepository>;

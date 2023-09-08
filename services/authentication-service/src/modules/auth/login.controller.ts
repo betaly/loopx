@@ -6,43 +6,42 @@
   ClientAuthCode,
   STRATEGY,
 } from '@bleco/authentication';
-import {AuthorizationErrors, authorize} from '@bleco/authorization';
 import {inject} from '@loopback/context';
 import {service} from '@loopback/core';
 import {repository} from '@loopback/repository';
-import {getModelSchemaRef, param, patch, post, Request, requestBody, RestBindings} from '@loopback/rest';
+import {getModelSchemaRef, param, patch, post, requestBody} from '@loopback/rest';
 import {
   AuthErrors,
   CONTENT_TYPE,
   ErrorCodes,
-  IAuthUserWithPermissions,
+  IAuthTenantUser,
   ILogger,
   LOGGER,
   OPERATION_SECURITY_SPEC,
+  RevokedTokenRepository,
   STATUS_CODE,
   SuccessResponse,
   UserStatus,
   X_TS_TYPE,
 } from '@loopx/core';
-import {BErrors} from 'berrors';
-
-import {LoginType} from '../../enums';
-import {AuthServiceBindings} from '../../keys';
-import {AuthClient, User} from '../../models';
-import {AuthCodeBindings, AuthCodeGeneratorFn, JwtPayloadFn, JWTSignerFn} from '../../providers';
 import {
+  AuthClient,
   AuthClientRepository,
-  OtpCacheRepository,
-  RefreshTokenRepository,
-  RevokedTokenRepository,
   RoleRepository,
   TenantConfigRepository,
+  User,
   UserCredentialsRepository,
   UserLevelPermissionRepository,
   UserRepository,
   UserTenantRepository,
-} from '../../repositories';
-import {LoginHelperService, TokenService} from '../../services';
+} from '@loopx/user-core';
+import {BErrors} from 'berrors';
+import {AclErrors} from 'loopback4-acl';
+
+import {LoginType} from '../../enums';
+import {AuthCodeBindings, AuthCodeGeneratorFn} from '../../providers';
+import {OtpCacheRepository, RefreshTokenRepository} from '../../repositories';
+import {LoginHelperService, TokenService, UserAuthService} from '../../services';
 import {CodeResponse, LoginCodeResponse, LoginRequest} from './';
 import {AuthUser} from './models/auth-user.model';
 import {ResetPassword} from './models/reset-password.dto';
@@ -74,24 +73,19 @@ export class LoginController {
     public tenantConfigRepo: TenantConfigRepository,
     @repository(UserCredentialsRepository)
     public userCredsRepository: UserCredentialsRepository,
-    @inject(RestBindings.Http.REQUEST)
-    private readonly req: Request,
-    @inject(AuthServiceBindings.JWTPayloadProvider)
-    private readonly getJwtPayload: JwtPayloadFn,
     @service(LoginHelperService)
     private readonly loginHelperService: LoginHelperService,
     @service(TokenService)
     private readonly tokenService: TokenService,
+    @service(UserAuthService)
+    private readonly userAuthService: UserAuthService,
     @inject(AuthCodeBindings.AUTH_CODE_GENERATOR_PROVIDER)
     private readonly getAuthCode: AuthCodeGeneratorFn,
-    @inject(AuthCodeBindings.JWT_SIGNER)
-    private readonly jwtSigner: JWTSignerFn<object>,
     @inject(LOGGER.LOGGER_INJECT) public logger: ILogger,
   ) {}
 
   @authenticateClient(STRATEGY.CLIENT_PASSWORD)
   @authenticate(STRATEGY.LOCAL)
-  @authorize({permissions: ['*']})
   @post('/auth/login', {
     description: 'Gets you the code that will be used for getting token (webapps)',
     responses: {
@@ -134,7 +128,6 @@ export class LoginController {
 
   @authenticateClient(STRATEGY.CLIENT_PASSWORD)
   @authenticate(STRATEGY.OAUTH2_RESOURCE_OWNER_GRANT)
-  @authorize({permissions: ['*']})
   @post('/auth/login-token', {
     description: 'Gets you refresh token and access token in one hit. (mobile app)',
     responses: {
@@ -175,7 +168,6 @@ export class LoginController {
   }
 
   @authenticate(STRATEGY.BEARER, {passReqToCallback: true})
-  @authorize({permissions: ['*']})
   @patch(`auth/change-password`, {
     security: OPERATION_SECURITY_SPEC,
     responses: {
@@ -195,7 +187,7 @@ export class LoginController {
     req: ResetPassword,
     @param.header.string('Authorization') auth: string,
     @inject(AuthenticationBindings.CURRENT_USER)
-    currentUser: IAuthUserWithPermissions,
+    currentUser: IAuthTenantUser,
   ): Promise<SuccessResponse> {
     const token = auth?.replace(/bearer /i, '');
     if (!token || !req.refreshToken) {
@@ -207,7 +199,7 @@ export class LoginController {
       throw new AuthenticationErrors.TokenInvalid();
     }
     if (refreshTokenModel.username !== req.username || currentUser.username !== req.username) {
-      throw new AuthorizationErrors.NotAllowedAccess();
+      throw new AclErrors.NotAllowedAccess();
     }
 
     if (req.password && req.password.length <= 0) {
@@ -216,9 +208,9 @@ export class LoginController {
 
     let changePasswordResponse: User;
     if (req.oldPassword) {
-      changePasswordResponse = await this.userRepo.updatePassword(req.username, req.oldPassword, req.password);
+      changePasswordResponse = await this.getPasswordResponse(req.username, req.password, req.oldPassword);
     } else {
-      changePasswordResponse = await this.userRepo.changePassword(req.username, req.password);
+      changePasswordResponse = await this.getPasswordResponse(req.username, req.password);
     }
 
     if (!changePasswordResponse) {
@@ -245,5 +237,24 @@ export class LoginController {
     return new SuccessResponse({
       success: true,
     });
+  }
+
+  async getPasswordResponse(userName: string, password: string, prevPassword?: string): Promise<User> {
+    // TODO implement password decryption ?
+    if (prevPassword) {
+      const oldPassword = prevPassword;
+      const newPassword = password;
+      // if (process.env.PRIVATE_DECRYPTION_KEY) {
+      //   oldPassword = await this.userRepo.decryptPassword(oldPassword);
+      //   newPassword = await this.userRepo.decryptPassword(password);
+      // }
+      return this.userRepo.updatePassword(userName, oldPassword, newPassword);
+    } else {
+      const newPassword = password;
+      // if (process.env.PRIVATE_DECRYPTION_KEY) {
+      //   newPassword = await this.userRepo.decryptPassword(password);
+      // }
+      return this.userAuthService.changePassword(userName, newPassword);
+    }
   }
 }

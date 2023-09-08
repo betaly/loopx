@@ -6,19 +6,18 @@
   ClientAuthCode,
   STRATEGY,
 } from '@bleco/authentication';
-import {authorize} from '@bleco/authorization';
 import {inject} from '@loopback/context';
 import {repository} from '@loopback/repository';
 import {get, param, post, requestBody} from '@loopback/rest';
 import {AuthErrors, CONTENT_TYPE, ErrorCodes, ILogger, LOGGER, STATUS_CODE} from '@loopx/core';
+import {AuthClientRepository, User, UserCredentials, UserCredentialsRepository, UserRepository} from '@loopx/user-core';
 import {BErrors} from 'berrors';
 import * as jwt from 'jsonwebtoken';
 import {authenticator} from 'otplib';
 import qrcode from 'qrcode';
 
-import {User, UserCredentials} from '../../models';
 import {AuthCodeBindings, CodeReaderFn, CodeWriterFn} from '../../providers';
-import {AuthClientRepository, OtpCacheRepository, UserCredentialsRepository, UserRepository} from '../../repositories';
+import {OtpCacheRepository} from '../../repositories';
 import {AuthTokenRequest, CodeResponse, OtpLoginRequest, QrCodeCheckResponse, QrCodeCreateResponse} from './';
 import {AuthUser} from './models/auth-user.model';
 import {OtpSendRequest} from './models/otp-send-request.dto';
@@ -39,7 +38,6 @@ export class OtpController {
   // OTP
   @authenticateClient(STRATEGY.CLIENT_PASSWORD)
   @authenticate(STRATEGY.OTP)
-  @authorize({permissions: ['*']})
   @post('/auth/send-otp', {
     description: 'Sends OTP',
     responses: {
@@ -60,7 +58,6 @@ export class OtpController {
   }
 
   @authenticate(STRATEGY.OTP)
-  @authorize({permissions: ['*']})
   @post('/auth/verify-otp', {
     description: 'Gets you the code that will be used for getting token (webapps)',
     responses: {
@@ -103,7 +100,7 @@ export class OtpController {
   }
 
   // Google Authenticator
-  @authorize({permissions: ['*']})
+
   @get('/auth/check-qr-code', {
     description: 'Returns isGenerated:true if secret_key already exist',
     responses: {
@@ -172,7 +169,6 @@ export class OtpController {
     }
   }
 
-  @authorize({permissions: ['*']})
   @post('/auth/create-qr-code', {
     description: 'Generates a new qrCode for Authenticator App',
     responses: {

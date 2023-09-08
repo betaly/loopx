@@ -6,7 +6,6 @@ import {ForgotPasswordHandlerFn, JwtPayloadFn} from './providers';
 import {ActorId, IAuthaConfig, IAuthServiceConfig, IMfaConfig, IOtpConfig, IUserActivity} from './types';
 
 export {AuthenticationBindings} from '@bleco/authentication';
-export {AuthorizationBindings} from '@bleco/authorization';
 
 export namespace AuthServiceBindings {
   export const COMPONENT = BindingKey.create<AuthenticationServiceComponent>(

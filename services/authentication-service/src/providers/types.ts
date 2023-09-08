@@ -1,6 +1,7 @@
 ﻿import * as AuthaStrategy from '@authajs/passport-autha';
 import {Cognito, IAuthClient, IAuthUser, Keycloak} from '@bleco/authentication';
 import {DataObject} from '@loopback/repository';
+import {AuthClient, User, UserRelations} from '@loopx/user-core';
 import {SignOptions, VerifyOptions} from 'jsonwebtoken';
 import * as AppleStrategy from 'passport-apple';
 import * as AzureADStrategy from 'passport-azure-ad';
@@ -8,7 +9,7 @@ import * as FacebookStrategy from 'passport-facebook';
 import * as GoogleStrategy from 'passport-google-oauth20';
 import * as InstagramStrategy from 'passport-instagram';
 
-import {AuthClient, ForgetPasswordResponseDto, SignupRequestResponseDto, User, UserRelations} from '../models';
+import {ForgetPasswordResponseDto, SignupRequestResponseDto} from '../models';
 import {AuthUser, OtpResponse} from '../modules/auth';
 import {IOtpRequest} from '../types';
 

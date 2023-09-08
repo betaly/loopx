@@ -1,9 +1,8 @@
 import {Getter, inject, Provider} from '@loopback/core';
 import {repository} from '@loopback/repository';
 import {TenantResolverFn} from '@loopx/multi-tenancy';
+import {Tenant, TenantRepository} from '@loopx/user-core';
 
-import {Tenant} from '../models';
-import {TenantRepository} from '../repositories';
 import {AuthEntityBindings} from './keys';
 
 export class TenantResolverProvider implements Provider<TenantResolverFn> {

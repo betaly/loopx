@@ -1,9 +1,8 @@
 import {Model, model, property} from '@loopback/repository';
-
-import {AuthSecureClient} from './auth-secure-client.model';
+import {AuthClient} from '@loopx/user-core';
 
 @model()
-export class AuthClientRequestDto extends Model implements Partial<AuthSecureClient> {
+export class AuthClientRequestDto extends Model implements Partial<AuthClient> {
   @property({
     type: 'string',
     required: true,

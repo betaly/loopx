@@ -5,20 +5,20 @@ import {
   ClientAuthCode,
   STRATEGY,
 } from '@bleco/authentication';
-import {authorize} from '@bleco/authorization';
 import {inject} from '@loopback/context';
 import {service} from '@loopback/core';
 import {AnyObject, repository} from '@loopback/repository';
 import {get, post, requestBody} from '@loopback/rest';
 import {CONTENT_TYPE, ErrorCodes, ILogger, LOGGER, OPERATION_SECURITY_SPEC, STATUS_CODE, X_TS_TYPE} from '@loopx/core';
+import {AuthClientRepository, User, UserRepository} from '@loopx/user-core';
 import {BErrors} from 'berrors';
 import * as jwt from 'jsonwebtoken';
 
 import {LoginType} from '../enums';
-import {RefreshToken, User} from '../models';
+import {RefreshToken} from '../models';
 import {AuthRefreshTokenRequest, AuthTokenRequest, AuthUser, TokenResponse} from '../modules/auth';
 import {AuthCodeBindings, CodeReaderFn} from '../providers';
-import {AuthClientRepository, RefreshTokenRepository, RevokedTokenRepository, UserRepository} from '../repositories';
+import {RefreshTokenRepository, RevokedTokenRepository} from '../repositories';
 import {TokenService} from '../services';
 
 export class TokensController {
@@ -39,7 +39,6 @@ export class TokensController {
     private readonly user: AuthUser | undefined,
   ) {}
 
-  @authorize({permissions: ['*']})
   @post('/auth/token', {
     description:
       'Send the code received from the POST /auth/login api and get refresh token and access token (webapps)',
@@ -97,7 +96,6 @@ export class TokensController {
     }
   }
 
-  @authorize({permissions: ['*']})
   @post('/auth/token-refresh', {
     description: 'Gets you a new access and refresh token once your access token is expired',
     //(both mobile and web)
@@ -130,7 +128,6 @@ export class TokensController {
   @authenticate(STRATEGY.BEARER, {
     passReqToCallback: true,
   })
-  @authorize({permissions: ['*']})
   @post('/auth/token-switch', {
     security: OPERATION_SECURITY_SPEC,
     description: 'To switch the access-token',
@@ -170,7 +167,6 @@ export class TokensController {
   @authenticate(STRATEGY.BEARER, {
     passReqToCallback: true,
   })
-  @authorize({permissions: ['*']})
   @get('/auth/me', {
     security: OPERATION_SECURITY_SPEC,
     description: 'To get the user details',

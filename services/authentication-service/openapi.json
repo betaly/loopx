@@ -29,7 +29,6 @@
             }
           }
         },
-        "description": "\n\n| Permissions |\n| ------- |\n| ViewLoginActivity   |\n",
         "parameters": [
           {
             "name": "range",
@@ -78,7 +77,6 @@
             }
           }
         },
-        "description": "",
         "parameters": [
           {
             "name": "code",
@@ -117,7 +115,6 @@
             }
           }
         },
-        "description": "",
         "requestBody": {
           "content": {
             "application/x-www-form-urlencoded": {
@@ -140,7 +137,6 @@
             "description": "Redirect to Autha login page"
           }
         },
-        "description": "",
         "parameters": [
           {
             "name": "client_id",
@@ -186,7 +182,6 @@
             }
           }
         },
-        "description": "",
         "parameters": [
           {
             "name": "code",
@@ -288,7 +283,6 @@
             }
           }
         },
-        "description": "",
         "parameters": [
           {
             "name": "code",
@@ -332,7 +326,6 @@
             "description": "If User password successfully changed."
           }
         },
-        "description": "",
         "parameters": [
           {
             "name": "Authorization",
@@ -418,7 +411,6 @@
             }
           }
         },
-        "description": "",
         "requestBody": {
           "content": {
             "application/x-www-form-urlencoded": {
@@ -448,7 +440,6 @@
             }
           }
         },
-        "description": "",
         "deprecated": true,
         "parameters": [
           {
@@ -488,7 +479,6 @@
             }
           }
         },
-        "description": "",
         "parameters": [
           {
             "name": "code",
@@ -565,7 +555,6 @@
             }
           }
         },
-        "description": "",
         "requestBody": {
           "content": {
             "application/x-www-form-urlencoded": {
@@ -597,7 +586,6 @@
             }
           }
         },
-        "description": "",
         "parameters": [
           {
             "name": "code",
@@ -646,7 +634,6 @@
             "description": "The syntax of the request entity is incorrect"
           }
         },
-        "description": "",
         "requestBody": {
           "content": {
             "application/json": {
@@ -678,7 +665,6 @@
             }
           }
         },
-        "description": "",
         "requestBody": {
           "content": {
             "application/x-www-form-urlencoded": {
@@ -708,7 +694,6 @@
             }
           }
         },
-        "description": "",
         "deprecated": true,
         "parameters": [
           {
@@ -748,7 +733,6 @@
             }
           }
         },
-        "description": "",
         "parameters": [
           {
             "name": "code",
@@ -787,7 +771,6 @@
             }
           }
         },
-        "description": "",
         "requestBody": {
           "content": {
             "application/x-www-form-urlencoded": {
@@ -819,7 +802,6 @@
             }
           }
         },
-        "description": "",
         "parameters": [
           {
             "name": "code",
@@ -888,7 +870,6 @@
             }
           }
         },
-        "description": "",
         "deprecated": true,
         "parameters": [
           {
@@ -928,7 +909,6 @@
             }
           }
         },
-        "description": "",
         "parameters": [
           {
             "name": "code",
@@ -1089,7 +1069,6 @@
             "content": {}
           }
         },
-        "description": "",
         "requestBody": {
           "content": {
             "application/x-www-form-urlencoded": {
@@ -1195,7 +1174,6 @@
             "description": "If User password successfully changed."
           }
         },
-        "description": "",
         "requestBody": {
           "content": {
             "application/json": {
@@ -1270,7 +1248,6 @@
             "description": "The syntax of the request entity is incorrect"
           }
         },
-        "description": "",
         "requestBody": {
           "content": {
             "application/json": {
@@ -1319,7 +1296,6 @@
             "description": "The syntax of the request entity is incorrect"
           }
         },
-        "description": "",
         "requestBody": {
           "content": {
             "application/json": {
@@ -1356,7 +1332,6 @@
             "description": "The syntax of the request entity is incorrect"
           }
         },
-        "description": "",
         "requestBody": {
           "content": {
             "application/json": {
@@ -1398,7 +1373,6 @@
             "description": "The syntax of the request entity is incorrect"
           }
         },
-        "description": "",
         "operationId": "SignupController.verifyInviteToken"
       }
     },
@@ -1589,7 +1563,6 @@
             "description": "Check if Token Is Valid and not Expired."
           }
         },
-        "description": "",
         "parameters": [
           {
             "name": "token",
@@ -1627,7 +1600,6 @@
             }
           }
         },
-        "description": "\n\n| Permissions |\n| ------- |\n| ViewLoginActivity   |\n",
         "parameters": [
           {
             "name": "where",
@@ -1671,7 +1643,6 @@
             }
           }
         },
-        "description": "\n\n| Permissions |\n| ------- |\n| ViewLoginActivity   |\n",
         "parameters": [
           {
             "name": "id",
@@ -1723,7 +1694,6 @@
             }
           }
         },
-        "description": "\n\n| Permissions |\n| ------- |\n| ViewLoginActivity   |\n",
         "parameters": [
           {
             "name": "filter",
@@ -1747,7 +1717,6 @@
         "tags": [
           "LogoutController"
         ],
-        "description": "",
         "responses": {
           "200": {
             "description": "Return value of LogoutController.logoutRedirect"
@@ -1935,6 +1904,9 @@
           "id": {
             "type": "string"
           },
+          "username": {
+            "type": "string"
+          },
           "name": {
             "type": "string"
           },
@@ -1947,13 +1919,10 @@
           "middleName": {
             "type": "string"
           },
-          "photoUrl": {
-            "type": "string"
-          },
-          "username": {
-            "type": "string"
-          },
           "email": {
+            "type": "string"
+          },
+          "designation": {
             "type": "string"
           },
           "phone": {
@@ -1970,9 +1939,8 @@
             "type": "string",
             "format": "date-time"
           },
-          "dob": {
-            "type": "string",
-            "format": "date-time"
+          "photoUrl": {
+            "type": "string"
           },
           "gender": {
             "type": "string",
@@ -1982,6 +1950,10 @@
               "F",
               "O"
             ]
+          },
+          "dob": {
+            "type": "string",
+            "format": "date-time"
           },
           "defaultTenantId": {
             "type": "string"
@@ -2295,13 +2267,13 @@
           "description": {
             "type": "string"
           },
+          "clientType": {
+            "type": "string"
+          },
           "clientId": {
             "type": "string"
           },
           "clientSecret": {
-            "type": "string"
-          },
-          "secret": {
             "type": "string"
           },
           "redirectUrl": {
@@ -2310,9 +2282,11 @@
           "logoutRedirectUrl": {
             "type": "string"
           },
+          "secret": {
+            "type": "string"
+          },
           "accessTokenExpiration": {
-            "type": "number",
-            "description": "Expires in seconds"
+            "type": "number"
           },
           "refreshTokenExpiration": {
             "type": "number"
@@ -2323,7 +2297,6 @@
         },
         "required": [
           "clientId",
-          "clientSecret",
           "secret",
           "accessTokenExpiration",
           "refreshTokenExpiration",

@@ -5,8 +5,8 @@ import * as fs from 'fs/promises';
 import {verify} from 'jsonwebtoken';
 import moment from 'moment-timezone';
 
+import {IAuthTenantUser} from '../../../auth.types';
 import {ILogger, LOGGER} from '../../logger-extension';
-import {IAuthUserWithPermissions} from '../keys';
 
 export class ServicesBearerAsymmetricTokenVerifyProvider implements Provider<VerifyFunction.BearerFn> {
   constructor(
@@ -17,14 +17,14 @@ export class ServicesBearerAsymmetricTokenVerifyProvider implements Provider<Ver
 
   value(): VerifyFunction.BearerFn {
     return async (token: string) => {
-      let user: IAuthUserWithPermissions;
+      let user: IAuthTenantUser;
 
       try {
         const publicKey = await fs.readFile(process.env.JWT_PUBLIC_KEY ?? '');
         user = verify(token, publicKey, {
           issuer: process.env.JWT_ISSUER,
           algorithms: ['RS256'],
-        }) as IAuthUserWithPermissions;
+        }) as IAuthTenantUser;
       } catch (error) {
         this.logger.error(JSON.stringify(error));
         throw new BErrors.Unauthorized('TokenExpired');

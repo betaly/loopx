@@ -1,11 +1,11 @@
 ﻿import {ClientAuthCode, STRATEGY} from '@bleco/authentication';
 import {inject, Provider} from '@loopback/context';
 import {service} from '@loopback/core';
+import {User} from '@loopx/user-core';
 import * as jwt from 'jsonwebtoken';
 
 import {OtpMethodType} from '../enums';
 import {AuthServiceBindings} from '../keys';
-import {User} from '../models';
 import {OtpRequest} from '../otp/otp';
 import {OtpService} from '../services';
 import {IMfaConfig, IOtpConfig} from '../types';

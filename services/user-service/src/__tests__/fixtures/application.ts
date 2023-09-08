@@ -1,23 +1,22 @@
 ﻿import {AuditDbSourceName} from '@bleco/audit-log';
 import {AuthenticationComponent, Strategies} from '@bleco/authentication';
-import {AuthorizationBindings, AuthorizationComponent} from '@bleco/authorization';
-import {BootMixin} from '@bleco/boot';
 import {ApplicationConfig} from '@loopback/core';
-import {RepositoryMixin} from '@loopback/repository';
 import {RestApplication} from '@loopback/rest';
 import {RestExplorerBindings, RestExplorerComponent} from '@loopback/rest-explorer';
-import {ServiceMixin} from '@loopback/service-proxy';
 import {ServiceSequence} from '@loopx/core';
+import {UserDataSourceName} from '@loopx/user-core';
+import {AclComponent} from 'loopback4-acl';
+import {IntegrateMixin} from 'loopback4-plus';
 import * as path from 'path';
 
-import {UserTenantServiceComponent} from '../../component';
-import {UserTenantDataSourceName, UserTenantServiceBindings} from '../../keys';
-import {UserTenantServiceComponentOptions} from '../../types';
+import {UserServiceComponent} from '../../component';
+import {UserServiceBindings} from '../../keys';
+import {UserServiceComponentOptions} from '../../types';
 import {BearerTokenVerifyProvider} from './bearer-token-verifier.provider';
 
 export {ApplicationConfig};
 
-export class UserTenantServiceApplication extends BootMixin(ServiceMixin(RepositoryMixin(RestApplication))) {
+export class UserServiceApplication extends IntegrateMixin(RestApplication) {
   constructor(options: ApplicationConfig = {}) {
     super(options);
     // Set up default home page
@@ -28,38 +27,18 @@ export class UserTenantServiceApplication extends BootMixin(ServiceMixin(Reposit
       path: '/explorer',
     });
     this.component(RestExplorerComponent);
-    this.configure<UserTenantServiceComponentOptions>(UserTenantServiceBindings.COMPONENT).to({
-      // do not load services in component
-      services: [],
-    });
-    this.component(UserTenantServiceComponent);
+    this.configure<UserServiceComponentOptions>(UserServiceBindings.COMPONENT).to({});
+    this.component(UserServiceComponent);
     // Add authentication component
     this.component(AuthenticationComponent);
     // Customize authentication verify handlers
     this.bind(Strategies.Passport.BEARER_TOKEN_VERIFIER).toProvider(BearerTokenVerifyProvider);
     // Add authorization component
-    this.bind(AuthorizationBindings.CONFIG).to({
-      allowAlwaysPaths: ['/explorer'],
-    });
+    this.component(AclComponent);
     this.sequence(ServiceSequence);
-    this.component(AuthorizationComponent);
 
-    this.bind(`datasources.${AuditDbSourceName}`).toAlias(`datasources.${UserTenantDataSourceName}`);
+    this.bind(`datasources.${AuditDbSourceName}`).toAlias(`datasources.${UserDataSourceName}`);
 
     this.projectRoot = __dirname;
-    // Customize @loopback/boot Booter Conventions here
-    this.bootOptions = {
-      controllers: {
-        // Customize ControllerBooter Conventions here
-        dirs: ['controllers'],
-        extensions: ['.controller.[jt]s'],
-        nested: true,
-      },
-      repositories: {
-        dirs: ['repositories'],
-        extensions: ['.repository.[jt]s'],
-        nested: true,
-      },
-    };
   }
 }

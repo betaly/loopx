@@ -1,13 +1,11 @@
-import {IUserResource} from '@bleco/authorization';
 import {belongsTo, model, property} from '@loopback/repository';
 import {ModelTypes, UserUpdatableEntity} from '@loopx/core';
-
-import {UserTenant} from './user-tenant.model';
+import {UserTenant} from '@loopx/user-core';
 
 @model({
   name: 'user_resources',
 })
-export class UserLevelResource extends UserUpdatableEntity implements IUserResource<string> {
+export class UserLevelResource extends UserUpdatableEntity {
   @property({
     name: 'id',
     type: 'string',
@@ -19,7 +17,7 @@ export class UserLevelResource extends UserUpdatableEntity implements IUserResou
 
   @belongsTo(
     () => UserTenant,
-    {keyFrom: 'user_tenant_id', name: 'userTenant'},
+    {keyFrom: 'userTenantId', name: 'userTenant'},
     {
       name: 'user_tenant_id',
       required: true,

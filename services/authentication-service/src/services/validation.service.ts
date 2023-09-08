@@ -2,10 +2,10 @@ import {inject} from '@loopback/context';
 import {BindingScope, injectable} from '@loopback/core';
 import {repository} from '@loopback/repository';
 import {ILogger, LOGGER} from '@loopx/core';
+import {UserRepository} from '@loopx/user-core';
 import length from 'tily/array/length';
 
 import {ValidationErrors} from '../errors';
-import {UserRepository} from '../repositories';
 import {isValidEmail} from '../utils/email';
 import {PasswordPolicies} from '../utils/passwords';
 import {isValidPhoneNumber} from '../utils/phone';

@@ -1,12 +1,17 @@
 ﻿import {authenticate, STRATEGY} from '@bleco/authentication';
-import {authorize} from '@bleco/authorization';
 import {repository} from '@loopback/repository';
 import {get, getModelSchemaRef, param} from '@loopback/rest';
-import {CONTENT_TYPE, ErrorCodes, STATUS_CODE} from '@loopx/core';
+import {AuthProvider, CONTENT_TYPE, ErrorCodes, STATUS_CODE} from '@loopx/core';
+import {
+  buildWhereClauseFromIdentifier,
+  User,
+  UserAuthSubjects,
+  UserCredentialsRepository,
+  UserRepository,
+} from '@loopx/user-core';
+import {acl, Actions, authorise} from 'loopback4-acl';
 
-import {AuthProvider, PermissionKey} from '../enums';
-import {UserSignupCheckDto} from '../models';
-import {UserCredentialsRepository, UserRepository} from '../repositories';
+import {UserSignupCheckDto} from '../models/user-signup-check-dto.model';
 
 export const USER_SIGN_UP_RESPONSE_DESCRIPTION = 'Success Response.';
 
@@ -21,15 +26,21 @@ export class UserSignupController {
   @authenticate(STRATEGY.BEARER, {
     passReqToCallback: true,
   })
-  @authorize({
-    permissions: [
-      PermissionKey.ViewAnyUser,
-      PermissionKey.ViewTenantUser,
-      PermissionKey.ViewAnyUserNum,
-      PermissionKey.ViewTenantUserNum,
-    ],
-  })
-  @get('/check-signup/{email}', {
+  // @authorize({
+  //   permissions: [
+  //     PermissionKey.ViewAnyUser,
+  //     PermissionKey.ViewTenantUser,
+  //     PermissionKey.ViewAnyUserNum,
+  //     PermissionKey.ViewTenantUserNum,
+  //   ],
+  // })
+  @authorise(Actions.read, UserAuthSubjects.User, [
+    UserRepository,
+    async (repo: UserRepository, {params}) => {
+      return repo.findOne({where: buildWhereClauseFromIdentifier(params.loginId)});
+    },
+  ])
+  @get('/check-signup/{loginId}', {
     responses: {
       [STATUS_CODE.OK]: {
         description: USER_SIGN_UP_RESPONSE_DESCRIPTION,
@@ -42,18 +53,23 @@ export class UserSignupController {
       ...ErrorCodes,
     },
   })
-  async checkUserSignup(@param.path.string('email') email: string): Promise<UserSignupCheckDto> {
+  async checkUserSignup(
+    @param.path.string('loginId')
+    loginId: string,
+    @acl.subject({optional: true})
+    user?: User,
+  ): Promise<UserSignupCheckDto> {
     let isSignedUp = false;
-    const user = await this.userRepository.findOne({
-      where: {email},
-    });
+    // const user = await this.userRepository.findOne({
+    //   where: {email},
+    // });
     if (user) {
       const userCreds = await this.userCredsRepository.findOne({
         where: {
           userId: user.id,
         },
       });
-      if (userCreds?.authProvider === AuthProvider.Internal) {
+      if (userCreds?.authProvider === AuthProvider.INTERNAL) {
         isSignedUp = !!userCreds?.password?.length;
       } else {
         isSignedUp = true;

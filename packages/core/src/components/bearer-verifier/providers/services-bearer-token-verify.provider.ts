@@ -4,8 +4,8 @@ import {BErrors} from 'berrors';
 import {verify} from 'jsonwebtoken';
 import moment from 'moment-timezone';
 
+import {IAuthTenantUser} from '../../../auth.types';
 import {ILogger, LOGGER} from '../../logger-extension';
-import {IAuthUserWithPermissions} from '../keys';
 
 export class ServicesBearerTokenVerifyProvider implements Provider<VerifyFunction.BearerFn> {
   constructor(
@@ -16,13 +16,13 @@ export class ServicesBearerTokenVerifyProvider implements Provider<VerifyFunctio
 
   value(): VerifyFunction.BearerFn {
     return async (token: string) => {
-      let user: IAuthUserWithPermissions;
+      let user: IAuthTenantUser;
 
       try {
         user = verify(token, process.env.JWT_SECRET as string, {
           issuer: process.env.JWT_ISSUER,
           algorithms: ['HS256'],
-        }) as IAuthUserWithPermissions;
+        }) as IAuthTenantUser;
       } catch (error) {
         this.logger.error(JSON.stringify(error));
         throw new BErrors.Unauthorized('TokenExpired');

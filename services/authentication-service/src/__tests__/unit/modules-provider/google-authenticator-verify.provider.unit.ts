@@ -1,11 +1,17 @@
 ﻿import {AuthenticationErrors} from '@bleco/authentication';
 import {createStubInstance, expect, StubbedInstanceWithSinonAccessor} from '@loopback/testlab';
+import {
+  User,
+  UserCredentialsRepository,
+  UserCredentialsWithRelations,
+  UserRepository,
+  UserWithRelations,
+} from '@loopx/user-core';
 import {BErrors} from 'berrors';
 import sinon from 'sinon';
 
-import {User, UserCredentialsWithRelations, UserWithRelations} from '../../../models';
-import {GoogleAuthenticatorVerifyProvider} from '../../../modules/auth/providers/google-authenticator-verify.provider';
-import {OtpCacheRepository, UserCredentialsRepository, UserRepository} from '../../../repositories';
+import {GoogleAuthenticatorVerifyProvider} from '../../../modules/auth';
+import {OtpCacheRepository} from '../../../repositories';
 
 describe('Google Authenticator Verify Provider', () => {
   let userRepo: StubbedInstanceWithSinonAccessor<UserRepository>;

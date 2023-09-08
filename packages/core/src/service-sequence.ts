@@ -15,7 +15,8 @@ import {
 import {BErrors} from 'berrors';
 import {isString} from 'lodash';
 
-import {IAuthUserWithPermissions, ILogger, LOGGER} from './components';
+import {IAuthTenantUser} from './auth.types';
+import {ILogger, LOGGER} from './components';
 import {LxCoreBindings} from './keys';
 
 const SequenceActions = RestBindings.SequenceActions;
@@ -42,7 +43,7 @@ export class ServiceSequence implements SequenceHandler {
     @inject(SequenceActions.REJECT) public reject: Reject,
     @inject(LOGGER.LOGGER_INJECT) public logger: ILogger,
     @inject(AuthenticationBindings.USER_AUTH_ACTION)
-    protected authenticateRequest: AuthenticateFn<IAuthUserWithPermissions>,
+    protected authenticateRequest: AuthenticateFn<IAuthTenantUser>,
     // @inject(AuthorizationBindings.AUTHORIZE_ACTION)
     // protected checkAuthorisation: AuthorizeFn,
     @inject(LxCoreBindings.i18n)
@@ -74,7 +75,7 @@ export class ServiceSequence implements SequenceHandler {
       const args = await this.parseParams(request, route);
 
       await this.authenticateRequest(request, response);
-      // const authUser: IAuthUserWithPermissions = await this.authenticateRequest(request, response);
+      // const authUser: IAuthTenantUser = await this.authenticateRequest(request, response);
       // const isAccessAllowed: boolean = await this.checkAuthorisation(authUser?.permissions, request);
       // if (!isAccessAllowed) {
       //   throw new AuthorizationErrors.NotAllowedAccess();

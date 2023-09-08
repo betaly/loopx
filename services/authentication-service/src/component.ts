@@ -5,7 +5,6 @@ import {
   Strategies,
   STRATEGY,
 } from '@bleco/authentication';
-import {AuthorizationBindings, AuthorizationComponent} from '@bleco/authorization';
 import {
   Binding,
   Component,
@@ -21,8 +20,10 @@ import {Class, Model, Repository} from '@loopback/repository';
 import {RestApplication, RestBindings} from '@loopback/rest';
 import {LxCoreBindings, LxCoreComponent, matchResources, SECURITY_SCHEME_SPEC} from '@loopx/core';
 import {MultiTenancyActionOptions, MultiTenancyBindings, MultiTenancyComponent} from '@loopx/multi-tenancy';
+import {UserCoreComponent} from '@loopx/user-core';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
+import {AclComponent} from 'loopback4-acl';
 
 import {ConfigAliaser} from './aliaser';
 import {controllers} from './controllers';
@@ -153,6 +154,8 @@ export class AuthenticationServiceComponent implements Component {
       // Mount core component
       this.application.component(LxCoreComponent);
     }
+
+    this.application.component(UserCoreComponent);
 
     if (+(process.env.AZURE_AUTH_ENABLED ?? 0)) {
       const expressMiddlewares = this.application.getSync(LxCoreBindings.EXPRESS_MIDDLEWARES) ?? [];
@@ -293,12 +296,13 @@ export class AuthenticationServiceComponent implements Component {
 
   setupAuthorizationComponent() {
     // Add authorization component
-    if (!this.application.isBound(AuthorizationBindings.CONFIG)) {
-      this.application.bind(AuthorizationBindings.CONFIG).to({
-        allowAlwaysPaths: ['/explorer'],
-      });
-    }
-    this.application.component(AuthorizationComponent);
+    // if (!this.application.isBound(AuthorizationBindings.CONFIG)) {
+    //   this.application.bind(AuthorizationBindings.CONFIG).to({
+    //     allowAlwaysPaths: ['/explorer'],
+    //   });
+    // }
+    // this.application.component(AuthorizationComponent);
+    this.application.component(AclComponent);
   }
 
   setupMultiFactorAuthentication() {

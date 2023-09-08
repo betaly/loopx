@@ -1,22 +1,18 @@
-import {inject, Provider} from '@loopback/context';
+import {Provider} from '@loopback/context';
 import {repository} from '@loopback/repository';
-import {LxCoreBindings} from '@loopx/core';
-
-import {Tenant} from '../models';
-import {TenantRepository} from '../repositories';
+import {DEFAULT_TENANT_CODE} from '@loopx/user-common';
+import {Tenant, TenantRepository} from '@loopx/user-core';
 
 export class DefaultTenantProvider implements Provider<Tenant> {
   constructor(
     @repository(TenantRepository)
     private readonly tenantRepository: TenantRepository,
-    @inject(LxCoreBindings.DEFAULT_TENANT_KEY)
-    private readonly defaultTenantKey: string,
   ) {}
 
   async value(): Promise<Tenant> {
-    const tenant = await this.tenantRepository.findOne({where: {key: this.defaultTenantKey}});
+    const tenant = await this.tenantRepository.findOne({where: {code: DEFAULT_TENANT_CODE}});
     if (!tenant) {
-      throw new Error(`Default tenant not found with key: ${this.defaultTenantKey}`);
+      throw new Error(`Default tenant not found with default tenant code: ${DEFAULT_TENANT_CODE}`);
     }
     return tenant;
   }

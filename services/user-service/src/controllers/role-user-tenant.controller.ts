@@ -1,12 +1,9 @@
 ﻿import {authenticate, STRATEGY} from '@bleco/authentication';
-import {authorize} from '@bleco/authorization';
 import {Count, CountSchema, Filter, repository, Where, WhereBuilder} from '@loopback/repository';
 import {del, get, getModelSchemaRef, getWhereSchemaFor, param, patch, post, requestBody} from '@loopback/rest';
 import {CONTENT_TYPE, OPERATION_SECURITY_SPEC, STATUS_CODE} from '@loopx/core';
-
-import {PermissionKey} from '../enums';
-import {Role, UserTenant} from '../models';
-import {RoleRepository, UserTenantRepository} from '../repositories';
+import {Role, RoleRepository, UserAuthSubjects, UserTenant, UserTenantRepository} from '@loopx/user-core';
+import {Actions, authorise} from 'loopback4-acl';
 
 const basePath = '/roles/{id}/ut';
 
@@ -21,9 +18,10 @@ export class RoleUserTenantController {
   @authenticate(STRATEGY.BEARER, {
     passReqToCallback: true,
   })
-  @authorize({
-    permissions: [PermissionKey.ViewRoles, PermissionKey.ViewRolesNum],
-  })
+  // @authorize({
+  //   permissions: [PermissionKey.ViewRoles, PermissionKey.ViewRolesNum],
+  // })
+  @authorise(Actions.read, UserAuthSubjects.UserTenant, async ({params}) => ({role: params.id}))
   @get(basePath, {
     security: OPERATION_SECURITY_SPEC,
     responses: {
@@ -50,9 +48,10 @@ export class RoleUserTenantController {
   @authenticate(STRATEGY.BEARER, {
     passReqToCallback: true,
   })
-  @authorize({
-    permissions: [PermissionKey.ViewRoles, PermissionKey.ViewRolesNum],
-  })
+  // @authorize({
+  //   permissions: [PermissionKey.ViewRoles, PermissionKey.ViewRolesNum],
+  // })
+  @authorise(Actions.read, UserAuthSubjects.UserTenant, async ({params}) => ({role: params.id}))
   @get(`${basePath}/count`, {
     security: OPERATION_SECURITY_SPEC,
     responses: {
@@ -75,9 +74,10 @@ export class RoleUserTenantController {
   @authenticate(STRATEGY.BEARER, {
     passReqToCallback: true,
   })
-  @authorize({
-    permissions: [PermissionKey.NotAllowed, PermissionKey.NotAllowedNum],
-  })
+  // @authorize({
+  //   permissions: [PermissionKey.NotAllowed, PermissionKey.NotAllowedNum],
+  // })
+  @authorise(Actions.create, UserAuthSubjects.UserTenant, async ({params}) => ({role: params.id}))
   @post(basePath, {
     security: OPERATION_SECURITY_SPEC,
     responses: {
@@ -110,9 +110,10 @@ export class RoleUserTenantController {
   @authenticate(STRATEGY.BEARER, {
     passReqToCallback: true,
   })
-  @authorize({
-    permissions: [PermissionKey.NotAllowed, PermissionKey.NotAllowedNum],
-  })
+  // @authorize({
+  //   permissions: [PermissionKey.NotAllowed, PermissionKey.NotAllowedNum],
+  // })
+  @authorise(Actions.update, UserAuthSubjects.UserTenant, async ({params}) => ({role: params.id}))
   @patch(basePath, {
     security: OPERATION_SECURITY_SPEC,
     responses: {
@@ -141,9 +142,10 @@ export class RoleUserTenantController {
   @authenticate(STRATEGY.BEARER, {
     passReqToCallback: true,
   })
-  @authorize({
-    permissions: [PermissionKey.NotAllowed, PermissionKey.NotAllowedNum],
-  })
+  // @authorize({
+  //   permissions: [PermissionKey.NotAllowed, PermissionKey.NotAllowedNum],
+  // })
+  @authorise(Actions.delete, UserAuthSubjects.UserTenant, async ({params}) => ({role: params.id}))
   @del(basePath, {
     security: OPERATION_SECURITY_SPEC,
     responses: {

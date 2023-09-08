@@ -5,16 +5,15 @@ import {
   ClientAuthCode,
   STRATEGY,
 } from '@bleco/authentication';
-import {authorize} from '@bleco/authorization';
 import {inject} from '@loopback/context';
 import {repository} from '@loopback/repository';
 import {post, requestBody} from '@loopback/rest';
 import {CONTENT_TYPE, ErrorCodes, ILogger, LOGGER, STATUS_CODE} from '@loopx/core';
+import {AuthClientRepository, User, UserCredentialsRepository, UserRepository} from '@loopx/user-core';
 import * as jwt from 'jsonwebtoken';
 
-import {User} from '../../models';
 import {AuthCodeBindings, CodeWriterFn, VerifyBindings} from '../../providers';
-import {AuthClientRepository, OtpCacheRepository, UserCredentialsRepository, UserRepository} from '../../repositories';
+import {OtpCacheRepository} from '../../repositories';
 import {CodeResponse, OtpLoginRequest} from './';
 import {AuthUser} from './models/auth-user.model';
 import {OtpSendRequest} from './models/otp-send-request.dto';
@@ -37,7 +36,6 @@ export class PasswordlessController {
   // OTP
   @authenticateClient(STRATEGY.CLIENT_PASSWORD)
   @authenticate(STRATEGY.OTP, {}, undefined, VerifyBindings.PASSWORDLESS_VERIFIER)
-  @authorize({permissions: ['*']})
   @post(`${basePath}/start`, {
     description: 'Sends OTP',
     responses: {
@@ -58,7 +56,6 @@ export class PasswordlessController {
   }
 
   @authenticate(STRATEGY.OTP, {}, undefined, VerifyBindings.PASSWORDLESS_VERIFIER)
-  @authorize({permissions: ['*']})
   @post(`${basePath}/verify`, {
     description: 'Gets you the code that will be used for getting token (webapps)',
     responses: {

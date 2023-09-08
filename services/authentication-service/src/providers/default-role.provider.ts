@@ -1,9 +1,6 @@
 import {Provider} from '@loopback/context';
 import {repository} from '@loopback/repository';
-import {RoleTypes} from '@loopx/core';
-
-import {Role} from '../models';
-import {RoleRepository} from '../repositories';
+import {DefaultRole, Role, RoleRepository} from '@loopx/user-core';
 
 export class DefaultRoleProvider implements Provider<Role> {
   constructor(
@@ -13,7 +10,7 @@ export class DefaultRoleProvider implements Provider<Role> {
 
   async value(): Promise<Role> {
     const tenant = await this.roleRepo.findOne({
-      where: {roleType: RoleTypes.Default},
+      where: {code: DefaultRole.Member},
     });
     if (!tenant) {
       throw new Error(`No default type role found. You must seed the database first.`);

@@ -3,11 +3,11 @@ import {inject} from '@loopback/context';
 import {BindingScope, injectable} from '@loopback/core';
 import {repository} from '@loopback/repository';
 import {ILogger, LOGGER, UserStatus} from '@loopx/core';
+import {AuthClient, UserTenant, UserTenantRepository} from '@loopx/user-core';
 import {BErrors} from 'berrors';
 
-import {AuthClient, IAuthClientDTO, UserTenant} from '..';
 import {AuthUser} from '../modules/auth/models/auth-user.model';
-import {UserTenantRepository} from '../repositories';
+import {IAuthClientDTO} from '../types';
 
 @injectable({scope: BindingScope.SINGLETON})
 export class LoginHelperService {

@@ -1,26 +1,26 @@
 ﻿import {AuthenticationBindings} from '@bleco/authentication';
 import {Client, expect} from '@loopback/testlab';
+import {IAuthTenantUser} from '@loopx/core';
+import {
+  DefaultRole,
+  Role,
+  RoleRepository,
+  Tenant,
+  TenantRepository,
+  User,
+  UserRepository,
+  UserTenant,
+  UserTenantRepository,
+} from '@loopx/user-core';
 import * as jwt from 'jsonwebtoken';
 import {nanoid} from 'nanoid';
 
-import {PermissionKey} from '../../enums';
-import {Role, Tenant, User, UserTenant} from '../../models';
-import {RoleRepository, TenantRepository, UserRepository, UserTenantRepository} from '../../repositories';
-import {UserTenantServiceApplication} from '../fixtures/application';
+import {UserServiceApplication} from '../fixtures/application';
 import {JWT_ISSUER, JWT_SECRET} from '../fixtures/consts';
-import {setupApplication} from './test-helper';
-
-interface USER {
-  id: string | undefined;
-  userTenantId: string | undefined;
-  username: string;
-  tenantId: string | undefined;
-  password: string;
-  permissions: PermissionKey[];
-}
+import {createTenantUser, setupApplication} from './test-helper';
 
 describe('UserTenantPrefs Controller', function () {
-  let app: UserTenantServiceApplication;
+  let app: UserServiceApplication;
   let userTenantRepo: UserTenantRepository;
   let roleRepo: RoleRepository;
   let tenantRepo: TenantRepository;
@@ -28,16 +28,8 @@ describe('UserTenantPrefs Controller', function () {
   const basePath = '/ut-prefs';
   let client: Client;
   let token: string;
-  const pass = 'test_password';
   const tenantName = 'sample_tenant';
-  let testUser: USER = {
-    id: undefined,
-    userTenantId: undefined,
-    username: '',
-    tenantId: undefined,
-    password: pass,
-    permissions: [PermissionKey.UpdateUserTenantPreference, PermissionKey.ViewUserTenantPreference],
-  };
+  let testUser: IAuthTenantUser;
   const data = {
     userTenantId: '',
     configValue: {value: 'sample value'},
@@ -52,7 +44,7 @@ describe('UserTenantPrefs Controller', function () {
     await app.stop();
   });
   beforeAll(givenRepositories);
-  beforeAll(setCurrentUser);
+  // beforeAll(setCurrentUser);
   beforeAll(setupMockData);
 
   it('gives status 401 when no token is passed', async () => {
@@ -92,15 +84,15 @@ describe('UserTenantPrefs Controller', function () {
     const role = await roleRepo.create(
       new Role({
         name: 'test_admin',
-        roleType: 0 as unknown as undefined,
+        code: DefaultRole.Owner,
       }),
     );
 
-    const key = nanoid(10);
+    const code = nanoid(10);
     const tenant = await tenantRepo.create(
       new Tenant({
         name: tenantName,
-        key: key,
+        code,
         status: 1,
       }),
     );
@@ -111,14 +103,12 @@ describe('UserTenantPrefs Controller', function () {
         roleId: role.id,
       }),
     );
-    testUser = {
-      id: user.id,
+    testUser = createTenantUser({
+      ...user,
       userTenantId: userTenant.id,
-      username: user.username,
       tenantId: tenant.id,
-      password: pass,
-      permissions: [PermissionKey.UpdateUserTenantPreference, PermissionKey.ViewUserTenantPreference],
-    };
+      role: role.code,
+    });
     if (testUser.userTenantId) {
       data.userTenantId = testUser.userTenantId;
     }

@@ -3,21 +3,21 @@ import {Application} from '@loopback/core';
 import {ExpressMiddlewareFactory} from '@loopback/express';
 import {RestTags} from '@loopback/rest';
 import {Client, createRestAppClient, givenHttpServerConfig} from '@loopback/testlab';
-import {extractPermissions, RoleTypes} from '@loopx/core';
-import Sessions, {SessionOptions} from 'client-sessions';
-
+import {DEFAULT_TENANT_CODE} from '@loopx/user-common';
 import {
-  AuthSecureClientRepository,
-  OtpGenerateProvider,
-  OtpProvider,
-  PasswordlessVerifyProvider,
-  PermissionKey,
+  AuthClientRepository,
+  DefaultRole,
   RoleRepository,
+  RoleService,
   TenantRepository,
+  TenantService,
+  UserOperationsService,
   UserRepository,
   UserTenantRepository,
-  VerifyBindings,
-} from '../..';
+} from '@loopx/user-core';
+import Sessions, {SessionOptions} from 'client-sessions';
+
+import {OtpGenerateProvider, OtpProvider, PasswordlessVerifyProvider, VerifyBindings} from '../..';
 import {LocalPasswordVerifyProvider, OtpVerifyProvider} from '../../modules/auth';
 import {AuthCacheSourceName, AuthDbSourceName} from '../../types';
 import {TestingApplication} from '../fixtures/application';
@@ -83,35 +83,52 @@ export async function setupApplication(auth?: StrategiesOptions): Promise<AppWit
 }
 
 interface TestInitialDataRepositories {
-  authClientRepo: AuthSecureClientRepository;
+  authClientRepo: AuthClientRepository;
   roleRepo: RoleRepository;
   tenantRepo: TenantRepository;
   userRepo: UserRepository;
   userTenantRepo: UserTenantRepository;
+  tenantService: TenantService;
+  roleService: RoleService;
+  userOperationService: UserOperationsService;
 }
 
 export async function setupInitialData(appOrRepos: TestingApplication | TestInitialDataRepositories) {
-  let authClientRepo: AuthSecureClientRepository;
+  let authClientRepo: AuthClientRepository;
   let roleRepo: RoleRepository;
   let tenantRepo: TenantRepository;
   let userRepo: UserRepository;
   let userTenantRepo: UserTenantRepository;
+  let tenantService: TenantService;
+  let roleService: RoleService;
+  let userOperationService: UserOperationsService;
 
   if (appOrRepos instanceof Application) {
-    authClientRepo = await appOrRepos.getRepository(AuthSecureClientRepository);
+    authClientRepo = await appOrRepos.getRepository(AuthClientRepository);
     roleRepo = await appOrRepos.getRepository(RoleRepository);
     tenantRepo = await appOrRepos.getRepository(TenantRepository);
     userRepo = await appOrRepos.getRepository(UserRepository);
     userTenantRepo = await appOrRepos.getRepository(UserTenantRepository);
+
+    tenantService = await appOrRepos.getService(TenantService);
+    roleService = await appOrRepos.getService(RoleService);
+    userOperationService = await appOrRepos.getService(UserOperationsService);
   } else {
     authClientRepo = appOrRepos.authClientRepo;
     roleRepo = appOrRepos.roleRepo;
     tenantRepo = appOrRepos.tenantRepo;
     userRepo = appOrRepos.userRepo;
     userTenantRepo = appOrRepos.userTenantRepo;
+    tenantService = appOrRepos.tenantService;
+    roleService = appOrRepos.roleService;
+    userOperationService = appOrRepos.userOperationService;
   }
 
   process.env.USER_TEMP_PASSWORD = 'temp123!@';
+
+  await tenantService.initTenants();
+  await roleService.initRoles();
+  await userOperationService.initAdministrators();
 
   const testAuthClient = await authClientRepo.create({
     clientId: 'web',
@@ -134,62 +151,9 @@ export async function setupInitialData(appOrRepos: TestingApplication | TestInit
     secret: 'poiuytrewq',
   });
 
-  const testAdminRole = await roleRepo.create({
-    id: '1',
-    name: 'admin',
-    roleType: RoleTypes.Admin,
-    permissions: [
-      'canLoginToIPS',
-      'ViewOwnUser',
-      'ViewAnyUser',
-      'ViewTenantUser',
-      'CreateAnyUser',
-      'CreateTenantUser',
-      'UpdateOwnUser',
-      'UpdateTenantUser',
-      'UpdateAnyUser',
-      'DeleteTenantUser',
-      'DeleteAnyUser',
-      'ViewTenant',
-      'CreateTenant',
-      'UpdateTenant',
-      'DeleteTenant',
-      'ViewRole',
-      'CreateRole',
-      'UpdateRole',
-      'DeleteRole',
-      'ViewAudit',
-      'CreateAudit',
-      'UpdateAudit',
-      'DeleteAudit',
-      ...extractPermissions(PermissionKey),
-    ],
-    allowedClients: [testAuthClient.clientId, testAuthClient2.clientId],
-  });
-
-  const testDefaultRole = await roleRepo.create({
-    id: '2',
-    name: 'default',
-    roleType: RoleTypes.Default,
-    permissions: [
-      'ViewOwnUser',
-      'ViewTenantUser',
-      'CreateTenantUser',
-      'UpdateOwnUser',
-      'UpdateTenantUser',
-      'DeleteTenantUser',
-      'ViewTenant',
-      'ViewRole',
-    ],
-    allowedClients: [testAuthClient.clientId],
-  });
-
-  const testDefaultTenant = await tenantRepo.create({
-    id: '1',
-    name: 'Default Tenant',
-    key: 'default',
-    status: 1,
-  });
+  const testAdminRole = await roleRepo.findById(DefaultRole.SuperAdmin);
+  const testDefaultRole = await roleRepo.findById(DefaultRole.Member);
+  const testDefaultTenant = await tenantRepo.findById(DEFAULT_TENANT_CODE);
 
   const testUser = await userRepo.create({
     id: '1',
@@ -197,7 +161,7 @@ export async function setupInitialData(appOrRepos: TestingApplication | TestInit
     lastName: 'User',
     username: 'test_user',
     dob: '1996-11-05',
-    authClientIds: [testAuthClient.id],
+    authClientIds: [testAuthClient.id!],
     email: 'xyz@gmail.com',
     phone: '+1 (202) 456-1414',
   });
@@ -210,7 +174,7 @@ export async function setupInitialData(appOrRepos: TestingApplication | TestInit
     dob: '1996-11-05',
     email: 'test_teacher@test.com',
     phone: '+8613012345678',
-    authClientIds: [testAuthClient.id],
+    authClientIds: [testAuthClient.id!],
   });
 
   await userTenantRepo.createAll([
@@ -238,14 +202,14 @@ export async function setupInitialData(appOrRepos: TestingApplication | TestInit
 }
 
 export async function clearInitialData(appOrRepos: TestingApplication | TestInitialDataRepositories) {
-  let authClientRepo: AuthSecureClientRepository;
+  let authClientRepo: AuthClientRepository;
   let roleRepo: RoleRepository;
   let tenantRepo: TenantRepository;
   let userRepo: UserRepository;
   let userTenantRepo: UserTenantRepository;
 
   if (appOrRepos instanceof Application) {
-    authClientRepo = await appOrRepos.getRepository(AuthSecureClientRepository);
+    authClientRepo = await appOrRepos.getRepository(AuthClientRepository);
     roleRepo = await appOrRepos.getRepository(RoleRepository);
     tenantRepo = await appOrRepos.getRepository(TenantRepository);
     userRepo = await appOrRepos.getRepository(UserRepository);

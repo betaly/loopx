@@ -5,8 +5,6 @@ import {inject} from '@loopback/context';
 import {get} from '@loopback/openapi-v3';
 import {Response, RestBindings} from '@loopback/rest';
 
-import {authorize} from '@bleco/authorization';
-
 import {STATUS_CODE} from '@loopx/core';
 
 export class HomePageController {
@@ -18,7 +16,6 @@ export class HomePageController {
     this.html = fs.readFileSync(path.join(__dirname, '../../public/index.html'), 'utf-8');
   }
 
-  @authorize({permissions: ['*']})
   @get('/', {
     responses: {
       [STATUS_CODE.OK]: {

@@ -1,44 +1,43 @@
 import {authenticate, AuthenticationBindings, STRATEGY} from '@bleco/authentication';
-import {AuthorizationErrors, authorize} from '@bleco/authorization';
 import {inject} from '@loopback/context';
 import {service} from '@loopback/core';
 import {Count, CountSchema, Filter, FilterExcludingWhere, repository, Where} from '@loopback/repository';
 import {api, del, get, getModelSchemaRef, param, patch, post, put, requestBody} from '@loopback/rest';
-import {IAuthUserWithPermissions, OPERATION_SECURITY_SPEC} from '@loopx/core';
+import {IAuthTenantUser, OPERATION_SECURITY_SPEC} from '@loopx/core';
+import {AuthClient, AuthClientRepository, AuthClientService, Tenant, UserAuthSubjects} from '@loopx/user-core';
+import {Actions, authorise} from 'loopback4-acl';
 
-import {PermissionKey} from '../enums';
-import {UserTenantServiceBindings} from '../keys';
-import {AuthClientRequestDto, AuthSecureClient, Tenant} from '../models';
-import {AuthSecureClientRepository} from '../repositories';
-import {AuthClientService} from '../services';
+import {UserServiceBindings} from '../keys';
+import {AuthClientRequestDto} from '../models';
 
 @api({
   basePath: '/auth',
 })
 export class AuthClientsController {
   constructor(
-    @repository(AuthSecureClientRepository)
-    public authSecureClientRepository: AuthSecureClientRepository,
+    @repository(AuthClientRepository)
+    public authClientRepository: AuthClientRepository,
     @service(AuthClientService)
     public authClientService: AuthClientService,
-    @inject(UserTenantServiceBindings.DEFAULT_TENANT)
+    @inject(UserServiceBindings.DEFAULT_TENANT)
     public defaultTenant: Tenant,
     @inject(AuthenticationBindings.CURRENT_USER)
-    public currentUser: IAuthUserWithPermissions,
+    public currentUser: IAuthTenantUser,
   ) {}
 
   @authenticate(STRATEGY.BEARER, {
     passReqToCallback: true,
   })
-  @authorize({
-    permissions: [PermissionKey.CreateAuthClients],
-  })
+  // @authorize({
+  //   permissions: [PermissionKey.CreateAuthClients],
+  // })
+  @authorise(Actions.create, UserAuthSubjects.AuthClient)
   @post('/clients', {
     security: OPERATION_SECURITY_SPEC,
     responses: {
       '200': {
-        description: 'AuthSecureClient model instance',
-        content: {'application/json': {schema: getModelSchemaRef(AuthSecureClient)}},
+        description: 'AuthClient model instance',
+        content: {'application/json': {schema: getModelSchemaRef(AuthClient)}},
       },
     },
   })
@@ -53,8 +52,8 @@ export class AuthClientsController {
       },
     })
     dto: AuthClientRequestDto,
-  ): Promise<AuthSecureClient> {
-    this.checkUserDefaultTenantAccess();
+  ): Promise<AuthClient> {
+    // this.checkUserDefaultTenantAccess();
 
     return this.authClientService.create(dto);
   }
@@ -62,73 +61,76 @@ export class AuthClientsController {
   @authenticate(STRATEGY.BEARER, {
     passReqToCallback: true,
   })
-  @authorize({
-    permissions: [
-      PermissionKey.ViewAuthClients,
-      PermissionKey.DeleteAuthClients,
-      PermissionKey.CreateAuthClients,
-      PermissionKey.UpdateAuthClients,
-    ],
-  })
+  // @authorize({
+  //   permissions: [
+  //     PermissionKey.ViewAuthClients,
+  //     PermissionKey.DeleteAuthClients,
+  //     PermissionKey.CreateAuthClients,
+  //     PermissionKey.UpdateAuthClients,
+  //   ],
+  // })
+  @authorise(Actions.read, UserAuthSubjects.AuthClient)
   @get('/clients/count', {
     security: OPERATION_SECURITY_SPEC,
     responses: {
       '200': {
-        description: 'AuthSecureClient model count',
+        description: 'AuthClient model count',
         content: {'application/json': {schema: CountSchema}},
       },
     },
   })
-  async count(@param.where(AuthSecureClient) where?: Where<AuthSecureClient>): Promise<Count> {
-    this.checkUserDefaultTenantAccess();
+  async count(@param.where(AuthClient) where?: Where<AuthClient>): Promise<Count> {
+    // this.checkUserDefaultTenantAccess();
 
-    return this.authSecureClientRepository.count(where);
+    return this.authClientRepository.count(where);
   }
 
   @authenticate(STRATEGY.BEARER, {
     passReqToCallback: true,
   })
-  @authorize({
-    permissions: [
-      PermissionKey.ViewAuthClients,
-      PermissionKey.DeleteAuthClients,
-      PermissionKey.CreateAuthClients,
-      PermissionKey.UpdateAuthClients,
-    ],
-  })
+  // @authorize({
+  //   permissions: [
+  //     PermissionKey.ViewAuthClients,
+  //     PermissionKey.DeleteAuthClients,
+  //     PermissionKey.CreateAuthClients,
+  //     PermissionKey.UpdateAuthClients,
+  //   ],
+  // })
+  @authorise(Actions.create, UserAuthSubjects.AuthClient)
   @get('/clients', {
     security: OPERATION_SECURITY_SPEC,
     responses: {
       '200': {
-        description: 'Array of AuthSecureClient model instances',
+        description: 'Array of AuthClient model instances',
         content: {
           'application/json': {
             schema: {
               type: 'array',
-              items: getModelSchemaRef(AuthSecureClient, {includeRelations: true}),
+              items: getModelSchemaRef(AuthClient, {includeRelations: true}),
             },
           },
         },
       },
     },
   })
-  async find(@param.filter(AuthSecureClient) filter?: Filter<AuthSecureClient>): Promise<AuthSecureClient[]> {
-    this.checkUserDefaultTenantAccess();
+  async find(@param.filter(AuthClient) filter?: Filter<AuthClient>): Promise<AuthClient[]> {
+    // this.checkUserDefaultTenantAccess();
 
-    return this.authSecureClientRepository.find(filter);
+    return this.authClientRepository.find(filter);
   }
 
   @authenticate(STRATEGY.BEARER, {
     passReqToCallback: true,
   })
-  @authorize({
-    permissions: [PermissionKey.DeleteAuthClients, PermissionKey.CreateAuthClients, PermissionKey.UpdateAuthClients],
-  })
+  // @authorize({
+  //   permissions: [PermissionKey.DeleteAuthClients, PermissionKey.CreateAuthClients, PermissionKey.UpdateAuthClients],
+  // })
+  @authorise(Actions.update, UserAuthSubjects.AuthClient)
   @patch('/clients', {
     security: OPERATION_SECURITY_SPEC,
     responses: {
       '200': {
-        description: 'AuthSecureClient PATCH success count',
+        description: 'AuthClient PATCH success count',
         content: {'application/json': {schema: CountSchema}},
       },
     },
@@ -137,37 +139,38 @@ export class AuthClientsController {
     @requestBody({
       content: {
         'application/json': {
-          schema: getModelSchemaRef(AuthSecureClient, {partial: true}),
+          schema: getModelSchemaRef(AuthClient, {partial: true}),
         },
       },
     })
     dto: AuthClientRequestDto,
-    @param.where(AuthSecureClient) where?: Where<AuthSecureClient>,
+    @param.where(AuthClient) where?: Where<AuthClient>,
   ): Promise<Count> {
-    this.checkUserDefaultTenantAccess();
+    // this.checkUserDefaultTenantAccess();
 
-    return this.authSecureClientRepository.updateAll(dto, where);
+    return this.authClientRepository.updateAll(dto, where);
   }
 
   @authenticate(STRATEGY.BEARER, {
     passReqToCallback: true,
   })
-  @authorize({
-    permissions: [
-      PermissionKey.ViewAuthClients,
-      PermissionKey.DeleteAuthClients,
-      PermissionKey.CreateAuthClients,
-      PermissionKey.UpdateAuthClients,
-    ],
-  })
+  // @authorize({
+  //   permissions: [
+  //     PermissionKey.ViewAuthClients,
+  //     PermissionKey.DeleteAuthClients,
+  //     PermissionKey.CreateAuthClients,
+  //     PermissionKey.UpdateAuthClients,
+  //   ],
+  // })
+  @authorise(Actions.read, UserAuthSubjects.AuthClient)
   @get('/clients/{id}', {
     security: OPERATION_SECURITY_SPEC,
     responses: {
       '200': {
-        description: 'AuthSecureClient model instance',
+        description: 'AuthClient model instance',
         content: {
           'application/json': {
-            schema: getModelSchemaRef(AuthSecureClient, {includeRelations: true}),
+            schema: getModelSchemaRef(AuthClient, {includeRelations: true}),
           },
         },
       },
@@ -175,24 +178,25 @@ export class AuthClientsController {
   })
   async findById(
     @param.path.number('id') id: number,
-    @param.filter(AuthSecureClient, {exclude: 'where'}) filter?: FilterExcludingWhere<AuthSecureClient>,
-  ): Promise<AuthSecureClient> {
-    this.checkUserDefaultTenantAccess();
+    @param.filter(AuthClient, {exclude: 'where'}) filter?: FilterExcludingWhere<AuthClient>,
+  ): Promise<AuthClient> {
+    // this.checkUserDefaultTenantAccess();
 
-    return this.authSecureClientRepository.findById(id, filter);
+    return this.authClientRepository.findById(id, filter);
   }
 
   @authenticate(STRATEGY.BEARER, {
     passReqToCallback: true,
   })
-  @authorize({
-    permissions: [PermissionKey.DeleteAuthClients, PermissionKey.CreateAuthClients, PermissionKey.UpdateAuthClients],
-  })
+  // @authorize({
+  //   permissions: [PermissionKey.DeleteAuthClients, PermissionKey.CreateAuthClients, PermissionKey.UpdateAuthClients],
+  // })
+  @authorise(Actions.update, UserAuthSubjects.AuthClient)
   @patch('/clients/{id}', {
     security: OPERATION_SECURITY_SPEC,
     responses: {
       '204': {
-        description: 'AuthSecureClient PATCH success',
+        description: 'AuthClient PATCH success',
       },
     },
   })
@@ -207,54 +211,56 @@ export class AuthClientsController {
     })
     dto: AuthClientRequestDto,
   ): Promise<void> {
-    this.checkUserDefaultTenantAccess();
+    // this.checkUserDefaultTenantAccess();
 
-    await this.authSecureClientRepository.updateById(id, dto);
+    await this.authClientRepository.updateById(id, dto);
   }
 
   @authenticate(STRATEGY.BEARER, {
     passReqToCallback: true,
   })
-  @authorize({
-    permissions: [PermissionKey.DeleteAuthClients, PermissionKey.CreateAuthClients, PermissionKey.UpdateAuthClients],
-  })
+  // @authorize({
+  //   permissions: [PermissionKey.DeleteAuthClients, PermissionKey.CreateAuthClients, PermissionKey.UpdateAuthClients],
+  // })
+  @authorise(Actions.update, UserAuthSubjects.AuthClient)
   @put('/clients/{id}', {
     security: OPERATION_SECURITY_SPEC,
     responses: {
       '204': {
-        description: 'AuthSecureClient PUT success',
+        description: 'AuthClient PUT success',
       },
     },
   })
   async replaceById(@param.path.number('id') id: number, @requestBody() dto: AuthClientRequestDto): Promise<void> {
-    this.checkUserDefaultTenantAccess();
+    // this.checkUserDefaultTenantAccess();
 
-    await this.authSecureClientRepository.replaceById(id, dto);
+    await this.authClientRepository.replaceById(id, dto);
   }
 
   @authenticate(STRATEGY.BEARER, {
     passReqToCallback: true,
   })
-  @authorize({
-    permissions: [PermissionKey.DeleteAuthClients],
-  })
+  // @authorize({
+  //   permissions: [PermissionKey.DeleteAuthClients],
+  // })
+  @authorise(Actions.delete, UserAuthSubjects.AuthClient)
   @del('/clients/{id}', {
     security: OPERATION_SECURITY_SPEC,
     responses: {
       '204': {
-        description: 'AuthSecureClient DELETE success',
+        description: 'AuthClient DELETE success',
       },
     },
   })
   async deleteById(@param.path.number('id') id: number): Promise<void> {
-    this.checkUserDefaultTenantAccess();
+    // this.checkUserDefaultTenantAccess();
 
-    await this.authSecureClientRepository.deleteById(id);
+    await this.authClientRepository.deleteById(id);
   }
 
-  private checkUserDefaultTenantAccess() {
-    if (this.currentUser.tenantId !== this.defaultTenant.id) {
-      throw new AuthorizationErrors.NotAllowedAccess();
-    }
-  }
+  // private checkUserDefaultTenantAccess() {
+  //   if (this.currentUser.tenantId !== this.defaultTenant.id) {
+  //     throw new AuthorizationErrors.NotAllowedAccess();
+  //   }
+  // }
 }

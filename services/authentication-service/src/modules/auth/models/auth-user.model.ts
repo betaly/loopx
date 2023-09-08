@@ -1,7 +1,6 @@
 ﻿import {model, property} from '@loopback/repository';
-import {IAuthUserWithPermissions, IUserPrefs, UserStatus} from '@loopx/core';
-
-import {User} from '../../../models';
+import {IAuthTenantUser, IUserPrefs, UserStatus} from '@loopx/core';
+import {User} from '@loopx/user-core';
 
 export class DeviceInfo {
   userAgent?: string;
@@ -12,7 +11,7 @@ export class DeviceInfo {
   description: `This is the signature for authenticated user which holds permissions and role.`,
   settings: {strict: true},
 })
-export class AuthUser extends User implements IAuthUserWithPermissions {
+export class AuthUser extends User implements IAuthTenantUser {
   @property({
     type: 'array',
     itemType: 'string',

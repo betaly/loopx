@@ -1,12 +1,18 @@
 ﻿import {IAuthUser} from '@bleco/authentication';
 import {createStubInstance, expect, StubbedInstanceWithSinonAccessor} from '@loopback/testlab';
+import {
+  User,
+  UserCredentials,
+  UserCredentialsRepository,
+  UserCredentialsWithRelations,
+  UserRepository,
+  UserWithRelations,
+} from '@loopx/user-core';
 import * as FacebookStrategy from 'passport-facebook';
 import sinon from 'sinon';
 
-import {User, UserCredentials, UserCredentialsWithRelations, UserWithRelations} from '../../../models';
-import {FacebookOauth2VerifyProvider} from '../../../modules/auth/providers/facebook-oauth-verify.provider';
+import {FacebookOauth2VerifyProvider} from '../../../modules/auth';
 import {FacebookSignUpFn} from '../../../providers';
-import {UserCredentialsRepository, UserRepository} from '../../../repositories';
 
 describe('Facebook Verify Provider', () => {
   let userRepo: StubbedInstanceWithSinonAccessor<UserRepository>;

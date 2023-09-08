@@ -1,33 +1,9 @@
-import {
-  Application,
-  ApplicationConfig,
-  CoreBindings,
-  inject,
-  LifeCycleObserver,
-  lifeCycleObserver,
-  service,
-} from '@loopback/core';
-import {repository} from '@loopback/repository';
+import {ApplicationConfig, CoreBindings, inject, LifeCycleObserver, lifeCycleObserver, service} from '@loopback/core';
 
 import {ClientType} from '@bleco/authentication';
 
-import {extractPermissions, ILogger, LOGGER} from '@loopx/core';
-import {
-  AuthClientService,
-  PermissionKey as UserPermissionKey,
-  RoleKey,
-  RoleRepository,
-  TenantRepository,
-  TenantStatus,
-} from '@loopx/user-service';
-
-import {UserDto} from '../models/user.dto';
-import {UserOpsService} from '../services';
-
-const AllPermissionKeys = [UserPermissionKey];
-const DefaultRolePermissionsPatterns = ['*Own*'];
-
-const SUPERADMIN_USERNAME = 'superadmin';
+import {ILogger, LOGGER} from '@loopx/core';
+import {AuthClientService} from '@loopx/user-core';
 
 @lifeCycleObserver('seeder')
 export class Seeder implements LifeCycleObserver {
@@ -35,14 +11,6 @@ export class Seeder implements LifeCycleObserver {
     @inject(LOGGER.LOGGER_INJECT) public logger: ILogger,
     @service(AuthClientService)
     private readonly authClientService: AuthClientService,
-    @repository(TenantRepository)
-    private readonly tenantRepo: TenantRepository,
-    @repository(RoleRepository)
-    private readonly roleRepo: RoleRepository,
-    @service(UserOpsService)
-    private readonly userOpsService: UserOpsService,
-    @inject(CoreBindings.APPLICATION_INSTANCE)
-    private readonly app: Application,
     @inject(CoreBindings.APPLICATION_CONFIG.deepProperty('initials'), {
       optional: true,
     })
@@ -74,46 +42,20 @@ export class Seeder implements LifeCycleObserver {
     this.logger.debug(`created auth client [name: ${authClient.name}, clientId: ${authClient.clientId}]`);
 
     // seed default tenant
-    const defaultTenant = await this.tenantRepo.create({
-      name: 'Default',
-      key: 'default',
-      status: TenantStatus.ACTIVE,
-    });
-    this.logger.debug(`created tenant [name: ${defaultTenant.name}, key: ${defaultTenant.key}]`);
+    // await this.tenantRepo.findById(DEFAULT_TENANT_CODE);
 
     // seed admin role and default role
-    const [adminRole, regularRole] = await this.roleRepo.createAll([
-      {
-        name: 'Platform Admin',
-        roleType: RoleKey.Admin,
-        permissions: ['*'],
-      },
-      {
-        name: 'Regular User',
-        roleType: RoleKey.Default,
-        permissions: extractPermissions(AllPermissionKeys, DefaultRolePermissionsPatterns),
-      },
-    ]);
-    this.logger.debug(`created roles [${adminRole.name}(admin), ${regularRole.name}(default)]`);
+    // const adminRole = await this.roleRepo.findById(DefaultRole.SuperAdmin);
+    // const regularRole = await this.roleRepo.findById(DefaultRole.Member);
+    // this.logger.debug(`created roles [${adminRole.name}(admin), ${regularRole.name}(default)]`);
 
-    // seed superadmin user
-    const superadminUsername =
-      this.initials?.superadminUsername ?? process.env.SUPERADMIN_USERNAME ?? SUPERADMIN_USERNAME;
-    const superadminPassword = this.initials?.superadminPassword ?? process.env.SUPERADMIN_PASSWORD;
+    // // seed superadmin user
+    // const superadminUsername =
+    //   this.initials?.superadminUsername ?? process.env.SUPERADMIN_USERNAME ?? SUPERADMIN_USERNAME;
+    // const superadminPassword = this.initials?.superadminPassword ?? process.env.SUPERADMIN_PASSWORD;
 
-    if (!superadminPassword) {
-      throw new Error(`The password of superadmin(${superadminUsername}) is required`);
-    }
-
-    await this.userOpsService.createUser(
-      new UserDto({
-        username: superadminUsername,
-        email: `${superadminUsername}@example.com`,
-        roleId: adminRole.id,
-        tenantId: defaultTenant.id,
-        password: superadminPassword,
-      }),
-    );
-    this.logger.debug(`created user [username: ${superadminUsername}, role: ${adminRole.name}(${adminRole.roleType})]`);
+    // if (!superadminPassword) {
+    //   throw new Error(`The password of superadmin(${superadminUsername}) is required`);
+    // }
   }
 }

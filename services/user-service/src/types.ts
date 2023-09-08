@@ -2,9 +2,8 @@
  * Interface defining the component's options object
  */
 // sonarignore:start
-export interface UserTenantServiceComponentOptions {
+export interface UserServiceComponentOptions {
   //NOSONAR
-  services?: string[];
   controllers?: string[];
 }
 
@@ -13,6 +12,6 @@ export interface UserTenantServiceComponentOptions {
 /**
  * Default options for the component
  */
-export const DEFAULT_USER_TENANT_SERVICE_OPTIONS: UserTenantServiceComponentOptions = {
+export const DEFAULT_USER_TENANT_SERVICE_OPTIONS: UserServiceComponentOptions = {
   // Specify the values here
 };

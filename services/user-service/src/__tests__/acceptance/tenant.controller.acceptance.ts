@@ -1,39 +1,24 @@
 ﻿import {AuthenticationBindings} from '@bleco/authentication';
 import {Client, expect} from '@loopback/testlab';
-import * as jwt from 'jsonwebtoken';
+import {IAuthTenantUser} from '@loopx/core';
+import {DefaultRole, Tenant, TenantRepository} from '@loopx/user-core';
 import {nanoid} from 'nanoid';
 
-import {PermissionKey} from '../../enums';
-import {Tenant} from '../../models';
-import {TenantRepository} from '../../repositories';
-import {UserTenantServiceApplication} from '../fixtures/application';
-import {JWT_ISSUER, JWT_SECRET} from '../fixtures/consts';
-import {setupApplication} from './test-helper';
+import {UserServiceApplication} from '../fixtures/application';
+import {buildAccessToken, createTenantUser, setupApplication} from './test-helper';
 
 describe('Tenant Controller', function () {
-  let app: UserTenantServiceApplication;
+  let app: UserServiceApplication;
   let tenantRepo: TenantRepository;
   const basePath = '/tenants';
   let client: Client;
   let token: string;
-  const pass = 'test_password';
   const tenantName = 'sample_tenant';
   const id = '9640864d-a84a-e6b4-f20e-918ff280cdaa';
-  const testUser = {
-    id: id,
-    userTenantId: id,
-    username: 'test_user',
+  const testUser: IAuthTenantUser = createTenantUser({
     tenantId: id,
-    password: pass,
-    permissions: [
-      PermissionKey.ViewTenant,
-      PermissionKey.CreateTenant,
-      PermissionKey.UpdateTenant,
-      PermissionKey.DeleteTenant,
-      PermissionKey.ViewOwnTenant,
-      PermissionKey.UpdateOwnTenant,
-    ],
-  };
+    role: DefaultRole.Owner,
+  });
   beforeAll(async () => {
     ({app, client} = await setupApplication());
   });
@@ -60,51 +45,60 @@ describe('Tenant Controller', function () {
   });
 
   it('gives status 200 when a new tenant entity is created', async () => {
-    const key = nanoid(10);
+    const code = nanoid(10);
     const tenant = {
       name: tenantName,
-      key: key,
+      code,
     };
     await client.post(basePath).set('authorization', `Bearer ${token}`).send(tenant).expect(200);
   });
 
   it('gives status 204 when a tenant entity is deleted ', async () => {
-    const key = nanoid(10);
+    const code = nanoid(10);
     const tenant = await tenantRepo.create(
       new Tenant({
         name: tenantName,
-        key: key,
+        code,
         status: 1,
       }),
     );
-    await client.del(`${basePath}/${tenant.id}`).set('authorization', `Bearer ${token}`).expect(204);
+    const tenantOwner = createTenantUser({tenantId: tenant.id, role: DefaultRole.Owner});
+    const tenantOwnerToken = buildAccessToken(tenantOwner);
+    await client.del(`${basePath}/${tenant.id}`).set('authorization', `Bearer ${tenantOwnerToken}`).expect(204);
   });
 
   it('return a tenant objet when id is sent', async () => {
-    const key = nanoid(10);
+    const code = nanoid(10);
     const tenant = await tenantRepo.create(
       new Tenant({
         name: tenantName,
-        key: key,
+        code,
         status: 1,
       }),
     );
-    const response = await client.get(`${basePath}/${tenant.id}`).set('authorization', `Bearer ${token}`).expect(200);
+    const tenantOwner = createTenantUser({tenantId: tenant.id, role: DefaultRole.Owner});
+    const tenantOwnerToken = buildAccessToken(tenantOwner);
+    const response = await client
+      .get(`${basePath}/${tenant.id}`)
+      .set('authorization', `Bearer ${tenantOwnerToken}`)
+      .expect(200);
     expect(response.body).to.have.properties(['name']);
   });
 
   it('gives status 204 when a task is updated ', async () => {
-    const key = nanoid(10);
+    const code = nanoid(10);
     const tenant = await tenantRepo.create(
       new Tenant({
         name: tenantName,
-        key: key,
+        code,
         status: 1,
       }),
     );
+    const tenantOwner = createTenantUser({tenantId: tenant.id, role: DefaultRole.Owner});
+    const tenantOwnerToken = buildAccessToken(tenantOwner);
     await client
       .patch(`${basePath}/${tenant.id}`)
-      .set('authorization', `Bearer ${token}`)
+      .set('authorization', `Bearer ${tenantOwnerToken}`)
       .send({name: 'new tenant'})
       .expect(204);
   });
@@ -114,27 +108,20 @@ describe('Tenant Controller', function () {
     expect(countResponse.body).to.have.property('count');
   });
 
-  it('gives status 403 when user doesnt habe the required permissions', async () => {
-    const key = nanoid(10);
+  it('gives status 403 when user doesnt have the required permissions', async () => {
+    const code = nanoid(10);
     const newTestUserId = '9640864d-a84a-e6b4-f20e-918ff280cdbb';
-    const newTestUser = {
-      id: newTestUserId,
-      userTenantId: newTestUserId,
-      username: 'test_user',
+    const newTestUser: IAuthTenantUser = createTenantUser({
       tenantId: newTestUserId,
-      password: pass,
-      permissions: [],
-    };
-
-    const newToken = jwt.sign(newTestUser, JWT_SECRET, {
-      expiresIn: 180000,
-      issuer: JWT_ISSUER,
+      role: DefaultRole.Guest,
     });
+
+    const newToken = buildAccessToken(newTestUser);
     await client
       .post(basePath)
       .send({
         name: tenantName,
-        key: key,
+        code: code,
       })
       .set('authorization', `Bearer ${newToken}`)
       .expect(403);
@@ -146,9 +133,6 @@ describe('Tenant Controller', function () {
 
   function setCurrentUser() {
     app.bind(AuthenticationBindings.CURRENT_USER).to(testUser);
-    token = jwt.sign(testUser, JWT_SECRET, {
-      expiresIn: 180000,
-      issuer: JWT_ISSUER,
-    });
+    token = buildAccessToken(testUser);
   }
 });

@@ -1,16 +1,15 @@
 ﻿import {ClientType} from '@bleco/authentication';
-import {UserPermission} from '@bleco/authorization';
 import {createStubInstance, expect, StubbedInstanceWithSinonAccessor} from '@loopback/testlab';
 import {AuthErrors} from '@loopx/core';
-import sinon from 'sinon';
-
-import {JwtPayloadProvider} from '../../providers';
 import {
   RoleRepository,
   TenantConfigRepository,
   UserLevelPermissionRepository,
   UserTenantRepository,
-} from '../../repositories';
+} from '@loopx/user-core';
+import sinon from 'sinon';
+
+import {JwtPayloadProvider} from '../../providers';
 
 describe('JWT Payload Provider', () => {
   let roleRepo: StubbedInstanceWithSinonAccessor<RoleRepository>;
@@ -39,7 +38,7 @@ describe('JWT Payload Provider', () => {
     debug,
   };
 
-  const userPermissions = (userPrm: UserPermission<string>[], rolePrm: string[]) => ['dummy'];
+  // const userPermissions = (userPrm: UserPermission<string>[], rolePrm: string[]) => ['dummy'];
 
   afterEach(() => sinon.restore());
   beforeEach(setUp);
@@ -87,7 +86,7 @@ describe('JWT Payload Provider', () => {
       userLevelPermissionRepo,
       userTenantRepo,
       tenantConfigRepo,
-      userPermissions,
+      // userPermissions,
       logger,
     );
   }

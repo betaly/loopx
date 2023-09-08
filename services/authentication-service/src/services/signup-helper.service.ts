@@ -2,10 +2,10 @@ import {inject} from '@loopback/context';
 import {BindingScope, injectable, service} from '@loopback/core';
 import {repository} from '@loopback/repository';
 import {ILogger, LOGGER} from '@loopx/core';
+import {UserRepository} from '@loopx/user-core';
 
 import {ValidationErrors} from '../errors';
 import {SignupFastRequestDto} from '../models/signup-fast-request.dto.model';
-import {UserRepository} from '../repositories';
 import {ValidationService} from './validation.service';
 
 @injectable({scope: BindingScope.SINGLETON})

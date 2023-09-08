@@ -3,7 +3,7 @@ import {Provider} from '@loopback/context';
 import {verify} from 'jsonwebtoken';
 
 import {JWT_ISSUER, JWT_SECRET} from './consts';
-import {IAuthUserWithPermissions} from './keys';
+import {IAuthTenantUser} from './keys';
 
 export class BearerTokenVerifyProvider implements Provider<VerifyFunction.BearerFn> {
   constructor() {
@@ -22,7 +22,7 @@ export class BearerTokenVerifyProvider implements Provider<VerifyFunction.Bearer
       */
       return verify(token, JWT_SECRET, {
         issuer: JWT_ISSUER,
-      }) as IAuthUserWithPermissions;
+      }) as IAuthTenantUser;
     };
   }
 }

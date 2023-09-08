@@ -1,11 +1,19 @@
 ﻿import {createStubInstance, expect, StubbedInstanceWithSinonAccessor} from '@loopback/testlab';
 import {UserStatus} from '@loopx/core';
+import {
+  User,
+  UserRepository,
+  UserTenant,
+  UserTenantRepository,
+  UserTenantWithRelations,
+  UserWithRelations,
+} from '@loopx/user-core';
 import {BErrors} from 'berrors';
 import sinon from 'sinon';
 
-import {Otp, User, UserTenant, UserTenantWithRelations, UserWithRelations} from '../../../models';
-import {LocalPasswordVerifyProvider} from '../../../modules/auth/providers/local-password-verify.provider';
-import {OtpRepository, UserRepository, UserTenantRepository} from '../../../repositories';
+import {Otp} from '../../../models';
+import {LocalPasswordVerifyProvider} from '../../../modules/auth';
+import {OtpRepository} from '../../../repositories';
 
 describe('Local Password Verify Provider', () => {
   let userRepo: StubbedInstanceWithSinonAccessor<UserRepository>;

@@ -3,12 +3,12 @@ import {inject} from '@loopback/context';
 import {BindingScope, injectable} from '@loopback/core';
 import {repository} from '@loopback/repository';
 import {ILogger, LOGGER} from '@loopx/core';
+import {AuthClient, UserRepository} from '@loopx/user-core';
 
-import {AuthClient} from '../models';
 import {OtpResponse} from '../modules/auth';
 import {OtpRequest} from '../otp/otp';
 import {OtpFn, VerifyBindings} from '../providers';
-import {OtpCacheRepository, UserRepository} from '../repositories';
+import {OtpCacheRepository} from '../repositories';
 import {IOtpRequest} from '../types';
 
 @injectable({scope: BindingScope.SINGLETON})

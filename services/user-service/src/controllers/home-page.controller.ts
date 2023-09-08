@@ -1,5 +1,4 @@
-﻿import {authorize} from '@bleco/authorization';
-import {inject} from '@loopback/context';
+﻿import {inject} from '@loopback/context';
 import {get, oas, OperationVisibility} from '@loopback/openapi-v3';
 import {Response, RestBindings} from '@loopback/rest';
 import {STATUS_CODE} from '@loopx/core';
@@ -18,7 +17,6 @@ export class HomePageController {
     this.html = this.html.replace(/\$\{basePath\}/g, process.env.BASE_PATH ?? '');
   }
 
-  @authorize({permissions: ['*']})
   @get('/', {
     responses: {
       [STATUS_CODE.OK]: {

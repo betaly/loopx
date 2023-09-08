@@ -1,5 +1,4 @@
 import {authenticate, STRATEGY} from '@bleco/authentication';
-import {authorize} from '@bleco/authorization';
 import {inject} from '@loopback/core';
 import {Count, CountSchema, Filter, repository, Where} from '@loopback/repository';
 import {
@@ -14,7 +13,7 @@ import {
 import {CONTENT_TYPE, OPERATION_SECURITY_SPEC, STATUS_CODE} from '@loopx/core';
 import moment from 'moment';
 
-import {ActiveUsersRange, PermissionKey} from '../enums';
+import {ActiveUsersRange} from '../enums';
 import {LoginActivity} from '../models';
 import {LoginActivityRepository} from '../repositories';
 import {ActiveUsersGroupData} from '../types';
@@ -31,9 +30,9 @@ export class LoginActivityController {
   @authenticate(STRATEGY.BEARER, {
     passReqToCallback: true,
   })
-  @authorize({
-    permissions: [PermissionKey.ViewLoginActivity],
-  })
+  // @authorize({
+  //   permissions: [PermissionKey.ViewLoginActivity],
+  // })
   @get(`${baseUrl}/count`, {
     security: OPERATION_SECURITY_SPEC,
     responses: {
@@ -53,9 +52,9 @@ export class LoginActivityController {
   @authenticate(STRATEGY.BEARER, {
     passReqToCallback: true,
   })
-  @authorize({
-    permissions: [PermissionKey.ViewLoginActivity],
-  })
+  // @authorize({
+  //   permissions: [PermissionKey.ViewLoginActivity],
+  // })
   @get(baseUrl, {
     security: OPERATION_SECURITY_SPEC,
     responses: {
@@ -82,9 +81,9 @@ export class LoginActivityController {
   @authenticate(STRATEGY.BEARER, {
     passReqToCallback: true,
   })
-  @authorize({
-    permissions: [PermissionKey.ViewLoginActivity],
-  })
+  // @authorize({
+  //   permissions: [PermissionKey.ViewLoginActivity],
+  // })
   @get(`${baseUrl}/{id}`, {
     security: OPERATION_SECURITY_SPEC,
     responses: {
@@ -109,9 +108,9 @@ export class LoginActivityController {
   @authenticate(STRATEGY.BEARER, {
     passReqToCallback: true,
   })
-  @authorize({
-    permissions: [PermissionKey.ViewLoginActivity],
-  })
+  // @authorize({
+  //   permissions: [PermissionKey.ViewLoginActivity],
+  // })
   @get(`active-users/{range}`, {
     security: OPERATION_SECURITY_SPEC,
     responses: {

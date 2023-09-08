@@ -2,9 +2,10 @@
 import {Provider} from '@loopback/context';
 import {repository} from '@loopback/repository';
 import {AuthErrors, UserStatus} from '@loopx/core';
+import {UserRepository, UserTenantRepository} from '@loopx/user-core';
 
 import {Otp} from '../../../models';
-import {OtpRepository, UserRepository, UserTenantRepository} from '../../../repositories';
+import {OtpRepository} from '../../../repositories';
 import {AuthUser} from '../models/auth-user.model';
 
 export class LocalPasswordVerifyProvider implements Provider<VerifyFunction.LocalPasswordFn> {

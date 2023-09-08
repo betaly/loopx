@@ -1,6 +1,7 @@
 import {Client, createRestAppClient, expect} from '@loopback/testlab';
+import {UserCredentialsRepository, UserLevelPermissionRepository} from '@loopx/user-core';
 
-import {RefreshTokenRepository, UserCredentialsRepository, UserLevelPermissionRepository} from '../../../repositories';
+import {RefreshTokenRepository} from '../../../repositories';
 import {TestingApplication} from '../../fixtures/application';
 import {TestHelperKey} from '../../fixtures/keys';
 import {TestHelperService} from '../../fixtures/services';

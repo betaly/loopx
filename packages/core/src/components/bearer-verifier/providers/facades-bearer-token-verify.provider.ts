@@ -6,8 +6,8 @@ import {BErrors} from 'berrors';
 import {verify} from 'jsonwebtoken';
 import moment from 'moment';
 
+import {IAuthTenantUser} from '../../../auth.types';
 import {ILogger, LOGGER} from '../../logger-extension';
-import {IAuthUserWithPermissions} from '../keys';
 import {RevokedTokenRepository} from '../repositories';
 
 export class FacadesBearerTokenVerifyProvider implements Provider<VerifyFunction.BearerFn> {
@@ -33,12 +33,12 @@ export class FacadesBearerTokenVerifyProvider implements Provider<VerifyFunction
         this.logger.error('Revoked token repository not available !');
       }
 
-      let user: IAuthUserWithPermissions;
+      let user: IAuthTenantUser;
       try {
         user = verify(token, process.env.JWT_SECRET as string, {
           issuer: process.env.JWT_ISSUER,
           algorithms: ['HS256'],
-        }) as IAuthUserWithPermissions;
+        }) as IAuthTenantUser;
       } catch (error) {
         this.logger.error(JSON.stringify(error));
         throw new BErrors.Unauthorized('TokenExpired');

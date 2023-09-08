@@ -5,15 +5,14 @@
   AuthenticationErrors,
   STRATEGY,
 } from '@bleco/authentication';
-import {authorize} from '@bleco/authorization';
 import {inject} from '@loopback/context';
 import {repository} from '@loopback/repository';
 import {get, getModelSchemaRef, oas, param, post, Request, requestBody, Response, RestBindings} from '@loopback/rest';
 import {CONTENT_TYPE, ILogger, LOGGER, STATUS_CODE, X_TS_TYPE} from '@loopx/core';
+import {AuthClientRepository} from '@loopx/user-core';
 import {URLSearchParams} from 'url';
 
 import {AuthCodeBindings, AuthCodeGeneratorFn} from '../../providers';
-import {AuthClientRepository} from '../../repositories';
 import {AuthUser} from './models/auth-user.model';
 import {ClientAuthRequest} from './models/client-auth-request.dto';
 import {TokenResponse} from './models/token-response.dto';
@@ -52,7 +51,6 @@ export class KeycloakLoginController {
     },
     queryGen('body'),
   )
-  @authorize({permissions: ['*']})
   @post('/auth/keycloak', {
     description: 'POST Call for keycloak based login',
     responses: {
@@ -96,7 +94,6 @@ export class KeycloakLoginController {
     },
     queryGen('query'),
   )
-  @authorize({permissions: ['*']})
   @oas.deprecated()
   @get('/auth/keycloak', {
     responses: {
@@ -137,7 +134,6 @@ export class KeycloakLoginController {
     },
     queryGen('query'),
   )
-  @authorize({permissions: ['*']})
   @get('/auth/keycloak-auth-redirect', {
     responses: {
       [STATUS_CODE.OK]: {

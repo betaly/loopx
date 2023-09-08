@@ -2,9 +2,10 @@
 import {Provider} from '@loopback/context';
 import {repository} from '@loopback/repository';
 import {AuthErrors, UserStatus} from '@loopx/core';
+import {AuthClientRepository, UserRepository, UserTenantRepository} from '@loopx/user-core';
 
 import {Otp} from '../../../models';
-import {AuthSecureClientRepository, OtpRepository, UserRepository, UserTenantRepository} from '../../../repositories';
+import {OtpRepository} from '../../../repositories';
 
 export class SecureResourceOwnerVerifyProvider implements Provider<VerifyFunction.SecureResourceOwnerPasswordFn> {
   constructor(
@@ -12,8 +13,8 @@ export class SecureResourceOwnerVerifyProvider implements Provider<VerifyFunctio
     public userRepository: UserRepository,
     @repository(UserTenantRepository)
     public utRepository: UserTenantRepository,
-    @repository(AuthSecureClientRepository)
-    public authSecureClientRepository: AuthSecureClientRepository,
+    @repository(AuthClientRepository)
+    public authClientRepository: AuthClientRepository,
     @repository(OtpRepository)
     public otpRepository: OtpRepository,
   ) {}
@@ -49,7 +50,7 @@ export class SecureResourceOwnerVerifyProvider implements Provider<VerifyFunctio
         throw new AuthErrors.UserInactive();
       }
 
-      const client = await this.authSecureClientRepository.findOne({
+      const client = await this.authClientRepository.findOne({
         where: {
           clientId,
         },

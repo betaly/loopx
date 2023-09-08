@@ -4,10 +4,9 @@ import {inject, Provider} from '@loopback/context';
 import {Where} from '@loopback/filter/src/query';
 import {repository} from '@loopback/repository';
 import {AuthProvider} from '@loopx/core';
+import {User, UserCredentialsRepository, UserRepository} from '@loopx/user-core';
 
-import {User} from '../../../models';
 import {AuthaPostVerifyFn, AuthaPreVerifyFn, AuthaSignUpFn, SignUpBindings, VerifyBindings} from '../../../providers';
-import {UserCredentialsRepository, UserRepository} from '../../../repositories';
 import {AuthUser} from '../models/auth-user.model';
 
 export class AuthaVerifyProvider implements Provider<VerifyFunction.AuthaFn> {
@@ -44,12 +43,10 @@ export class AuthaVerifyProvider implements Provider<VerifyFunction.AuthaFn> {
       });
       user = await this.preVerifyProvider(accessToken, refreshToken, profile, user);
       if (!user) {
-        const newUser = await this.signupProvider(profile);
-        if (newUser) {
-          user = newUser;
-        } else {
-          throw new AuthenticationErrors.InvalidCredentials();
-        }
+        user = await this.signupProvider(profile);
+      }
+      if (!user) {
+        throw new AuthenticationErrors.InvalidCredentials();
       }
       const creds = await this.userCredsRepository.findOne({
         where: {

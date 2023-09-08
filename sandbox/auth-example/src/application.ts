@@ -1,16 +1,11 @@
 import * as dotenv from 'dotenv';
 import * as dotenvExt from 'dotenv-extended';
 import path from 'path';
-
-import {BootMixin} from '@loopback/boot';
 import {ApplicationConfig} from '@loopback/core';
-import {RepositoryMixin} from '@loopback/repository';
 import {RestApplication} from '@loopback/rest';
 import {RestExplorerBindings, RestExplorerComponent} from '@loopback/rest-explorer';
-import {ServiceMixin} from '@loopback/service-proxy';
 
 import {AuthenticationBindings} from '@bleco/authentication';
-import {AuthorizationBindings, UserPermissionsProvider} from '@bleco/authorization';
 import '@bleco/boot';
 import {HelmetSecurityBindings} from '@bleco/helmet';
 import {RateLimitSecurityBindings} from '@bleco/ratelimiter';
@@ -23,7 +18,7 @@ import {
   SignUpBindings,
 } from '@loopx/authentication-service';
 import {LxCoreBindings, LxCoreComponent, SECURITY_SCHEME_SPEC} from '@loopx/core';
-import {UserTenantServiceBindings, UserTenantServiceComponent} from '@loopx/user-service';
+import {UserServiceBindings, UserServiceComponent} from '@loopx/user-service';
 
 import {KvDataSource} from './datasources';
 import {AuthExampleBindings} from './keys';
@@ -31,6 +26,8 @@ import * as openapi from './openapi.json';
 import {AuthaSignupProvider, DefaultRoleProvider, LocalSignupProvider} from './providers';
 import {MySequence} from './sequence';
 import {version} from './version';
+import {UserCoreBindings, UserCoreComponentOptions} from '@loopx/user-core';
+import {IntegrateMixin} from 'loopback4-plus';
 
 export {ApplicationConfig};
 
@@ -45,7 +42,7 @@ export const AUthControllers = [
   'LoginActivityController',
 ];
 
-export class AuthExampleApplication extends BootMixin(ServiceMixin(RepositoryMixin(RestApplication))) {
+export class AuthExampleApplication extends IntegrateMixin(RestApplication) {
   constructor(options: ApplicationConfig = {}) {
     dotenv.config();
     if (process.env.NODE_ENV !== 'test') {
@@ -93,6 +90,14 @@ export class AuthExampleApplication extends BootMixin(ServiceMixin(RepositoryMix
     });
     this.component(LxCoreComponent);
 
+    // Configure UserCoreComponent
+    this.configure<UserCoreComponentOptions>(UserCoreBindings.COMPONENT).to({
+      superadminCredentials: {
+        identifier: process.env.SUPERADMIN_USERNAME!,
+        password: process.env.SUPERADMIN_PASSWORD!,
+      },
+    });
+
     // AuthenticationServiceComponent
     this.bind(AuthenticationBindings.CONFIG).to({
       secureClient: true,
@@ -105,11 +110,11 @@ export class AuthExampleApplication extends BootMixin(ServiceMixin(RepositoryMix
     this.bind(SignUpBindings.LOCAL_SIGNUP_PROVIDER).toProvider(LocalSignupProvider);
     this.bind(SignUpBindings.AUTHA_SIGNUP_PROVIDER).toProvider(AuthaSignupProvider);
 
-    // UserTenantServiceComponent
-    this.configure(UserTenantServiceBindings.COMPONENT).to({
+    // UserServiceComponent
+    this.configure(UserServiceBindings.COMPONENT).to({
       controllers: ['*', '!UserSignupController'],
     });
-    this.component(UserTenantServiceComponent);
+    this.component(UserServiceComponent);
 
     // RateLimit configuration (in LxCoreComponent)
     this.bind(RateLimitSecurityBindings.CONFIG).to({
@@ -125,7 +130,7 @@ export class AuthExampleApplication extends BootMixin(ServiceMixin(RepositoryMix
     });
 
     // Bind user permissions provider
-    this.bind(AuthorizationBindings.USER_PERMISSIONS).toProvider(UserPermissionsProvider);
+    // this.bind(AuthorizationBindings.USER_PERMISSIONS).toProvider(UserPermissionsProvider);
 
     // RestExplorerComponent
     this.component(RestExplorerComponent);

@@ -1,7 +1,5 @@
 import {inject} from '@loopback/context';
-import {Request, ResponseObject, RestBindings, get} from '@loopback/rest';
-
-import {authorize} from '@bleco/authorization';
+import {get, Request, ResponseObject, RestBindings} from '@loopback/rest';
 
 /**
  * OpenAPI response for ping()
@@ -36,7 +34,6 @@ export class PingController {
   constructor(@inject(RestBindings.Http.REQUEST) private readonly req: Request) {}
 
   // Map to `GET /ping`
-  @authorize({permissions: ['*']})
   @get('/ping', {
     responses: {
       '200': PING_RESPONSE,

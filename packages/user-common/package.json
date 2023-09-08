@@ -1,0 +1,38 @@
+{
+  "name": "@loopx/user-common",
+  "description": "This package comprises a collection of common definitions and types for `user` modules for both server and front",
+  "version": "0.1.0",
+  "keywords": [],
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "engines": {
+    "node": ">=16"
+  },
+  "author": "TY",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "nb-tsc -b",
+    "clean": "del 'loopx-user-common*.tgz' 'dist/*' '*.tsbuildinfo' 'package'",
+    "pretest": "yarn run clean && yarn run build",
+    "test": "yarn run pretest && yarn run jest",
+    "jest": "jest"
+  },
+  "devDependencies": {
+    "@nutol/build": "^0.2.14",
+    "@nutol/eslint-config": "^0.2.9",
+    "@nutol/ts-config": "^0.2.1",
+    "@types/jest": "^29.5.4",
+    "@types/node": "^20.6.0",
+    "del-cli": "^5.1.0",
+    "jest": "^29.6.4"
+  },
+  "files": [
+    "README.md",
+    "dist",
+    "src",
+    "!*/__tests__"
+  ]
+}

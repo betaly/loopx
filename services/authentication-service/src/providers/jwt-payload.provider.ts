@@ -1,17 +1,18 @@
 ﻿import {IAuthClient, IAuthUser} from '@bleco/authentication';
-import {AuthorizationBindings, UserPermissionsFn} from '@bleco/authorization';
+// import {AuthorizationBindings, UserPermissionsFn} from '@bleco/authorization';
 import {inject, Provider} from '@loopback/core';
 import {AnyObject, repository} from '@loopback/repository';
 import {AuthErrors, ConfigKey, getAge, ILogger, LOGGER} from '@loopx/core';
-
-import {User, UserTenant} from '../models';
-import {AuthUser} from '../modules/auth/models/auth-user.model';
 import {
   RoleRepository,
   TenantConfigRepository,
+  User,
   UserLevelPermissionRepository,
+  UserTenant,
   UserTenantRepository,
-} from '../repositories';
+} from '@loopx/user-core';
+
+import {AuthUser} from '../modules/auth/models/auth-user.model';
 import {JwtPayloadFn} from './types';
 
 export class JwtPayloadProvider implements Provider<JwtPayloadFn> {
@@ -24,8 +25,8 @@ export class JwtPayloadProvider implements Provider<JwtPayloadFn> {
     private readonly userTenantRepo: UserTenantRepository,
     @repository(TenantConfigRepository)
     private readonly tenantConfigRepo: TenantConfigRepository,
-    @inject(AuthorizationBindings.USER_PERMISSIONS)
-    private readonly getUserPermissions: UserPermissionsFn<string>,
+    // @inject(AuthorizationBindings.USER_PERMISSIONS)
+    // private readonly getUserPermissions: UserPermissionsFn<string>,
     @inject(LOGGER.LOGGER_INJECT) private readonly logger: ILogger,
   ) {}
 
@@ -69,18 +70,17 @@ export class JwtPayloadProvider implements Provider<JwtPayloadFn> {
         throw new AuthErrors.UnprocessableData();
       }
 
-      const utPerms = await this.utPermsRepo.find({
-        where: {
-          userTenantId: userTenant.id,
-        },
-        fields: {
-          permission: true,
-          allowed: true,
-        },
-      });
-      // TODO - reduce payload size by removing permissions and resolve them when request
-      authUser.permissions = this.getUserPermissions(utPerms, role.permissions);
-      authUser.role = role.name;
+      // const utPerms = await this.utPermsRepo.find({
+      //   where: {
+      //     userTenantId: userTenant.id,
+      //   },
+      //   fields: {
+      //     permission: true,
+      //     allowed: true,
+      //   },
+      // });
+      // authUser.permissions = this.getUserPermissions(utPerms, role.permissions);
+      authUser.role = role.code;
       if (authUser.dob) {
         const age = getAge(new Date(authUser.dob));
         authUser.age = age;
@@ -117,10 +117,8 @@ export class JwtPayloadProvider implements Provider<JwtPayloadFn> {
       // Use locale from environment as fallback overall
       let locale = process.env.LOCALE ?? 'en';
       if (config?.configValue) {
-        // sonarignore:start
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         locale = (config.configValue as any).locale;
-        // sonarignore:end
       }
       authUser.userPreferences = {
         locale,

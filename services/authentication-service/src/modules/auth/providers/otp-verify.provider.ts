@@ -3,11 +3,11 @@ import {inject, Provider} from '@loopback/context';
 import {service} from '@loopback/core';
 import {repository} from '@loopback/repository';
 import {ILogger, LOGGER} from '@loopx/core';
+import {AuthClient, User, UserRepository} from '@loopx/user-core';
 import {totp} from 'otplib';
 
-import {AuthClient, User} from '../../../models';
 import {OtpRequest} from '../../../otp/otp';
-import {OtpCacheRepository, UserRepository} from '../../../repositories';
+import {OtpCacheRepository} from '../../../repositories';
 import {OtpService} from '../../../services/otp.service';
 
 export class OtpVerifyProvider implements Provider<VerifyFunction.OtpAuthFn> {

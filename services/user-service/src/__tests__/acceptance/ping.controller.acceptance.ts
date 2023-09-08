@@ -1,10 +1,10 @@
 ﻿import {Client, expect} from '@loopback/testlab';
 
-import {UserTenantServiceApplication} from '../fixtures/application';
+import {UserServiceApplication} from '../fixtures/application';
 import {setupApplication} from './test-helper';
 
 describe('PingController', () => {
-  let app: UserTenantServiceApplication;
+  let app: UserServiceApplication;
   let client: Client;
 
   beforeAll(async () => {

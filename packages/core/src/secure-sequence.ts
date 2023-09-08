@@ -17,7 +17,8 @@ import {
 import {BErrors} from 'berrors';
 import {isString} from 'lodash';
 
-import {IAuthUserWithPermissions, ILogger, LOGGER} from './components';
+import {IAuthTenantUser} from './auth.types';
+import {ILogger, LOGGER} from './components';
 import {LxCoreBindings} from './keys';
 
 const SequenceActions = RestBindings.SequenceActions;
@@ -44,7 +45,7 @@ export class SecureSequence implements SequenceHandler {
     @inject(SequenceActions.REJECT) public reject: Reject,
     @inject(LOGGER.LOGGER_INJECT) public logger: ILogger,
     @inject(AuthenticationBindings.USER_AUTH_ACTION)
-    protected authenticateRequest: AuthenticateFn<IAuthUserWithPermissions>,
+    protected authenticateRequest: AuthenticateFn<IAuthTenantUser>,
     @inject(AuthenticationBindings.CLIENT_AUTH_ACTION)
     protected authenticateClientRequest: AuthenticateFn<IAuthClient>,
     // @inject(AuthorizationBindings.AUTHORIZE_ACTION)
@@ -95,7 +96,7 @@ export class SecureSequence implements SequenceHandler {
 
       await this.authenticateClientRequest(request);
       await this.authenticateRequest(request, response);
-      // const authUser: IAuthUserWithPermissions = await this.authenticateRequest(request, response);
+      // const authUser: IAuthTenantUser = await this.authenticateRequest(request, response);
       // const isAccessAllowed: boolean = await this.checkAuthorisation(authUser?.permissions, request);
       // if (!isAccessAllowed) {
       //   throw new AuthorizationErrors.NotAllowedAccess();

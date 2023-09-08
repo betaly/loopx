@@ -1,10 +1,8 @@
 ﻿import {AuthenticationBindings} from '@bleco/authentication';
-import {BootMixin} from '@bleco/boot';
 import {ApplicationConfig, BindingScope} from '@loopback/core';
-import {RepositoryMixin} from '@loopback/repository';
 import {RestApplication} from '@loopback/rest';
 import {RestExplorerBindings, RestExplorerComponent} from '@loopback/rest-explorer';
-import {ServiceMixin} from '@loopback/service-proxy';
+import {IntegrateMixin} from 'loopback4-plus';
 import * as path from 'path';
 
 import {AuthenticationServiceComponent} from '../../component';
@@ -20,7 +18,7 @@ import {TestHelperService} from './services';
 
 export {ApplicationConfig};
 
-export class TestingApplication extends BootMixin(ServiceMixin(RepositoryMixin(RestApplication))) {
+export class TestingApplication extends IntegrateMixin(RestApplication) {
   constructor(options: ApplicationConfig = {}) {
     super(options);
 

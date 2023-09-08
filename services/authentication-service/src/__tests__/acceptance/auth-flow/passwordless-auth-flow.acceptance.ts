@@ -1,7 +1,7 @@
 import {Client, expect} from '@loopback/testlab';
 import {AuthProvider} from '@loopx/core';
+import {UserRepository} from '@loopx/user-core';
 
-import {UserRepository} from '../../../repositories';
 import {TestingApplication} from '../../fixtures/application';
 import {OtpCodeCache} from '../../fixtures/providers/otp-sender.provider';
 import {clearInitialData, setupApplication, setupInitialData} from '../test-helper';

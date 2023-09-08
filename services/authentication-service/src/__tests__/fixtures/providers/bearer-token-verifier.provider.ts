@@ -2,7 +2,7 @@
 import {Provider} from '@loopback/context';
 import {verify} from 'jsonwebtoken';
 
-import {IAuthUserWithPermissions} from '../keys';
+import {IAuthTenantUser} from '../keys';
 
 export class BearerTokenVerifyProvider implements Provider<VerifyFunction.BearerFn> {
   value(): VerifyFunction.BearerFn {
@@ -17,7 +17,7 @@ export class BearerTokenVerifyProvider implements Provider<VerifyFunction.Bearer
       */
       return verify(token, 'test', {
         issuer: 'test',
-      }) as IAuthUserWithPermissions;
+      }) as IAuthTenantUser;
     };
   }
 }

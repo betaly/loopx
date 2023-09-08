@@ -1,4 +1,5 @@
-import {User} from '../models';
+import {User} from '@loopx/user-core';
+
 import {IOtpRequest, OtpRequestMethod} from '../types';
 import {isValidEmail} from '../utils/email';
 import {isValidPhoneNumber} from '../utils/phone';

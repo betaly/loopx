@@ -1,14 +1,10 @@
 ﻿import {AuthenticationErrors} from '@bleco/authentication';
 import {Client, expect} from '@loopback/testlab';
 import {AuthErrors, AuthProvider} from '@loopx/core';
+import {UserCredentialsRepository, UserLevelPermissionRepository, UserRepository} from '@loopx/user-core';
 
-import {
-  RefreshTokenRepository,
-  RevokedTokenRepository,
-  UserCredentialsRepository,
-  UserLevelPermissionRepository,
-  UserRepository,
-} from '../../repositories';
+import {RefreshTokenRepository, RevokedTokenRepository} from '../../repositories';
+import {UserAuthService} from '../../services';
 import {TestingApplication} from '../fixtures/application';
 import {TestHelperKey} from '../fixtures/keys';
 import {TestHelperService} from '../fixtures/services';
@@ -23,6 +19,8 @@ describe('Login Controller', () => {
   let revokedTokenRepo: RevokedTokenRepository;
   let refreshTokenRepo: RefreshTokenRepository;
   let userCredentialsRepo: UserCredentialsRepository;
+  let userAuthService: UserAuthService;
+
   const useragent = 'test';
   const deviceId = 'test';
   const useragentName = 'user-agent';
@@ -31,11 +29,7 @@ describe('Login Controller', () => {
     ({app, client} = await setupApplication());
   });
   afterAll(async () => app.stop());
-  beforeAll(givenUserRepository);
-  beforeAll(givenUserPermissionRepository);
-  beforeAll(givenRevokedTokenRepository);
-  beforeAll(givenRefreshTokenRepository);
-  beforeAll(givenUserCredentialsRepository);
+  beforeAll(givenRepositoriesAndServices);
   beforeAll(async () => {
     helper = await app.get(TestHelperKey);
   });
@@ -488,7 +482,7 @@ describe('Login Controller', () => {
   it('should return true on logout', async () => {
     try {
       // ensure password is reset
-      await userRepo.changePassword('test_user', 'test123#@');
+      await userAuthService.changePassword('test_user', 'test123#@');
     } catch (e) {
       // do nothing
     }
@@ -547,24 +541,14 @@ describe('Login Controller', () => {
       .expect(401);
   });
 
-  async function givenUserRepository() {
+  async function givenRepositoriesAndServices() {
     userRepo = await app.getRepository(UserRepository);
-  }
-
-  async function givenUserPermissionRepository() {
     userPermissionRepo = await app.getRepository(UserLevelPermissionRepository);
-  }
-
-  async function givenUserCredentialsRepository() {
     userCredentialsRepo = await app.getRepository(UserCredentialsRepository);
-  }
-
-  async function givenRevokedTokenRepository() {
     revokedTokenRepo = await app.getRepository(RevokedTokenRepository);
-  }
-
-  async function givenRefreshTokenRepository() {
     refreshTokenRepo = await app.getRepository(RefreshTokenRepository);
+
+    userAuthService = await app.getService(UserAuthService);
   }
 
   async function deleteMockData() {
