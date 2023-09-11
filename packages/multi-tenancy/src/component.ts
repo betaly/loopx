@@ -20,7 +20,7 @@ export class MultiTenancyComponent implements Component {
     @inject(MultiTenancyBindings.CONFIG, {optional: true})
     private readonly config?: MultiTenancyConfig,
   ) {
-    if (this.config?.useMultiTenancyMiddleware) {
+    if (this.config?.asMiddleware) {
       this.bindings.push(createBindingFromClass(MultiTenancyMiddlewareProvider));
     }
   }

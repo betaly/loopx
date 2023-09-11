@@ -7,6 +7,8 @@ import {IdentifyTenantFn, MultiTenancyActionOptions, MultiTenancyPostProcess, Mu
 
 const debug = debugFactory('loopx:multi-tenancy');
 
+const DEFAULT_STRATEGY_NAMES = ['header'];
+
 /**
  * Provides the multi-tenancy action for a sequence
  */
@@ -19,15 +21,15 @@ export class MultiTenancyActionProvider implements Provider<IdentifyTenantFn> {
   constructor(
     @extensions()
     private readonly getMultiTenancyStrategies: Getter<MultiTenancyStrategy[]>,
-    @inject.getter(MultiTenancyBindings.DEFAULT_TENANT_ID, {optional: true})
-    private readonly getDefaultTenantId: Getter<string>,
     @inject(MultiTenancyBindings.POST_PROCESS, {optional: true})
     private readonly postProcess: MultiTenancyPostProcess,
     @config()
-    private options: MultiTenancyActionOptions = {
-      strategyNames: ['header'],
-    },
-  ) {}
+    private readonly options: MultiTenancyActionOptions = {},
+    @inject(MultiTenancyBindings.CONFIG, {optional: true})
+    optionsFromConfig?: MultiTenancyActionOptions,
+  ) {
+    this.options = {...optionsFromConfig, ...options};
+  }
 
   value(): IdentifyTenantFn {
     return requestCtx => this.action(requestCtx);
@@ -50,7 +52,7 @@ export class MultiTenancyActionProvider implements Provider<IdentifyTenantFn> {
 
   private async identifyTenancy(requestCtx: RequestContext) {
     debug('Tenancy action is configured with', this.options);
-    const strategyNames = this.options.strategyNames;
+    const {strategyNames = DEFAULT_STRATEGY_NAMES, defaultTenantId} = this.options ?? {};
     let strategies = await this.getMultiTenancyStrategies();
     strategies = strategies
       .filter(s => strategyNames.includes(s.name))
@@ -69,7 +71,6 @@ export class MultiTenancyActionProvider implements Provider<IdentifyTenantFn> {
         return {tenant, strategy: strategy.name};
       }
     }
-    const defaultTenantId = await this.getDefaultTenantId();
     if (defaultTenantId != null) {
       debug('Using default tenant id', defaultTenantId);
       return {

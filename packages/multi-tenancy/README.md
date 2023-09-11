@@ -69,13 +69,22 @@ export class MultiTenancyComponent implements Component {
 
 ### Use multi-tenancy middleware or action
 
-#### Enable multi-tenancy middleware
-
-The multi-tenancy middleware is disabled by default. You can enable it by setting `useMultiTenancyMiddleware` to enable
-it.
+#### Configure multi-tenancy component
 
 ```ts
-app.bind(MultiTenancyBindings.CONFIG).to({useMultiTenancyMiddleware: true});
+app.bind(MultiTenancyBindings.CONFIG).to({
+  asMiddleware: true, // enable multi-tenancy middleware. default to false
+  strategyNames: ['jwt', 'header', 'query'], // indentify tenant id using these strategies in order. default is ['header']
+  defaultTenantId: 'default', // default tenant id if no tenant is identified. default is disabled.
+});
+```
+
+#### Enable multi-tenancy middleware
+
+The multi-tenancy middleware is disabled by default. You can enable it by setting `asMiddleware` to enable it.
+
+```ts
+app.bind(MultiTenancyBindings.CONFIG).to({asMiddleware: true});
 ```
 
 #### Register tenant identify action
@@ -109,6 +118,24 @@ The tenant identify function can be configured with what strategies are checked 
 
 ```ts
 app.configure<MultiTenancyActionOptions>(MultiTenancyBindings.ACTION).to({strategyNames: ['jwt', 'header', 'query']});
+```
+
+or
+
+```ts
+app.bind(MultiTenancyBindings.CONFIG).to({
+  //...
+  strategyNames: ['jwt', 'header', 'query'],
+});
+```
+
+### Configure what default tenant to be used if no tenant is identified
+
+```ts
+app.bind(MultiTenancyBindings.CONFIG).to({
+  //...
+  defaultTenantId: 'default',
+});
 ```
 
 ### Post-processing after tenant is identified

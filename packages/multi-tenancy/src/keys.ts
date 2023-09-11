@@ -9,8 +9,6 @@ export namespace MultiTenancyBindings {
 
   export const CURRENT_TENANT = BindingKey.create<ITenant>('loopx.multi-tenancy.currentTenant');
 
-  export const DEFAULT_TENANT_ID = BindingKey.create<string>('loopx.multi-tenancy.defaultTenantId');
-
   export const POST_PROCESS = BindingKey.create<MultiTenancyPostProcess>('loopx.multi-tenancy.postProcess');
 
   export const TENANT_RESOLVER = BindingKey.create<TenantResolverFn>('loopx.multi-tenancy.tenantResolver');

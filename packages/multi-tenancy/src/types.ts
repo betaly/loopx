@@ -10,12 +10,13 @@ export interface ITenant {
   [attribute: string]: any;
 }
 
-export interface MultiTenancyConfig {
-  useMultiTenancyMiddleware?: boolean;
+export interface MultiTenancyActionOptions {
+  defaultTenantId?: string;
+  strategyNames?: string[];
 }
 
-export interface MultiTenancyActionOptions {
-  strategyNames: string[];
+export interface MultiTenancyConfig extends MultiTenancyActionOptions {
+  asMiddleware?: boolean;
 }
 
 export type IdentifyTenantFn<T extends ITenant = ITenant> = (
