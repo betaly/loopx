@@ -17,16 +17,7 @@ import {UserCoreComponent} from '@loopx/user-core';
 import {createBindingFromPermissions} from 'loopback4-acl';
 
 import {permissions} from './auth.permissions';
-import {
-  HomePageController,
-  PingController,
-  RoleUserTenantController,
-  TenantController,
-  TenantUserController,
-  UserSignupController,
-  UserTenantController,
-  UserTenantPrefsController,
-} from './controllers';
+import {controllers} from './controllers';
 import {UserServiceBindings} from './keys';
 import {DefaultTenantProvider} from './providers';
 import {DEFAULT_USER_TENANT_SERVICE_OPTIONS, UserServiceComponentOptions} from './types';
@@ -66,18 +57,6 @@ export class UserServiceComponent implements Component {
     this.providers = {
       [UserServiceBindings.DEFAULT_TENANT.key]: DefaultTenantProvider,
     };
-    this.controllers = matchResources(
-      [
-        HomePageController,
-        PingController,
-        RoleUserTenantController,
-        TenantUserController,
-        TenantController,
-        UserSignupController,
-        UserTenantPrefsController,
-        UserTenantController,
-      ],
-      options?.controllers,
-    );
+    this.controllers = matchResources(controllers, this.options?.controllers);
   }
 }
