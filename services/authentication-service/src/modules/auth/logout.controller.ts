@@ -146,7 +146,9 @@ export class LogoutController {
       where: {userId: user.id},
     });
 
-    if (this.userActivity?.markUserActivity) this.markUserActivity(refreshTokenModel, user, userTenant);
+    if (this.userActivity?.markUserActivity) {
+      this.markUserActivity(refreshTokenModel, user, userTenant);
+    }
 
     return new SuccessResponse({
       success: true,

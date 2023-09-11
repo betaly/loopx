@@ -99,7 +99,9 @@ export class TokenService {
       const userTenant = await this.userTenantRepo.findOne({
         where: {userId: user.id},
       });
-      if (this.userActivity?.markUserActivity) this.markUserActivity(user, userTenant, {...data}, loginType);
+      if (this.userActivity?.markUserActivity) {
+        this.markUserActivity(user, userTenant, {...data}, loginType);
+      }
 
       return new TokenResponse({
         accessToken,
