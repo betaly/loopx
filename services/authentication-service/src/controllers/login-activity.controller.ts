@@ -11,8 +11,11 @@ import {
   RestBindings,
 } from '@loopback/rest';
 import {CONTENT_TYPE, OPERATION_SECURITY_SPEC, STATUS_CODE} from '@loopx/core';
+import {authorise} from 'loopback4-acl';
 import moment from 'moment';
 
+import {AuthenticationAuthActions} from '../auth.actions';
+import {AuthenticationAuthSubjects} from '../auth.subjects';
 import {ActiveUsersRange} from '../enums';
 import {LoginActivity} from '../models';
 import {LoginActivityRepository} from '../repositories';
@@ -30,9 +33,7 @@ export class LoginActivityController {
   @authenticate(STRATEGY.BEARER, {
     passReqToCallback: true,
   })
-  // @authorize({
-  //   permissions: [PermissionKey.ViewLoginActivity],
-  // })
+  @authorise(AuthenticationAuthActions.read, AuthenticationAuthSubjects.LoginActivity)
   @get(`${baseUrl}/count`, {
     security: OPERATION_SECURITY_SPEC,
     responses: {
@@ -52,9 +53,7 @@ export class LoginActivityController {
   @authenticate(STRATEGY.BEARER, {
     passReqToCallback: true,
   })
-  // @authorize({
-  //   permissions: [PermissionKey.ViewLoginActivity],
-  // })
+  @authorise(AuthenticationAuthActions.read, AuthenticationAuthSubjects.LoginActivity)
   @get(baseUrl, {
     security: OPERATION_SECURITY_SPEC,
     responses: {
@@ -81,9 +80,7 @@ export class LoginActivityController {
   @authenticate(STRATEGY.BEARER, {
     passReqToCallback: true,
   })
-  // @authorize({
-  //   permissions: [PermissionKey.ViewLoginActivity],
-  // })
+  @authorise(AuthenticationAuthActions.read, AuthenticationAuthSubjects.LoginActivity)
   @get(`${baseUrl}/{id}`, {
     security: OPERATION_SECURITY_SPEC,
     responses: {
@@ -108,9 +105,7 @@ export class LoginActivityController {
   @authenticate(STRATEGY.BEARER, {
     passReqToCallback: true,
   })
-  // @authorize({
-  //   permissions: [PermissionKey.ViewLoginActivity],
-  // })
+  @authorise(AuthenticationAuthActions.read, AuthenticationAuthSubjects.LoginActivity)
   @get(`active-users/{range}`, {
     security: OPERATION_SECURITY_SPEC,
     responses: {
