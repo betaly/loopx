@@ -4,7 +4,7 @@ export enum DefaultRole {
   SuperAdmin = 'super_admin',
   Owner = 'owner',
   Admin = 'admin',
-  Member = 'member',
+  User = 'user',
   Guest = 'guest',
 }
 

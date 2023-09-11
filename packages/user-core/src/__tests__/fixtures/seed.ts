@@ -25,7 +25,7 @@ export async function seed(app: UserTenantApplication) {
   const roles = {
     owner: await roleRepository.findById(DefaultRole.Owner),
     admin: await roleRepository.findById(DefaultRole.Admin),
-    member: await roleRepository.findById(DefaultRole.Member),
+    user: await roleRepository.findById(DefaultRole.User),
   };
 
   const users = {
@@ -45,11 +45,11 @@ export async function seed(app: UserTenantApplication) {
       }),
       null,
     ),
-    member: await userOpsService.create(
+    user: await userOpsService.create(
       new UserDto({
         tenantId: tenant.id,
-        roleId: roles.member.id,
-        details: new User({username: 'member'}),
+        roleId: roles.user.id,
+        details: new User({username: 'user'}),
       }),
       null,
     ),
@@ -58,7 +58,7 @@ export async function seed(app: UserTenantApplication) {
   const userTenants = {
     owner: await utRepository.findById(users.owner.userTenantId),
     admin: await utRepository.findById(users.admin.userTenantId),
-    member: await utRepository.findById(users.member.userTenantId),
+    user: await utRepository.findById(users.user.userTenantId),
   };
 
   return {

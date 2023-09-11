@@ -10,7 +10,7 @@ export type UserCorePermissions = Permissions<DefaultRole, UserCoreAbilities, IA
 export const permissions: UserCorePermissions = {
   everyone() {},
 
-  [DefaultRole.Member]({user, can}) {
+  [DefaultRole.User]({user, can}) {
     // Members can manage their own UserTenant
     can(Actions.manage, UserAuthSubjects.UserTenant, {userId: user.id});
 
@@ -19,25 +19,25 @@ export const permissions: UserCorePermissions = {
   },
 
   [DefaultRole.Admin]({user, can, extend}) {
-    // Extend member permissions
-    extend(DefaultRole.Member);
+    // Extend user permissions
+    extend(DefaultRole.User);
 
     can(Actions.create, UserAuthSubjects.UserTenant, {
       tenantId: user.tenantId,
-      role: {$in: [DefaultRole.Member, DefaultRole.Admin]},
+      role: {$in: [DefaultRole.User, DefaultRole.Admin]},
     });
     can(Actions.read, UserAuthSubjects.UserTenant, {
       tenantId: user.tenantId,
-      role: {$in: [DefaultRole.Member, DefaultRole.Admin]},
+      role: {$in: [DefaultRole.User, DefaultRole.Admin]},
     });
     can(Actions.update, UserAuthSubjects.UserTenant, {
       tenantId: user.tenantId,
-      role: {$in: [DefaultRole.Member, DefaultRole.Admin]},
+      role: {$in: [DefaultRole.User, DefaultRole.Admin]},
     });
   },
 
   [DefaultRole.Owner]({user, can, extend}) {
-    // Extend member permissions
+    // Extend user permissions
     extend(DefaultRole.Admin);
 
     can(Actions.manage, UserAuthSubjects.UserTenant, {tenantId: user.tenantId});

@@ -21,7 +21,7 @@ export class LocalSignupProvider implements Provider<UserSignupFn<SignupDto, Use
 
       const user = await this.userOps.create(
         new UserDto({
-          roleId: data.roleId ?? DefaultRole.Member,
+          roleId: data.roleId ?? DefaultRole.User,
           tenantId: data.tenantId ?? DEFAULT_TENANT_CODE,
           userTenantId: data.userTenantId,
           details: new User(pick(Object.keys(SignupDto.definition.properties), data)),

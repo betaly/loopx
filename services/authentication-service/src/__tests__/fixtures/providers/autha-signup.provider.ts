@@ -14,7 +14,7 @@ export class AuthaSignupProvider implements Provider<AuthaSignUpFn> {
     return async profile => {
       const user = await this.userOps.create(
         new UserDto({
-          roleId: DefaultRole.Member,
+          roleId: DefaultRole.User,
           tenantId: DEFAULT_TENANT_CODE,
           details: new User({
             username: profile.username,

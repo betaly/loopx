@@ -46,7 +46,7 @@ export class Seeder implements LifeCycleObserver {
 
     // seed admin role and default role
     // const adminRole = await this.roleRepo.findById(DefaultRole.SuperAdmin);
-    // const regularRole = await this.roleRepo.findById(DefaultRole.Member);
+    // const regularRole = await this.roleRepo.findById(DefaultRole.User);
     // this.logger.debug(`created roles [${adminRole.name}(admin), ${regularRole.name}(default)]`);
 
     // // seed superadmin user

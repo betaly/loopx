@@ -21,6 +21,7 @@ import {
   UserAuthSubjects,
   UserDto,
   UserOperationsService,
+  UserTenantRepository,
   UserViewRepository,
 } from '@loopx/user-core';
 import {Able, acl, Actions, authorise} from 'loopback4-acl';
@@ -190,10 +191,16 @@ export class TenantUserController {
   //     PermissionKey.ViewOwnUserNum,
   //   ],
   // })
-  @authorise(Actions.read, UserAuthSubjects.UserTenant, async ({params}) => ({
-    tenantId: params.id,
-    userId: params.userId,
-  }))
+  @authorise(Actions.read, UserAuthSubjects.UserTenant, [
+    UserTenantRepository,
+    async (repo: UserTenantRepository, {params}) =>
+      repo.findOne({
+        where: {
+          tenantId: params.id,
+          userId: params.userId,
+        },
+      }),
+  ])
   @get(`${basePath}/{userId}`, {
     security: OPERATION_SECURITY_SPEC,
     responses: {
@@ -217,14 +224,6 @@ export class TenantUserController {
     @param.query.object('filter', getFilterSchemaFor(User))
     filter?: Filter<User>,
   ): Promise<User> {
-    // if (currentUser.permissions.indexOf(PermissionKey.ViewAnyUser) < 0 && currentUser.tenantId !== id) {
-    //   throw new AuthorizationErrors.NotAllowedAccess();
-    // }
-    //
-    // if (currentUser.permissions.indexOf(PermissionKey.ViewOwnUser) >= 0 && currentUser.id !== userId) {
-    //   throw new AuthorizationErrors.NotAllowedAccess();
-    // }
-
     const filterBuilder = new FilterBuilder(filter);
     const whereBuilder = new WhereBuilder();
     whereBuilder.eq('userTenants.tenantId', id);
@@ -236,16 +235,6 @@ export class TenantUserController {
   @authenticate(STRATEGY.BEARER, {
     passReqToCallback: true,
   })
-  // @authorize({
-  //   permissions: [
-  //     PermissionKey.CreateAnyUser,
-  //     PermissionKey.CreateTenantUser,
-  //     PermissionKey.CreateTenantUserRestricted,
-  //     PermissionKey.CreateAnyUserNum,
-  //     PermissionKey.CreateTenantUserNum,
-  //     PermissionKey.CreateTenantUserRestrictedNum,
-  //   ],
-  // })
   @authorise(Actions.create, UserAuthSubjects.UserTenant, async ({params}) => ({tenantId: params.id}))
   @post(basePath, {
     security: OPERATION_SECURITY_SPEC,

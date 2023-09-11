@@ -152,7 +152,7 @@ export async function setupInitialData(appOrRepos: TestingApplication | TestInit
   });
 
   const testAdminRole = await roleRepo.findById(DefaultRole.SuperAdmin);
-  const testDefaultRole = await roleRepo.findById(DefaultRole.Member);
+  const testDefaultRole = await roleRepo.findById(DefaultRole.User);
   const testDefaultTenant = await tenantRepo.findById(DEFAULT_TENANT_CODE);
 
   const testUser = await userRepo.create({

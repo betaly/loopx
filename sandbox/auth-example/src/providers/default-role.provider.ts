@@ -10,7 +10,7 @@ export class DefaultRoleProvider implements Provider<Role> {
 
   async value(): Promise<Role> {
     const tenant = await this.roleRepo.findOne({
-      where: {code: DefaultRole.Member},
+      where: {code: DefaultRole.User},
     });
     if (!tenant) {
       throw new Error(`No default type role found. You must seed the database first.`);
