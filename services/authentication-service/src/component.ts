@@ -17,7 +17,7 @@ import {
   ServiceOrProviderClass,
 } from '@loopback/core';
 import {Class, Model, Repository} from '@loopback/repository';
-import {RestApplication, RestBindings} from '@loopback/rest';
+import {RestApplication} from '@loopback/rest';
 import {LxCoreBindings, LxCoreComponent, matchResources, SECURITY_SCHEME_SPEC} from '@loopx/core';
 import {MultiTenancyActionOptions, MultiTenancyBindings, MultiTenancyComponent} from '@loopx/multi-tenancy';
 import {UserCoreComponent} from '@loopx/user-core';
@@ -194,12 +194,6 @@ export class AuthenticationServiceComponent implements Component {
     if (!authConfig?.useCustomSequence) {
       // Mount default sequence if needed
       this.setupSequence();
-    }
-
-    if (!this.application.isBound(RestBindings.ERROR_WRITER_OPTIONS)) {
-      this.application.bind(RestBindings.ERROR_WRITER_OPTIONS).to({
-        safeFields: ['code', 'errorCode', 'data'],
-      });
     }
 
     this.controllers = matchResources(controllers, authConfig?.controllers);

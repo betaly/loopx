@@ -1,7 +1,7 @@
 import {HelmetComponent} from '@bleco/helmet';
 import {RateLimiterComponent} from '@bleco/ratelimiter';
 import {Binding, Component, CoreBindings, createBindingFromClass, inject, ProviderMap} from '@loopback/core';
-import {ExpressRequestHandler, RestApplication} from '@loopback/rest';
+import {ExpressRequestHandler, RestApplication, RestBindings} from '@loopback/rest';
 import {configure} from 'i18n';
 import * as swstats from 'swagger-stats';
 
@@ -77,6 +77,13 @@ export class LxCoreComponent implements Component {
         /* eslint-disable @typescript-eslint/no-explicit-any */
         objectNotation: '->' as any,
         // sonarignore:end
+      });
+    }
+
+    // Configure error writer options
+    if (!this.application.isBound(RestBindings.ERROR_WRITER_OPTIONS)) {
+      this.application.bind(RestBindings.ERROR_WRITER_OPTIONS).to({
+        safeFields: ['code', 'errorCode', 'data'],
       });
     }
 
