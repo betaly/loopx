@@ -4,7 +4,7 @@ import {Count, CountSchema, Filter, FilterExcludingWhere, repository, Where} fro
 import {del, get, getModelSchemaRef, param, patch, post, requestBody} from '@loopback/rest';
 import {CONTENT_TYPE, IAuthTenantUser, OPERATION_SECURITY_SPEC, STATUS_CODE, TenantStatus} from '@loopx/core';
 import {Tenant, TenantConfig, TenantConfigRepository, TenantRepository, UserAuthSubjects} from '@loopx/user-core';
-import {Actions, authorise} from 'loopback4-acl';
+import {authorise} from 'loopback4-acl';
 
 import {TenantActions} from '../auth.actions';
 
@@ -13,9 +13,9 @@ const basePath = '/tenants';
 export class TenantController {
   constructor(
     @repository(TenantRepository)
-    public tenantRepository: TenantRepository,
+    private readonly tenantRepository: TenantRepository,
     @repository(TenantConfigRepository)
-    public tenantConfigRepository: TenantConfigRepository,
+    private readonly tenantConfigRepository: TenantConfigRepository,
   ) {}
 
   @authenticate(STRATEGY.BEARER, {
@@ -59,7 +59,7 @@ export class TenantController {
   // @authorize({
   //   permissions: [PermissionKey.ViewTenant, PermissionKey.ViewTenantNum],
   // })
-  @authorise(Actions.read, UserAuthSubjects.Tenant)
+  @authorise(TenantActions.read, UserAuthSubjects.Tenant)
   @get(`${basePath}/count`, {
     security: OPERATION_SECURITY_SPEC,
     responses: {
@@ -79,7 +79,7 @@ export class TenantController {
   // @authorize({
   //   permissions: [PermissionKey.ViewTenant, PermissionKey.ViewTenantNum],
   // })
-  @authorise(Actions.read, UserAuthSubjects.Tenant)
+  @authorise(TenantActions.read, UserAuthSubjects.Tenant)
   @get(basePath, {
     security: OPERATION_SECURITY_SPEC,
     responses: {
@@ -106,7 +106,7 @@ export class TenantController {
   // @authorize({
   //   permissions: [PermissionKey.UpdateTenant, PermissionKey.UpdateTenantNum],
   // })
-  @authorise(Actions.update, UserAuthSubjects.Tenant)
+  @authorise(TenantActions.update_batch, UserAuthSubjects.Tenant)
   @patch(basePath, {
     security: OPERATION_SECURITY_SPEC,
     responses: {
@@ -141,7 +141,7 @@ export class TenantController {
   //     PermissionKey.ViewOwnTenant,
   //   ],
   // })
-  @authorise(Actions.read, UserAuthSubjects.Tenant, async ({params}) => ({id: params.id}))
+  @authorise(TenantActions.read, UserAuthSubjects.Tenant, async ({params}) => ({id: params.id}))
   @get(`${basePath}/{id}`, {
     security: OPERATION_SECURITY_SPEC,
     responses: {
@@ -179,7 +179,7 @@ export class TenantController {
   //     PermissionKey.UpdateOwnTenant,
   //   ],
   // })
-  @authorise(Actions.update, UserAuthSubjects.Tenant, async ({params}) => ({id: params.id}))
+  @authorise(TenantActions.update, UserAuthSubjects.Tenant, async ({params}) => ({id: params.id}))
   @patch(`${basePath}/{id}`, {
     security: OPERATION_SECURITY_SPEC,
     responses: {
@@ -213,7 +213,7 @@ export class TenantController {
   // @authorize({
   //   permissions: [PermissionKey.DeleteTenant, PermissionKey.DeleteTenantUser],
   // })
-  @authorise(Actions.delete, UserAuthSubjects.Tenant, async ({params}) => ({id: params.id}))
+  @authorise(TenantActions.delete, UserAuthSubjects.Tenant, async ({params}) => ({id: params.id}))
   @del(`${basePath}/{id}`, {
     security: OPERATION_SECURITY_SPEC,
     responses: {
@@ -237,7 +237,7 @@ export class TenantController {
   //     PermissionKey.ViewOwnTenant,
   //   ],
   // })
-  @authorise(Actions.read, UserAuthSubjects.Tenant, async ({params}) => ({id: params.id}))
+  @authorise(TenantActions.read, UserAuthSubjects.Tenant, async ({params}) => ({id: params.id}))
   @get(`${basePath}/{id}/config`, {
     security: OPERATION_SECURITY_SPEC,
     responses: {

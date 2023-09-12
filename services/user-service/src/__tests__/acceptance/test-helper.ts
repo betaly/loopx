@@ -1,12 +1,13 @@
-﻿import {Client, createRestAppClient, givenHttpServerConfig} from '@loopback/testlab';
+﻿import {RepositoryTags} from '@loopback/repository';
+import {Client, createRestAppClient, givenHttpServerConfig} from '@loopback/testlab';
 import {IAuthTenantUser, TenantStatus} from '@loopx/core';
+import {DEFAULT_TENANT_CODE} from '@loopx/user-common';
 import {
   AdminService,
-  AuthClientRepository,
   DefaultRole,
-  RoleRepository,
   Roles,
   RoleService,
+  SUPERADMIN_USER_IDENTIFIER,
   Tenant,
   TenantRepository,
   TenantService,
@@ -14,7 +15,6 @@ import {
   UserDto,
   UserOperationsService,
   UserRepository,
-  UserTenantRepository,
 } from '@loopx/user-core';
 import * as jwt from 'jsonwebtoken';
 import {MarkRequired} from 'ts-essentials';
@@ -62,6 +62,7 @@ export type SetupData = Awaited<ReturnType<typeof setupData>>;
 
 export async function setupData(app: UserServiceApplication) {
   const tenantRepo = await app.getRepository(TenantRepository);
+  const userRepo = await app.getRepository(UserRepository);
   const userOpts = await app.getService(UserOperationsService);
 
   const tenantService = await app.getService(TenantService);
@@ -72,68 +73,86 @@ export async function setupData(app: UserServiceApplication) {
   await roleService.initRoles();
   await adminService.initAdministrators();
 
-  const tenant = await tenantRepo.create(
+  const tenant1 = await tenantRepo.create(
     new Tenant({
-      name: 'test_tenant',
+      name: 'test_tenant_1',
       status: TenantStatus.ACTIVE,
     }),
   );
-  const users: Partial<Record<Roles, UserDto>> = {
-    [Roles.User]: await userOpts.create(
-      new UserCreationData({
-        tenantId: tenant.id,
-        roleId: DefaultRole.User,
-        userDetails: {
-          username: 'test_user',
-        },
-      }),
-      null,
-      {activate: true},
+
+  const tenant2 = await tenantRepo.create(
+    new Tenant({
+      name: 'test_tenant_2',
+      status: TenantStatus.ACTIVE,
+    }),
+  );
+
+  const superadmin = await userRepo.findOne({where: {username: SUPERADMIN_USER_IDENTIFIER}});
+
+  const users: Partial<Record<Roles, IAuthTenantUser>> = {
+    [Roles.User]: toTenantUser(
+      await userOpts.create(
+        new UserCreationData({
+          tenantId: tenant1.id,
+          roleId: DefaultRole.User,
+          userDetails: {
+            username: 'test_user',
+          },
+        }),
+        null,
+        {activate: true},
+      ),
     ),
-    [Roles.Admin]: await userOpts.create(
-      new UserCreationData({
-        tenantId: tenant.id,
-        roleId: DefaultRole.Admin,
-        userDetails: {
-          username: 'test_admin',
-        },
-      }),
-      null,
-      {activate: true},
+    [Roles.Admin]: toTenantUser(
+      await userOpts.create(
+        new UserCreationData({
+          tenantId: tenant1.id,
+          roleId: DefaultRole.Admin,
+          userDetails: {
+            username: 'test_admin',
+          },
+        }),
+        null,
+        {activate: true},
+      ),
     ),
-    [Roles.Owner]: await userOpts.create(
-      new UserCreationData({
-        tenantId: tenant.id,
-        roleId: DefaultRole.Owner,
-        userDetails: {
-          username: 'test_owner',
-        },
-      }),
-      null,
-      {activate: true},
+    [Roles.Owner]: toTenantUser(
+      await userOpts.create(
+        new UserCreationData({
+          tenantId: tenant1.id,
+          roleId: DefaultRole.Owner,
+          userDetails: {
+            username: 'test_owner',
+          },
+        }),
+        null,
+        {activate: true},
+      ),
     ),
+    [Roles.SuperAdmin]: {
+      id: superadmin!.id,
+      role: Roles.SuperAdmin,
+      tenantId: DEFAULT_TENANT_CODE,
+      username: superadmin!.username,
+      authClientId: 0,
+    },
   };
 
   return {
-    tenant,
+    tenant1,
+    tenant2,
     users,
   };
 }
 
 export async function clearData(app: UserServiceApplication) {
-  const authClientRepo = await app.getRepository(AuthClientRepository);
-  const tenantRepo = await app.getRepository(TenantRepository);
-  const userRepo = await app.getRepository(UserRepository);
-  const roleRepo = await app.getRepository(RoleRepository);
-  const userTenantRepo = await app.getRepository(UserTenantRepository);
-
-  await Promise.all([
-    tenantRepo.deleteAllHard(),
-    userRepo.deleteAllHard(),
-    userTenantRepo.deleteAllHard(),
-    authClientRepo.deleteAllHard(),
-    roleRepo.deleteAllHard(),
-  ]);
+  const bindings = app.findByTag(RepositoryTags.REPOSITORY);
+  for (const binding of bindings) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const repo = await app.get<any>(binding.key);
+    if (!repo.deleteAll && !repo.deleteAllHard) continue;
+    await (repo.deleteAllHard ?? repo.deleteAll)();
+  }
 }
 
 export function toTenantUser(

@@ -47,11 +47,11 @@ export const permissions: UserAuthPermissions = {
 
     can(Actions.create, UserAuthSubjects.UserTenant, {
       tenantId: user.tenantId,
-      role: {$in: [DefaultRole.User, DefaultRole.Admin]},
+      role: DefaultRole.User,
     });
     can(Actions.update, UserAuthSubjects.UserTenant, {
       tenantId: user.tenantId,
-      role: {$in: [DefaultRole.User, DefaultRole.Admin]},
+      role: DefaultRole.User,
     });
   },
 
