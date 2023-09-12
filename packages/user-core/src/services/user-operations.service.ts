@@ -1,17 +1,13 @@
 ﻿import {BindingScope, inject, injectable} from '@loopback/core';
-import {Options, repository, WhereBuilder} from '@loopback/repository';
+import {DataObject, Options, repository, WhereBuilder} from '@loopback/repository';
 import {HttpErrors} from '@loopback/rest';
 import {IAuthTenantUser, UserStatus} from '@loopx/core';
-import {DEFAULT_TENANT_CODE} from '@loopx/user-common';
 import {BErrors} from 'berrors';
 import {Able, AclErrors, Actions} from 'loopback4-acl';
-import defaultsDeep from 'tily/object/defaultsDeep';
 import {uid} from 'uid/secure';
 
-import {DEFAULT_SUPERADMIN_CREDENTIALS} from '../defaults';
-import {AuthProvider, DefaultRole} from '../enums';
 import {UserCoreBindings} from '../keys';
-import {Role, User, UserDto, UserTenant, UserTenantWithRelations} from '../models';
+import {Role, User, UserCreationData, UserDto, UserTenant, UserTenantWithRelations} from '../models';
 import {
   AuthClientRepository,
   RoleRepository,
@@ -21,8 +17,7 @@ import {
   UserTenantRepository,
 } from '../repositories';
 import {UserAuthSubjects} from '../subjects';
-import {SuperadminCredentials} from '../types';
-import {buildWhereClauseFromIdentifier, buildWhereClauseFromPossibleIdentifiers, subjectFor} from '../utils';
+import {buildWhereClauseFromPossibleIdentifiers, subjectFor} from '../utils';
 
 export interface UserSignupOptions extends UserCreationOptions {
   /**
@@ -50,31 +45,26 @@ export class UserOperationsService {
 
   /**
    * Create a new user
-   * @param userData
+   * @param data - User data
    * @param able - Able instance to check for permissions. If not provided, no permission checks will be performed.
-   * @param options
+   * @param options - Options
    */
-  async create(userData: UserDto, able: Able<IAuthTenantUser> | null, options?: UserSignupOptions): Promise<UserDto> {
+  async create(
+    data: UserCreationData,
+    able: Able<IAuthTenantUser> | null,
+    options?: UserSignupOptions,
+  ): Promise<UserDto> {
     options = {
-      authProvider: userData.authProvider,
-      authId: userData.authId,
+      authProvider: data.authProvider,
+      authId: data.authId,
       ...options,
     };
-    const user = userData.details;
-    this.validateUserCreation(user, userData, able, options);
+    const user = data.userDetails;
+    const role: Role = await this.roleRepo.findById(data.roleId);
 
-    const role: Role = await this.roleRepo.findById(userData.roleId);
+    this.validateUserCreation(data, role, able, options);
 
-    if (
-      able?.cannot(
-        Actions.create,
-        subjectFor<UserTenant>(UserAuthSubjects.UserTenant, {tenantId: userData.tenantId, role: role.name}),
-      )
-    ) {
-      throw new AclErrors.NotAllowedAccess();
-    }
-
-    const status = options.activate ? UserStatus.ACTIVE : UserStatus.REGISTERED;
+    const status = options?.activate ? UserStatus.ACTIVE : UserStatus.REGISTERED;
 
     const identifiersWhereClause = buildWhereClauseFromPossibleIdentifiers(user);
     const userExists = await this.userRepository.findOne({
@@ -87,15 +77,15 @@ export class UserOperationsService {
       const userTenantExists = await this.utRepo.findOne({
         where: {
           userId: userExists.id,
-          tenantId: userData.tenantId,
+          tenantId: data.tenantId,
         },
       });
       if (userTenantExists) {
         throw new HttpErrors.BadRequest('User already exists');
       } else {
-        const userTenant: UserTenant = await this.createUserTenantData(userData, status, userExists?.id, options);
+        const userTenant: UserTenant = await this.createUserTenantData(data, status, userExists?.id, options);
         return new UserDto({
-          details: userExists,
+          userDetails: userExists,
           roleId: userTenant.roleId,
           status: userTenant.status,
           tenantId: userTenant.tenantId,
@@ -115,12 +105,12 @@ export class UserOperationsService {
     // user.authClientIds = authClients.map(client => client.id!);
     const username = user.username ?? this.generateUsername();
     user.username = username.toLowerCase();
-    //Override default tenant id
-    user.defaultTenantId = userData.tenantId;
+    user.defaultTenantId = data.tenantId;
     const userSaved = await this.userRepository.create(user, options);
-    const userTenantData = await this.createUserTenantData(userData, status, userSaved?.id, options);
+
+    const userTenantData = await this.createUserTenantData(data, status, userSaved?.id, options);
     return new UserDto({
-      details: userSaved,
+      userDetails: userSaved,
       roleId: userTenantData.roleId,
       status: userTenantData.status,
       tenantId: userTenantData.tenantId,
@@ -135,15 +125,22 @@ export class UserOperationsService {
 
   /**
    * Validate user creation.
-   * @param user
-   * @param userData
+   * @param data
+   * @param role
    * @param able - Able instance to check for permissions. If not provided, no permission checks will be performed.
    * @param options
    */
-  validateUserCreation(user: User, userData: UserDto, able: Able<IAuthTenantUser> | null, options?: Options) {
-    // if (able?.cannot(Actions.create, subjectForUT<UserTenant>('UserTenant', {tenantId: userData.tenantId}))) {
-    //   throw new AclErrors.NotAllowedAccess();
-    // }
+  validateUserCreation(data: UserCreationData, role: Role, able: Able<IAuthTenantUser> | null, options?: Options) {
+    if (
+      able?.cannot(
+        Actions.create,
+        subjectFor<UserTenant>(UserAuthSubjects.UserTenant, {tenantId: data.tenantId, role: role.code}),
+      )
+    ) {
+      throw new AclErrors.NotAllowedAccess();
+    }
+
+    const user = data.userDetails;
 
     if (!user.username && !user.email && !user.phone) {
       throw new BErrors.BadRequest('username or email or phone is required');
@@ -173,12 +170,17 @@ export class UserOperationsService {
     }
   }
 
-  async createUserTenantData(userData: UserDto, userStatus: UserStatus, userId?: string, options?: Options) {
+  async createUserTenantData(
+    data: DataObject<UserCreationData>,
+    status: UserStatus,
+    userId?: string,
+    options?: Options,
+  ) {
     return this.utRepo.create(
       {
-        roleId: userData.roleId,
-        status: userStatus,
-        tenantId: userData.tenantId,
+        roleId: data.roleId,
+        tenantId: data.tenantId,
+        status,
         userId,
       },
       options,
@@ -312,7 +314,7 @@ export class UserOperationsService {
         Actions.delete,
         subjectFor<UserTenant>(UserAuthSubjects.UserTenant, {
           tenantId: able.user.tenantId,
-          role: userTenant.role.name,
+          role: userTenant.role.code,
         }),
       )
     ) {
@@ -358,32 +360,5 @@ export class UserOperationsService {
       },
       include: [{relation: 'role'}],
     });
-  }
-
-  async initAdministrators(credentials?: SuperadminCredentials) {
-    credentials = defaultsDeep(credentials, DEFAULT_SUPERADMIN_CREDENTIALS);
-    await this.ensureSuperAdminUser(credentials);
-  }
-
-  async ensureSuperAdminUser(credentials: SuperadminCredentials) {
-    const superAdminUser = await this.userRepository.findOne({
-      where: buildWhereClauseFromIdentifier(credentials.identifier),
-    });
-    if (!superAdminUser) {
-      await this.create(
-        new UserDto({
-          roleId: DefaultRole.SuperAdmin,
-          tenantId: DEFAULT_TENANT_CODE,
-          details: new User({
-            username: credentials.identifier,
-            firstName: 'Super',
-            lastName: 'Admin',
-          }),
-        }),
-        null,
-        {activate: true, authProvider: AuthProvider.Internal},
-      );
-      await this.userRepository.setPassword(credentials.identifier, credentials.password);
-    }
   }
 }

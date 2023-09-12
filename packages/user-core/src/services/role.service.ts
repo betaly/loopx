@@ -15,13 +15,13 @@ export class RoleService {
     await this.ensureProtectedRoles();
   }
 
-  async ensureProtectedRoles() {
+  protected async ensureProtectedRoles() {
     for (const key of Object.keys(DefaultRoleMap)) {
       await this.ensureProtectedRole(key, DefaultRoleMap[key]);
     }
   }
 
-  async ensureProtectedRole(id: string, roleData: RoleMapData) {
+  protected async ensureProtectedRole(id: string, roleData: RoleMapData) {
     const role = await this.roleRepository.findOne({where: {id: id}});
     if (role) {
       await this.roleRepository.updateById(id, {

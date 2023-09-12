@@ -8,6 +8,9 @@ export enum DefaultRole {
   Guest = 'guest',
 }
 
+export type Roles = DefaultRole;
+export const Roles = DefaultRole;
+
 export interface RoleMapData {
   code: string;
   name: string;

@@ -1,6 +1,6 @@
 import {Provider, service} from '@loopback/core';
 import {DEFAULT_TENANT_CODE} from '@loopx/user-common';
-import {DefaultRole, User, UserDto, UserOperationsService} from '@loopx/user-core';
+import {DefaultRole, UserCreationData, UserOperationsService} from '@loopx/user-core';
 
 import {AuthaSignUpFn} from '../../../providers';
 
@@ -13,15 +13,15 @@ export class AuthaSignupProvider implements Provider<AuthaSignUpFn> {
   value(): AuthaSignUpFn {
     return async profile => {
       const user = await this.userOps.create(
-        new UserDto({
+        new UserCreationData({
           roleId: DefaultRole.User,
           tenantId: DEFAULT_TENANT_CODE,
-          details: new User({
+          userDetails: {
             username: profile.username,
             email: profile.email,
             phone: profile.phone,
             name: profile.name,
-          }),
+          },
         }),
         null,
         {
@@ -30,7 +30,7 @@ export class AuthaSignupProvider implements Provider<AuthaSignUpFn> {
           activate: true,
         },
       );
-      return user.details;
+      return user.userDetails;
     };
   }
 }

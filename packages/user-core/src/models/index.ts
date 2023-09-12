@@ -19,6 +19,7 @@ export * from './role.model';
 export * from './tenant.model';
 export * from './tenant-config.model';
 export * from './user.model';
+export * from './user-creatation-data.model';
 export * from './user-credentials.model';
 export * from './user-dto.model';
 export * from './user-group.model';

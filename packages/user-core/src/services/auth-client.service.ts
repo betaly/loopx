@@ -2,12 +2,10 @@ import {ClientType} from '@bleco/authentication';
 import {BindingScope, injectable} from '@loopback/core';
 import {DataObject, Options, repository, Where} from '@loopback/repository';
 import {BErrors} from 'berrors';
-import {customAlphabet} from 'nanoid';
+import {uid} from 'uid/secure';
 
 import {AuthClient} from '../models';
 import {AuthClientRepository, RoleRepository} from '../repositories';
-
-const nanoid = customAlphabet('0123456789abcdefghijklmnopqrstuvwxyz', 20);
 
 @injectable({scope: BindingScope.SINGLETON})
 export class AuthClientService {
@@ -35,13 +33,13 @@ export class AuthClientService {
     const client = await this.authClientRepo.create(
       {
         clientType: ClientType.public,
-        clientId: nanoid(),
+        clientId: uid(),
         accessTokenExpiration: 3600,
         refreshTokenExpiration: 3600 * 24 * 30,
         authCodeExpiration: 3600,
         ...data,
-        clientSecret: nanoid(),
-        secret: nanoid(),
+        clientSecret: uid(),
+        secret: uid(),
       },
       options,
     );

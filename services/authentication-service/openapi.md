@@ -3132,21 +3132,21 @@ To get the user details
   "updatedBy": "string",
   "id": "string",
   "username": "string",
+  "email": "string",
+  "phone": "string",
   "name": "string",
   "firstName": "string",
   "lastName": "string",
   "middleName": "string",
-  "email": "string",
   "designation": "string",
-  "phone": "string",
-  "authClientIds": [
-    0
-  ],
-  "lastLogin": "2019-08-24T14:15:22Z",
   "photoUrl": "string",
   "gender": "M",
   "dob": "2019-08-24T14:15:22Z",
   "defaultTenantId": "string",
+  "authClientIds": [
+    0
+  ],
+  "lastLogin": "2019-08-24T14:15:22Z",
   "permissions": [
     "string"
   ],
@@ -4295,21 +4295,21 @@ AuthRefreshTokenRequest
   "updatedBy": "string",
   "id": "string",
   "username": "string",
+  "email": "string",
+  "phone": "string",
   "name": "string",
   "firstName": "string",
   "lastName": "string",
   "middleName": "string",
-  "email": "string",
   "designation": "string",
-  "phone": "string",
-  "authClientIds": [
-    0
-  ],
-  "lastLogin": "2019-08-24T14:15:22Z",
   "photoUrl": "string",
   "gender": "M",
   "dob": "2019-08-24T14:15:22Z",
   "defaultTenantId": "string",
+  "authClientIds": [
+    0
+  ],
+  "lastLogin": "2019-08-24T14:15:22Z",
   "permissions": [
     "string"
   ],
@@ -4343,19 +4343,19 @@ AuthUser
 |updatedBy|string|false|none|none|
 |id|string|false|none|none|
 |username|string|true|none|none|
+|email|string|false|none|none|
+|phone|string|false|none|none|
 |name|string|false|none|none|
 |firstName|string|false|none|none|
 |lastName|string|false|none|none|
 |middleName|string|false|none|none|
-|email|string|false|none|none|
 |designation|string|false|none|none|
-|phone|string|false|none|none|
-|authClientIds|[number]|false|none|none|
-|lastLogin|string(date-time)|false|none|none|
 |photoUrl|string|false|none|none|
 |gender|string|false|none|This field takes a single character as input in database.<br>    'M' for male and 'F' for female.|
 |dob|string(date-time)|false|none|none|
 |defaultTenantId|string|false|none|none|
+|authClientIds|[number]|false|none|none|
+|lastLogin|string(date-time)|false|none|none|
 |permissions|[string]|false|none|none|
 |role|string|true|none|none|
 |deviceInfo|object|false|none|This property consists of two optional fields.<br>    1. userAgent<br>    2. deviceId|

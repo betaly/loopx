@@ -8,7 +8,7 @@ import {DEFAULT_SUPERADMIN_CREDENTIALS} from './defaults';
 import {UserCoreBindings} from './keys';
 import {models} from './models';
 import {repositories} from './repositories';
-import {RoleService, services, TenantService, UserOperationsService} from './services';
+import {AdminService, RoleService, services, TenantService} from './services';
 import {UserCoreComponentOptions} from './types';
 
 export class UserCoreComponent implements Component, LifeCycleObserver {
@@ -59,10 +59,10 @@ export class UserCoreComponent implements Component, LifeCycleObserver {
   async init() {
     const tenantService = await this.app.getService(TenantService);
     const roleService = await this.app.getService(RoleService);
-    const userOpsService = await this.app.getService(UserOperationsService);
+    const adminService = await this.app.getService(AdminService);
 
     await tenantService.initTenants();
     await roleService.initRoles();
-    await userOpsService.initAdministrators(this.options.superadminCredentials);
+    await adminService.initAdministrators(this.options.superadminCredentials);
   }
 }

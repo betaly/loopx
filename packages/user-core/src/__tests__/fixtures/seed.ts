@@ -1,9 +1,9 @@
 import {DEFAULT_TENANT_CODE} from '@loopx/user-common';
 
 import {DefaultRole} from '../../enums';
-import {User, UserDto} from '../../models';
+import {UserCreationData} from '../../models';
 import {UserTenantRepository} from '../../repositories';
-import {RoleService, TenantService, UserOperationsService} from '../../services';
+import {AdminService, RoleService, TenantService, UserOperationsService} from '../../services';
 import {UserTenantApplication} from './application';
 
 export type SeedResult = Awaited<ReturnType<typeof seed>>;
@@ -14,12 +14,13 @@ export async function seed(app: UserTenantApplication) {
   const utRepository = await app.getRepository(UserTenantRepository);
   const roleService = await app.getService(RoleService);
   const roleRepository = roleService.roleRepository;
+  const adminService = await app.getService(AdminService);
   const userOpsService = await app.getService(UserOperationsService);
 
   // ensure default tenant and protected roles for `beforeEach`
   await tenantService.initTenants();
   await roleService.initRoles();
-  await userOpsService.initAdministrators();
+  await adminService.initAdministrators();
 
   const tenant = await tenantRepository.findById(DEFAULT_TENANT_CODE);
   const roles = {
@@ -30,26 +31,26 @@ export async function seed(app: UserTenantApplication) {
 
   const users = {
     owner: await userOpsService.create(
-      new UserDto({
+      new UserCreationData({
         tenantId: tenant.id,
         roleId: roles.owner.id,
-        details: new User({username: 'owner'}),
+        userDetails: {username: 'owner'},
       }),
       null,
     ),
     admin: await userOpsService.create(
-      new UserDto({
+      new UserCreationData({
         tenantId: tenant.id,
         roleId: roles.admin.id,
-        details: new User({username: 'admin'}),
+        userDetails: {username: 'admin'},
       }),
       null,
     ),
     user: await userOpsService.create(
-      new UserDto({
+      new UserCreationData({
         tenantId: tenant.id,
         roleId: roles.user.id,
-        details: new User({username: 'user'}),
+        userDetails: {username: 'user'},
       }),
       null,
     ),

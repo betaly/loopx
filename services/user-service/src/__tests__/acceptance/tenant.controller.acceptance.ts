@@ -2,10 +2,10 @@
 import {Client, expect} from '@loopback/testlab';
 import {IAuthTenantUser} from '@loopx/core';
 import {DefaultRole, Tenant, TenantRepository} from '@loopx/user-core';
-import {nanoid} from 'nanoid';
+import {uid} from 'uid';
 
 import {UserServiceApplication} from '../fixtures/application';
-import {buildAccessToken, createTenantUser, setupApplication} from './test-helper';
+import {buildAccessToken, setupApplication, toTenantUser} from './test-helper';
 
 describe('Tenant Controller', function () {
   let app: UserServiceApplication;
@@ -15,7 +15,7 @@ describe('Tenant Controller', function () {
   let token: string;
   const tenantName = 'sample_tenant';
   const id = '9640864d-a84a-e6b4-f20e-918ff280cdaa';
-  const testUser: IAuthTenantUser = createTenantUser({
+  const testUser: IAuthTenantUser = toTenantUser({
     tenantId: id,
     role: DefaultRole.Owner,
   });
@@ -45,7 +45,7 @@ describe('Tenant Controller', function () {
   });
 
   it('gives status 200 when a new tenant entity is created', async () => {
-    const code = nanoid(10);
+    const code = uid(10);
     const tenant = {
       name: tenantName,
       code,
@@ -54,7 +54,7 @@ describe('Tenant Controller', function () {
   });
 
   it('gives status 204 when a tenant entity is deleted ', async () => {
-    const code = nanoid(10);
+    const code = uid(10);
     const tenant = await tenantRepo.create(
       new Tenant({
         name: tenantName,
@@ -62,13 +62,13 @@ describe('Tenant Controller', function () {
         status: 1,
       }),
     );
-    const tenantOwner = createTenantUser({tenantId: tenant.id, role: DefaultRole.Owner});
+    const tenantOwner = toTenantUser({tenantId: tenant.id, role: DefaultRole.Owner});
     const tenantOwnerToken = buildAccessToken(tenantOwner);
     await client.del(`${basePath}/${tenant.id}`).set('authorization', `Bearer ${tenantOwnerToken}`).expect(204);
   });
 
   it('return a tenant objet when id is sent', async () => {
-    const code = nanoid(10);
+    const code = uid(10);
     const tenant = await tenantRepo.create(
       new Tenant({
         name: tenantName,
@@ -76,7 +76,7 @@ describe('Tenant Controller', function () {
         status: 1,
       }),
     );
-    const tenantOwner = createTenantUser({tenantId: tenant.id, role: DefaultRole.Owner});
+    const tenantOwner = toTenantUser({tenantId: tenant.id, role: DefaultRole.Owner});
     const tenantOwnerToken = buildAccessToken(tenantOwner);
     const response = await client
       .get(`${basePath}/${tenant.id}`)
@@ -86,7 +86,7 @@ describe('Tenant Controller', function () {
   });
 
   it('gives status 204 when a task is updated ', async () => {
-    const code = nanoid(10);
+    const code = uid(10);
     const tenant = await tenantRepo.create(
       new Tenant({
         name: tenantName,
@@ -94,7 +94,7 @@ describe('Tenant Controller', function () {
         status: 1,
       }),
     );
-    const tenantOwner = createTenantUser({tenantId: tenant.id, role: DefaultRole.Owner});
+    const tenantOwner = toTenantUser({tenantId: tenant.id, role: DefaultRole.Owner});
     const tenantOwnerToken = buildAccessToken(tenantOwner);
     await client
       .patch(`${basePath}/${tenant.id}`)
@@ -109,9 +109,9 @@ describe('Tenant Controller', function () {
   });
 
   it('gives status 403 when user doesnt have the required permissions', async () => {
-    const code = nanoid(10);
+    const code = uid(10);
     const newTestUserId = '9640864d-a84a-e6b4-f20e-918ff280cdbb';
-    const newTestUser: IAuthTenantUser = createTenantUser({
+    const newTestUser: IAuthTenantUser = toTenantUser({
       tenantId: newTestUserId,
       role: DefaultRole.Guest,
     });

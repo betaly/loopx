@@ -33,6 +33,19 @@ export class User<T = DataObject<Model>> extends UserUpdatableEntity<T & User> i
   @property({
     type: 'string',
   })
+  email?: string;
+
+  @property({
+    type: 'string',
+    jsonSchema: {
+      pattern: `^\\+?[1-9]\\d{1,14}$`,
+    },
+  })
+  phone?: string;
+
+  @property({
+    type: 'string',
+  })
   name?: string;
 
   @property({
@@ -56,36 +69,7 @@ export class User<T = DataObject<Model>> extends UserUpdatableEntity<T & User> i
   @property({
     type: 'string',
   })
-  email?: string;
-
-  @property({
-    type: 'string',
-  })
   designation?: string;
-
-  @property({
-    type: 'string',
-    jsonSchema: {
-      pattern: `^\\+?[1-9]\\d{1,14}$`,
-    },
-  })
-  phone?: string;
-
-  @property({
-    type: 'array',
-    itemType: 'number',
-    name: 'auth_client_ids',
-  })
-  authClientIds?: number[];
-
-  @property({
-    type: 'date',
-    name: 'last_login',
-    postgresql: {
-      column: 'last_login',
-    },
-  })
-  lastLogin?: Date;
 
   @property({
     name: 'photo_url',
@@ -117,6 +101,22 @@ export class User<T = DataObject<Model>> extends UserUpdatableEntity<T & User> i
     },
   )
   defaultTenantId?: string;
+
+  @property({
+    type: 'array',
+    itemType: 'number',
+    name: 'auth_client_ids',
+  })
+  authClientIds?: number[];
+
+  @property({
+    type: 'date',
+    name: 'last_login',
+    postgresql: {
+      column: 'last_login',
+    },
+  })
+  lastLogin?: Date;
 
   @hasOne(() => UserCredentials, {keyTo: 'userId'})
   credentials: UserCredentials;

@@ -13,11 +13,11 @@ import {
   UserTenantRepository,
 } from '@loopx/user-core';
 import * as jwt from 'jsonwebtoken';
-import {nanoid} from 'nanoid';
+import {uid} from 'uid';
 
 import {UserServiceApplication} from '../fixtures/application';
 import {JWT_ISSUER, JWT_SECRET} from '../fixtures/consts';
-import {createTenantUser, setupApplication} from './test-helper';
+import {setupApplication, toTenantUser} from './test-helper';
 
 describe('UserTenantPrefs Controller', function () {
   let app: UserServiceApplication;
@@ -88,7 +88,7 @@ describe('UserTenantPrefs Controller', function () {
       }),
     );
 
-    const code = nanoid(10);
+    const code = uid(10);
     const tenant = await tenantRepo.create(
       new Tenant({
         name: tenantName,
@@ -103,7 +103,7 @@ describe('UserTenantPrefs Controller', function () {
         roleId: role.id,
       }),
     );
-    testUser = createTenantUser({
+    testUser = toTenantUser({
       ...user,
       userTenantId: userTenant.id,
       tenantId: tenant.id,

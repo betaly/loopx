@@ -20,7 +20,7 @@ export function mockUserInfo(info?: UserClaims): any {
       identities: {
         facebook: {
           userId: '106077000000000',
-          details: {
+          userDetails: {
             id: '106077000000000',
             name: 'John Joe',
             email: 'johnjoe@example.com',

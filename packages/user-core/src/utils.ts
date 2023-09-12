@@ -3,9 +3,12 @@
 import {Where} from '@loopback/repository';
 import {BErrors} from 'berrors';
 import {subject} from 'loopback4-acl';
+import pick from 'tily/object/pick';
 
 import {User} from './models';
 import {UserAuthSubjects} from './subjects';
+
+export const pickUserProps = pick(Object.keys(User.definition.properties) as (keyof User)[]);
 
 export function subjectFor<U extends Record<PropertyKey, any>>(
   type: UserAuthSubjects,

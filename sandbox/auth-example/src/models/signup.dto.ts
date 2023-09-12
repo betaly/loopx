@@ -1,6 +1,6 @@
 import {model, property} from '@loopback/repository';
 
-import {CoreModel, UserStatus} from '@loopx/core';
+import {CoreModel} from '@loopx/core';
 
 @model()
 export class SignupDto extends CoreModel<SignupDto> {
@@ -13,11 +13,6 @@ export class SignupDto extends CoreModel<SignupDto> {
     type: 'string',
   })
   tenantId?: string;
-
-  @property({
-    type: 'string',
-  })
-  userTenantId?: string;
 
   @property({
     type: 'string',
@@ -43,11 +38,6 @@ export class SignupDto extends CoreModel<SignupDto> {
     type: 'string',
   })
   password?: string;
-
-  @property({
-    type: 'string',
-  })
-  status?: UserStatus;
 
   @property({
     type: 'string',

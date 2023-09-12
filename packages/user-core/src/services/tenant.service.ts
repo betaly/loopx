@@ -15,7 +15,7 @@ export class TenantService {
     await this.ensureDefaultTenant();
   }
 
-  async ensureDefaultTenant() {
+  protected async ensureDefaultTenant() {
     const tenant = await this.tenantRepository.findOne({where: {code: DEFAULT_TENANT_CODE}});
     if (!tenant) {
       await this.tenantRepository.create({

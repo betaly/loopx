@@ -5,13 +5,13 @@ import {RestTags} from '@loopback/rest';
 import {Client, createRestAppClient, givenHttpServerConfig} from '@loopback/testlab';
 import {DEFAULT_TENANT_CODE} from '@loopx/user-common';
 import {
+  AdminService,
   AuthClientRepository,
   DefaultRole,
   RoleRepository,
   RoleService,
   TenantRepository,
   TenantService,
-  UserOperationsService,
   UserRepository,
   UserTenantRepository,
 } from '@loopx/user-core';
@@ -90,7 +90,7 @@ interface TestInitialDataRepositories {
   userTenantRepo: UserTenantRepository;
   tenantService: TenantService;
   roleService: RoleService;
-  userOperationService: UserOperationsService;
+  adminService: AdminService;
 }
 
 export async function setupInitialData(appOrRepos: TestingApplication | TestInitialDataRepositories) {
@@ -101,7 +101,7 @@ export async function setupInitialData(appOrRepos: TestingApplication | TestInit
   let userTenantRepo: UserTenantRepository;
   let tenantService: TenantService;
   let roleService: RoleService;
-  let userOperationService: UserOperationsService;
+  let adminService: AdminService;
 
   if (appOrRepos instanceof Application) {
     authClientRepo = await appOrRepos.getRepository(AuthClientRepository);
@@ -109,10 +109,9 @@ export async function setupInitialData(appOrRepos: TestingApplication | TestInit
     tenantRepo = await appOrRepos.getRepository(TenantRepository);
     userRepo = await appOrRepos.getRepository(UserRepository);
     userTenantRepo = await appOrRepos.getRepository(UserTenantRepository);
-
     tenantService = await appOrRepos.getService(TenantService);
     roleService = await appOrRepos.getService(RoleService);
-    userOperationService = await appOrRepos.getService(UserOperationsService);
+    adminService = await appOrRepos.getService(AdminService);
   } else {
     authClientRepo = appOrRepos.authClientRepo;
     roleRepo = appOrRepos.roleRepo;
@@ -121,14 +120,14 @@ export async function setupInitialData(appOrRepos: TestingApplication | TestInit
     userTenantRepo = appOrRepos.userTenantRepo;
     tenantService = appOrRepos.tenantService;
     roleService = appOrRepos.roleService;
-    userOperationService = appOrRepos.userOperationService;
+    adminService = appOrRepos.adminService;
   }
 
   process.env.USER_TEMP_PASSWORD = 'temp123!@';
 
   await tenantService.initTenants();
   await roleService.initRoles();
-  await userOperationService.initAdministrators();
+  await adminService.initAdministrators();
 
   const testAuthClient = await authClientRepo.create({
     clientId: 'web',

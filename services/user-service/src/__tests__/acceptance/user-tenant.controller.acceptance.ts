@@ -1,6 +1,6 @@
 ﻿import {AuthenticationBindings} from '@bleco/authentication';
 import {Client} from '@loopback/testlab';
-import {IAuthTenantUser} from '@loopx/core';
+import {IAuthTenantUser, TenantStatus} from '@loopx/core';
 import {
   DefaultRole,
   Role,
@@ -12,10 +12,10 @@ import {
   UserTenant,
   UserTenantRepository,
 } from '@loopx/user-core';
-import {nanoid} from 'nanoid';
+import {uid} from 'uid';
 
 import {UserServiceApplication} from '../fixtures/application';
-import {buildAccessToken, createTenantUser, setupApplication} from './test-helper';
+import {buildAccessToken, setupApplication, toTenantUser} from './test-helper';
 
 // interface USER {
 //   id: string | undefined;
@@ -100,12 +100,12 @@ describe('UserTenant Controller', function () {
       }),
     );
 
-    const code = nanoid(10);
+    const code = uid(10);
     const tenant = await tenantRepo.create(
       new Tenant({
         name: tenantName,
         code,
-        status: 1,
+        status: TenantStatus.ACTIVE,
       }),
     );
     const userTenant = await userTenantRepo.create(
@@ -121,7 +121,7 @@ describe('UserTenant Controller', function () {
       }),
     );
 
-    testUser = createTenantUser({
+    testUser = toTenantUser({
       ...user,
       userTenantId: userTenant.id,
       tenantId: tenant.id,

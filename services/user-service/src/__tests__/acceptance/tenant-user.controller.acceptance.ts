@@ -2,18 +2,17 @@
 import {DataObject} from '@loopback/repository';
 import {Client, expect} from '@loopback/testlab';
 import {IAuthTenantUser} from '@loopx/core';
-import {TENANT_HEADER_NAME} from '@loopx/multi-tenancy';
-import {DefaultRole, UserDto, UserOperationsService} from '@loopx/user-core';
+import {DefaultRole, UserCreationData, UserOperationsService} from '@loopx/user-core';
 
 import {UserServiceApplication} from '../fixtures/application';
-import {buildAccessToken, createTenantUser, setupApplication} from './test-helper';
+import {buildAccessToken, setupApplication, toTenantUser} from './test-helper';
 
 describe('TenantUser Controller', function () {
   let app: UserServiceApplication;
   const id = '9640864d-a84a-e6b4-f20e-918ff280cdaa';
   let client: Client;
   let token: string;
-  const testUser: IAuthTenantUser = createTenantUser({
+  const testUser: IAuthTenantUser = toTenantUser({
     tenantId: id,
     role: DefaultRole.Owner,
   });
@@ -33,54 +32,32 @@ describe('TenantUser Controller', function () {
   });
 
   it('gives status 200 when token is passed ', async () => {
-    await client
-      .get(`/tenants/${id}/users`)
-      // .set(TENANT_HEADER_NAME, id)
-      .set('authorization', `Bearer ${token}`)
-      .expect(200);
+    await client.get(`/tenants/${id}/users`).set('authorization', `Bearer ${token}`).expect(200);
   });
 
   it('gives view-all when token is passed ', async () => {
-    await client
-      .get(`/tenants/${id}/users/view-all`)
-      // .set(TENANT_HEADER_NAME, id)
-      .set('authorization', `Bearer ${token}`)
-      .expect(200);
+    await client.get(`/tenants/${id}/users/view-all`).set('authorization', `Bearer ${token}`).expect(200);
   });
 
   it('gives count when token is passed ', async () => {
-    await client
-      .get(`/tenants/${id}/users/count`)
-      // .set(TENANT_HEADER_NAME, id)
-      .set('authorization', `Bearer ${token}`)
-      .expect(200);
+    await client.get(`/tenants/${id}/users/count`).set('authorization', `Bearer ${token}`).expect(200);
   });
 
   it('when user details is not present and token is passed gives 404', async () => {
-    await client
-      .get(`/tenants/${id}/users/${id}`)
-      // .set(TENANT_HEADER_NAME, id)
-      .set('authorization', `Bearer ${token}`)
-      .expect(404);
+    await client.get(`/tenants/${id}/users/${id}`).set('authorization', `Bearer ${token}`).expect(404);
   });
 
   it('gives status 404 when entity not found', async () => {
-    const newUser: DataObject<UserDto> = {
+    const newUser: DataObject<UserCreationData> = {
       roleId: '1',
-      userTenantId: '1',
       tenantId: '1',
-      details: {
+      userDetails: {
         email: 'test@example.com',
         username: 'testuser',
         firstName: 'test_user',
       },
     };
-    await client
-      .post(`/tenants/${id}/users`)
-      .set(TENANT_HEADER_NAME, id)
-      .set('authorization', `Bearer ${token}`)
-      .send(newUser)
-      .expect(404);
+    await client.post(`/tenants/${id}/users`).set('authorization', `Bearer ${token}`).send(newUser).expect(404);
   });
 
   function setCurrentUser() {

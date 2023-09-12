@@ -1,10 +1,12 @@
-﻿import {AuthClientService} from './auth-client.service';
+﻿import {AdminService} from './admin.service';
+import {AuthClientService} from './auth-client.service';
 import {RoleService} from './role.service';
 import {TenantService} from './tenant.service';
 import {UserGroupService} from './user-group.service';
 import {UserGroupHelperService} from './user-group-helper.service';
 import {UserOperationsService} from './user-operations.service';
 
+export * from './admin.service';
 export * from './auth-client.service';
 export * from './role.service';
 export * from './tenant.service';
@@ -19,4 +21,5 @@ export const services = [
   UserOperationsService,
   RoleService,
   TenantService,
+  AdminService,
 ];

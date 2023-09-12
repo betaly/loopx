@@ -19,6 +19,7 @@ import {
   NonRestrictedUserViewRepository,
   User,
   UserAuthSubjects,
+  UserCreationData,
   UserDto,
   UserOperationsService,
   UserTenantRepository,
@@ -253,27 +254,27 @@ export class TenantUserController {
     @requestBody({
       content: {
         [CONTENT_TYPE.JSON]: {
-          schema: getModelSchemaRef(UserDto, {
+          schema: getModelSchemaRef(UserCreationData, {
             title: 'NewUser',
             optional: ['tenantId'],
           }),
         },
       },
     })
-    userData: UserDto,
+    data: UserCreationData,
     @acl.able()
     able: Able<IAuthTenantUser>,
   ): Promise<UserDto> {
     if (!id) {
       throw new HttpErrors.BadRequest('Tenant Id not specified !');
     }
-    userData.tenantId = id;
-    userData.details.email = userData.details.email?.toLowerCase();
-    userData.details.username = userData.details.username.toLowerCase();
+    data.tenantId = id;
+    data.userDetails.email = data.userDetails.email?.toLowerCase();
+    data.userDetails.username = data.userDetails.username?.toLowerCase();
 
-    return this.userOpService.create(userData, able, {
-      authId: userData.authId,
-      authProvider: userData.authProvider,
+    return this.userOpService.create(data, able, {
+      authId: data.authId,
+      authProvider: data.authProvider,
     });
   }
 
