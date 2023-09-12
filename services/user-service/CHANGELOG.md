@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.6.0](https://github.com/betaly/loopx/compare/@loopx/user-service@0.5.8...@loopx/user-service@0.6.0) (2023-09-12)
+
+
+### Bug Fixes
+
+* an imports ([1ada32f](https://github.com/betaly/loopx/commit/1ada32ffb2a1492307f29f3896a2c48c490f6ac2))
+
+
+### Features
+
+* extract user models, repositories and service to extension @loopx/user and using loopback4-acl for authorization ([fe4a075](https://github.com/betaly/loopx/commit/fe4a0757c63538e0f2040d9ab258e4adaa44f034))
+* rename role ``member`` to user ([fa97839](https://github.com/betaly/loopx/commit/fa97839462a09c2dc4e0500732c58186b4e0163a))
+* **user-service:** using TENANT_HEADER_NAME to replace CurrentTenant ([58ec76c](https://github.com/betaly/loopx/commit/58ec76c3744705117136932af44fd881eff8f717))
+
+
+
+
+
 ## [0.5.8](https://github.com/betaly/loopx/compare/@loopx/user-service@0.5.7...@loopx/user-service@0.5.8) (2023-08-24)
 
 **Note:** Version bump only for package @loopx/user-service

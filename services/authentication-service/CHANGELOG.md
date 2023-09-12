@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.8.0](https://github.com/betaly/loopx/compare/@loopx/authentication-service@0.7.1...@loopx/authentication-service@0.8.0) (2023-09-12)
+
+
+### Features
+
+* **authentication-service:** refactor otp and passwordless login ([c1e1583](https://github.com/betaly/loopx/commit/c1e1583951f05222b3a38b106161d0324775467a))
+* **authentication:** add authorisation to login activity controller ([a4b65cc](https://github.com/betaly/loopx/commit/a4b65cc481b3776a270c9ca6f4ce6d5a42ddc641))
+* rename role ``member`` to user ([fa97839](https://github.com/betaly/loopx/commit/fa97839462a09c2dc4e0500732c58186b4e0163a))
+
+
+
+
+
 ## [0.7.1](https://github.com/betaly/loopx/compare/@loopx/authentication-service@0.7.0...@loopx/authentication-service@0.7.1) (2023-08-24)
 
 **Note:** Version bump only for package @loopx/authentication-service

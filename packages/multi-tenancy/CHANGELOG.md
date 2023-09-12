@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.3.0](https://github.com/betaly/loopx/compare/@loopx/multi-tenancy@0.2.5...@loopx/multi-tenancy@0.3.0) (2023-09-12)
+
+
+### Features
+
+* move default tenant id config from individual binding to MultiTenancyActionOptions ([7f2789c](https://github.com/betaly/loopx/commit/7f2789c4f942584f8b50958b6d05e6611b370331))
+
+
+
+
+
 ## [0.2.5](https://github.com/betaly/loopx/compare/@loopx/multi-tenancy@0.2.4...@loopx/multi-tenancy@0.2.5) (2023-08-23)
 
 **Note:** Version bump only for package @loopx/multi-tenancy

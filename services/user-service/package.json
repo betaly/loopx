@@ -1,7 +1,7 @@
 {
   "name": "@loopx/user-service",
   "description": "LoopX User MicroService",
-  "version": "0.5.8",
+  "version": "0.6.0",
   "keywords": [],
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
