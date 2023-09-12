@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.1](https://github.com/betaly/loopx/compare/@loopx/auth-example@0.4.0...@loopx/auth-example@0.4.1) (2023-09-12)
+
+**Note:** Version bump only for package @loopx/auth-example
+
+
+
+
+
 # [0.4.0](https://github.com/betaly/loopx/compare/@loopx/auth-example@0.3.8...@loopx/auth-example@0.4.0) (2023-09-12)
 
 
