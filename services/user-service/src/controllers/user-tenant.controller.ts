@@ -1,17 +1,17 @@
-﻿import {authenticate, AuthenticationBindings, STRATEGY} from '@bleco/authentication';
-import {inject, service} from '@loopback/core';
-import {FilterBuilder, FilterExcludingWhere, repository, WhereBuilder} from '@loopback/repository';
-import {get, getModelSchemaRef, HttpErrors, param} from '@loopback/rest';
-import {CONTENT_TYPE, IAuthTenantUser, STATUS_CODE} from '@loopx/core';
+﻿import {authenticate, STRATEGY} from '@bleco/authentication';
+import {service} from '@loopback/core';
+import {repository} from '@loopback/repository';
+import {get, getModelSchemaRef, param} from '@loopback/rest';
+import {CONTENT_TYPE, STATUS_CODE} from '@loopx/core';
 import {
   User,
   UserAuthSubjects,
   UserOperationsService,
-  UserTenant,
   UserTenantRepository,
   UserViewRepository,
 } from '@loopx/user-core';
-import {acl, Actions, authorise} from 'loopback4-acl';
+import {UserView} from '@loopx/user-core/dist/models/user.view';
+import {Actions, authorise} from 'loopback4-acl';
 
 export class UserTenantController {
   constructor(
@@ -43,32 +43,12 @@ export class UserTenantController {
     },
   })
   async findById(
-    @inject(AuthenticationBindings.CURRENT_USER)
-    currentUser: IAuthTenantUser,
     @param.path.string('id')
     id: string,
-    @acl.subject()
-    ut: UserTenant,
-    @param.filter(User, {exclude: 'where'})
-    filter?: FilterExcludingWhere<User>,
-  ): Promise<User> {
-    let whereClause;
-    const filterBuilder = new FilterBuilder<User>(filter);
-    const whereBuilder = new WhereBuilder();
-    if (whereClause) {
-      whereBuilder.and(whereClause, {
-        'userTenants.id': id,
-      });
-    } else {
-      whereBuilder.eq('userTenants.id', id);
-    }
-    filterBuilder.where(whereBuilder.build());
-
-    const userData = await this.userViewRepository.findOne(filterBuilder.build());
-
-    if (!userData) {
-      throw new HttpErrors.NotFound('User not found !');
-    }
-    return userData;
+  ): Promise<UserView> {
+    const ut = await this.userTenantRepository.findById(id, {
+      include: UserView.InclusionsForUserTenant,
+    });
+    return UserView.from(ut, ut.user, ut.tenant, ut.role);
   }
 }

@@ -1,7 +1,8 @@
-﻿import {RepositoryTags} from '@loopback/repository';
+﻿/* eslint-disable @typescript-eslint/no-explicit-any */
+
+import {RepositoryTags} from '@loopback/repository';
 import {Client, createRestAppClient, givenHttpServerConfig, supertest} from '@loopback/testlab';
 import {IAuthTenantUser, TenantStatus} from '@loopx/core';
-import {DEFAULT_TENANT_CODE} from '@loopx/user-common';
 import {
   AdminService,
   DefaultRole,
@@ -16,6 +17,7 @@ import {
   UserOperationsService,
   UserRepository,
 } from '@loopx/user-core';
+import {UserView} from '@loopx/user-core/dist/models/user.view';
 import * as jwt from 'jsonwebtoken';
 import {MarkRequired} from 'ts-essentials';
 import {uid} from 'uid';
@@ -88,6 +90,7 @@ export async function setupData(app: UserServiceApplication) {
   );
 
   const superadmin = await userRepo.findOne({where: {username: SUPERADMIN_USER_IDENTIFIER}});
+  if (!superadmin) throw new Error('Superadmin not found');
 
   const users: Partial<Record<Roles, IAuthTenantUser>> = {
     [Roles.User]: toTenantUser(
@@ -129,26 +132,34 @@ export async function setupData(app: UserServiceApplication) {
         {activate: true},
       ),
     ),
-    [Roles.SuperAdmin]: {
-      id: superadmin!.id,
-      role: Roles.SuperAdmin,
-      tenantId: DEFAULT_TENANT_CODE,
-      username: superadmin!.username,
-      authClientId: 0,
-    },
+    [Roles.SuperAdmin]: toTenantUser((await userOpts.findOneUserView({id: superadmin.id}))!),
   };
+
+  const otherTenantUser = toTenantUser(
+    await userOpts.create(
+      new TenantUserData({
+        tenantId: tenant2.id,
+        roleId: DefaultRole.User,
+        userDetails: {
+          username: 'test_other_user',
+        },
+      }),
+      null,
+      {activate: true},
+    ),
+  );
 
   return {
     tenant1,
     tenant2,
     users,
+    otherTenantUser,
   };
 }
 
 export async function clearData(app: UserServiceApplication) {
   const bindings = app.findByTag(RepositoryTags.REPOSITORY);
   for (const binding of bindings) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const repo = await app.get<any>(binding.key);
     if (!repo.deleteAll && !repo.deleteAllHard) continue;
     await (repo.deleteAllHard ?? repo.deleteAll)();
@@ -156,28 +167,30 @@ export async function clearData(app: UserServiceApplication) {
 }
 
 export function toTenantUser(
-  user: MarkRequired<Partial<IAuthTenantUser>, 'role' | 'tenantId'> | TenantUserView,
+  data: MarkRequired<Partial<IAuthTenantUser>, 'role' | 'tenantId'> | TenantUserView | UserView,
 ): IAuthTenantUser {
-  if (isTenantUserView(user)) {
-    const {userDetails, ...rest} = user;
+  if (isTenantUserView(data)) {
+    const {userDetails, ...rest} = data;
     return {
       authClientId: 0,
       ...rest,
       ...userDetails,
-      role: user.roleId,
+      role: data.roleId,
     };
   } else {
-    return {
-      id: uid(10),
-      userTenantId: uid(10),
-      username: 'test_user',
-      authClientId: 0,
-      ...user,
-    };
+    return Object.assign(
+      {
+        id: uid(10),
+        userTenantId: uid(10),
+        username: 'test_user',
+        authClientId: 0,
+        role: data.roleId,
+      },
+      data,
+    ) as IAuthTenantUser;
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function isTenantUserView(user: any): user is TenantUserView {
   return user.userDetails !== undefined;
 }
