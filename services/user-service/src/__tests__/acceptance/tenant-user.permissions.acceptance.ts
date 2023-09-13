@@ -1,14 +1,21 @@
+import {Client} from '@loopback/testlab';
+import {IAuthTenantUser} from '@loopx/core';
+import {Roles, Tenant} from '@loopx/user-core';
+import {buildApiFromController, ControllerApi} from 'loopback4-testlab';
 import {PickProperties} from 'ts-essentials';
+
 import {TenantUserController} from '../../controllers';
 import {UserServiceApplication} from '../fixtures/application';
-import {Client} from '@loopback/testlab';
-import {buildApiFromController, ControllerApi} from 'loopback4-testlab';
-import {Roles, Tenant} from '@loopx/user-core';
-import {assertPermissions, buildAccessToken, setupApplication, setupData, SetupData} from './test-helper';
-import {IAuthTenantUser} from '@loopx/core';
+import {assertPermissions, buildAccessToken, setupApplication, SetupData, setupData} from './test-helper';
 
 interface Operations extends Record<keyof PickProperties<TenantUserController, Function>, boolean> {
-  //
+  create_AdminUser: boolean;
+  create_OwnerUser: boolean;
+
+  create_InOtherTenant: boolean;
+  findById_InOtherTenant: boolean;
+  deleteById_InOtherTenant: boolean;
+  updateById_InOtherTenant: boolean;
 }
 
 describe('TenantUser Controller - acl', function () {
@@ -42,6 +49,13 @@ describe('TenantUser Controller - acl', function () {
       create: true,
       updateById: true,
       deleteById: true,
+      create_AdminUser: true,
+      create_OwnerUser: true,
+
+      create_InOtherTenant: true,
+      findById_InOtherTenant: true,
+      deleteById_InOtherTenant: true,
+      updateById_InOtherTenant: true,
     });
   });
 
@@ -54,6 +68,13 @@ describe('TenantUser Controller - acl', function () {
       create: true,
       updateById: true,
       deleteById: true,
+      create_AdminUser: true,
+      create_OwnerUser: true,
+
+      create_InOtherTenant: false,
+      findById_InOtherTenant: false,
+      deleteById_InOtherTenant: false,
+      updateById_InOtherTenant: false,
     });
   });
 
@@ -66,6 +87,13 @@ describe('TenantUser Controller - acl', function () {
       create: true,
       deleteById: false,
       updateById: true,
+      create_AdminUser: false,
+      create_OwnerUser: false,
+
+      create_InOtherTenant: false,
+      findById_InOtherTenant: false,
+      deleteById_InOtherTenant: false,
+      updateById_InOtherTenant: false,
     });
   });
 
@@ -78,11 +106,18 @@ describe('TenantUser Controller - acl', function () {
       create: false,
       deleteById: false,
       updateById: true,
+      create_AdminUser: false,
+      create_OwnerUser: false,
+
+      create_InOtherTenant: false,
+      findById_InOtherTenant: false,
+      deleteById_InOtherTenant: false,
+      updateById_InOtherTenant: false,
     });
   });
 
   describe('anonymous', () => {
-    testPermissions(null, {
+    testPermissions('anonymous', {
       find: false,
       findAllUsers: false,
       findById: false,
@@ -90,22 +125,29 @@ describe('TenantUser Controller - acl', function () {
       create: false,
       updateById: false,
       deleteById: false,
+      create_AdminUser: false,
+      create_OwnerUser: false,
+
+      create_InOtherTenant: false,
+      findById_InOtherTenant: false,
+      deleteById_InOtherTenant: false,
+      updateById_InOtherTenant: false,
     });
   });
 
-  function testPermissions(role: Roles | null, permissions: Operations) {
-    const errorCode = role ? 403 : 401;
+  function testPermissions(role: Roles | 'anonymous', permissions: Operations) {
+    const errorCode = role === 'anonymous' ? 401 : 403;
 
     let user: IAuthTenantUser | null;
     let token: string;
 
     beforeEach(async () => {
-      if (role) {
-        user = users[role]!;
-        token = buildAccessToken(user);
-      } else {
+      if (role === 'anonymous') {
         user = null;
         token = '';
+      } else {
+        user = users[role]!;
+        token = buildAccessToken(user);
       }
     });
 
@@ -164,6 +206,83 @@ describe('TenantUser Controller - acl', function () {
       const expectedStatus = permissions.updateById ? 204 : errorCode;
       await assertPermissions(
         api.updateById({id: tenant.id, userId: user?.id ?? 'anonymous'}).send({username: 'test-1'}),
+        role,
+        token,
+        expectedStatus,
+      );
+    });
+
+    it(`create "admin" role tenant user returns ${permissions.create_AdminUser} for role ${role}`, async () => {
+      const expectedStatus = permissions.create_AdminUser ? 200 : errorCode;
+      await assertPermissions(
+        api.create({id: tenant.id}).send({
+          roleId: Roles.Admin,
+          tenantId: tenant.id,
+          userDetails: {
+            username: 'test',
+          },
+        }),
+        role,
+        token,
+        expectedStatus,
+      );
+    });
+
+    it(`create "owner" role tenant user returns ${permissions.create_OwnerUser} for role ${role}`, async () => {
+      const expectedStatus = permissions.create_OwnerUser ? 200 : errorCode;
+      await assertPermissions(
+        api.create({id: tenant.id}).send({
+          roleId: Roles.Owner,
+          tenantId: tenant.id,
+          userDetails: {
+            username: 'test',
+          },
+        }),
+        role,
+        token,
+        expectedStatus,
+      );
+    });
+
+    it(`create_InOtherTenant returns ${permissions.create_InOtherTenant} for role ${role}`, async () => {
+      const expectedStatus = permissions.create_InOtherTenant ? 200 : errorCode;
+      await assertPermissions(
+        api.create({id: tenant2.id}).send({
+          roleId: Roles.User,
+          userDetails: {
+            username: 'test',
+          },
+        }),
+        role,
+        token,
+        expectedStatus,
+      );
+    });
+
+    it(`findById_InOtherTenant returns ${permissions.findById_InOtherTenant} for role ${role}`, async () => {
+      const expectedStatus = permissions.findById_InOtherTenant ? 200 : errorCode;
+      await assertPermissions(
+        api.findById({id: tenant2.id, userId: user?.id ?? 'anonymous'}),
+        role,
+        token,
+        expectedStatus,
+      );
+    });
+
+    it(`deleteById_InOtherTenant returns ${permissions.deleteById_InOtherTenant} for role ${role}`, async () => {
+      const expectedStatus = permissions.deleteById_InOtherTenant ? 204 : errorCode;
+      await assertPermissions(
+        api.deleteById({id: tenant2.id, userId: user?.id ?? 'anonymous'}),
+        role,
+        token,
+        expectedStatus,
+      );
+    });
+
+    it(`updateById_InOtherTenant returns ${permissions.updateById_InOtherTenant} for role ${role}`, async () => {
+      const expectedStatus = permissions.updateById_InOtherTenant ? 204 : errorCode;
+      await assertPermissions(
+        api.updateById({id: tenant2.id, userId: user?.id ?? 'anonymous'}).send({name: 'test-2'}),
         role,
         token,
         expectedStatus,
