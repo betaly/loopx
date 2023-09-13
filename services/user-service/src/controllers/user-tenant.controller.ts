@@ -26,18 +26,6 @@ export class UserTenantController {
   @authenticate(STRATEGY.BEARER, {
     passReqToCallback: true,
   })
-  // @authorize({
-  //   permissions: [
-  //     PermissionKey.ViewAnyUser,
-  //     PermissionKey.ViewOwnUser,
-  //     PermissionKey.ViewTenantUser,
-  //     PermissionKey.ViewTenantUserRestricted,
-  //     PermissionKey.ViewAnyUserNum,
-  //     PermissionKey.ViewOwnUserNum,
-  //     PermissionKey.ViewTenantUserNum,
-  //     PermissionKey.ViewTenantUserRestrictedNum,
-  //   ],
-  // })
   @authorise(Actions.read, UserAuthSubjects.UserTenant, [
     UserTenantRepository,
     async (repo, {params}) => repo.findById(params.id),
@@ -64,20 +52,7 @@ export class UserTenantController {
     @param.filter(User, {exclude: 'where'})
     filter?: FilterExcludingWhere<User>,
   ): Promise<User> {
-    // const ut = await this.userTenantRepository.findById(id);
-    // if (currentUser.permissions.indexOf(PermissionKey.ViewAnyUser) < 0 && currentUser.tenantId !== ut.tenantId) {
-    //   throw new AuthorizationErrors.NotAllowedAccess();
-    // }
-    //
-    // if (currentUser.permissions.indexOf(PermissionKey.ViewOwnUser) >= 0 && currentUser.id !== ut.userId) {
-    //   throw new AuthorizationErrors.NotAllowedAccess();
-    // }
-
     let whereClause;
-    // if (currentUser.permissions.indexOf(PermissionKey.ViewTenantUserRestricted) >= 0 && currentUser.tenantId === id) {
-    //   whereClause = await this.userOpService.checkViewTenantRestrictedPermissions(currentUser);
-    // }
-
     const filterBuilder = new FilterBuilder<User>(filter);
     const whereBuilder = new WhereBuilder();
     if (whereClause) {

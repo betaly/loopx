@@ -4,8 +4,8 @@ import {DEFAULT_TENANT_CODE} from '@loopx/user-common';
 import {
   DefaultRole,
   pickUserProps,
+  TenantUserData,
   User,
-  UserCreationData,
   UserOperationsService,
   UserRepository,
 } from '@loopx/user-core';
@@ -26,7 +26,7 @@ export class TestLocalSignupProvider implements Provider<UserSignupFn<SignupDto,
       const {password, ...data} = model;
 
       const user = await this.userOps.create(
-        new UserCreationData({
+        new TenantUserData({
           roleId: data.roleId ?? DefaultRole.User,
           tenantId: data.tenantId ?? DEFAULT_TENANT_CODE,
           userDetails: pickUserProps(data),

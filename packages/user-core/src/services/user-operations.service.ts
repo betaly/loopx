@@ -1,5 +1,5 @@
 ﻿import {BindingScope, inject, injectable} from '@loopback/core';
-import {DataObject, Options, repository, WhereBuilder} from '@loopback/repository';
+import {DataObject, Options, repository, Where, WhereBuilder} from '@loopback/repository';
 import {HttpErrors} from '@loopback/rest';
 import {IAuthTenantUser, UserStatus} from '@loopx/core';
 import {BErrors} from 'berrors';
@@ -7,7 +7,7 @@ import {Able, AclErrors, Actions} from 'loopback4-acl';
 import {uid} from 'uid/secure';
 
 import {UserCoreBindings} from '../keys';
-import {Role, User, UserCreationData, UserDto, UserTenant, UserTenantWithRelations} from '../models';
+import {Role, TenantUserData, TenantUserView, User, UserTenant, UserTenantWithRelations} from '../models';
 import {
   AuthClientRepository,
   RoleRepository,
@@ -50,10 +50,10 @@ export class UserOperationsService {
    * @param options - Options
    */
   async create(
-    data: UserCreationData,
+    data: TenantUserData,
     able: Able<IAuthTenantUser> | null,
     options?: UserSignupOptions,
-  ): Promise<UserDto> {
+  ): Promise<TenantUserView> {
     options = {
       authProvider: data.authProvider,
       authId: data.authId,
@@ -84,14 +84,7 @@ export class UserOperationsService {
         throw new HttpErrors.BadRequest('User already exists');
       } else {
         const userTenant: UserTenant = await this.createUserTenantData(data, status, userExists?.id, options);
-        return new UserDto({
-          userDetails: userExists,
-          roleId: userTenant.roleId,
-          status: userTenant.status,
-          tenantId: userTenant.tenantId,
-          userTenantId: userTenant.id,
-          authProvider: options?.authProvider,
-        });
+        return TenantUserView.fromUserTenantAndUser(userTenant, userExists, {authProvider: options?.authProvider});
       }
     }
 
@@ -109,14 +102,7 @@ export class UserOperationsService {
     const userSaved = await this.userRepository.create(user, options);
 
     const userTenantData = await this.createUserTenantData(data, status, userSaved?.id, options);
-    return new UserDto({
-      userDetails: userSaved,
-      roleId: userTenantData.roleId,
-      status: userTenantData.status,
-      tenantId: userTenantData.tenantId,
-      userTenantId: userTenantData.id,
-      authProvider: options?.authProvider,
-    });
+    return TenantUserView.fromUserTenantAndUser(userTenantData, userSaved, {authProvider: options?.authProvider});
   }
 
   generateUsername() {
@@ -130,7 +116,7 @@ export class UserOperationsService {
    * @param able - Able instance to check for permissions. If not provided, no permission checks will be performed.
    * @param options
    */
-  validateUserCreation(data: UserCreationData, role: Role, able: Able<IAuthTenantUser> | null, options?: Options) {
+  validateUserCreation(data: TenantUserData, role: Role, able: Able<IAuthTenantUser> | null, options?: Options) {
     if (
       able?.cannot(
         Actions.create,
@@ -170,12 +156,7 @@ export class UserOperationsService {
     }
   }
 
-  async createUserTenantData(
-    data: DataObject<UserCreationData>,
-    status: UserStatus,
-    userId?: string,
-    options?: Options,
-  ) {
+  async createUserTenantData(data: DataObject<TenantUserData>, status: UserStatus, userId?: string, options?: Options) {
     return this.utRepo.create(
       {
         roleId: data.roleId,
@@ -219,7 +200,12 @@ export class UserOperationsService {
     await this.updateUserTenant(userData, id, able?.user, options);
   }
 
-  async updateUserTenant(userData: Partial<UserDto>, id: string, currentUser?: IAuthTenantUser, options?: Options) {
+  async updateUserTenant(
+    userData: Partial<TenantUserView>,
+    id: string,
+    currentUser?: IAuthTenantUser,
+    options?: Options,
+  ) {
     const utData: Partial<UserTenant> = {};
     if (userData.roleId) {
       utData.roleId = userData.roleId;
@@ -297,6 +283,39 @@ export class UserOperationsService {
     );
   }
 
+  async getUserTenant(able: Able<IAuthTenantUser> | null, where: Where<UserTenant>, options?: Options) {
+    const ut = await this.utRepo.findOne({where}, options);
+    if (!ut) {
+      throw new BErrors.NotFound('User tenant not found');
+    }
+    if (able?.cannot(Actions.read, subjectFor<UserTenant>(UserAuthSubjects.UserTenant, ut))) {
+      throw new AclErrors.NotAllowedAccess();
+    }
+
+    return ut;
+  }
+
+  async getUserView(
+    able: Able<IAuthTenantUser> | null,
+    where: Where<UserTenant>,
+    options?: Options,
+  ): Promise<TenantUserView> {
+    const ut = await this.getUserTenant(able, where, options);
+    const user = await this.userRepository.findById(
+      ut.userId,
+      {
+        include: [
+          {
+            relation: 'credentials',
+            scope: {fields: ['authProvider']},
+          },
+        ],
+      },
+      options,
+    );
+    return TenantUserView.fromUserTenantAndUser(ut, user, {authProvider: user?.credentials?.authProvider});
+  }
+
   async checkForDeleteTenantUserRestrictedPermission(able: Able<IAuthTenantUser>, id: string) {
     const userTenant = (await this.utRepo.findOne({
       where: {
@@ -350,16 +369,6 @@ export class UserOperationsService {
     if (able.cannot(Actions.update, subjectFor<UserTenant>(UserAuthSubjects.UserTenant, {tenantId, userId: id}))) {
       throw new AclErrors.NotAllowedAccess();
     }
-  }
-
-  async getUserTenant(userId: string, currentUser: IAuthTenantUser) {
-    return this.utRepo.findOne({
-      where: {
-        userId: userId,
-        tenantId: currentUser.tenantId,
-      },
-      include: [{relation: 'role'}],
-    });
   }
 
   protected async validateIdentifierExists(

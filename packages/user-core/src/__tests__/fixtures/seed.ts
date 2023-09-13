@@ -1,7 +1,7 @@
 import {DEFAULT_TENANT_CODE} from '@loopx/user-common';
 
 import {DefaultRole} from '../../enums';
-import {UserCreationData} from '../../models';
+import {TenantUserData} from '../../models';
 import {UserTenantRepository} from '../../repositories';
 import {AdminService, RoleService, TenantService, UserOperationsService} from '../../services';
 import {UserTenantApplication} from './application';
@@ -31,7 +31,7 @@ export async function seed(app: UserTenantApplication) {
 
   const users = {
     owner: await userOpsService.create(
-      new UserCreationData({
+      new TenantUserData({
         tenantId: tenant.id,
         roleId: roles.owner.id,
         userDetails: {username: 'owner'},
@@ -39,7 +39,7 @@ export async function seed(app: UserTenantApplication) {
       null,
     ),
     admin: await userOpsService.create(
-      new UserCreationData({
+      new TenantUserData({
         tenantId: tenant.id,
         roleId: roles.admin.id,
         userDetails: {username: 'admin'},
@@ -47,7 +47,7 @@ export async function seed(app: UserTenantApplication) {
       null,
     ),
     user: await userOpsService.create(
-      new UserCreationData({
+      new TenantUserData({
         tenantId: tenant.id,
         roleId: roles.user.id,
         userDetails: {username: 'user'},

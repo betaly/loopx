@@ -45,11 +45,12 @@ export const permissions: UserAuthPermissions = {
 
     can(TenantActions.update, UserAuthSubjects.Tenant, {id: user.tenantId});
 
-    can(Actions.create, UserAuthSubjects.UserTenant, {
+    can([Actions.create, Actions.update], UserAuthSubjects.UserTenant, {
       tenantId: user.tenantId,
-      role: Roles.User,
+      roleId: Roles.User,
     });
-    can(Actions.update, UserAuthSubjects.UserTenant, {
+
+    can([Actions.create, Actions.update], UserAuthSubjects.UserTenant, {
       tenantId: user.tenantId,
       role: Roles.User,
     });

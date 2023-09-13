@@ -2,7 +2,7 @@ import {IAuthTenantUser, UserStatus} from '@loopx/core';
 import {Able} from 'loopback4-acl';
 
 import {DefaultRole} from '../../enums';
-import {Tenant, UserCreationData} from '../../models';
+import {Tenant, TenantUserData} from '../../models';
 import {
   AuthClientRepository,
   RoleRepository,
@@ -51,7 +51,7 @@ describe('UserOperationsService', () => {
     describe('create user', () => {
       it('creates a user', async () => {
         const user = await userOpsService.create(
-          new UserCreationData({
+          new TenantUserData({
             tenantId: tenant.id,
             roleId: DefaultRole.User,
             userDetails: {username: 'username'},
@@ -79,7 +79,7 @@ describe('UserOperationsService', () => {
     describe('basics', () => {
       it('creates a user', async () => {
         const user = await userOpsService.create(
-          new UserCreationData({
+          new TenantUserData({
             tenantId: tenant.id,
             roleId: DefaultRole.User,
             userDetails: {username: 'username'},
@@ -99,7 +99,7 @@ describe('UserOperationsService', () => {
 
       it('creates a user with auth provider', async () => {
         const user = await userOpsService.create(
-          new UserCreationData({
+          new TenantUserData({
             tenantId: tenant.id,
             roleId: DefaultRole.User,
             authProvider: 'auth-provider',
@@ -127,7 +127,7 @@ describe('UserOperationsService', () => {
       });
 
       it('throws error if user already exists', async () => {
-        const data = new UserCreationData({
+        const data = new TenantUserData({
           tenantId: tenant.id,
           roleId: DefaultRole.User,
           userDetails: {username: 'username'},
@@ -137,7 +137,7 @@ describe('UserOperationsService', () => {
       });
 
       it('throws error if user already exists with same auth provider and auth id', async () => {
-        const data = new UserCreationData({
+        const data = new TenantUserData({
           tenantId: tenant.id,
           roleId: DefaultRole.User,
           userDetails: {username: 'username'},
@@ -152,7 +152,7 @@ describe('UserOperationsService', () => {
         const able = await defineAble(users.owner.userDetails, userTenants.owner, permissions);
         await expect(
           userOpsService.create(
-            new UserCreationData({
+            new TenantUserData({
               tenantId: 'different-tenant',
               roleId: DefaultRole.User,
               userDetails: {username: 'username'},
@@ -193,7 +193,7 @@ describe('UserOperationsService', () => {
 
       async function assertCreate(able: Able<IAuthTenantUser> | null, role: DefaultRole, expectSuccess: boolean) {
         const username = `username-${role}`;
-        const data = new UserCreationData({
+        const data = new TenantUserData({
           tenantId: tenant.id,
           roleId: role,
           userDetails: {username},

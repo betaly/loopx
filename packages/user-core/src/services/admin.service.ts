@@ -5,7 +5,7 @@ import defaultsDeep from 'tily/object/defaultsDeep';
 
 import {DEFAULT_SUPERADMIN_CREDENTIALS} from '../defaults';
 import {AuthProvider, DefaultRole} from '../enums';
-import {UserCreationData} from '../models';
+import {TenantUserData} from '../models';
 import {UserRepository} from '../repositories';
 import {SuperadminCredentials} from '../types';
 import {buildWhereClauseFromIdentifier} from '../utils';
@@ -31,7 +31,7 @@ export class AdminService {
     });
     if (!superAdminUser) {
       await this.userOperationsService.create(
-        new UserCreationData({
+        new TenantUserData({
           roleId: DefaultRole.SuperAdmin,
           tenantId: DEFAULT_TENANT_CODE,
           userDetails: {

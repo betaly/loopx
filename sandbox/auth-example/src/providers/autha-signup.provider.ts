@@ -1,6 +1,6 @@
 import {Provider, service} from '@loopback/core';
 
-import {DefaultRole, UserCreationData, UserOperationsService} from '@loopx/user-core';
+import {DefaultRole, TenantUserData, UserOperationsService} from '@loopx/user-core';
 import {DEFAULT_TENANT_CODE} from '@loopx/user-common';
 import {AuthaSignUpFn} from '@loopx/authentication-service';
 import {AuthProvider} from '@loopx/core';
@@ -14,7 +14,7 @@ export class AuthaSignupProvider implements Provider<AuthaSignUpFn> {
   value(): AuthaSignUpFn {
     return async profile => {
       const user = await this.userOps.create(
-        new UserCreationData({
+        new TenantUserData({
           roleId: DefaultRole.User,
           tenantId: DEFAULT_TENANT_CODE,
           userDetails: {

@@ -2,7 +2,7 @@
 import {DataObject} from '@loopback/repository';
 import {Client, expect} from '@loopback/testlab';
 import {IAuthTenantUser} from '@loopx/core';
-import {DefaultRole, UserCreationData, UserOperationsService} from '@loopx/user-core';
+import {DefaultRole, TenantUserData, UserOperationsService} from '@loopx/user-core';
 
 import {UserServiceApplication} from '../fixtures/application';
 import {buildAccessToken, setupApplication, toTenantUser} from './test-helper';
@@ -48,7 +48,7 @@ describe('TenantUser Controller', function () {
   });
 
   it('gives status 404 when entity not found', async () => {
-    const newUser: DataObject<UserCreationData> = {
+    const newUser: DataObject<TenantUserData> = {
       roleId: '1',
       tenantId: '1',
       userDetails: {

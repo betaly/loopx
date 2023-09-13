@@ -11,8 +11,8 @@ import {
   Tenant,
   TenantRepository,
   TenantService,
-  UserCreationData,
-  UserDto,
+  TenantUserData,
+  TenantUserView,
   UserOperationsService,
   UserRepository,
 } from '@loopx/user-core';
@@ -92,7 +92,7 @@ export async function setupData(app: UserServiceApplication) {
   const users: Partial<Record<Roles, IAuthTenantUser>> = {
     [Roles.User]: toTenantUser(
       await userOpts.create(
-        new UserCreationData({
+        new TenantUserData({
           tenantId: tenant1.id,
           roleId: DefaultRole.User,
           userDetails: {
@@ -105,7 +105,7 @@ export async function setupData(app: UserServiceApplication) {
     ),
     [Roles.Admin]: toTenantUser(
       await userOpts.create(
-        new UserCreationData({
+        new TenantUserData({
           tenantId: tenant1.id,
           roleId: DefaultRole.Admin,
           userDetails: {
@@ -118,7 +118,7 @@ export async function setupData(app: UserServiceApplication) {
     ),
     [Roles.Owner]: toTenantUser(
       await userOpts.create(
-        new UserCreationData({
+        new TenantUserData({
           tenantId: tenant1.id,
           roleId: DefaultRole.Owner,
           userDetails: {
@@ -156,9 +156,9 @@ export async function clearData(app: UserServiceApplication) {
 }
 
 export function toTenantUser(
-  user: MarkRequired<Partial<IAuthTenantUser>, 'role' | 'tenantId'> | UserDto,
+  user: MarkRequired<Partial<IAuthTenantUser>, 'role' | 'tenantId'> | TenantUserView,
 ): IAuthTenantUser {
-  if (isUserDto(user)) {
+  if (isTenantUserView(user)) {
     const {userDetails, ...rest} = user;
     return {
       authClientId: 0,
@@ -178,7 +178,7 @@ export function toTenantUser(
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function isUserDto(user: any): user is UserDto {
+function isTenantUserView(user: any): user is TenantUserView {
   return user.userDetails !== undefined;
 }
 

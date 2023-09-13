@@ -17,10 +17,10 @@ import {CONTENT_TYPE, ErrorCodes, IAuthTenantUser, OPERATION_SECURITY_SPEC, STAT
 import {
   DefaultRole,
   NonRestrictedUserViewRepository,
+  TenantUserData,
+  TenantUserView,
   User,
   UserAuthSubjects,
-  UserCreationData,
-  UserDto,
   UserOperationsService,
   UserViewRepository,
 } from '@loopx/user-core';
@@ -50,7 +50,7 @@ export class TenantUserController {
         description: 'Array of Tenant has many Users',
         content: {
           [CONTENT_TYPE.JSON]: {
-            schema: {type: 'array', items: getModelSchemaRef(UserDto)},
+            schema: {type: 'array', items: getModelSchemaRef(TenantUserView)},
           },
         },
       },
@@ -93,7 +93,7 @@ export class TenantUserController {
         description: 'Array of Tenant has many Users',
         content: {
           [CONTENT_TYPE.JSON]: {
-            schema: {type: 'array', items: getModelSchemaRef(UserDto)},
+            schema: {type: 'array', items: getModelSchemaRef(TenantUserView)},
           },
         },
       },
@@ -210,7 +210,7 @@ export class TenantUserController {
       [STATUS_CODE.OK]: {
         description: 'Tenant model instance',
         content: {
-          [CONTENT_TYPE.JSON]: {schema: getModelSchemaRef(UserDto)},
+          [CONTENT_TYPE.JSON]: {schema: getModelSchemaRef(TenantUserView)},
         },
       },
     },
@@ -220,17 +220,17 @@ export class TenantUserController {
     @requestBody({
       content: {
         [CONTENT_TYPE.JSON]: {
-          schema: getModelSchemaRef(UserCreationData, {
+          schema: getModelSchemaRef(TenantUserData, {
             title: 'NewUser',
             optional: ['tenantId'],
           }),
         },
       },
     })
-    data: UserCreationData,
+    data: TenantUserData,
     @acl.able()
     able: Able<IAuthTenantUser>,
-  ): Promise<UserDto> {
+  ): Promise<TenantUserView> {
     if (!id) {
       throw new HttpErrors.BadRequest('Tenant Id not specified !');
     }

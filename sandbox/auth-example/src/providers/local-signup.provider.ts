@@ -2,8 +2,8 @@ import {Provider, service} from '@loopback/core';
 import {
   DefaultRole,
   pickUserProps,
+  TenantUserData,
   User,
-  UserCreationData,
   UserOperationsService,
   UserRepository,
 } from '@loopx/user-core';
@@ -26,7 +26,7 @@ export class LocalSignupProvider implements Provider<UserSignupFn<SignupDto, Use
       const {password, ...data} = model;
 
       const user = await this.userOps.create(
-        new UserCreationData({
+        new TenantUserData({
           roleId: data.roleId ?? DefaultRole.User,
           tenantId: data.tenantId ?? DEFAULT_TENANT_CODE,
           userDetails: pickUserProps(data),

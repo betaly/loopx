@@ -4,7 +4,7 @@ import {CoreModel} from '@loopx/core';
 import {User} from './user.model';
 
 @model()
-export class UserCreationData extends CoreModel<UserCreationData> {
+export class TenantUserData extends CoreModel<TenantUserData> {
   @property({
     type: 'string',
     required: true,
