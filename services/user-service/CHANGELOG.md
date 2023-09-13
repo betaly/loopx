@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.7.0](https://github.com/betaly/loopx/compare/@loopx/user-service@0.6.1...@loopx/user-service@0.7.0) (2023-09-13)
+
+
+### Bug Fixes
+
+* issues after removing firstName, middleName and lastName ([0953f93](https://github.com/betaly/loopx/commit/0953f935653b3ac8d9f6a0090d5c8dc4ce31fb7d))
+
+
+### Features
+
+* **auth.permissions:** Add tenantId to manage permission ([a5d4755](https://github.com/betaly/loopx/commit/a5d47557e52113acd85631e09735f7609978a99f))
+* **user-service:** add acceptance test for tenant-user controller authorisation ([c929d81](https://github.com/betaly/loopx/commit/c929d81811148d6e2f9012ee6b325f3e6b38c3cd))
+* **user-service:** add role parameter to create user endpoint authorise guard ([98ecd89](https://github.com/betaly/loopx/commit/98ecd893687aa417c36f8db8f7cff39e60717c38))
+* **user-service:** refactor tenant-user.controller.ts ([80925f1](https://github.com/betaly/loopx/commit/80925f123bb40af8e9349d9fb58fbeb15fd12185))
+* **user-service:** use UserView as result type ([de9043e](https://github.com/betaly/loopx/commit/de9043e4b1e95b8e22e790b97f776c6af2c4f0f2))
+
+
+
+
+
 ## [0.6.1](https://github.com/betaly/loopx/compare/@loopx/user-service@0.6.0...@loopx/user-service@0.6.1) (2023-09-12)
 
 **Note:** Version bump only for package @loopx/user-service

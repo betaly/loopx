@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.2](https://github.com/betaly/loopx/compare/@loopx/user-core@0.2.1...@loopx/user-core@0.2.2) (2023-09-13)
+
+
+### Bug Fixes
+
+* issues after removing firstName, middleName and lastName ([0953f93](https://github.com/betaly/loopx/commit/0953f935653b3ac8d9f6a0090d5c8dc4ce31fb7d))
+
+
+
+
+
 ## [0.2.1](https://github.com/betaly/loopx/compare/@loopx/user-core@0.2.0...@loopx/user-core@0.2.1) (2023-09-12)
 
 **Note:** Version bump only for package @loopx/user-core
