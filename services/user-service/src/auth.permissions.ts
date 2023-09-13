@@ -35,7 +35,7 @@ export const permissions: UserAuthPermissions = {
     can(Actions.read, UserAuthSubjects.UserTenant, {tenantId: user.tenantId});
 
     // Members can manage their own UserTenant
-    can(Actions.manage, UserAuthSubjects.UserTenant, {userId: user.id});
+    can(Actions.manage, UserAuthSubjects.UserTenant, {tenantId: user.tenantId, userId: user.id});
   },
 
   [Roles.Admin]({user, can, extend}) {
