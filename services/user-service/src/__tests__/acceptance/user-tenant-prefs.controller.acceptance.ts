@@ -33,7 +33,7 @@ describe('UserTenantPrefs Controller', function () {
   const data = {
     userTenantId: '',
     configValue: {value: 'sample value'},
-    configKey: 'last-accessd-url',
+    configKey: 'last-accessed-url',
   };
 
   beforeAll(async () => {
