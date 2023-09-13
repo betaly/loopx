@@ -106,7 +106,7 @@ describe('Tenant Controller - acl', function () {
   });
 
   describe('anonymous', () => {
-    testPermissions('anonymous', {
+    testPermissions(null, {
       find: false,
       findById: false,
       count: false,
@@ -122,19 +122,25 @@ describe('Tenant Controller - acl', function () {
     });
   });
 
-  function testPermissions(role: Roles | 'anonymous', permissions: Operations) {
-    const errorCode = role === 'anonymous' ? 401 : 403;
+  /**
+   * Test a role's permission when visit the endpoints in the tenant controller
+   *
+   * @param role - role of the user. If null, it means anonymous user.
+   * @param permissions
+   */
+  function testPermissions(role: Roles | null, permissions: Operations) {
+    const errorCode = role ? 403 : 401;
 
     let user: IAuthTenantUser | null;
     let token: string;
 
     beforeEach(async () => {
-      if (role === 'anonymous') {
-        user = null;
-        token = '';
-      } else {
+      if (role) {
         user = users[role]!;
         token = buildAccessToken(user);
+      } else {
+        user = null;
+        token = '';
       }
     });
 
