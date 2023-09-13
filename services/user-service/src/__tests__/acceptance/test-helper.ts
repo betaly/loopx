@@ -1,5 +1,5 @@
 ﻿import {RepositoryTags} from '@loopback/repository';
-import {Client, createRestAppClient, givenHttpServerConfig} from '@loopback/testlab';
+import {Client, createRestAppClient, givenHttpServerConfig, supertest} from '@loopback/testlab';
 import {IAuthTenantUser, TenantStatus} from '@loopx/core';
 import {DEFAULT_TENANT_CODE} from '@loopx/user-common';
 import {
@@ -187,4 +187,17 @@ export function buildAccessToken(user: IAuthTenantUser) {
     expiresIn: 180000,
     issuer: JWT_ISSUER,
   });
+}
+
+export async function assertPermissions(
+  test: supertest.Test,
+  role: string | null,
+  token: string,
+  expectedStatus: number,
+) {
+  if (!role || role === 'anonymous') {
+    await test.expect(expectedStatus);
+  } else {
+    await test.set('Authorization', 'Bearer ' + token).expect(expectedStatus);
+  }
 }
