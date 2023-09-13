@@ -199,13 +199,13 @@ export class UserOperationsService {
     }
 
     if (userData.username) {
-      const whereBuilder = new WhereBuilder();
-      whereBuilder.neq('id', id);
-      whereBuilder.eq('username', userData.username);
-      const userNameExists = await this.userRepository.count(whereBuilder.build(), options);
-      if (userNameExists && userNameExists.count > 0) {
-        throw new HttpErrors.Forbidden('Username already exists');
-      }
+      await this.validateIdentifierExists(id, userData.username, 'username', options);
+    }
+    if (userData.email) {
+      await this.validateIdentifierExists(id, userData.email, 'email', options);
+    }
+    if (userData.phone) {
+      await this.validateIdentifierExists(id, userData.phone, 'phone', options);
     }
 
     const tempUser = new User({
@@ -360,5 +360,24 @@ export class UserOperationsService {
       },
       include: [{relation: 'role'}],
     });
+  }
+
+  protected async validateIdentifierExists(
+    id: string,
+    identifier: string,
+    prop: 'username' | 'email' | 'phone',
+    options?: Options,
+  ) {
+    if (!identifier) {
+      throw new BErrors.BadRequest(`${prop} is required`);
+    }
+
+    const whereBuilder = new WhereBuilder();
+    whereBuilder.neq('id', id);
+    whereBuilder.eq(prop, identifier);
+    const identifierExists = await this.userRepository.count(whereBuilder.build(), options);
+    if (identifierExists && identifierExists.count > 0) {
+      throw new BErrors.Forbidden(`${prop} already exists`);
+    }
   }
 }
