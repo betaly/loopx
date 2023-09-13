@@ -1,6 +1,6 @@
 import {IAuthTenantUser} from '@loopx/core';
 import {DEFAULT_TENANT_CODE} from '@loopx/user-common';
-import {DefaultRole, UserAuthSubjects} from '@loopx/user-core';
+import {Roles, UserAuthSubjects} from '@loopx/user-core';
 import {Actions, DefaultActions, Permissions} from 'loopback4-acl';
 
 import {TenantActions} from './auth.actions';
@@ -18,12 +18,12 @@ export type UserAuthAbilities =
     ]
   | [TenantActions, UserAuthSubjects.Tenant];
 
-export type UserAuthPermissions = Permissions<DefaultRole, UserAuthAbilities, IAuthTenantUser>;
+export type UserAuthPermissions = Permissions<Roles, UserAuthAbilities, IAuthTenantUser>;
 
 export const permissions: UserAuthPermissions = {
   everyone() {},
 
-  [DefaultRole.User]({user, can}) {
+  [Roles.User]({user, can}) {
     can(Actions.manage, UserAuthSubjects.User, {id: user.id});
 
     can(Actions.create, UserAuthSubjects.Tenant);
@@ -38,8 +38,8 @@ export const permissions: UserAuthPermissions = {
     can(Actions.manage, UserAuthSubjects.UserTenant, {userId: user.id});
   },
 
-  [DefaultRole.Admin]({user, can, extend}) {
-    extend(DefaultRole.User);
+  [Roles.Admin]({user, can, extend}) {
+    extend(Roles.User);
 
     can(Actions.read, UserAuthSubjects.User, {tenantId: user.tenantId});
 
@@ -47,16 +47,16 @@ export const permissions: UserAuthPermissions = {
 
     can(Actions.create, UserAuthSubjects.UserTenant, {
       tenantId: user.tenantId,
-      role: DefaultRole.User,
+      role: Roles.User,
     });
     can(Actions.update, UserAuthSubjects.UserTenant, {
       tenantId: user.tenantId,
-      role: DefaultRole.User,
+      role: Roles.User,
     });
   },
 
-  [DefaultRole.Owner]({user, can, extend}) {
-    extend(DefaultRole.Admin);
+  [Roles.Owner]({user, can, extend}) {
+    extend(Roles.Admin);
 
     can(TenantActions.delete, UserAuthSubjects.Tenant, {id: user.tenantId});
     can(TenantActions.transfer, UserAuthSubjects.Tenant, {id: user.tenantId});
@@ -64,7 +64,7 @@ export const permissions: UserAuthPermissions = {
     can(Actions.manage, UserAuthSubjects.UserTenant, {tenantId: user.tenantId});
   },
 
-  [DefaultRole.SuperAdmin]({user, can}) {
+  [Roles.SuperAdmin]({user, can}) {
     // Deny all actions if user is not in default tenant
     if (user.tenantId !== DEFAULT_TENANT_CODE) return;
 
