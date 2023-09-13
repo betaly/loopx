@@ -236,7 +236,10 @@ export class TenantUserController {
   @authenticate(STRATEGY.BEARER, {
     passReqToCallback: true,
   })
-  @authorise(Actions.create, UserAuthSubjects.UserTenant, async ({params}) => ({tenantId: params.id}))
+  @authorise(Actions.create, UserAuthSubjects.UserTenant, async ({params, body}) => ({
+    tenantId: params.id,
+    role: body.roleId,
+  }))
   @post(basePath, {
     security: OPERATION_SECURITY_SPEC,
     responses: {
