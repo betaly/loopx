@@ -51,14 +51,14 @@ export class UserRepository extends ConditionalAuditRepositoryMixin(
   constructor(
     @inject(`datasources.${UserDataSourceName}`)
     dataSource: juggler.DataSource,
+    @repository.getter('AuditLogRepository')
+    public getAuditLogRepository: Getter<AuditLogRepository>,
     @repository.getter('TenantRepository')
     protected tenantRepositoryGetter: Getter<TenantRepository>,
     @repository.getter('UserCredentialsRepository')
     protected userCredentialsRepositoryGetter: Getter<UserCredentialsRepository>,
     @repository.getter('UserTenantRepository')
     protected userTenantRepositoryGetter: Getter<UserTenantRepository>,
-    @repository.getter('AuditLogRepository')
-    public getAuditLogRepository: Getter<AuditLogRepository>,
     @inject('models.User')
     private readonly user: typeof Entity & {prototype: User},
     @inject.getter(AuthenticationBindings.CURRENT_USER, {optional: true})

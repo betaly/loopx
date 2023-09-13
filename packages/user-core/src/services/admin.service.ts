@@ -36,8 +36,7 @@ export class AdminService {
           tenantId: DEFAULT_TENANT_CODE,
           userDetails: {
             username: credentials.identifier,
-            firstName: 'Super',
-            lastName: 'Admin',
+            name: 'Super Admin',
           },
         }),
         null,

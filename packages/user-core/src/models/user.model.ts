@@ -50,24 +50,6 @@ export class User<T = DataObject<Model>> extends UserUpdatableEntity<T & User> i
 
   @property({
     type: 'string',
-    name: 'first_name',
-  })
-  firstName?: string;
-
-  @property({
-    type: 'string',
-    name: 'last_name',
-  })
-  lastName?: string;
-
-  @property({
-    type: 'string',
-    name: 'middle_name',
-  })
-  middleName?: string;
-
-  @property({
-    type: 'string',
   })
   designation?: string;
 

@@ -1,5 +1,5 @@
 ﻿import {BindingScope, inject, injectable} from '@loopback/core';
-import {DataObject, Options, repository, Where, WhereBuilder} from '@loopback/repository';
+import {DataObject, FilterBuilder, Options, repository, Where, WhereBuilder} from '@loopback/repository';
 import {HttpErrors} from '@loopback/rest';
 import {IAuthTenantUser, UserStatus} from '@loopx/core';
 import {BErrors} from 'berrors';
@@ -7,7 +7,7 @@ import {Able, AclErrors, Actions} from 'loopback4-acl';
 import {uid} from 'uid/secure';
 
 import {UserCoreBindings} from '../keys';
-import {Role, TenantUserData, TenantUserView, User, UserTenant, UserTenantWithRelations} from '../models';
+import {Role, TenantUserData, TenantUserView, User, UserTenant} from '../models';
 import {
   AuthClientRepository,
   RoleRepository,
@@ -15,9 +15,11 @@ import {
   UserGroupRepository,
   UserRepository,
   UserTenantRepository,
+  UserViewRepository,
 } from '../repositories';
 import {UserAuthSubjects} from '../subjects';
 import {buildWhereClauseFromPossibleIdentifiers, subjectFor} from '../utils';
+import {UserView} from '../models/user.view';
 
 export interface UserSignupOptions extends UserCreationOptions {
   /**
@@ -30,7 +32,9 @@ export interface UserSignupOptions extends UserCreationOptions {
 export class UserOperationsService {
   constructor(
     @repository(UserRepository)
-    private readonly userRepository: UserRepository,
+    private readonly userRepo: UserRepository,
+    @repository(UserViewRepository)
+    private readonly userViewRepo: UserViewRepository,
     @repository(UserTenantRepository)
     private readonly utRepo: UserTenantRepository,
     @repository(RoleRepository)
@@ -67,7 +71,7 @@ export class UserOperationsService {
     const status = options?.activate ? UserStatus.ACTIVE : UserStatus.REGISTERED;
 
     const identifiersWhereClause = buildWhereClauseFromPossibleIdentifiers(user);
-    const userExists = await this.userRepository.findOne({
+    const userExists = await this.userRepo.findOne({
       where: identifiersWhereClause,
       fields: {
         id: true,
@@ -99,7 +103,7 @@ export class UserOperationsService {
     const username = user.username ?? this.generateUsername();
     user.username = username.toLowerCase();
     user.defaultTenantId = data.tenantId;
-    const userSaved = await this.userRepository.create(user, options);
+    const userSaved = await this.userRepo.create(user, options);
 
     const userTenantData = await this.createUserTenantData(data, status, userSaved?.id, options);
     return TenantUserView.fromUserTenantAndUser(userTenantData, userSaved, {authProvider: options?.authProvider});
@@ -194,7 +198,7 @@ export class UserOperationsService {
     });
 
     if (tempUser) {
-      await this.userRepository.updateById(id, tempUser, options);
+      await this.userRepo.updateById(id, tempUser, options);
     }
 
     await this.updateUserTenant(userData, id, able?.user, options);
@@ -229,58 +233,70 @@ export class UserOperationsService {
     }
   }
 
-  async deleteById(able: Able<IAuthTenantUser> | null, id: string, tenantId: string, options?: Options): Promise<void> {
+  async deleteById(
+    able: Able<IAuthTenantUser> | null,
+    userId: string,
+    tenantId: string,
+    options?: Options,
+  ): Promise<void> {
     if (able) {
-      await this.checkForDeleteTenantUserRestrictedPermission(able, id);
-      await this.checkForDeleteTenantUserPermission(able, id);
-      await this.checkForDeleteAnyUserPermission(able, tenantId);
+      await this.checkForDeleteTenantUserPermission(able, tenantId);
     }
 
     const existingUserTenant = await this.utRepo.findOne(
       {
         where: {
-          userId: id,
-          // tenantId: currentUser.tenantId,
+          userId,
           tenantId,
         },
       },
       options,
     );
+
+    if (!existingUserTenant) {
+      return;
+    }
+
+    if (able) {
+      await this.checkForDeleteTenantUserRestrictedPermission(able, existingUserTenant);
+    }
+
     await this.userGroupRepository.deleteAll(
       {
-        userTenantId: existingUserTenant?.id,
+        userTenantId: existingUserTenant.id,
       },
       options,
     );
     await this.utRepo.deleteAll(
       {
-        userId: id,
-        // tenantId: currentUser.tenantId,
+        userId: userId,
         tenantId,
       },
       options,
     );
-    const ut = await this.utRepo.findOne(
-      {
-        where: {
-          userId: id,
+
+    const {defaultTenantId} = await this.userRepo.findById(userId, {fields: ['defaultTenantId']}, options);
+
+    if (defaultTenantId === tenantId) {
+      // change default tenant id if the deleted tenant is the default tenant
+      const ut = await this.utRepo.findOne(
+        {
+          where: {
+            userId: userId,
+          },
         },
-      },
-      options,
-    );
-    let defaultTenantId = null;
-    if (ut) {
-      defaultTenantId = ut.tenantId;
+        options,
+      );
+      await this.userRepo.updateById(
+        userId,
+        {
+          // eslint-disable-next-line
+          //@ts-ignore
+          defaultTenantId: ut ? ut.tenantId : null,
+        },
+        options,
+      );
     }
-    await this.userRepository.updateById(
-      id,
-      {
-        // eslint-disable-next-line
-        //@ts-ignore
-        defaultTenantId: defaultTenantId,
-      },
-      options,
-    );
   }
 
   async getUserTenant(able: Able<IAuthTenantUser> | null, where: Where<UserTenant>, options?: Options) {
@@ -295,45 +311,33 @@ export class UserOperationsService {
     return ut;
   }
 
-  async getUserView(
-    able: Able<IAuthTenantUser> | null,
-    where: Where<UserTenant>,
-    options?: Options,
-  ): Promise<TenantUserView> {
-    const ut = await this.getUserTenant(able, where, options);
-    const user = await this.userRepository.findById(
-      ut.userId,
-      {
-        include: [
-          {
-            relation: 'credentials',
-            scope: {fields: ['authProvider']},
-          },
-        ],
-      },
-      options,
-    );
-    return TenantUserView.fromUserTenantAndUser(ut, user, {authProvider: user?.credentials?.authProvider});
+  async findOneUserView(where: Where<User>, options?: Options): Promise<UserView | undefined> {
+    const filterBuilder = new FilterBuilder<User>();
+    filterBuilder.where(where);
+    filterBuilder.include(...UserView.InclusionsForUser);
+    const user = await this.userViewRepo.findOne(filterBuilder.build(), options);
+    if (user) {
+      return UserView.fromUser(user, true);
+    }
   }
 
-  async checkForDeleteTenantUserRestrictedPermission(able: Able<IAuthTenantUser>, id: string) {
-    const userTenant = (await this.utRepo.findOne({
-      where: {
-        userId: id,
-        tenantId: able.user.tenantId,
-      },
-      include: [
-        {
-          relation: 'role',
-        },
-      ],
-    })) as UserTenantWithRelations;
+  async findUserViews(where: Where<User>, options?: Options): Promise<UserView[] | undefined> {
+    const filterBuilder = new FilterBuilder<User>();
+    filterBuilder.where(where);
+    filterBuilder.include(...UserView.InclusionsForUser);
+    const user = await this.userViewRepo.findOne(filterBuilder.build(), options);
+    if (user) {
+      return UserView.fromUser(user);
+    }
+  }
+
+  async checkForDeleteTenantUserRestrictedPermission(able: Able<IAuthTenantUser>, ut: UserTenant) {
     if (
       able.cannot(
         Actions.delete,
         subjectFor<UserTenant>(UserAuthSubjects.UserTenant, {
-          tenantId: able.user.tenantId,
-          role: userTenant.role.code,
+          tenantId: ut.tenantId,
+          roleId: ut.roleId,
         }),
       )
     ) {
@@ -341,32 +345,16 @@ export class UserOperationsService {
     }
   }
 
-  async checkForDeleteTenantUserPermission(able: Able<IAuthTenantUser>, id: string) {
-    // if (currentUser.permissions.indexOf(PermissionKey.DeleteTenantUser) >= 0) {
-    if (able.cannot(Actions.delete, 'UserTenant')) {
-      throw new AclErrors.NotAllowedAccess();
-    }
-    const userTenant = await this.utRepo.findOne({
-      where: {
-        userId: id,
-        tenantId: able.user.tenantId,
-      },
-    });
-    if (!userTenant) {
-      throw new AclErrors.NotAllowedAccess();
-    }
-  }
-
-  async checkForDeleteAnyUserPermission(able: Able<IAuthTenantUser>, tenantId: string) {
+  async checkForDeleteTenantUserPermission(able: Able<IAuthTenantUser>, tenantId: string) {
     // if (currentUser.permissions.indexOf(PermissionKey.DeleteAnyUser) < 0 && tenantId !== currentUser.tenantId) {
     if (able.cannot(Actions.delete, subjectFor<UserTenant>(UserAuthSubjects.UserTenant, {tenantId}))) {
       throw new AclErrors.NotAllowedAccess();
     }
   }
 
-  async checkForUpdatePermissions(able: Able<IAuthTenantUser>, id: string, tenantId?: string) {
+  async checkForUpdatePermissions(able: Able<IAuthTenantUser>, userId: string, tenantId?: string) {
     // if (currentUser.permissions.indexOf(PermissionKey.UpdateOwnUser) >= 0 && currentUser.id !== id) {
-    if (able.cannot(Actions.update, subjectFor<UserTenant>(UserAuthSubjects.UserTenant, {tenantId, userId: id}))) {
+    if (able.cannot(Actions.update, subjectFor<UserTenant>(UserAuthSubjects.UserTenant, {tenantId, userId: userId}))) {
       throw new AclErrors.NotAllowedAccess();
     }
   }
@@ -384,7 +372,7 @@ export class UserOperationsService {
     const whereBuilder = new WhereBuilder();
     whereBuilder.neq('id', id);
     whereBuilder.eq(prop, identifier);
-    const identifierExists = await this.userRepository.count(whereBuilder.build(), options);
+    const identifierExists = await this.userRepo.count(whereBuilder.build(), options);
     if (identifierExists && identifierExists.count > 0) {
       throw new BErrors.Forbidden(`${prop} already exists`);
     }
