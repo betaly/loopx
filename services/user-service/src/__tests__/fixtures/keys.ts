@@ -29,9 +29,6 @@ export interface IAuthTenantUser<ID = string, TID = string, UTID = string> exten
   userPreferences?: IUserPrefs;
   email?: string;
   role: string;
-  firstName: string;
-  lastName: string;
-  middleName?: string;
   tenantId?: TID;
   userTenantId?: UTID;
 }

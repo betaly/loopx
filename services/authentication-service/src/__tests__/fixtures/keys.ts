@@ -32,9 +32,6 @@ export interface IAuthTenantUser<ID = string, TID = string, UTID = string> exten
   email?: string;
   role: string;
   name?: string;
-  firstName: string;
-  lastName: string;
-  middleName?: string;
   tenantId?: TID;
   userTenantId?: UTID;
 }

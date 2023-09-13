@@ -53,16 +53,6 @@ export class SignupDto extends Model {
   })
   name?: string;
 
-  @property({
-    type: 'string',
-  })
-  firstName?: string;
-
-  @property({
-    type: 'string',
-  })
-  lastName?: string;
-
   constructor(data?: DataObject<SignupDto>) {
     super(data);
   }

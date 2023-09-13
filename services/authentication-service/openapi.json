@@ -1917,15 +1917,6 @@
           "name": {
             "type": "string"
           },
-          "firstName": {
-            "type": "string"
-          },
-          "lastName": {
-            "type": "string"
-          },
-          "middleName": {
-            "type": "string"
-          },
           "designation": {
             "type": "string"
           },

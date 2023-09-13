@@ -32,8 +32,6 @@ describe('OTP Verify Provider', () => {
   };
   const user = new User({
     id: '1',
-    firstName: 'test',
-    lastName: 'test',
     username: 'test_user',
     email: 'xyz@gmail.com',
     authClientIds: [1],

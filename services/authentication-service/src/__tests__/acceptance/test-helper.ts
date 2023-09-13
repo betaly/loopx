@@ -156,8 +156,6 @@ export async function setupInitialData(appOrRepos: TestingApplication | TestInit
 
   const testUser = await userRepo.create({
     id: '1',
-    firstName: 'Test',
-    lastName: 'User',
     username: 'test_user',
     dob: '1996-11-05',
     authClientIds: [testAuthClient.id!],
@@ -167,8 +165,6 @@ export async function setupInitialData(appOrRepos: TestingApplication | TestInit
 
   const testUser2 = await userRepo.create({
     id: '2',
-    firstName: 'Test',
-    lastName: 'Teacher',
     username: 'test_teacher',
     dob: '1996-11-05',
     email: 'test_teacher@test.com',

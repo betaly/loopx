@@ -82,12 +82,12 @@ describe('UserTenant Controller', function () {
   async function setupMockData() {
     const [user, user2] = await userRepo.createAll([
       new User({
-        firstName: 'firstname1',
+        name: 'name1',
         username: 'user1',
         email: 'user1@xyz',
       }),
       new User({
-        firstName: 'firstname2',
+        name: 'name2',
         username: 'user2',
         email: 'user2@xyz',
       }),

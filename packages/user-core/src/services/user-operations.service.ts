@@ -8,6 +8,7 @@ import {uid} from 'uid/secure';
 
 import {UserCoreBindings} from '../keys';
 import {Role, TenantUserData, TenantUserView, User, UserTenant} from '../models';
+import {UserView} from '../models/user.view';
 import {
   AuthClientRepository,
   RoleRepository,
@@ -19,7 +20,6 @@ import {
 } from '../repositories';
 import {UserAuthSubjects} from '../subjects';
 import {buildWhereClauseFromPossibleIdentifiers, subjectFor} from '../utils';
-import {UserView} from '../models/user.view';
 
 export interface UserSignupOptions extends UserCreationOptions {
   /**

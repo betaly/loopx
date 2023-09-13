@@ -41,8 +41,6 @@ describe('Autha Verify Provider', () => {
 
   const user = new User({
     id: '1',
-    firstName: 'test',
-    lastName: 'test',
     username: 'test_user',
     email: 'xyz@gmail.com',
     authClientIds: [1],
@@ -86,7 +84,7 @@ describe('Autha Verify Provider', () => {
       findTwo.resolves(userCred as UserCredentialsWithRelations);
       const func = authaVerifyProvider.value();
       const result = await func(accessToken, refreshToken, profile);
-      expect(result).to.have.properties('id', 'firstName', 'lastName', 'username', 'email');
+      expect(result).to.have.properties('id', 'username', 'email');
       expect(result?.username).to.be.eql('test_user');
       sinon.assert.calledOnce(findOne);
     });
@@ -104,7 +102,7 @@ describe('Autha Verify Provider', () => {
       findTwo.resolves(userCred as UserCredentialsWithRelations);
       const func = authaVerifyProvider.value();
       const result = await func(accessToken, refreshToken, profile);
-      expect(result).to.have.properties('id', 'firstName', 'lastName', 'username', 'email');
+      expect(result).to.have.properties('id', 'username', 'email');
       expect(result?.username).to.be.eql('test_user');
       sinon.assert.calledOnce(findOne);
     });

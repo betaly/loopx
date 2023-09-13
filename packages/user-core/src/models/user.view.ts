@@ -3,11 +3,12 @@
 // This software is released under the MIT License.
 // https://opensource.org/licenses/MIT
 import {DataObject, Inclusion, Model, model, property} from '@loopback/repository';
-import {User, UserWithRelations} from './user.model';
 import {Gender, UserStatus, UserUpdatableEntity} from '@loopx/core';
-import {UserTenant, UserTenantRelations, UserTenantWithRelations} from './user-tenant.model';
-import {Tenant} from './tenant.model';
+
 import {Role} from './role.model';
+import {Tenant} from './tenant.model';
+import {User, UserWithRelations} from './user.model';
+import {UserTenant, UserTenantRelations, UserTenantWithRelations} from './user-tenant.model';
 
 type IUserWithoutRelations = Omit<Omit<User, keyof UserUpdatableEntity>, 'credentials' | 'userTenants'>;
 

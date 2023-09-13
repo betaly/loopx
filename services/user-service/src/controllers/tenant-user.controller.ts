@@ -34,9 +34,9 @@ import {
   UserViewRepository,
   UserWithRelations,
 } from '@loopx/user-core';
-import {Able, acl, Actions, authorise} from 'loopback4-acl';
 import {UserView} from '@loopx/user-core/dist/models/user.view';
 import {BErrors} from 'berrors';
+import {Able, acl, Actions, authorise} from 'loopback4-acl';
 
 const basePath = '/tenants/{id}/users';
 

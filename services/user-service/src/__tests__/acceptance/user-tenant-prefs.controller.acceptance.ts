@@ -75,7 +75,6 @@ describe('UserTenantPrefs Controller', function () {
   async function setupMockData() {
     const user = await userRepo.create(
       new User({
-        firstName: 'tenant_pref_user',
         username: 'tenant_pref_test_user',
         email: 'abc@xyz',
       }),

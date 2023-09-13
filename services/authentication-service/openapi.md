@@ -3135,9 +3135,6 @@ To get the user details
   "email": "string",
   "phone": "string",
   "name": "string",
-  "firstName": "string",
-  "lastName": "string",
-  "middleName": "string",
   "designation": "string",
   "photoUrl": "string",
   "gender": "M",
@@ -4298,9 +4295,6 @@ AuthRefreshTokenRequest
   "email": "string",
   "phone": "string",
   "name": "string",
-  "firstName": "string",
-  "lastName": "string",
-  "middleName": "string",
   "designation": "string",
   "photoUrl": "string",
   "gender": "M",
@@ -4346,9 +4340,6 @@ AuthUser
 |email|string|false|none|none|
 |phone|string|false|none|none|
 |name|string|false|none|none|
-|firstName|string|false|none|none|
-|lastName|string|false|none|none|
-|middleName|string|false|none|none|
 |designation|string|false|none|none|
 |photoUrl|string|false|none|none|
 |gender|string|false|none|This field takes a single character as input in database.<br>    'M' for male and 'F' for female.|

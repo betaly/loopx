@@ -33,8 +33,6 @@ describe('Local Password Verify Provider', () => {
     it('return user if user is present', async () => {
       const user = new User({
         id: '1',
-        firstName: 'test',
-        lastName: 'test',
         username: 'test_user',
         email: 'xyz@gmail.com',
         authClientIds: [1],
@@ -46,7 +44,7 @@ describe('Local Password Verify Provider', () => {
       findOne.resolves(user as UserWithRelations);
       const func = localPasswordVerifyProvider.value();
       const result = await func(username, password);
-      expect(result).to.have.properties('id', 'firstName', 'lastName', 'username', 'email');
+      expect(result).to.have.properties('id', 'username', 'email');
       expect(result?.username).to.be.eql('test_user');
     });
 
