@@ -3,8 +3,7 @@ import {inject} from '@loopback/context';
 import {Filter, repository} from '@loopback/repository';
 import {get, getFilterSchemaFor, getModelSchemaRef, param, post, requestBody} from '@loopback/rest';
 import {CONTENT_TYPE, IAuthTenantUser, STATUS_CODE} from '@loopx/core';
-import {UserAuthSubjects, UserTenantPrefs, UserTenantPrefsRepository} from '@loopx/user-core';
-import {Actions, authorise} from 'loopback4-acl';
+import {UserTenantPrefs, UserTenantPrefsRepository} from '@loopx/user-core';
 
 const basePath = '/ut-prefs';
 
@@ -19,10 +18,11 @@ export class UserTenantPrefsController {
   @authenticate(STRATEGY.BEARER, {
     passReqToCallback: true,
   })
-  // @authorize({
-  //   permissions: [PermissionKey.UpdateUserTenantPreference, PermissionKey.UpdateUserTenantPreferenceNum],
-  // })
-  @authorise(Actions.update, UserAuthSubjects.UserTenantPrefs, async ({body}) => body)
+  // authorise is not required as we are using the userTenantId from the current user
+  // ----
+  // @authorise(Actions.update, UserAuthSubjects.UserTenantPrefs, async ({body, user}: AuthContext<IAuthTenantUser>) => ({
+  //   userTenantId: body.userTenantId ?? user?.userTenantId ?? null,
+  // }))
   @post(basePath, {
     responses: {
       [STATUS_CODE.OK]: {
@@ -67,10 +67,11 @@ export class UserTenantPrefsController {
   @authenticate(STRATEGY.BEARER, {
     passReqToCallback: true,
   })
-  // @authorize({
-  //   permissions: [PermissionKey.ViewUserTenantPreference, PermissionKey.ViewUserTenantPreferenceNum],
-  // })
-  @authorise(Actions.read, UserAuthSubjects.UserTenantPrefs)
+  // authorise is not required as we are using the userTenantId from the current user
+  // ----
+  // @authorise(Actions.read, UserAuthSubjects.UserTenantPrefs, async ({body, user}: AuthContext<IAuthTenantUser>) => ({
+  //   userTenantId: user?.userTenantId ?? null,
+  // }))
   @get(basePath, {
     responses: {
       [STATUS_CODE.OK]: {
