@@ -161,28 +161,10 @@ export class TenantUserController {
   @authenticate(STRATEGY.BEARER, {
     passReqToCallback: true,
   })
-  // @authorize({
-  //   permissions: [
-  //     PermissionKey.ViewAnyUser,
-  //     PermissionKey.ViewTenantUser,
-  //     PermissionKey.ViewTenantUserRestricted,
-  //     PermissionKey.ViewOwnUser,
-  //     PermissionKey.ViewAnyUserNum,
-  //     PermissionKey.ViewTenantUserNum,
-  //     PermissionKey.ViewTenantUserRestrictedNum,
-  //     PermissionKey.ViewOwnUserNum,
-  //   ],
-  // })
-  @authorise(Actions.read, UserAuthSubjects.UserTenant, [
-    UserTenantRepository,
-    async (repo: UserTenantRepository, {params}) =>
-      repo.findOne({
-        where: {
-          tenantId: params.id,
-          userId: params.userId,
-        },
-      }),
-  ])
+  @authorise(Actions.read, UserAuthSubjects.UserTenant, async ({params}) => ({
+    tenantId: params.id,
+    userId: params.userId,
+  }))
   @get(`${basePath}/{userId}`, {
     security: OPERATION_SECURITY_SPEC,
     responses: {
