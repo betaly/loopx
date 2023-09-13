@@ -1,7 +1,16 @@
 ﻿import {authenticate, AuthenticationBindings, STRATEGY} from '@bleco/authentication';
 import {inject} from '@loopback/context';
 import {service} from '@loopback/core';
-import {Count, CountSchema, Filter, FilterBuilder, repository, Where, WhereBuilder} from '@loopback/repository';
+import {
+  AnyObject,
+  Count,
+  CountSchema,
+  Filter,
+  FilterBuilder,
+  repository,
+  Where,
+  WhereBuilder,
+} from '@loopback/repository';
 import {
   del,
   get,
@@ -23,8 +32,11 @@ import {
   UserAuthSubjects,
   UserOperationsService,
   UserViewRepository,
+  UserWithRelations,
 } from '@loopx/user-core';
 import {Able, acl, Actions, authorise} from 'loopback4-acl';
+import {UserView} from '@loopx/user-core/dist/models/user.view';
+import {BErrors} from 'berrors';
 
 const basePath = '/tenants/{id}/users';
 
@@ -62,7 +74,7 @@ export class TenantUserController {
     @param.path.string('id') id: string,
     @param.query.object('filter', getFilterSchemaFor(User))
     filter?: Filter<User>,
-  ): Promise<User[]> {
+  ): Promise<UserView[]> {
     let whereClause;
     const filterBuilder = new FilterBuilder(filter);
     const whereBuilder = new WhereBuilder();
@@ -75,10 +87,16 @@ export class TenantUserController {
     }
     whereBuilder.neq('userTenants.role.code', DefaultRole.SuperAdmin);
     filterBuilder.where(whereBuilder.build());
+    filterBuilder.include(...UserView.InclusionsForUser);
+
+    let users: UserWithRelations[];
     if (currentUser.role === DefaultRole.SuperAdmin) {
-      return this.nonRestrictedUserViewRepo.find(filterBuilder.build());
+      users = await this.nonRestrictedUserViewRepo.find(filterBuilder.build());
+    } else {
+      users = await this.userViewRepo.find(filterBuilder.build());
     }
-    return this.userViewRepo.find(filterBuilder.build());
+
+    return UserView.fromUsers(users);
   }
 
   @authenticate(STRATEGY.BEARER, {
@@ -103,14 +121,16 @@ export class TenantUserController {
     @param.path.string('id') id: string,
     @param.query.object('filter', getFilterSchemaFor(User))
     filter?: Filter<User>,
-  ): Promise<User[]> {
+  ): Promise<UserView[]> {
     const filterBuilder = new FilterBuilder(filter);
     const whereBuilder = new WhereBuilder();
     whereBuilder.eq('userTenants.tenantId', id);
     whereBuilder.neq('userTenants.role.code', DefaultRole.SuperAdmin);
     filterBuilder.where(whereBuilder.build());
+    filterBuilder.include(...UserView.InclusionsForUser);
 
-    return this.nonRestrictedUserViewRepo.find(filterBuilder.build());
+    const users = await this.nonRestrictedUserViewRepo.find(filterBuilder.build());
+    return UserView.fromUsers(users);
   }
 
   @authenticate(STRATEGY.BEARER, {
@@ -142,7 +162,7 @@ export class TenantUserController {
     //   whereClause = await this.userOpService.checkViewTenantRestrictedPermissions(currentUser, where);
     // }
 
-    const whereBuilder = new WhereBuilder();
+    const whereBuilder = new WhereBuilder<AnyObject>(where);
     if (whereClause) {
       whereBuilder.and(whereClause, {
         'userTenants.tenantId': id,
@@ -187,13 +207,19 @@ export class TenantUserController {
     @param.path.string('userId') userId: string,
     @param.query.object('filter', getFilterSchemaFor(User))
     filter?: Filter<User>,
-  ): Promise<User> {
+  ): Promise<UserView> {
     const filterBuilder = new FilterBuilder(filter);
     const whereBuilder = new WhereBuilder();
     whereBuilder.eq('userTenants.tenantId', id);
-
     filterBuilder.where(whereBuilder.build());
-    return this.userViewRepo.findById(userId, filterBuilder.build());
+
+    filterBuilder.include(...UserView.InclusionsForUser);
+    const user = await this.userViewRepo.findById(userId, filterBuilder.build());
+    const result = UserView.fromUser(user, true);
+    if (!result) {
+      throw new BErrors.NotFound('User not found!');
+    }
+    return result;
   }
 
   @authenticate(STRATEGY.BEARER, {

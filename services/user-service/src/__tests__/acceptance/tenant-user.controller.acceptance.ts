@@ -54,7 +54,6 @@ describe('TenantUser Controller', function () {
       userDetails: {
         email: 'test@example.com',
         username: 'testuser',
-        firstName: 'test_user',
       },
     };
     await client.post(`/tenants/${id}/users`).set('authorization', `Bearer ${token}`).send(newUser).expect(404);
