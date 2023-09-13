@@ -3098,7 +3098,6 @@ __metadata:
     loopback4-plus: ^0.1.2
     loopback4-query: ^0.11.5
     loopback4-testlab: ^0.1.1
-    nanoid: ^3.3.6
     prom-client: ^14.2.0
     source-map-support: ^0.5.21
     temp: ^0.9.4
