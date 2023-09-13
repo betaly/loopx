@@ -22,7 +22,6 @@ import {
   UserCreationData,
   UserDto,
   UserOperationsService,
-  UserTenantRepository,
   UserViewRepository,
 } from '@loopx/user-core';
 import {Able, acl, Actions, authorise} from 'loopback4-acl';
@@ -64,15 +63,7 @@ export class TenantUserController {
     @param.query.object('filter', getFilterSchemaFor(User))
     filter?: Filter<User>,
   ): Promise<User[]> {
-    // if (currentUser.permissions.indexOf(PermissionKey.ViewAnyUser) < 0 && currentUser.tenantId !== id) {
-    //   throw new AuthorizationErrors.NotAllowedAccess();
-    // }
-
     let whereClause;
-    // if (currentUser.permissions.indexOf(PermissionKey.ViewTenantUserRestricted) >= 0 && currentUser.tenantId === id) {
-    //   whereClause = await this.userOpService.checkViewTenantRestrictedPermissions(currentUser, filter?.where);
-    // }
-
     const filterBuilder = new FilterBuilder(filter);
     const whereBuilder = new WhereBuilder();
     if (whereClause) {
@@ -125,16 +116,6 @@ export class TenantUserController {
   @authenticate(STRATEGY.BEARER, {
     passReqToCallback: true,
   })
-  // @authorize({
-  //   permissions: [
-  //     PermissionKey.ViewAnyUser,
-  //     PermissionKey.ViewTenantUser,
-  //     PermissionKey.ViewTenantUserRestricted,
-  //     PermissionKey.ViewAnyUserNum,
-  //     PermissionKey.ViewTenantUserNum,
-  //     PermissionKey.ViewTenantUserRestrictedNum,
-  //   ],
-  // })
   @authorise(Actions.read, UserAuthSubjects.UserTenant, async ({params}) => ({tenantId: params.id}))
   @get(`${basePath}/count`, {
     security: OPERATION_SECURITY_SPEC,
@@ -284,18 +265,6 @@ export class TenantUserController {
   @authenticate(STRATEGY.BEARER, {
     passReqToCallback: true,
   })
-  // @authorize({
-  //   permissions: [
-  //     PermissionKey.UpdateAnyUser,
-  //     PermissionKey.UpdateOwnUser,
-  //     PermissionKey.UpdateTenantUser,
-  //     PermissionKey.UpdateTenantUserRestricted,
-  //     PermissionKey.UpdateAnyUserNum,
-  //     PermissionKey.UpdateOwnUserNum,
-  //     PermissionKey.UpdateTenantUserNum,
-  //     PermissionKey.UpdateTenantUserRestrictedNum,
-  //   ],
-  // })
   @authorise(Actions.update, UserAuthSubjects.UserTenant, async ({params}) => ({
     tenantId: params.id,
     userId: params.userId,
@@ -322,9 +291,6 @@ export class TenantUserController {
     })
     user: Omit<User, 'id' | 'authClientIds' | 'lastLogin' | 'status' | 'tenantId'>,
   ): Promise<void> {
-    // if (currentUser.id === userId && user.roleId !== undefined) {
-    //   throw new AuthorizationErrors.NotAllowedAccess();
-    // }
     if (user.username) {
       user.username = user.username.toLowerCase();
     }
@@ -337,16 +303,6 @@ export class TenantUserController {
   @authenticate(STRATEGY.BEARER, {
     passReqToCallback: true,
   })
-  // @authorize({
-  //   permissions: [
-  //     PermissionKey.DeleteAnyUser,
-  //     PermissionKey.DeleteTenantUser,
-  //     PermissionKey.DeleteTenantUserRestricted,
-  //     PermissionKey.DeleteAnyUserNum,
-  //     PermissionKey.DeleteTenantUserNum,
-  //     PermissionKey.DeleteTenantUserRestrictedNum,
-  //   ],
-  // })
   @authorise(Actions.delete, UserAuthSubjects.UserTenant, async ({params}) => ({
     tenantId: params.id,
     userId: params.userId,
