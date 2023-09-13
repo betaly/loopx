@@ -1,5 +1,28 @@
 
 
+# [0.11.0](https://github.com/betaly/loopx/compare/0.10.1...0.11.0) (2023-09-13)
+
+
+### Bug Fixes
+
+* an imports ([1ada32f](https://github.com/betaly/loopx/commit/1ada32ffb2a1492307f29f3896a2c48c490f6ac2))
+* issues after removing firstName, middleName and lastName ([0953f93](https://github.com/betaly/loopx/commit/0953f935653b3ac8d9f6a0090d5c8dc4ce31fb7d))
+
+
+### Features
+
+* **auth.permissions:** Add tenantId to manage permission ([a5d4755](https://github.com/betaly/loopx/commit/a5d47557e52113acd85631e09735f7609978a99f))
+* **authentication-service:** refactor otp and passwordless login ([c1e1583](https://github.com/betaly/loopx/commit/c1e1583951f05222b3a38b106161d0324775467a))
+* **authentication:** add authorisation to login activity controller ([a4b65cc](https://github.com/betaly/loopx/commit/a4b65cc481b3776a270c9ca6f4ce6d5a42ddc641))
+* extract user models, repositories and service to extension @loopx/user and using loopback4-acl for authorization ([fe4a075](https://github.com/betaly/loopx/commit/fe4a0757c63538e0f2040d9ab258e4adaa44f034))
+* move default tenant id config from individual binding to MultiTenancyActionOptions ([7f2789c](https://github.com/betaly/loopx/commit/7f2789c4f942584f8b50958b6d05e6611b370331))
+* rename role ``member`` to user ([fa97839](https://github.com/betaly/loopx/commit/fa97839462a09c2dc4e0500732c58186b4e0163a))
+* **user-service:** add acceptance test for tenant-user controller authorisation ([c929d81](https://github.com/betaly/loopx/commit/c929d81811148d6e2f9012ee6b325f3e6b38c3cd))
+* **user-service:** add role parameter to create user endpoint authorise guard ([98ecd89](https://github.com/betaly/loopx/commit/98ecd893687aa417c36f8db8f7cff39e60717c38))
+* **user-service:** refactor tenant-user.controller.ts ([80925f1](https://github.com/betaly/loopx/commit/80925f123bb40af8e9349d9fb58fbeb15fd12185))
+* **user-service:** use UserView as result type ([de9043e](https://github.com/betaly/loopx/commit/de9043e4b1e95b8e22e790b97f776c6af2c4f0f2))
+* **user-service:** using TENANT_HEADER_NAME to replace CurrentTenant ([58ec76c](https://github.com/betaly/loopx/commit/58ec76c3744705117136932af44fd881eff8f717))
+
 ## [0.10.1](https://github.com/betaly/loopx/compare/0.10.0...0.10.1) (2023-08-24)
 
 # [0.10.0](https://github.com/betaly/loopx/compare/0.9.6...0.10.0) (2023-08-24)
