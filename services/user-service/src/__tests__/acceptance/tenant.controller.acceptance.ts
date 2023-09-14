@@ -1,12 +1,12 @@
 ﻿import {AuthenticationBindings} from '@bleco/authentication';
 import {Client, expect} from '@loopback/testlab';
 import {IAuthTenantUser} from '@loopx/core';
+import {DEFAULT_TENANT_CODE} from '@loopx/user-common';
 import {Roles, Tenant, TenantRepository} from '@loopx/user-core';
 import {uid} from 'uid';
 
 import {UserServiceApplication} from '../fixtures/application';
 import {buildAccessToken, setupApplication, toTenantUser} from './test-helper';
-import {DEFAULT_TENANT_CODE} from '@loopx/user-common';
 
 describe('Tenant Controller', function () {
   let app: UserServiceApplication;
