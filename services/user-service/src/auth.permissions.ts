@@ -69,10 +69,8 @@ export const permissions: UserAuthPermissions = {
     // Deny all actions if user is not in default tenant
     if (user.tenantId !== DEFAULT_TENANT_CODE) return;
 
-    // SuperAdmin can manage all UserAuthSubjects
-    for (const subject of Object.values(UserAuthSubjects)) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      can(Actions.manage, subject as any);
-    }
+    // SuperAdmins can manage all UserTenants
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    can(Actions.manage, Object.values(UserAuthSubjects) as any);
   },
 };
