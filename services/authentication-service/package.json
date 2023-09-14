@@ -67,7 +67,7 @@
     "jsonwebtoken": "^9.0.2",
     "libphonenumber-js": "^1.10.44",
     "lodash": "^4.17.21",
-    "loopback4-acl": "^0.3.5",
+    "loopback4-acl": "^0.3.6",
     "moment": "^2.29.4",
     "moment-timezone": "^0.5.43",
     "nanoid": "^3.3.5",
@@ -82,7 +82,7 @@
     "passport-instagram": "^1.0.0",
     "prom-client": "^14.2.0",
     "qrcode": "^1.5.3",
-    "sinon": "^15.2.0",
+    "sinon": "^16.0.0",
     "tily": "^2.21.1",
     "tslib": "^2.6.2",
     "uniqid": "^5.4.0"

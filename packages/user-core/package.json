@@ -29,7 +29,7 @@
     "@loopx/user-common": "workspace:^",
     "berrors": "^0.2.3",
     "inflection": "^2.0.1",
-    "loopback4-acl": "^0.3.5",
+    "loopback4-acl": "^0.3.6",
     "loopback4-plus": "^0.1.2",
     "tily": "^2.21.1",
     "uid": "^2.0.2"
