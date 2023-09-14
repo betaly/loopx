@@ -56,9 +56,9 @@ describe('Tenant Controller - acl', function () {
 
   describe('owner', () => {
     testPermissions(Roles.Owner, {
-      find: true,
+      find: false,
       findById: true,
-      count: true,
+      count: false,
       create: true,
       deleteById: true,
       updateAll: false,
@@ -73,9 +73,9 @@ describe('Tenant Controller - acl', function () {
 
   describe('admin', () => {
     testPermissions(Roles.Admin, {
-      find: true,
+      find: false,
       findById: true,
-      count: true,
+      count: false,
       create: true,
       deleteById: false,
       updateAll: false,
@@ -90,9 +90,9 @@ describe('Tenant Controller - acl', function () {
 
   describe('user', () => {
     testPermissions(Roles.User, {
-      find: true,
+      find: false,
       findById: true,
-      count: true,
+      count: false,
       create: true,
       deleteById: false,
       updateAll: false,

@@ -59,7 +59,7 @@ export class TenantController {
   // @authorize({
   //   permissions: [PermissionKey.ViewTenant, PermissionKey.ViewTenantNum],
   // })
-  @authorise(TenantActions.read, UserAuthSubjects.Tenant)
+  @authorise(TenantActions.read_any, UserAuthSubjects.Tenant)
   @get(`${basePath}/count`, {
     security: OPERATION_SECURITY_SPEC,
     responses: {
@@ -79,7 +79,7 @@ export class TenantController {
   // @authorize({
   //   permissions: [PermissionKey.ViewTenant, PermissionKey.ViewTenantNum],
   // })
-  @authorise(TenantActions.read, UserAuthSubjects.Tenant)
+  @authorise(TenantActions.read_any, UserAuthSubjects.Tenant)
   @get(basePath, {
     security: OPERATION_SECURITY_SPEC,
     responses: {
@@ -106,7 +106,7 @@ export class TenantController {
   // @authorize({
   //   permissions: [PermissionKey.UpdateTenant, PermissionKey.UpdateTenantNum],
   // })
-  @authorise(TenantActions.update_batch, UserAuthSubjects.Tenant)
+  @authorise(TenantActions.update_any, UserAuthSubjects.Tenant)
   @patch(basePath, {
     security: OPERATION_SECURITY_SPEC,
     responses: {

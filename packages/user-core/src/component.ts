@@ -50,7 +50,6 @@ export class UserCoreComponent implements Component, LifeCycleObserver {
 
     this.app.bind(UserCoreBindings.DEFAULT_USERNAME_PREFIX).to(this.options.defaultUsernamePrefix);
 
-    // this.bindings = [createBindingFromPermissions(permissions, 'user-tenant')];
     this.models = models;
     this.repositories = repositories;
     this.services = services;

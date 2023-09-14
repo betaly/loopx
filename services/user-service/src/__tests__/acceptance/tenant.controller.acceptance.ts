@@ -1,11 +1,12 @@
 ﻿import {AuthenticationBindings} from '@bleco/authentication';
 import {Client, expect} from '@loopback/testlab';
 import {IAuthTenantUser} from '@loopx/core';
-import {DefaultRole, Tenant, TenantRepository} from '@loopx/user-core';
+import {Roles, Tenant, TenantRepository} from '@loopx/user-core';
 import {uid} from 'uid';
 
 import {UserServiceApplication} from '../fixtures/application';
 import {buildAccessToken, setupApplication, toTenantUser} from './test-helper';
+import {DEFAULT_TENANT_CODE} from '@loopx/user-common';
 
 describe('Tenant Controller', function () {
   let app: UserServiceApplication;
@@ -17,7 +18,7 @@ describe('Tenant Controller', function () {
   const id = '9640864d-a84a-e6b4-f20e-918ff280cdaa';
   const testUser: IAuthTenantUser = toTenantUser({
     tenantId: id,
-    role: DefaultRole.Owner,
+    role: Roles.Owner,
   });
   beforeAll(async () => {
     ({app, client} = await setupApplication());
@@ -35,16 +36,18 @@ describe('Tenant Controller', function () {
     expect(response).to.have.property('error');
   });
 
-  it('gives status 200 when token is passed ', async () => {
-    await client.get(basePath).set('authorization', `Bearer ${token}`).expect(200);
+  it('find gives status 200 when token is passed ', async () => {
+    const superadmin = toTenantUser({tenantId: DEFAULT_TENANT_CODE, role: Roles.SuperAdmin});
+    const superadminToken = buildAccessToken(superadmin);
+    await client.get(basePath).set('authorization', `Bearer ${superadminToken}`).expect(200);
   });
 
-  it('gives status 422 when request body is invalid', async () => {
+  it('create gives status 422 when request body is invalid', async () => {
     const tenant = {};
     await client.post(basePath).set('authorization', `Bearer ${token}`).send(tenant).expect(422);
   });
 
-  it('gives status 200 when a new tenant entity is created', async () => {
+  it('create gives status 200 when a new tenant entity is created', async () => {
     const code = uid(10);
     const tenant = {
       name: tenantName,
@@ -53,7 +56,7 @@ describe('Tenant Controller', function () {
     await client.post(basePath).set('authorization', `Bearer ${token}`).send(tenant).expect(200);
   });
 
-  it('gives status 204 when a tenant entity is deleted ', async () => {
+  it('deleteById gives status 204 when a tenant entity is deleted ', async () => {
     const code = uid(10);
     const tenant = await tenantRepo.create(
       new Tenant({
@@ -62,7 +65,7 @@ describe('Tenant Controller', function () {
         status: 1,
       }),
     );
-    const tenantOwner = toTenantUser({tenantId: tenant.id, role: DefaultRole.Owner});
+    const tenantOwner = toTenantUser({tenantId: tenant.id, role: Roles.Owner});
     const tenantOwnerToken = buildAccessToken(tenantOwner);
     await client.del(`${basePath}/${tenant.id}`).set('authorization', `Bearer ${tenantOwnerToken}`).expect(204);
   });
@@ -76,7 +79,7 @@ describe('Tenant Controller', function () {
         status: 1,
       }),
     );
-    const tenantOwner = toTenantUser({tenantId: tenant.id, role: DefaultRole.Owner});
+    const tenantOwner = toTenantUser({tenantId: tenant.id, role: Roles.Owner});
     const tenantOwnerToken = buildAccessToken(tenantOwner);
     const response = await client
       .get(`${basePath}/${tenant.id}`)
@@ -94,7 +97,7 @@ describe('Tenant Controller', function () {
         status: 1,
       }),
     );
-    const tenantOwner = toTenantUser({tenantId: tenant.id, role: DefaultRole.Owner});
+    const tenantOwner = toTenantUser({tenantId: tenant.id, role: Roles.Owner});
     const tenantOwnerToken = buildAccessToken(tenantOwner);
     await client
       .patch(`${basePath}/${tenant.id}`)
@@ -104,7 +107,9 @@ describe('Tenant Controller', function () {
   });
 
   it('gives count of the number of tenant entities ', async () => {
-    const countResponse = await client.get(`${basePath}/count`).set('authorization', `Bearer ${token}`);
+    const superadmin = toTenantUser({tenantId: DEFAULT_TENANT_CODE, role: Roles.SuperAdmin});
+    const superadminToken = buildAccessToken(superadmin);
+    const countResponse = await client.get(`${basePath}/count`).set('authorization', `Bearer ${superadminToken}`);
     expect(countResponse.body).to.have.property('count');
   });
 
@@ -113,7 +118,7 @@ describe('Tenant Controller', function () {
     const newTestUserId = '9640864d-a84a-e6b4-f20e-918ff280cdbb';
     const newTestUser: IAuthTenantUser = toTenantUser({
       tenantId: newTestUserId,
-      role: DefaultRole.Guest,
+      role: Roles.Guest,
     });
 
     const newToken = buildAccessToken(newTestUser);
