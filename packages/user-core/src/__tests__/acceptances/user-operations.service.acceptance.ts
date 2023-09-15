@@ -15,8 +15,8 @@ import {UserOperationsService} from '../../services';
 import {UserCoreApplication} from '../fixtures/application';
 import {permissions} from '../fixtures/permissions';
 import {seed, SeedResult} from '../fixtures/seed';
-import {defineAble} from '../supports';
 import {setupApplication} from '../helpers';
+import {defineAble} from '../supports';
 
 describe('UserOperationsService', () => {
   let app: UserCoreApplication;

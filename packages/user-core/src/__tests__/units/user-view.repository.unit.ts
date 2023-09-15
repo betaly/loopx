@@ -1,11 +1,12 @@
-import {UserViewRepository} from '../../repositories';
 import {Filter, FilterBuilder, RepositoryBindings, Where} from '@loopback/repository';
-import {UserView} from '../../models/user.view';
-import {UserCoreApplication} from '../fixtures/application';
-import {setupApplication} from '../helpers';
+
+import {DEFAULT_SUPERADMIN_CREDENTIALS} from '../../defaults';
 import {Roles} from '../../enums';
 import {User} from '../../models';
-import {DEFAULT_SUPERADMIN_CREDENTIALS} from '../../defaults';
+import {UserView} from '../../models/user.view';
+import {UserViewRepository} from '../../repositories';
+import {UserCoreApplication} from '../fixtures/application';
+import {setupApplication} from '../helpers';
 
 describe('UerViewRepository', () => {
   let app: UserCoreApplication;
