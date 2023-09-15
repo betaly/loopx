@@ -9,8 +9,7 @@ import {
   juggler,
   repository,
 } from '@loopback/repository';
-import {DefaultUserUpdatableCrudRepository, IAuthTenantUser} from '@loopx/core';
-import {mixinQuery} from 'loopback4-query';
+import {IAuthTenantUser, QueryEnhancedUserUpdatableCrudRepository} from '@loopx/core';
 
 import {UserDataSourceName} from '../keys';
 import {Tenant, User, UserCredentials, UserRelations, UserTenant} from '../models';
@@ -24,9 +23,8 @@ const UserViewAuditOpts: IAuditMixinOptions = {
 };
 
 @injectable({scope: BindingScope.SINGLETON})
-@mixinQuery(true)
 export class UserViewRepository extends ConditionalAuditRepositoryMixin(
-  DefaultUserUpdatableCrudRepository<User, typeof User.prototype.id, UserRelations>,
+  QueryEnhancedUserUpdatableCrudRepository<User, typeof User.prototype.id, UserRelations>,
   UserViewAuditOpts,
 ) {
   public readonly tenant: BelongsToAccessor<Tenant, typeof User.prototype.id>;

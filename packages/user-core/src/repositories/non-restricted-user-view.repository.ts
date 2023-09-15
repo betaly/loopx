@@ -3,13 +3,12 @@ import {Getter} from '@loopback/context';
 import {BindingScope, inject, injectable} from '@loopback/core';
 import {
   BelongsToAccessor,
-  DefaultCrudRepository,
   HasManyRepositoryFactory,
   HasOneRepositoryFactory,
   juggler,
   repository,
 } from '@loopback/repository';
-import {mixinQuery} from 'loopback4-query';
+import {QueryEnhancedCrudRepository} from 'loopback4-query';
 
 import {UserDataSourceName} from '../keys';
 import {Tenant, User, UserCredentials, UserRelations, UserTenant} from '../models';
@@ -23,9 +22,8 @@ const NonRestrictedUserViewAuditOpts: IAuditMixinOptions = {
 };
 
 @injectable({scope: BindingScope.SINGLETON})
-@mixinQuery(true)
 export class NonRestrictedUserViewRepository extends ConditionalAuditRepositoryMixin(
-  DefaultCrudRepository<User, typeof User.prototype.id, UserRelations>,
+  QueryEnhancedCrudRepository<User, typeof User.prototype.id, UserRelations>,
   NonRestrictedUserViewAuditOpts,
 ) {
   public readonly tenant: BelongsToAccessor<Tenant, typeof User.prototype.id>;
