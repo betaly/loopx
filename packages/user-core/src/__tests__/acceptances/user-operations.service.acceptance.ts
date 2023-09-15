@@ -12,14 +12,14 @@ import {
   UserTenantRepository,
 } from '../../repositories';
 import {UserOperationsService} from '../../services';
-import {UserTenantApplication} from '../fixtures/application';
+import {UserCoreApplication} from '../fixtures/application';
 import {permissions} from '../fixtures/permissions';
 import {seed, SeedResult} from '../fixtures/seed';
 import {defineAble} from '../supports';
-import {setupApplication} from './helpers';
+import {setupApplication} from '../helpers';
 
 describe('UserOperationsService', () => {
-  let app: UserTenantApplication;
+  let app: UserCoreApplication;
 
   let tenantRepo: TenantRepository;
   let userRepo: UserRepository;

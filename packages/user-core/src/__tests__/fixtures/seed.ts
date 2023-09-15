@@ -4,11 +4,11 @@ import {DefaultRole} from '../../enums';
 import {TenantUserData} from '../../models';
 import {UserTenantRepository} from '../../repositories';
 import {AdminService, RoleService, TenantService, UserOperationsService} from '../../services';
-import {UserTenantApplication} from './application';
+import {UserCoreApplication} from './application';
 
 export type SeedResult = Awaited<ReturnType<typeof seed>>;
 
-export async function seed(app: UserTenantApplication) {
+export async function seed(app: UserCoreApplication) {
   const tenantService = await app.getService(TenantService);
   const tenantRepository = tenantService.tenantRepository;
   const utRepository = await app.getRepository(UserTenantRepository);

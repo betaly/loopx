@@ -1,8 +1,8 @@
 ﻿import {givenHttpServerConfig} from '@loopback/testlab';
 
-import {UserTenantApplication} from '../fixtures/application';
+import {UserCoreApplication} from './fixtures/application';
 
-export async function setupApplication(): Promise<UserTenantApplication> {
+export async function setupApplication(): Promise<UserCoreApplication> {
   const restConfig = givenHttpServerConfig({
     // Customize the server configuration here.
     // Empty values (undefined, '') will be ignored by the helper.
@@ -11,7 +11,7 @@ export async function setupApplication(): Promise<UserTenantApplication> {
     // port: +process.env.PORT,
   });
 
-  const app = new UserTenantApplication({
+  const app = new UserCoreApplication({
     rest: restConfig,
   });
 

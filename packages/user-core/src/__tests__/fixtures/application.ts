@@ -11,7 +11,7 @@ import {permissions} from './permissions';
 
 export {ApplicationConfig};
 
-export class UserTenantApplication extends IntegrateMixin(RestApplication) {
+export class UserCoreApplication extends IntegrateMixin(RestApplication) {
   constructor(options: ApplicationConfig = {}) {
     super(options);
     // Add authorization component
