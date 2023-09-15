@@ -463,60 +463,60 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@bleco/acl@npm:^0.6.2":
-  version: 0.6.2
-  resolution: "@bleco/acl@npm:0.6.2"
+"@bleco/acl@npm:^0.6.5":
+  version: 0.6.5
+  resolution: "@bleco/acl@npm:0.6.5"
   dependencies:
-    "@bleco/repo": ^0.5.2
-    "@bleco/soft-delete": ^0.6.2
-    "@loopback/authorization": ^0.14.2
-    "@loopback/context": ^6.1.2
-    "@loopback/core": ^5.1.2
-    "@loopback/repository": ^6.1.2
-    "@loopback/security": ^0.10.2
+    "@bleco/repo": ^0.5.3
+    "@bleco/soft-delete": ^0.7.2
+    "@loopback/authorization": ^0.14.3
+    "@loopback/context": ^6.1.3
+    "@loopback/core": ^5.1.3
+    "@loopback/repository": ^6.1.3
+    "@loopback/security": ^0.10.3
     debug: ^4.3.4
     lodash: ^4.17.21
-    loopback4-query: ^0.11.5
+    loopback4-query: ^0.12.1
     tily: ^2.21.1
     ts-essentials: ^9.4.0
-  checksum: eed8212896c30c34640864bff22db207492494db4374b12774ba2e3ef269e5c0b744f398355e51f8b505e34d7ad095c2d7315104933d4797747794453d01fbf9
+  checksum: 434685ebc6cce4b61c5213f336f9c1ab1b1af09caf85b6e3d777a805bf8fee2f09214d7cff738c6974c03c335e258aef91ca572d937f0531404f4ff8f76e231f
   languageName: node
   linkType: hard
 
-"@bleco/aliaser@npm:^0.6.2":
-  version: 0.6.2
-  resolution: "@bleco/aliaser@npm:0.6.2"
+"@bleco/aliaser@npm:^0.6.3":
+  version: 0.6.3
+  resolution: "@bleco/aliaser@npm:0.6.3"
   dependencies:
-    "@loopback/context": ^6.1.2
-    "@loopback/core": ^5.1.2
+    "@loopback/context": ^6.1.3
+    "@loopback/core": ^5.1.3
     tily: ^2.21.1
-  checksum: ee394eb25ef7e81c33a7b6da6013718e6576884bc8eb3bf236ed186508937ab663d9909a84aea2798cc75bd7eea7b13ad8c3b99bf8bbce5101d7313f6ba21327
+  checksum: 2cd18e94070668b1a4bed5539949162649520c31454237640b22edf20f70a008c8d89c535fd82f8ca944a09188d11bc8351ae436c156efdf5f530957dc448b90
   languageName: node
   linkType: hard
 
-"@bleco/audit-log@npm:^1.0.1":
-  version: 1.0.1
-  resolution: "@bleco/audit-log@npm:1.0.1"
+"@bleco/audit-log@npm:^1.0.2":
+  version: 1.0.2
+  resolution: "@bleco/audit-log@npm:1.0.2"
   dependencies:
-    "@loopback/boot": ^6.1.2
-    "@loopback/core": ^5.1.2
-    "@loopback/repository": ^6.1.2
-    "@loopback/sequelize": ^0.5.1
+    "@loopback/boot": ^6.1.3
+    "@loopback/core": ^5.1.3
+    "@loopback/repository": ^6.1.3
+    "@loopback/sequelize": ^0.5.2
     lodash: ^4.17.21
     tslib: ^2.6.2
-  checksum: 067360a103989f57b1224a4b8b04de5ed8604a65cc69ee48241a44bd547270aa508ff7b7d4255d60145f61f6d97a0da3a1e95000efbdd36823adae7378876a01
+  checksum: 9c4ac68f6f205946ebc4e6579fdec6c7b82880028d73dcca9238afcca0498554385412d96776a60cd48f8a7a0cde44ccdbd089c4901c02fad769a031a5fe330b
   languageName: node
   linkType: hard
 
-"@bleco/authentication@npm:^1.4.2":
-  version: 1.4.2
-  resolution: "@bleco/authentication@npm:1.4.2"
+"@bleco/authentication@npm:^1.4.3":
+  version: 1.4.3
+  resolution: "@bleco/authentication@npm:1.4.3"
   dependencies:
     "@authajs/passport-autha": ^0.1.9
-    "@bleco/aliaser": ^0.6.2
+    "@bleco/aliaser": ^0.6.3
     "@exlinc/keycloak-passport": ^1.0.2
-    "@loopback/context": ^6.1.2
-    "@loopback/core": ^5.1.2
+    "@loopback/context": ^6.1.3
+    "@loopback/core": ^5.1.3
     "@node-saml/passport-saml": ^4.0.4
     ajv: ^8.12.0
     berrors: ^0.2.3
@@ -538,57 +538,57 @@ __metadata:
   peerDependencies:
     "@loopback/boot": ^5.0.8
     "@loopback/rest": ^12.0.8
-  checksum: 373bd76825d080fe76c85790cace08491104f5d3fea7c5433e7420c6051569d22ee0a441936017485ec78ff871418a8c2b89798e03211d658ac5da6160200641
+  checksum: b7309490f450ddae3d3fdeba94fc177e0655b2485be621a55e7c921cc175e2556d9bc8a8f28bc7c7846660a185dfa7e2d4b02ebe5b2698f958b1a002b4d7de9d
   languageName: node
   linkType: hard
 
-"@bleco/boot@npm:^0.5.2":
-  version: 0.5.2
-  resolution: "@bleco/boot@npm:0.5.2"
+"@bleco/boot@npm:^0.5.3":
+  version: 0.5.3
+  resolution: "@bleco/boot@npm:0.5.3"
   dependencies:
-    "@loopback/boot": ^6.1.2
-  checksum: f095c81564076ab779983454c2446df480686899f11ff496a1775e3574ff6002c0afa579ab4c41053d9f7ebc645607dfe6604b60457239e7390e05aedbda7845
+    "@loopback/boot": ^6.1.3
+  checksum: 10e26e7998511f3fa29ba6ce70730763bb8300cf599d25e977af0a2ab1f6a1e010f90e54c602be065a7c2351132a962202f64143ad1919bf2259b58ebb60c5a3
   languageName: node
   linkType: hard
 
-"@bleco/ds-timestamp@npm:^0.6.2":
-  version: 0.6.2
-  resolution: "@bleco/ds-timestamp@npm:0.6.2"
+"@bleco/ds-timestamp@npm:^0.6.3":
+  version: 0.6.3
+  resolution: "@bleco/ds-timestamp@npm:0.6.3"
   dependencies:
     "@bleco/mixin": ^0.5.2
-    "@loopback/core": ^5.1.2
-    "@loopback/repository": ^6.1.2
-    "@loopback/rest": ^13.1.2
+    "@loopback/core": ^5.1.3
+    "@loopback/repository": ^6.1.3
+    "@loopback/rest": ^13.1.3
     debug: ^4.3.4
-  checksum: 040679c110b32b1812e32ab8520b6e1703314dc18120baca3903aebbd738eb08caa35cc764ce8e946932458c2e9d2aa7b58eb1c05dd9499bbecff3b4ed5215da
+  checksum: 2f6d97109cf79858cb0c9f0438776dbd584c26078614e4ea46a8476e60cbb02174af5896f77d0bcabd37dea566ddc8a80457eb561e895b037766162d1001f897
   languageName: node
   linkType: hard
 
-"@bleco/ds-user-updatable@npm:^0.5.2":
-  version: 0.5.2
-  resolution: "@bleco/ds-user-updatable@npm:0.5.2"
+"@bleco/ds-user-updatable@npm:^0.5.3":
+  version: 0.5.3
+  resolution: "@bleco/ds-user-updatable@npm:0.5.3"
   dependencies:
     "@bleco/mixin": ^0.5.2
-    "@loopback/core": ^5.1.2
-    "@loopback/repository": ^6.1.2
-    "@loopback/rest": ^13.1.2
+    "@loopback/core": ^5.1.3
+    "@loopback/repository": ^6.1.3
+    "@loopback/rest": ^13.1.3
     berrors: ^0.2.3
     debug: ^4.3.4
     tily: ^2.21.1
-  checksum: 306093f4d2fe839919014ec1142d9cfc9e53be6fcb084f5da6cfa3eef37de993eb6dd05a758ce0b4cdef9cf170e1ad6c7a56cac78721bb98230be07d33a25ed1
+  checksum: f5f274ab7154961e967f43a7f2239c27c8aa11936103f3225f1f90bf115fecc0b152b2b4b816090962402428cabb5abda2d22f444a9f3fdef159216b9e99e472
   languageName: node
   linkType: hard
 
-"@bleco/helmet@npm:^0.5.2":
-  version: 0.5.2
-  resolution: "@bleco/helmet@npm:0.5.2"
+"@bleco/helmet@npm:^0.5.3":
+  version: 0.5.3
+  resolution: "@bleco/helmet@npm:0.5.3"
   dependencies:
-    "@loopback/boot": ^6.1.2
-    "@loopback/context": ^6.1.2
-    "@loopback/core": ^5.1.2
-    "@loopback/rest": ^13.1.2
+    "@loopback/boot": ^6.1.3
+    "@loopback/context": ^6.1.3
+    "@loopback/core": ^5.1.3
+    "@loopback/rest": ^13.1.3
     helmet: ^7.0.0
-  checksum: 3ba6614b20842ac820d5039ae64799c03fb4f10a10df468a26e8bc7fa2520101e893fe3810569a1aa1bc64851aea5a9d1dd11884d6144a996e8a1c78d4108cfc
+  checksum: 787f2e8b012b22149444e3e1e82ea03659447210dcb7c76b24deb1eaa5c1a85dc18deecea5f332a9a8a473a7bc4e31a40706058069316a2d2dc1dfc012d14ce4
   languageName: node
   linkType: hard
 
@@ -614,51 +614,51 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@bleco/ratelimiter@npm:^1.4.2":
-  version: 1.4.2
-  resolution: "@bleco/ratelimiter@npm:1.4.2"
+"@bleco/ratelimiter@npm:^1.4.3":
+  version: 1.4.3
+  resolution: "@bleco/ratelimiter@npm:1.4.3"
   dependencies:
-    "@loopback/boot": ^6.1.2
-    "@loopback/context": ^6.1.2
-    "@loopback/core": ^5.1.2
-    "@loopback/repository": ^6.1.2
-    "@loopback/rest": ^13.1.2
+    "@loopback/boot": ^6.1.3
+    "@loopback/context": ^6.1.3
+    "@loopback/core": ^5.1.3
+    "@loopback/repository": ^6.1.3
+    "@loopback/rest": ^13.1.3
     berrors: ^0.2.3
     rate-limiter-flexible: ^3.0.0
     ts-essentials: ^9.4.0
-  checksum: 2ad2c6880a9adaaefc9ee324406fc67ae7493605bf768e99c8362b231fe402fc65d1cf36cfc40b11229cd86e4299010ead7cdd9e10ca3ec67c4f019a35842c70
+  checksum: 1b45154e85786a3dbf1c727a80ee46429d8e4c60ff4216730699a2338ecf7837d234166fa6d9c5ff82587c557fe4ff9dbaf61bbca4340bac98e702e103d7e606
   languageName: node
   linkType: hard
 
-"@bleco/repo@npm:^0.5.2":
-  version: 0.5.2
-  resolution: "@bleco/repo@npm:0.5.2"
+"@bleco/repo@npm:^0.5.3":
+  version: 0.5.3
+  resolution: "@bleco/repo@npm:0.5.3"
   dependencies:
-    "@loopback/context": ^6.1.2
-    "@loopback/core": ^5.1.2
-    "@loopback/repository": ^6.1.2
+    "@loopback/context": ^6.1.3
+    "@loopback/core": ^5.1.3
+    "@loopback/repository": ^6.1.3
     debug: ^4.3.4
-  checksum: 8716ac23359059118fced7b97395c362bfa83fa55693ffa58e1c2ac5bcaa399e27b0e950f6762d6ef2cae95c80813f3cdedd4b4e2044dfd2cb74a0fc5ccc3d48
+  checksum: 6608923a8bda251b81af089901533eeaf54181cd7f7d900c7f0b153ac2e1071ee480e273fb24af4ee7cc7c1408fac84b3df90c160aeea69dff017d538614074e
   languageName: node
   linkType: hard
 
-"@bleco/soft-delete@npm:^0.6.2":
-  version: 0.6.2
-  resolution: "@bleco/soft-delete@npm:0.6.2"
+"@bleco/soft-delete@npm:^0.7.2":
+  version: 0.7.2
+  resolution: "@bleco/soft-delete@npm:0.7.2"
   dependencies:
     "@bleco/mixin": ^0.5.2
-    "@loopback/core": ^5.1.2
-    "@loopback/rest": ^13.1.2
+    "@loopback/core": ^5.1.3
+    "@loopback/rest": ^13.1.3
     berrors: ^0.2.3
     lodash: ^4.17.21
-    loopback4-query: ^0.11.5
+    loopback4-query: ^0.12.1
   peerDependencies:
     "@loopback/boot": ^5.0.4
     "@loopback/context": ^5.0.4
     "@loopback/repository": ^5.0.4
     loopback-datasource-juggler: ^4.27.1
     tily: ^2.16.1
-  checksum: c2106df01155e9c85a47f37be9a8ac5acdef641543abba5d8caed527889f5995127e6f831818649e4d6412a97967db74e04cecf15c74151b08c8f1e754c850d3
+  checksum: 07fbc91523f16caeebb89241bc8e98e773b4458affe9340f7f10e7b913e280d02bd1d4d97c67be8b51ae313c0318ecdd8d55a8e01d615586600befc01ee98992
   languageName: node
   linkType: hard
 
@@ -2030,7 +2030,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@loopback/authorization@npm:^0.14.2, @loopback/authorization@npm:^0.14.3":
+"@loopback/authorization@npm:^0.14.3":
   version: 0.14.3
   resolution: "@loopback/authorization@npm:0.14.3"
   dependencies:
@@ -2092,7 +2092,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@loopback/context@npm:^6.1.2, @loopback/context@npm:^6.1.3":
+"@loopback/context@npm:^6.1.3":
   version: 6.1.3
   resolution: "@loopback/context@npm:6.1.3"
   dependencies:
@@ -2301,7 +2301,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@loopback/security@npm:^0.10.2, @loopback/security@npm:^0.10.3":
+"@loopback/security@npm:^0.10.3":
   version: 0.10.3
   resolution: "@loopback/security@npm:0.10.3"
   dependencies:
@@ -2313,7 +2313,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@loopback/sequelize@npm:^0.5.1":
+"@loopback/sequelize@npm:^0.5.2":
   version: 0.5.2
   resolution: "@loopback/sequelize@npm:0.5.2"
   dependencies:
@@ -2385,7 +2385,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@loopx/auth-example@workspace:sandbox/auth-example"
   dependencies:
-    "@bleco/ratelimiter": ^1.4.2
+    "@bleco/ratelimiter": ^1.4.3
     "@loopback/boot": ^6.1.3
     "@loopback/context": ^6.1.3
     "@loopback/core": ^5.1.3
@@ -2420,9 +2420,9 @@ __metadata:
   resolution: "@loopx/authentication-service@workspace:services/authentication-service"
   dependencies:
     "@autha/api": ^0.2.2
-    "@bleco/aliaser": ^0.6.2
-    "@bleco/authentication": ^1.4.2
-    "@bleco/soft-delete": ^0.6.2
+    "@bleco/aliaser": ^0.6.3
+    "@bleco/authentication": ^1.4.3
+    "@bleco/soft-delete": ^0.7.2
     "@loopback/build": ^10.1.3
     "@loopback/context": ^6.1.3
     "@loopback/core": ^5.1.3
@@ -2499,16 +2499,16 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@loopx/core@workspace:packages/core"
   dependencies:
-    "@bleco/acl": ^0.6.2
-    "@bleco/authentication": ^1.4.2
-    "@bleco/boot": ^0.5.2
-    "@bleco/ds-timestamp": ^0.6.2
-    "@bleco/ds-user-updatable": ^0.5.2
-    "@bleco/helmet": ^0.5.2
+    "@bleco/acl": ^0.6.5
+    "@bleco/authentication": ^1.4.3
+    "@bleco/boot": ^0.5.3
+    "@bleco/ds-timestamp": ^0.6.3
+    "@bleco/ds-user-updatable": ^0.5.3
+    "@bleco/helmet": ^0.5.3
     "@bleco/mixin": ^0.5.2
     "@bleco/query": ^0.10.3
-    "@bleco/ratelimiter": ^1.4.2
-    "@bleco/soft-delete": ^0.6.2
+    "@bleco/ratelimiter": ^1.4.3
+    "@bleco/soft-delete": ^0.7.2
     "@loopback/build": ^10.1.3
     "@loopback/context": ^6.1.3
     "@loopback/core": ^5.1.3
@@ -2554,7 +2554,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@loopx/multi-tenancy@workspace:packages/multi-tenancy"
   dependencies:
-    "@bleco/boot": ^0.5.2
+    "@bleco/boot": ^0.5.3
     "@loopback/core": ^5.1.3
     "@loopback/repository": ^6.1.3
     "@loopback/rest": ^13.1.3
@@ -2588,8 +2588,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@loopx/user-core@workspace:packages/user-core"
   dependencies:
-    "@bleco/audit-log": ^1.0.1
-    "@bleco/authentication": ^1.4.2
+    "@bleco/audit-log": ^1.0.2
+    "@bleco/authentication": ^1.4.3
     "@loopback/core": ^5.1.3
     "@loopback/repository": ^6.1.3
     "@loopx/core": "workspace:^"
@@ -2614,10 +2614,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@loopx/user-service@workspace:services/user-service"
   dependencies:
-    "@bleco/audit-log": ^1.0.1
-    "@bleco/authentication": ^1.4.2
-    "@bleco/boot": ^0.5.2
-    "@bleco/soft-delete": ^0.6.2
+    "@bleco/audit-log": ^1.0.2
+    "@bleco/authentication": ^1.4.3
+    "@bleco/boot": ^0.5.3
+    "@bleco/soft-delete": ^0.7.2
     "@loopback/build": ^10.1.3
     "@loopback/context": ^6.1.3
     "@loopback/core": ^5.1.3
@@ -2637,7 +2637,7 @@ __metadata:
     "@types/lodash": ^4.14.198
     "@types/node": ^20.6.0
     "@types/temp": ^0.9.2
-    "@types/uuid": ^9.0.3
+    "@types/uuid": ^9.0.4
     bcrypt: ^5.1.1
     berrors: ^0.2.3
     eslint: ^8.49.0
@@ -2646,7 +2646,7 @@ __metadata:
     loopback-connector-sqlite3s: ^3.5.0
     loopback4-acl: ^0.3.6
     loopback4-plus: ^0.1.2
-    loopback4-query: ^0.11.5
+    loopback4-query: ^0.12.1
     loopback4-testlab: ^0.1.1
     prom-client: ^14.2.0
     source-map-support: ^0.5.21
@@ -4201,10 +4201,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/uuid@npm:^9.0.3":
-  version: 9.0.3
-  resolution: "@types/uuid@npm:9.0.3"
-  checksum: 3dde198defd71c067dd14b3050a8fe6d1ead5fe94ec318472e2c30a399d13f18941fe66cffabdcac7267177c9de2f975fdee6f0cc87cde610a2578e1ce4cc3af
+"@types/uuid@npm:^9.0.4":
+  version: 9.0.4
+  resolution: "@types/uuid@npm:9.0.4"
+  checksum: 356e2504456eaebbc43a5af5ca6c07d71f5ae5520b5767cb1c62cd0ec55475fc4ee3d16a2874f4a5fce78e40e8583025afd3a7d9ba41f82939de310665f53f0e
   languageName: node
   linkType: hard
 
@@ -12821,9 +12821,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"loopback4-query@npm:^0.11.5":
-  version: 0.11.5
-  resolution: "loopback4-query@npm:0.11.5"
+"loopback4-query@npm:^0.12.1":
+  version: 0.12.1
+  resolution: "loopback4-query@npm:0.12.1"
   dependencies:
     "@loopback/core": ^5.1.2
     "@loopback/filter": ^4.1.2
@@ -12832,7 +12832,7 @@ __metadata:
     knex: ^2.5.1
     tily: ^2.21.1
     ts-essentials: ^9.4.0
-  checksum: fb9a4423a06df003d2af6b2ef6f085386d93fc0408bb520672d6beffc3cef6e9c95585943022c56b1dd00186500e1d348d40d62770b3d14eaecb7afdd2a1a75d
+  checksum: 8fddfa3122199393040bab24b5dba1362289f50ca87cd8abeedd670e7c4fe17204d11846f945c2543260ee6de8d1461e0f34981471230957892a6e6c6cca4b6e
   languageName: node
   linkType: hard
 
@@ -15162,9 +15162,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"passport-apple@file:vendor/passport-apple::locator=%40bleco%2Fauthentication%40npm%3A1.4.2":
+"passport-apple@file:vendor/passport-apple::locator=%40bleco%2Fauthentication%40npm%3A1.4.3":
   version: 2.0.1
-  resolution: "passport-apple@file:vendor/passport-apple#vendor/passport-apple::hash=2cbd9c&locator=%40bleco%2Fauthentication%40npm%3A1.4.2"
+  resolution: "passport-apple@file:vendor/passport-apple#vendor/passport-apple::hash=2cbd9c&locator=%40bleco%2Fauthentication%40npm%3A1.4.3"
   dependencies:
     jsonwebtoken: ^9.0.0
     passport-oauth2: ^1.5.0
