@@ -1,7 +1,7 @@
 {
   "name": "@loopx/auth-example",
   "description": "A sample application for sandbox testing of auth microservice components.",
-  "version": "0.4.3",
+  "version": "0.4.4",
   "keywords": [],
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",

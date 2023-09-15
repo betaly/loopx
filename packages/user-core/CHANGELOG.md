@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.4](https://github.com/betaly/loopx/compare/@loopx/user-core@0.2.3...@loopx/user-core@0.2.4) (2023-09-15)
+
+**Note:** Version bump only for package @loopx/user-core
+
+
+
+
+
 ## [0.2.3](https://github.com/betaly/loopx/compare/@loopx/user-core@0.2.2...@loopx/user-core@0.2.3) (2023-09-14)
 
 **Note:** Version bump only for package @loopx/user-core
