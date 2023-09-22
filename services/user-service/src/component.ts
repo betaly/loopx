@@ -16,7 +16,7 @@ import {LxCoreComponent, matchResources} from '@loopx/core';
 import {UserCoreComponent} from '@loopx/user-core';
 import {createBindingFromPermissions} from 'loopback4-acl';
 
-import {permissions} from './auth.permissions';
+import {UserPermissions} from './auth.permissions';
 import {controllers} from './controllers';
 import {UserServiceBindings} from './keys';
 import {DefaultTenantProvider} from './providers';
@@ -49,7 +49,7 @@ export class UserServiceComponent implements Component {
     @config()
     private readonly options: UserServiceComponentOptions = DEFAULT_USER_TENANT_SERVICE_OPTIONS,
   ) {
-    this.bindings = [createBindingFromPermissions(permissions, 'user-service')];
+    this.bindings = [createBindingFromPermissions(UserPermissions, 'UserPermissions')];
     if (!this.application.isBound(`${CoreBindings.COMPONENTS}.${LxCoreComponent.name}`)) {
       this.application.component(LxCoreComponent);
     }

@@ -20,7 +20,7 @@ export type UserAuthAbilities =
 
 export type UserAuthPermissions = Permissions<Roles, UserAuthAbilities, IAuthTenantUser>;
 
-export const permissions: UserAuthPermissions = {
+export const UserPermissions: UserAuthPermissions = {
   everyone() {},
 
   [Roles.User]({user, can}) {
