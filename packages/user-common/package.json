@@ -24,8 +24,8 @@
     "@nutol/build": "^0.2.14",
     "@nutol/eslint-config": "^0.2.9",
     "@nutol/ts-config": "^0.2.1",
-    "@types/jest": "^29.5.4",
-    "@types/node": "^20.6.0",
+    "@types/jest": "^29.5.5",
+    "@types/node": "^20.6.3",
     "del-cli": "^5.1.0",
     "jest": "^29.7.0"
   },
