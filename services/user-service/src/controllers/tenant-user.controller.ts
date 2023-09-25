@@ -297,15 +297,9 @@ export class TenantUserController {
         },
       },
     })
-    user: Omit<User, 'id' | 'authClientIds' | 'lastLogin' | 'status' | 'tenantId'>,
+    user: Omit<TenantUserView, 'id' | 'authClientIds' | 'lastLogin' | 'status' | 'tenantId'>,
   ): Promise<void> {
-    if (user.username) {
-      user.username = user.username.toLowerCase();
-    }
-    if (user.email) {
-      user.email = user.email.toLowerCase();
-    }
-    await this.userOpService.updateById(able, userId, user, id);
+    await this.userOpService.updateUserTenant(user, userId, able.user);
   }
 
   @authenticate(STRATEGY.BEARER, {
