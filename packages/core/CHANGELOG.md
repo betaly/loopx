@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.14](https://gitr.net/betaly/loopx/compare/@loopx/core@0.3.13...@loopx/core@0.3.14) (2023-10-12)
+
+**Note:** Version bump only for package @loopx/core
+
+
+
+
+
 ## [0.3.13](https://gitr.net/betaly/loopx/compare/@loopx/core@0.3.12...@loopx/core@0.3.13) (2023-09-22)
 
 **Note:** Version bump only for package @loopx/core
