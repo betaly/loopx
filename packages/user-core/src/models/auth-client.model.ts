@@ -9,8 +9,7 @@ export class AuthClient<T = DataObject<Model>> extends UserUpdatableEntity<T & A
   @property({
     type: 'number',
     id: true,
-    generated: false,
-    defaultFn: 'nanoid',
+    generated: true,
   })
   id?: number;
 
