@@ -22,7 +22,7 @@ export class AppleOauth2VerifyProvider implements Provider<VerifyFunction.AppleA
   ) {}
 
   value(): VerifyFunction.AppleAuthFn {
-    return async (accessToken: string, refreshToken: string, profile: AppleStrategy.Profile) => {
+    return async (accessToken: string, refreshToken: string, idToken: string, profile: AppleStrategy.Profile) => {
       let user: IAuthUser | null = await this.userRepository.findOne({
         where: {
           email: profile._json.email,
