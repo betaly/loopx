@@ -1,5 +1,12 @@
 
 
+# [0.12.0](https://github.com/betaly/loopx/compare/0.11.4...0.12.0) (2023-10-12)
+
+
+### Features
+
+* **user-core:** generate id for auth client model (main) ([30cc5de](https://github.com/betaly/loopx/commit/30cc5de563f5fde83d76d5b1695bbe5eaaf40cdb))
+
 ## [0.11.4](https://github.com/betaly/loopx/compare/0.11.3...0.11.4) (2023-09-25)
 
 ## [0.11.3](https://github.com/betaly/loopx/compare/0.11.2...0.11.3) (2023-09-22)
