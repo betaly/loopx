@@ -145,7 +145,7 @@ export class AuthenticationServiceComponent implements Component {
     @inject(AuthenticationBindings.CONFIG, {optional: true})
     private readonly config?: AuthenticationConfig,
   ) {
-    ConfigAliaser.apply(application);
+    ConfigAliaser.bind(application);
 
     this.bindings = [];
     this.providers = {};
