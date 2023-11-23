@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.8.9](https://github.com/betaly/loopx/compare/@loopx/authentication-service@0.8.8...@loopx/authentication-service@0.8.9) (2023-11-23)
+
+**Note:** Version bump only for package @loopx/authentication-service
+
+
+
+
+
 ## [0.8.8](https://github.com/betaly/loopx/compare/@loopx/authentication-service@0.8.7...@loopx/authentication-service@0.8.8) (2023-10-23)
 
 **Note:** Version bump only for package @loopx/authentication-service
