@@ -1,7 +1,7 @@
 {
   "name": "@loopx/user-core",
   "description": "The user core module",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "keywords": [],
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",

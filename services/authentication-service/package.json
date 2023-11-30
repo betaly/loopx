@@ -1,6 +1,6 @@
 {
   "name": "@loopx/authentication-service",
-  "version": "0.8.9",
+  "version": "0.8.10",
   "description": "The authentication service",
   "keywords": [
     "loopback-extension",

@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.7](https://github.com/betaly/loopx/compare/@loopx/multi-tenancy@0.3.6...@loopx/multi-tenancy@0.3.7) (2023-11-30)
+
+**Note:** Version bump only for package @loopx/multi-tenancy
+
+
+
+
+
 ## [0.3.6](https://github.com/betaly/loopx/compare/@loopx/multi-tenancy@0.3.5...@loopx/multi-tenancy@0.3.6) (2023-11-23)
 
 **Note:** Version bump only for package @loopx/multi-tenancy
