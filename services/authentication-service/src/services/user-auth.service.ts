@@ -35,7 +35,7 @@ export class UserAuthService {
       throw new AuthErrors.PasswordCannotBeChanged();
     }
 
-    if (!user || user.deleted || !creds || !creds.password) {
+    if (!user || user.deleted || !creds?.password) {
       throw new AuthErrors.UserDoesNotExist();
     } else if (await bcrypt.compare(newPassword, creds.password)) {
       throw new BErrors.Unauthorized('Password cannot be same as previous password!');

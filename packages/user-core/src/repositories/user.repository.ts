@@ -134,7 +134,7 @@ export class UserRepository extends ConditionalAuditRepositoryMixin(
       where: buildWhereClauseFromIdentifier(identifier),
     });
     const creds = user && (await this.credentials(user.id).get());
-    if (!user || user.deleted || !creds || !creds.password) {
+    if (!user || user.deleted || !creds?.password) {
       throw new AuthErrors.UserDoesNotExist();
     } else if (!(await bcrypt.compare(password, creds.password))) {
       throw new AuthenticationErrors.InvalidCredentials();
@@ -151,7 +151,7 @@ export class UserRepository extends ConditionalAuditRepositoryMixin(
       where: buildWhereClauseFromIdentifier(identifier),
     });
     const creds = user && (await this.credentials(user.id).get());
-    if (!user || user.deleted || !creds || !creds.password) {
+    if (!user || user.deleted || !creds?.password) {
       throw new AuthErrors.UserDoesNotExist();
     } else if (creds.authProvider !== AuthProvider.Internal) {
       throw new AuthErrors.PasswordCannotBeChanged();

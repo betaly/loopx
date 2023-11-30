@@ -15,7 +15,11 @@ export const OtpMethodUserKeyMap: Record<OtpRequestMethod, OtpConnectionUserKey>
 export class OtpRequest implements IOtpRequest {
   readonly contactPropName: string;
 
-  constructor(readonly method: OtpRequestMethod, readonly contact: string, public user?: User) {
+  constructor(
+    readonly method: OtpRequestMethod,
+    readonly contact: string,
+    public user?: User,
+  ) {
     this.contactPropName = OtpMethodUserKeyMap[this.method];
   }
 

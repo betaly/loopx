@@ -11,6 +11,7 @@ module.exports = {
         'import/newline-after-import': 'error',
         'import/no-duplicates': 'error',
         '@typescript-eslint/naming-convention': 'off',
+        '@typescript-eslint/no-unsafe-declaration-merging': 'off',
       },
     },
     {
