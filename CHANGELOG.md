@@ -1,5 +1,13 @@
 
 
+# [0.14.0](https://github.com/betaly/loopx/compare/0.13.1...0.14.0) (2023-12-05)
+
+
+### Features
+
+* **authentication-service:** add urlsafer package and use it in logout controller ([d355c03](https://github.com/betaly/loopx/commit/d355c037d705360df3da4c764d5d83d5ac2ea7c2))
+* **authentication-service:** reorder imports in logout.controller.ts ([a125309](https://github.com/betaly/loopx/commit/a125309ecbd8173f323dee8f7f8cb5334b17ceac))
+
 ## [0.13.1](https://github.com/betaly/loopx/compare/0.13.0...0.13.1) (2023-12-05)
 
 # [0.13.0](https://github.com/betaly/loopx/compare/0.12.5...0.13.0) (2023-12-05)
