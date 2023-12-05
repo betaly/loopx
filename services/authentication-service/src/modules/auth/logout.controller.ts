@@ -25,6 +25,7 @@ import {LoginActivityRepository, RefreshTokenRepository, RevokedTokenRepository}
 import {ActorId, IUserActivity} from '../../types';
 import {buildLogoutBindingKey} from './keys';
 import {AuthLogoutFn} from './types';
+import UrlSafer from 'urlsafer';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const LogoutSessionKey = 'logout';
@@ -123,7 +124,7 @@ export class LogoutController {
         logoutUrl = await logoutFn?.(
           refreshTokenModel.externalRefreshToken,
           // `client_id=${refreshTokenModel.clientId}`,
-          new URLSearchParams(`client_id=${refreshTokenModel.clientId}`).toString(),
+          UrlSafer.encode(`client_id=${refreshTokenModel.clientId}`),
         );
         this.logger.info(
           `User ${refreshTokenModel.username} logged off successfully from ${
@@ -166,7 +167,7 @@ export class LogoutController {
     @param.query.string('state')
     state: string,
   ) {
-    const clientId = new URLSearchParams(state).get('client_id');
+    const clientId = new URLSearchParams(UrlSafer.decode(state)).get('client_id');
     if (!clientId) {
       throw new AuthenticationErrors.ClientInvalid();
     }
@@ -233,7 +234,7 @@ export class LogoutController {
         ipAddress,
       });
       this.loginActivityRepo.create(loginActivity).catch(() => {
-        this.logger.error(`Failed to add the login activity => ${JSON.stringify(loginActivity)}`);
+        this.logger.error(loginActivity, 'Failed to add the login activity');
       });
     }
   }
