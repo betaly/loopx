@@ -30,7 +30,7 @@
     "berrors": "^0.3.1",
     "inflection": "^3.0.0",
     "loopback4-acl": "^0.3.7",
-    "loopback4-plus": "^0.1.2",
+    "loopback4-plus": "^0.2.0",
     "tily": "^2.22.8",
     "uid": "^2.0.2"
   },
@@ -39,7 +39,7 @@
     "@nutol/eslint-config": "^0.2.12",
     "@nutol/ts-config": "^0.2.2",
     "@types/jest": "^29.5.10",
-    "@types/node": "^20.10.2",
+    "@types/node": "^20.10.3",
     "del-cli": "^5.1.0",
     "jest": "^29.7.0"
   },

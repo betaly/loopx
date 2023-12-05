@@ -2,16 +2,10 @@
 import sinon from 'sinon';
 
 import {OtpGenerateProvider} from '../../providers/otp-generate.provider';
+import {NullLogger} from '@loopx/core';
 
 describe('OTP Generate Provider', () => {
   let otpGenerateProvider: OtpGenerateProvider;
-  const logger = {
-    log,
-    info,
-    warn,
-    error,
-    debug,
-  };
 
   afterEach(() => sinon.restore());
   beforeEach(setUp);
@@ -30,27 +24,7 @@ describe('OTP Generate Provider', () => {
     });
   });
 
-  function log() {
-    // This is intentional
-  }
-
-  function info() {
-    // This is intentional
-  }
-
-  function warn() {
-    // This is intentional
-  }
-
-  function error() {
-    // This is intentional
-  }
-
-  function debug() {
-    // This is intentional
-  }
-
   function setUp() {
-    otpGenerateProvider = new OtpGenerateProvider(logger);
+    otpGenerateProvider = new OtpGenerateProvider(new NullLogger());
   }
 });

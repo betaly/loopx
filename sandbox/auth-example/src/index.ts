@@ -1,18 +1,7 @@
-import logServerUrls from 'log-server-urls';
+import {main} from './main';
 
-import {ApplicationConfig, AuthExampleApplication} from './application';
-
+export * from './component';
 export * from './application';
-
-export async function main(options: ApplicationConfig = {}): Promise<AuthExampleApplication> {
-  const app = new AuthExampleApplication(options);
-  await app.boot();
-  await app.start();
-
-  logServerUrls(options.rest.port, options.rest.host);
-
-  return app;
-}
 
 if (require.main === module) {
   // Run the application

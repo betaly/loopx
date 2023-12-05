@@ -40,5 +40,6 @@
 	"Cannot read properties of undefined (reading 'toLowerCase')": "Cannot read properties of undefined (reading 'toLowerCase')",
 	"The `users` instance is not valid. Details": " `password` is not defined in the model (value: undefined); `roleId` is not defined in the model (value: undefined); `tenantId` is not defined in the model (value: undefined).",
 	"User not active yet": "User not active yet",
-	"Endpoint \"GET /favicon.ico\" not found.": "Endpoint \"GET /favicon.ico\" not found."
+	"Endpoint \"GET /favicon.ico\" not found.": "Endpoint \"GET /favicon.ico\" not found.",
+	"Endpoint \"GET /asdf\" not found.": "Endpoint \"GET /asdf\" not found."
 }

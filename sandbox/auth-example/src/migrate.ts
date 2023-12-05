@@ -5,7 +5,7 @@ export async function migrate(args: string[]): Promise<void> {
   console.log('Migrating schemas (%s existing schema)', existingSchema);
 
   const app = new AuthExampleApplication();
-  await app.boot();
+  // await app.boot();
   await app.migrateSchema({existingSchema});
 
   // Connectors usually keep a pool of opened connections,

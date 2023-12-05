@@ -8,6 +8,7 @@ import {OtpCache} from '../../../models';
 import {OtpResponse, OtpVerifyProvider} from '../../../modules/auth';
 import {OtpCacheRepository} from '../../../repositories';
 import {OtpService} from '../../../services';
+import {NullLogger} from '@loopx/core';
 
 describe('OTP Verify Provider', () => {
   let userRepo: StubbedInstanceWithSinonAccessor<UserRepository>;
@@ -23,13 +24,7 @@ describe('OTP Verify Provider', () => {
     refreshTokenExpiration: 1800,
     authCodeExpiration: 1800,
   });
-  const logger = {
-    log,
-    info,
-    warn,
-    error,
-    debug,
-  };
+
   const user = new User({
     id: '1',
     username: 'test_user',
@@ -102,26 +97,6 @@ describe('OTP Verify Provider', () => {
     });
   });
 
-  function log() {
-    // This is intentional
-  }
-
-  function info() {
-    // This is intentional
-  }
-
-  function warn() {
-    // This is intentional
-  }
-
-  function error() {
-    // This is intentional
-  }
-
-  function debug() {
-    // This is intentional
-  }
-
   function otpSenderFn(): Promise<OtpResponse> {
     return {} as Promise<OtpResponse>;
   }
@@ -129,7 +104,7 @@ describe('OTP Verify Provider', () => {
   function setUp() {
     userRepo = createStubInstance(UserRepository);
     otpRepo = createStubInstance(OtpCacheRepository);
-    otpService = new OtpService(otpRepo, userRepo, otpSenderFn, logger);
-    otpVerifyProvider = new OtpVerifyProvider(userRepo, otpRepo, client, otpService, logger);
+    otpService = new OtpService(otpRepo, userRepo, otpSenderFn, new NullLogger());
+    otpVerifyProvider = new OtpVerifyProvider(userRepo, otpRepo, client, otpService, new NullLogger());
   }
 });

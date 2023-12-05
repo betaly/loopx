@@ -3,46 +3,20 @@ import * as dotenvExt from 'dotenv-extended';
 import path from 'path';
 import {ApplicationConfig} from '@loopback/core';
 import {RestApplication} from '@loopback/rest';
-import {RestExplorerBindings, RestExplorerComponent} from '@loopback/rest-explorer';
-
-import {AuthenticationBindings} from '@bleco/authentication';
 import '@bleco/boot';
-import {HelmetSecurityBindings} from '@bleco/helmet';
-import {RateLimitSecurityBindings} from '@bleco/ratelimiter';
-
-import {
-  AuthCacheSourceName,
-  AuthDbSourceName,
-  AuthenticationServiceComponent,
-  AuthServiceBindings,
-  SignUpBindings,
-} from '@loopx/authentication-service';
-import {LxCoreBindings, LxCoreComponent, SECURITY_SCHEME_SPEC} from '@loopx/core';
-import {UserServiceBindings, UserServiceComponent} from '@loopx/user-service';
-
-import {KvDataSource} from './datasources';
-import {AuthExampleBindings} from './keys';
-import * as openapi from './openapi.json';
-import {AuthaSignupProvider, DefaultRoleProvider, LocalSignupProvider} from './providers';
+import {SECURITY_SCHEME_SPEC} from '@loopx/core';
 import {MySequence} from './sequence';
 import {version} from './version';
-import {UserCoreBindings, UserCoreComponentOptions} from '@loopx/user-core';
-import {IntegrateMixin} from 'loopback4-plus';
+import {GetServiceMixin} from 'loopback4-plus';
+import {AuthExampleComponent} from './component';
+import {RepositoryMixin} from '@loopback/repository';
+import {ServiceMixin} from '@loopback/service-proxy';
 
 export {ApplicationConfig};
 
 const port = 3000;
 
-export const AUthControllers = [
-  'LoginController',
-  'LogoutController',
-  'TokensController',
-  'AuthaLoginController',
-  'AuthClientsController',
-  'LoginActivityController',
-];
-
-export class AuthExampleApplication extends IntegrateMixin(RestApplication) {
+export class AuthExampleApplication extends GetServiceMixin(ServiceMixin(RepositoryMixin(RestApplication))) {
   constructor(options: ApplicationConfig = {}) {
     dotenv.config();
     if (process.env.NODE_ENV !== 'test') {
@@ -66,77 +40,10 @@ export class AuthExampleApplication extends IntegrateMixin(RestApplication) {
 
     this.sequence(MySequence);
 
-    this.bind(`datasources.${AuthDbSourceName}`).toAlias('datasources.db');
-    this.bind(`datasources.${AuthCacheSourceName}`).toAlias('datasources.kv');
-
-    const enableObf = !!+(process.env.ENABLE_OBF ?? 1);
-
     // Set up default home page
     this.static('/', path.join(__dirname, '../public'));
 
-    // Customize @loopback/rest-explorer configuration here
-    this.configure(RestExplorerBindings.COMPONENT).to({
-      path: '/explorer',
-    });
-    const swaggerUsername = process.env.SWAGGER_USERNAME ?? 'test';
-    const swaggerPassword = process.env.SWAGGER_PASSWORD ?? 'test';
-    this.bind(LxCoreBindings.config).to({
-      openapiSpec: openapi,
-      enableObf,
-      obfPath: '/obf',
-      authentication: true,
-      swaggerUsername: swaggerUsername,
-      swaggerPassword: swaggerPassword,
-    });
-    this.component(LxCoreComponent);
-
-    // Configure UserCoreComponent
-    this.configure<UserCoreComponentOptions>(UserCoreBindings.COMPONENT).to({
-      superadminCredentials: {
-        identifier: process.env.SUPERADMIN_USERNAME!,
-        password: process.env.SUPERADMIN_PASSWORD!,
-      },
-    });
-
-    // AuthenticationServiceComponent
-    this.bind(AuthenticationBindings.CONFIG).to({
-      secureClient: true,
-    });
-    this.bind(AuthServiceBindings.Config).to({
-      useCustomSequence: true,
-      controllers: AUthControllers,
-    });
-    this.component(AuthenticationServiceComponent);
-    this.bind(SignUpBindings.LOCAL_SIGNUP_PROVIDER).toProvider(LocalSignupProvider);
-    this.bind(SignUpBindings.AUTHA_SIGNUP_PROVIDER).toProvider(AuthaSignupProvider);
-
-    // UserServiceComponent
-    this.configure(UserServiceBindings.COMPONENT).to({
-      controllers: ['*', '!UserSignupController'],
-    });
-    this.component(UserServiceComponent);
-
-    // RateLimit configuration (in LxCoreComponent)
-    this.bind(RateLimitSecurityBindings.CONFIG).to({
-      ds: KvDataSource,
-      points: parseInt((process.env.RATE_LIMITER_POINTS as string) ?? 4),
-      duration: parseInt((process.env.RATE_LIMITER_DURATION as string) ?? 1),
-      key: ({request}) => request.ip,
-    });
-
-    // Helmet configuration (in LxCoreComponent)
-    this.bind(HelmetSecurityBindings.CONFIG).to({
-      frameguard: {action: process.env.X_FRAME_OPTIONS as any},
-    });
-
-    // Bind user permissions provider
-    // this.bind(AuthorizationBindings.USER_PERMISSIONS).toProvider(UserPermissionsProvider);
-
-    // RestExplorerComponent
-    this.component(RestExplorerComponent);
-
-    // Bind default role provider
-    this.bind(AuthExampleBindings.DEFAULT_ROLE).toProvider(DefaultRoleProvider);
+    this.component(AuthExampleComponent);
 
     this.api({
       openapi: '3.0.0',
@@ -150,7 +57,5 @@ export class AuthExampleApplication extends IntegrateMixin(RestApplication) {
       },
       servers: [{url: '/'}],
     });
-
-    this.projectRoot = __dirname;
   }
 }

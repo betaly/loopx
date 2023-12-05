@@ -2,20 +2,13 @@
 import sinon from 'sinon';
 
 import {SignupBearerVerifyProvider} from '../../providers';
+import {NullLogger} from '@loopx/core';
 
 describe('Bearer Verify Signup Service', () => {
   let bearerVerifyProvider: SignupBearerVerifyProvider;
 
   afterEach(() => sinon.restore());
   beforeEach(setUp);
-
-  const logger = {
-    log,
-    info,
-    warn,
-    error,
-    debug,
-  };
 
   const token = 'test_token';
 
@@ -32,27 +25,7 @@ describe('Bearer Verify Signup Service', () => {
     });
   });
 
-  function log() {
-    // This is intentional
-  }
-
-  function info() {
-    // This is intentional
-  }
-
-  function warn() {
-    // This is intentional
-  }
-
-  function error() {
-    // This is intentional
-  }
-
-  function debug() {
-    // This is intentional
-  }
-
   function setUp() {
-    bearerVerifyProvider = new SignupBearerVerifyProvider(logger);
+    bearerVerifyProvider = new SignupBearerVerifyProvider(new NullLogger());
   }
 });

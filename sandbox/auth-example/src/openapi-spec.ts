@@ -22,7 +22,7 @@ async function exportOpenApiSpec(): Promise<void> {
   };
   const outFile = process.argv[2] ?? './src/openapi.json';
   const app = new AuthExampleApplication(config);
-  await app.boot();
+  // await app.boot();
   await app.exportOpenApiSpec(outFile);
   await app.stop();
 }

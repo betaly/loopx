@@ -12,19 +12,14 @@ import sinon from 'sinon';
 
 import {GoogleAuthenticatorVerifyProvider} from '../../../modules/auth';
 import {OtpCacheRepository} from '../../../repositories';
+import {NullLogger} from '@loopx/core';
 
 describe('Google Authenticator Verify Provider', () => {
   let userRepo: StubbedInstanceWithSinonAccessor<UserRepository>;
   let userCredsRepo: StubbedInstanceWithSinonAccessor<UserCredentialsRepository>;
   let otpRepo: StubbedInstanceWithSinonAccessor<OtpCacheRepository>;
   let googleAuthenticatorVerifyProvider: GoogleAuthenticatorVerifyProvider;
-  const logger = {
-    log,
-    info,
-    warn,
-    error,
-    debug,
-  };
+
   const user = new User({
     id: '1',
     firstName: 'test',
@@ -100,30 +95,15 @@ describe('Google Authenticator Verify Provider', () => {
     });
   });
 
-  function log() {
-    // This is intentional
-  }
-
-  function info() {
-    // This is intentional
-  }
-
-  function warn() {
-    // This is intentional
-  }
-
-  function error() {
-    // This is intentional
-  }
-
-  function debug() {
-    // This is intentional
-  }
-
   function setUp() {
     userRepo = createStubInstance(UserRepository);
     userCredsRepo = createStubInstance(UserCredentialsRepository);
     otpRepo = createStubInstance(OtpCacheRepository);
-    googleAuthenticatorVerifyProvider = new GoogleAuthenticatorVerifyProvider(userRepo, userCredsRepo, otpRepo, logger);
+    googleAuthenticatorVerifyProvider = new GoogleAuthenticatorVerifyProvider(
+      userRepo,
+      userCredsRepo,
+      otpRepo,
+      new NullLogger(),
+    );
   }
 });

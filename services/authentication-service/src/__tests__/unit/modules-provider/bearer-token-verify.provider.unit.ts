@@ -5,18 +5,11 @@ import {JWTSymmetricVerifierProvider} from '../../..';
 import {AuthUser} from '../../../modules/auth';
 import {BearerTokenVerifyProvider} from '../../../modules/auth/providers/bearer-token-verify.provider';
 import {RevokedTokenRepository} from '../../../repositories';
+import {NullLogger} from '@loopx/core';
 
 describe('Bearer Token Verify Provider', () => {
   let revokedTokenRepo: StubbedInstanceWithSinonAccessor<RevokedTokenRepository>;
   let bearerTokenVerifyProvider: BearerTokenVerifyProvider;
-
-  const logger = {
-    log,
-    info,
-    warn,
-    error,
-    debug,
-  };
 
   const token = 'test_token';
 
@@ -36,31 +29,11 @@ describe('Bearer Token Verify Provider', () => {
     });
   });
 
-  function log() {
-    // This is intentional
-  }
-
-  function info() {
-    // This is intentional
-  }
-
-  function warn() {
-    // This is intentional
-  }
-
-  function error() {
-    // This is intentional
-  }
-
-  function debug() {
-    // This is intentional
-  }
-
   function setUp() {
     revokedTokenRepo = createStubInstance(RevokedTokenRepository);
     bearerTokenVerifyProvider = new BearerTokenVerifyProvider(
       revokedTokenRepo,
-      logger,
+      new NullLogger(),
       new JWTSymmetricVerifierProvider<AuthUser>().value(),
     );
   }

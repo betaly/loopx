@@ -105,9 +105,7 @@ export class SecureSequence implements SequenceHandler {
       const result = await this.invoke(route, args);
       this.send(response, result);
     } catch (err) {
-      this.logger.error(
-        `Request ${context.request.method} ${context.request.url} errored out. Error :: ${JSON.stringify(err)} ${err}`,
-      );
+      this.logger.error(err, `Request ${context.request.method} ${context.request.url} errored out.`);
 
       const error = this._rejectErrors(err);
       this._handleErrorMessage(error);
