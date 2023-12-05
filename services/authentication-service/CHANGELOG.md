@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.10.0](https://github.com/betaly/loopx/compare/@loopx/authentication-service@0.9.1...@loopx/authentication-service@0.10.0) (2023-12-05)
+
+
+### Features
+
+* **authentication-service:** add urlsafer package and use it in logout controller ([d355c03](https://github.com/betaly/loopx/commit/d355c037d705360df3da4c764d5d83d5ac2ea7c2))
+* **authentication-service:** reorder imports in logout.controller.ts ([a125309](https://github.com/betaly/loopx/commit/a125309ecbd8173f323dee8f7f8cb5334b17ceac))
+
+
+
+
+
 ## [0.9.1](https://github.com/betaly/loopx/compare/@loopx/authentication-service@0.9.0...@loopx/authentication-service@0.9.1) (2023-12-05)
 
 **Note:** Version bump only for package @loopx/authentication-service
