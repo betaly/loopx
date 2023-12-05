@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.4.0](https://gitr.net/betaly/loopx/compare/@loopx/core@0.3.18...@loopx/core@0.4.0) (2023-12-05)
+
+
+### Features
+
+* using pino as default logger ([3d78e6d](https://gitr.net/betaly/loopx/commits/3d78e6d5fa9e3a356a24263365aeeecfb0bc3fe9))
+
+
+
+
+
 ## [0.3.18](https://gitr.net/betaly/loopx/compare/@loopx/core@0.3.17...@loopx/core@0.3.18) (2023-12-02)
 
 **Note:** Version bump only for package @loopx/core

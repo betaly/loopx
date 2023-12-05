@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.5.0](https://github.com/betaly/loopx/compare/@loopx/auth-example@0.4.12...@loopx/auth-example@0.5.0) (2023-12-05)
+
+
+### Features
+
+* using pino as default logger ([3d78e6d](https://github.com/betaly/loopx/commit/3d78e6d5fa9e3a356a24263365aeeecfb0bc3fe9))
+
+
+
+
+
 ## [0.4.12](https://github.com/betaly/loopx/compare/@loopx/auth-example@0.4.11...@loopx/auth-example@0.4.12) (2023-12-02)
 
 **Note:** Version bump only for package @loopx/auth-example

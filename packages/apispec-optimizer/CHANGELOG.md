@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.2.0](https://github.com/betaly/loopx/compare/@loopx/apispec-optimizer@0.1.13...@loopx/apispec-optimizer@0.2.0) (2023-12-05)
+
+
+### Features
+
+* using pino as default logger ([3d78e6d](https://github.com/betaly/loopx/commit/3d78e6d5fa9e3a356a24263365aeeecfb0bc3fe9))
+
+
+
+
+
 ## [0.1.13](https://github.com/betaly/loopx/compare/@loopx/apispec-optimizer@0.1.12...@loopx/apispec-optimizer@0.1.13) (2023-12-02)
 
 **Note:** Version bump only for package @loopx/apispec-optimizer
