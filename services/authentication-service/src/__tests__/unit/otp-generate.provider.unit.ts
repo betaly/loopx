@@ -1,8 +1,8 @@
 ﻿import {expect} from '@loopback/testlab';
+import {NullLogger} from '@loopx/core';
 import sinon from 'sinon';
 
 import {OtpGenerateProvider} from '../../providers/otp-generate.provider';
-import {NullLogger} from '@loopx/core';
 
 describe('OTP Generate Provider', () => {
   let otpGenerateProvider: OtpGenerateProvider;

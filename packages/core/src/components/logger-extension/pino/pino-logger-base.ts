@@ -1,5 +1,6 @@
-import {ILogger} from '../logger';
 import pino from 'pino';
+
+import {ILogger} from '../logger';
 import {LogFn, LogInfo, LogLevelWithSilent, LogLevelWithSilentOrString} from '../types';
 
 export class PinoLoggerBase implements ILogger {

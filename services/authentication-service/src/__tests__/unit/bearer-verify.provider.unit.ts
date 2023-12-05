@@ -1,8 +1,8 @@
 ﻿import {expect} from '@loopback/testlab';
+import {NullLogger} from '@loopx/core';
 import sinon from 'sinon';
 
 import {SignupBearerVerifyProvider} from '../../providers';
-import {NullLogger} from '@loopx/core';
 
 describe('Bearer Verify Signup Service', () => {
   let bearerVerifyProvider: SignupBearerVerifyProvider;

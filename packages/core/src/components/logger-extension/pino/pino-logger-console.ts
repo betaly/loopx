@@ -1,7 +1,8 @@
-import {PinoLoggerBase} from './pino-logger-base';
-import pino from 'pino';
-import {PinoLoggerOptions} from './types';
 import {defaultsDeep} from 'lodash';
+import pino from 'pino';
+
+import {PinoLoggerBase} from './pino-logger-base';
+import {PinoLoggerOptions} from './types';
 
 export class PinoConsoleLogger extends PinoLoggerBase {
   constructor(loggerOrNamespace: pino.Logger | string = 'main', options?: PinoLoggerOptions) {

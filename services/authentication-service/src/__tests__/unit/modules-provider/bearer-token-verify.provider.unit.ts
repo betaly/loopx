@@ -1,11 +1,11 @@
 ﻿import {createStubInstance, expect, StubbedInstanceWithSinonAccessor} from '@loopback/testlab';
+import {NullLogger} from '@loopx/core';
 import sinon from 'sinon';
 
 import {JWTSymmetricVerifierProvider} from '../../..';
 import {AuthUser} from '../../../modules/auth';
 import {BearerTokenVerifyProvider} from '../../../modules/auth/providers/bearer-token-verify.provider';
 import {RevokedTokenRepository} from '../../../repositories';
-import {NullLogger} from '@loopx/core';
 
 describe('Bearer Token Verify Provider', () => {
   let revokedTokenRepo: StubbedInstanceWithSinonAccessor<RevokedTokenRepository>;

@@ -1,5 +1,6 @@
 ﻿import {AuthenticationErrors} from '@bleco/authentication';
 import {createStubInstance, expect, StubbedInstanceWithSinonAccessor} from '@loopback/testlab';
+import {NullLogger} from '@loopx/core';
 import {AuthClient, User, UserRepository, UserWithRelations} from '@loopx/user-core';
 import {BErrors} from 'berrors';
 import sinon from 'sinon';
@@ -8,7 +9,6 @@ import {OtpCache} from '../../../models';
 import {OtpResponse, OtpVerifyProvider} from '../../../modules/auth';
 import {OtpCacheRepository} from '../../../repositories';
 import {OtpService} from '../../../services';
-import {NullLogger} from '@loopx/core';
 
 describe('OTP Verify Provider', () => {
   let userRepo: StubbedInstanceWithSinonAccessor<UserRepository>;
