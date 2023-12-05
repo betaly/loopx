@@ -50,7 +50,7 @@ describe('SignUp Request Controller', () => {
       expect(response.body.error).to.have.property('data');
       expect(response.body.error.name).to.be.equal('UsernameTooShortError');
       expect(response.body.error.errorCode).to.be.equal('username_too_short');
-      expect(response.body.error.meta).to.have.property('minLength');
+      expect(response.body.error.data).to.have.property('minLength');
     });
 
     it('gives UsernameTooLong error for signup', async () => {
@@ -68,7 +68,7 @@ describe('SignUp Request Controller', () => {
       expect(response.body.error).to.have.property('data');
       expect(response.body.error.name).to.be.equal('UsernameTooLongError');
       expect(response.body.error.errorCode).to.be.equal('username_too_long');
-      expect(response.body.error.meta).to.have.property('maxLength');
+      expect(response.body.error.data).to.have.property('maxLength');
     });
 
     it('gives UsernameExists error for signup', async () => {
@@ -103,7 +103,7 @@ describe('SignUp Request Controller', () => {
       expect(response.body.error).to.have.property('data');
       expect(response.body.error.name).to.be.equal('PasswordStrengthError');
       expect(response.body.error.errorCode).to.be.equal('password_strength_error');
-      expect(response.body.error.meta).to.deepEqual([
+      expect(response.body.error.data).to.deepEqual([
         {
           message: 'At least %d characters in length',
           format: [8],
