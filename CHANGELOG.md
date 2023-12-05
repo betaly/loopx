@@ -1,5 +1,12 @@
 
 
+# [0.13.0](https://github.com/betaly/loopx/compare/0.12.5...0.13.0) (2023-12-05)
+
+
+### Features
+
+* using pino as default logger ([3d78e6d](https://github.com/betaly/loopx/commit/3d78e6d5fa9e3a356a24263365aeeecfb0bc3fe9))
+
 ## [0.12.5](https://github.com/betaly/loopx/compare/0.12.4...0.12.5) (2023-12-02)
 
 ## [0.12.4](https://github.com/betaly/loopx/compare/0.12.3...0.12.4) (2023-11-30)
