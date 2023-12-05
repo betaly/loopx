@@ -17,6 +17,7 @@ import {AuthClientRepository, User, UserRepository, UserTenant, UserTenantReposi
 import crypto from 'crypto';
 import {HttpsProxyAgent} from 'https-proxy-agent';
 import {URLSearchParams} from 'url';
+import UrlSafer from 'urlsafer';
 
 import {LoginType} from '../../enums';
 import {AuthServiceBindings} from '../../keys';
@@ -25,7 +26,6 @@ import {LoginActivityRepository, RefreshTokenRepository, RevokedTokenRepository}
 import {ActorId, IUserActivity} from '../../types';
 import {buildLogoutBindingKey} from './keys';
 import {AuthLogoutFn} from './types';
-import UrlSafer from 'urlsafer';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const LogoutSessionKey = 'logout';
