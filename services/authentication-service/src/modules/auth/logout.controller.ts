@@ -120,7 +120,11 @@ export class LogoutController {
         const logoutFn = await this.ctx.get<AuthLogoutFn>(buildLogoutBindingKey(creds.authProvider), {
           optional: true,
         });
-        logoutUrl = await logoutFn?.(refreshTokenModel.externalRefreshToken, `client_id=${refreshTokenModel.clientId}`);
+        logoutUrl = await logoutFn?.(
+          refreshTokenModel.externalRefreshToken,
+          // `client_id=${refreshTokenModel.clientId}`,
+          new URLSearchParams(`client_id=${refreshTokenModel.clientId}`).toString(),
+        );
         this.logger.info(
           `User ${refreshTokenModel.username} logged off successfully from ${
             creds.authProvider
