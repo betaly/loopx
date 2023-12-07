@@ -4151,6 +4151,7 @@ To logout
 |Name|In|Type|Required|Description|
 |---|---|---|---|---|
 |Authorization|header|string|false|This is the access token which is required to authenticate user.|
+|returnTo|query|string|false|This is the url to which user will be redirected after logout.|
 |body|body|[RefreshTokenRequestPartial](#schemarefreshtokenrequestpartial)|false|none|
 
 > Example responses
@@ -4669,6 +4670,9 @@ ForgetPasswordDto
   "clientSecret": "string",
   "redirectUrl": "string",
   "logoutRedirectUrl": "string",
+  "postLogoutRedirectUris": [
+    "string"
+  ],
   "secret": "string",
   "accessTokenExpiration": 0,
   "refreshTokenExpiration": 0,
@@ -4698,6 +4702,7 @@ AuthClient
 |clientSecret|string|false|none|none|
 |redirectUrl|string|false|none|none|
 |logoutRedirectUrl|string|false|none|none|
+|postLogoutRedirectUris|[string]|false|none|none|
 |secret|string|true|none|none|
 |accessTokenExpiration|number|true|none|none|
 |refreshTokenExpiration|number|true|none|none|

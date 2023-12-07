@@ -1,4 +1,4 @@
-﻿import {authenticate, AuthenticationBindings, AuthenticationErrors, IAuthUser, STRATEGY} from '@bleco/authentication';
+﻿import {authenticate, AuthenticationErrors, STRATEGY} from '@bleco/authentication';
 import {inject} from '@loopback/context';
 import {repository} from '@loopback/repository';
 import {get, getModelSchemaRef, param, post, requestBody, RequestContext, Response, RestBindings} from '@loopback/rest';
@@ -14,6 +14,7 @@ import {
   X_TS_TYPE,
 } from '@loopx/core';
 import {AuthClientRepository, User, UserRepository, UserTenant, UserTenantRepository} from '@loopx/user-core';
+import {BErrors} from 'berrors';
 import crypto from 'crypto';
 import {HttpsProxyAgent} from 'https-proxy-agent';
 import {URLSearchParams} from 'url';
@@ -24,6 +25,7 @@ import {AuthServiceBindings} from '../../keys';
 import {LoginActivity, RefreshToken, RefreshTokenRequest} from '../../models';
 import {LoginActivityRepository, RefreshTokenRepository, RevokedTokenRepository} from '../../repositories';
 import {ActorId, IUserActivity} from '../../types';
+import {isAllowedUri} from '../../utils/uris';
 import {buildLogoutBindingKey} from './keys';
 import {AuthLogoutFn} from './types';
 
@@ -91,6 +93,7 @@ export class LogoutController {
       description: 'This is the access token which is required to authenticate user.',
     })
     auth: string,
+
     @requestBody({
       content: {
         [CONTENT_TYPE.JSON]: {
@@ -101,8 +104,10 @@ export class LogoutController {
       },
     })
     req: RefreshTokenRequest,
-    @inject(AuthenticationBindings.CURRENT_USER)
-    currentUser: IAuthUser,
+    @param.query.string('returnTo', {
+      description: 'This is the url to which user will be redirected after logout.',
+    })
+    returnTo?: string,
   ): Promise<SuccessResponse> {
     const token = auth?.replace(/bearer /i, '');
     if (!token || !req.refreshToken) {
@@ -114,6 +119,18 @@ export class LogoutController {
       throw new AuthenticationErrors.TokenExpired();
     }
 
+    // check if returnTo is allowed
+    // if (returnTo) {
+    //   const authClient = await this.authClientRepo.findOne({where: {clientId: refreshTokenModel.clientId}});
+    //   if (!authClient) {
+    //     throw new AuthenticationErrors.ClientInvalid();
+    //   }
+    //   const postLogoutRedirectUris = authClient.postLogoutRedirectUris ?? authClient.logoutRedirectUrl;
+    //   if (postLogoutRedirectUris && !isAllowedUri(returnTo, postLogoutRedirectUris)) {
+    //     throw new BErrors.BadRequest('returnTo is not allowed');
+    //   }
+    // }
+
     let logoutUrl;
     if (refreshTokenModel.externalRefreshToken) {
       const creds = await this.userRepo.credentials(refreshTokenModel.userId).get();
@@ -121,11 +138,11 @@ export class LogoutController {
         const logoutFn = await this.ctx.get<AuthLogoutFn>(buildLogoutBindingKey(creds.authProvider), {
           optional: true,
         });
-        logoutUrl = await logoutFn?.(
-          refreshTokenModel.externalRefreshToken,
-          // `client_id=${refreshTokenModel.clientId}`,
-          UrlSafer.encode(`client_id=${refreshTokenModel.clientId}`),
-        );
+        const params = new URLSearchParams({
+          client_id: refreshTokenModel.clientId,
+          ...(returnTo ? {returnTo} : {}),
+        });
+        logoutUrl = await logoutFn?.(refreshTokenModel.externalRefreshToken, UrlSafer.encode(params.toString()));
         this.logger.info(
           `User ${refreshTokenModel.username} logged off successfully from ${
             creds.authProvider
@@ -167,7 +184,9 @@ export class LogoutController {
     @param.query.string('state')
     state: string,
   ) {
-    const clientId = new URLSearchParams(UrlSafer.decode(state)).get('client_id');
+    const params = new URLSearchParams(UrlSafer.decode(state));
+    const clientId = params.get('client_id');
+    const returnTo = params.get('returnTo');
     if (!clientId) {
       throw new AuthenticationErrors.ClientInvalid();
     }
@@ -175,10 +194,19 @@ export class LogoutController {
     if (!authClient) {
       throw new AuthenticationErrors.ClientInvalid();
     }
-    if (!authClient.logoutRedirectUrl) {
-      throw new AuthenticationErrors.ClientInvalid('logout_redirect_url is not configured');
+
+    const redirectUri = returnTo ?? authClient.logoutRedirectUrl;
+    if (!redirectUri) {
+      throw new AuthenticationErrors.ClientInvalid('returnTo or logoutRedirectUrl is not configured');
     }
-    this.res.redirect(authClient.logoutRedirectUrl);
+
+    const postLogoutRedirectUris = authClient.postLogoutRedirectUris ?? authClient.logoutRedirectUrl;
+
+    if (postLogoutRedirectUris && !isAllowedUri(redirectUri, postLogoutRedirectUris)) {
+      throw new BErrors.BadRequest('returnTo is not allowed');
+    }
+
+    this.res.redirect(redirectUri);
   }
 
   private markUserActivity(refreshTokenModel: RefreshToken, user: User, userTenant: UserTenant | null) {
@@ -201,7 +229,7 @@ export class LogoutController {
         authTag: authTagIp.toString('hex'),
       });
 
-      /* encryption of Paylolad Address */
+      /* encryption of Payload Address */
 
       const cipherPayload = crypto.createCipheriv('aes-256-gcm', encryptionKey, iv);
       const activityPayload = JSON.stringify({

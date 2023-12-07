@@ -50,11 +50,21 @@ export class AuthClient<T = DataObject<Model>> extends UserUpdatableEntity<T & A
   })
   redirectUrl?: string;
 
+  /**
+   * @deprecated Use postLogoutRedirectUris instead
+   */
   @property({
     type: 'string',
     name: 'logout_redirect_url',
   })
   logoutRedirectUrl?: string;
+
+  @property({
+    type: 'array',
+    itemType: 'string',
+    name: 'post_logout_redirect_uris',
+  })
+  postLogoutRedirectUris?: string[];
 
   @property({
     type: 'string',

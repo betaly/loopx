@@ -1779,6 +1779,14 @@
               "type": "string"
             },
             "description": "This is the access token which is required to authenticate user."
+          },
+          {
+            "name": "returnTo",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "This is the url to which user will be redirected after logout."
           }
         ],
         "requestBody": {
@@ -2272,6 +2280,12 @@
           },
           "logoutRedirectUrl": {
             "type": "string"
+          },
+          "postLogoutRedirectUris": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
           },
           "secret": {
             "type": "string"
