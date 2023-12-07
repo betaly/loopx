@@ -2281,6 +2281,12 @@
           "logoutRedirectUrl": {
             "type": "string"
           },
+          "redirectUris": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
           "postLogoutRedirectUris": {
             "type": "array",
             "items": {

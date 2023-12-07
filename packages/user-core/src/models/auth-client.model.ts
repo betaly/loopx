@@ -62,9 +62,18 @@ export class AuthClient<T = DataObject<Model>> extends UserUpdatableEntity<T & A
   @property({
     type: 'array',
     itemType: 'string',
-    name: 'post_logout_redirect_uris',
+    name: 'redirect_uris',
+    default: [],
   })
-  postLogoutRedirectUris?: string[];
+  redirectUris?: string[];
+
+  @property({
+    type: 'array',
+    itemType: 'string',
+    name: 'post_logout_redirect_uris',
+    default: [],
+  })
+  postLogoutRedirectUris: string[];
 
   @property({
     type: 'string',

@@ -30,6 +30,10 @@ export class AuthClientService {
       throw new BErrors.BadRequest('AuthClient already exists');
     }
 
+    const {logoutRedirectUrl, ...rest} = data;
+
+    const postLogoutRedirectUris = data.postLogoutRedirectUris ?? (logoutRedirectUrl ? [logoutRedirectUrl] : []);
+
     const client = await this.authClientRepo.create(
       {
         clientType: ClientType.public,
@@ -37,7 +41,8 @@ export class AuthClientService {
         accessTokenExpiration: 3600,
         refreshTokenExpiration: 3600 * 24 * 30,
         authCodeExpiration: 3600,
-        ...data,
+        ...rest,
+        postLogoutRedirectUris,
         clientSecret: uid(),
         secret: uid(),
       },

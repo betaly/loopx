@@ -4670,6 +4670,9 @@ ForgetPasswordDto
   "clientSecret": "string",
   "redirectUrl": "string",
   "logoutRedirectUrl": "string",
+  "redirectUris": [
+    "string"
+  ],
   "postLogoutRedirectUris": [
     "string"
   ],
@@ -4702,6 +4705,7 @@ AuthClient
 |clientSecret|string|false|none|none|
 |redirectUrl|string|false|none|none|
 |logoutRedirectUrl|string|false|none|none|
+|redirectUris|[string]|false|none|none|
 |postLogoutRedirectUris|[string]|false|none|none|
 |secret|string|true|none|none|
 |accessTokenExpiration|number|true|none|none|
