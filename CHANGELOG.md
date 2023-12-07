@@ -1,5 +1,12 @@
 
 
+# [0.15.0](https://github.com/betaly/loopx/compare/0.14.0...0.15.0) (2023-12-07)
+
+
+### Features
+
+* **authentication-service:** enhance logout functionality #main ([6c86beb](https://github.com/betaly/loopx/commit/6c86beb32cbc2d9983eee2f765d05a10da8fa33b))
+
 # [0.14.0](https://github.com/betaly/loopx/compare/0.13.1...0.14.0) (2023-12-05)
 
 
