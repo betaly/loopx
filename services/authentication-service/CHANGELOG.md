@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.11.0](https://github.com/betaly/loopx/compare/@loopx/authentication-service@0.10.0...@loopx/authentication-service@0.11.0) (2023-12-07)
+
+
+### Features
+
+* **authentication-service:** enhance logout functionality #main ([6c86beb](https://github.com/betaly/loopx/commit/6c86beb32cbc2d9983eee2f765d05a10da8fa33b))
+
+
+
+
+
 # [0.10.0](https://github.com/betaly/loopx/compare/@loopx/authentication-service@0.9.1...@loopx/authentication-service@0.10.0) (2023-12-05)
 
 

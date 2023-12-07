@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.8.1](https://github.com/betaly/loopx/compare/@loopx/user-service@0.8.0...@loopx/user-service@0.8.1) (2023-12-07)
+
+**Note:** Version bump only for package @loopx/user-service
+
+
+
+
+
 # [0.8.0](https://github.com/betaly/loopx/compare/@loopx/user-service@0.7.10...@loopx/user-service@0.8.0) (2023-12-05)
 
 

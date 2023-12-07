@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.5.0](https://github.com/betaly/loopx/compare/@loopx/user-core@0.4.0...@loopx/user-core@0.5.0) (2023-12-07)
+
+
+### Features
+
+* **authentication-service:** enhance logout functionality #main ([6c86beb](https://github.com/betaly/loopx/commit/6c86beb32cbc2d9983eee2f765d05a10da8fa33b))
+
+
+
+
+
 # [0.4.0](https://github.com/betaly/loopx/compare/@loopx/user-core@0.3.5...@loopx/user-core@0.4.0) (2023-12-05)
 
 
