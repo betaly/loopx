@@ -1,5 +1,12 @@
 
 
+# [0.16.0](https://github.com/betaly/loopx/compare/0.15.0...0.16.0) (2024-01-18)
+
+
+### Features
+
+* **user-core:** add redirectUris property to auth-client model ([026591e](https://github.com/betaly/loopx/commit/026591e176fe4628670a890e072e7f402d77aab2))
+
 # [0.15.0](https://github.com/betaly/loopx/compare/0.14.0...0.15.0) (2023-12-07)
 
 
