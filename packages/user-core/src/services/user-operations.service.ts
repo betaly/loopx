@@ -153,7 +153,7 @@ export class UserOperationsService {
       if (allowedDomains && allowedDomains.length === 1 && allowedDomains[0] === '*' && options) {
         options.authProvider = 'keycloak';
       } else if (!allowedDomains.includes(emailDomain) && options) {
-        options.authProvider = options.authProvider || 'internal';
+        options.authProvider = options.authProvider ?? 'internal';
       } else {
         // Do nothing
       }
