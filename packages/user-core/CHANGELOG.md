@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.6.0](https://github.com/betaly/loopx/compare/@loopx/user-core@0.5.0...@loopx/user-core@0.6.0) (2024-01-18)
+
+
+### Features
+
+* **user-core:** add redirectUris property to auth-client model ([026591e](https://github.com/betaly/loopx/commit/026591e176fe4628670a890e072e7f402d77aab2))
+
+
+
+
+
 # [0.5.0](https://github.com/betaly/loopx/compare/@loopx/user-core@0.4.0...@loopx/user-core@0.5.0) (2023-12-07)
 
 

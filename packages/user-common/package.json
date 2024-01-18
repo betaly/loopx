@@ -1,7 +1,7 @@
 {
   "name": "@loopx/user-common",
   "description": "This package comprises a collection of common definitions and types for `user` modules for both server and front",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "keywords": [],
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
