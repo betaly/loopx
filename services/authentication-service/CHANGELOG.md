@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.13.1](https://github.com/betaly/loopx/compare/@loopx/authentication-service@0.13.0...@loopx/authentication-service@0.13.1) (2024-01-26)
+
+
+### Bug Fixes
+
+* response_mode ([d0da6c5](https://github.com/betaly/loopx/commit/d0da6c59d6f8b3a24c5581fbe18cf914509589e2))
+
+
+
+
+
 # [0.13.0](https://github.com/betaly/loopx/compare/@loopx/authentication-service@0.12.0...@loopx/authentication-service@0.13.0) (2024-01-26)
 
 

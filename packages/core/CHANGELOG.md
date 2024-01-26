@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.5.1](https://gitr.net/betaly/loopx/compare/@loopx/core@0.5.0...@loopx/core@0.5.1) (2024-01-26)
+
+
+### Bug Fixes
+
+* response_mode ([d0da6c5](https://gitr.net/betaly/loopx/commits/d0da6c59d6f8b3a24c5581fbe18cf914509589e2))
+
+
+
+
+
 # [0.5.0](https://gitr.net/betaly/loopx/compare/@loopx/core@0.4.1...@loopx/core@0.5.0) (2024-01-26)
 
 
