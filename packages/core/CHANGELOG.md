@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.5.0](https://gitr.net/betaly/loopx/compare/@loopx/core@0.4.1...@loopx/core@0.5.0) (2024-01-26)
+
+
+### Features
+
+* add web_message response and support state params ([6095a5f](https://gitr.net/betaly/loopx/commits/6095a5fe03cc2ed5f9b2e3b127dc4a7bb9b2902b))
+
+
+
+
+
 ## [0.4.1](https://gitr.net/betaly/loopx/compare/@loopx/core@0.4.0...@loopx/core@0.4.1) (2024-01-18)
 
 **Note:** Version bump only for package @loopx/core
