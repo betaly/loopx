@@ -437,7 +437,6 @@ fetch('/auth/apple-oauth-redirect',
 |---|---|---|---|---|
 |code|query|string|false|none|
 |state|query|string|false|none|
-|response_mode|query|string|false|none|
 
 > Example responses
 
@@ -749,12 +748,6 @@ fetch('/auth/autha-redirect',
 
 `GET /auth/autha-redirect`
 
-<h3 id="authalogincontroller.authacallback-parameters">Parameters</h3>
-
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|response_mode|query|string|false|none|
-
 > Example responses
 
 > 200 Response
@@ -1016,7 +1009,6 @@ fetch('/auth/azure-oauth-redirect',
 |code|query|string|false|none|
 |state|query|string|false|none|
 |session_state|query|string|false|none|
-|response_mode|query|string|false|none|
 
 > Example responses
 
@@ -1931,7 +1923,6 @@ fetch('/auth/cognito-auth-redirect',
 |---|---|---|---|---|
 |code|query|string|false|none|
 |state|query|string|false|none|
-|response_mode|query|string|false|none|
 
 > Example responses
 
@@ -2109,7 +2100,6 @@ fetch('/auth/facebook-auth-redirect',
 |---|---|---|---|---|
 |code|query|string|false|none|
 |state|query|string|false|none|
-|response_mode|query|string|false|none|
 
 > Example responses
 
@@ -2605,7 +2595,6 @@ fetch('/auth/google-auth-redirect',
 |---|---|---|---|---|
 |code|query|string|false|none|
 |state|query|string|false|none|
-|response_mode|query|string|false|none|
 
 > Example responses
 
@@ -2783,7 +2772,6 @@ fetch('/auth/instagram-auth-redirect',
 |---|---|---|---|---|
 |code|query|string|false|none|
 |state|query|string|false|none|
-|response_mode|query|string|false|none|
 
 > Example responses
 
@@ -3043,7 +3031,6 @@ fetch('/auth/keycloak-auth-redirect',
 |---|---|---|---|---|
 |code|query|string|false|none|
 |state|query|string|false|none|
-|response_mode|query|string|false|none|
 
 > Example responses
 

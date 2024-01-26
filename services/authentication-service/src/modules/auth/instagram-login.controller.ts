@@ -24,6 +24,7 @@ const queryGen = (from: 'body' | 'query') => {
     return {
       state: toQueryString({
         client_id: req[from].client_id,
+        response_mode: req.query.response_mode,
         state: req.query.state,
       }),
     };
@@ -106,7 +107,6 @@ export class InstagramLoginController {
   async instagramCallback(
     @param.query.string('code') code: string,
     @param.query.string('state') state: string,
-    @param.query.string('response_mode') responseMode: string,
     @inject(RestBindings.Http.RESPONSE) response: Response,
     @inject(AuthenticationBindings.CURRENT_USER)
     user: AuthUser | undefined,
@@ -114,6 +114,8 @@ export class InstagramLoginController {
     const stateParams = new URLSearchParams(state);
     const clientId = stateParams.get('client_id');
     const clientState = stateParams.get('state');
+    const responseMode = stateParams.get('response_mode');
+
     if (!clientId || !user) {
       throw new AuthenticationErrors.ClientInvalid();
     }

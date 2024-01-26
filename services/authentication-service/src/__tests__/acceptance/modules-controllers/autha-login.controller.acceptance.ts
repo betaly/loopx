@@ -104,6 +104,9 @@ describe('Autha Login Controller', () => {
     const resStep1 = await client
       .post('/auth/autha')
       .set('content-type', 'application/x-www-form-urlencoded')
+      .query({
+        response_mode: 'web_message',
+      })
       .send({
         client_id: 'web',
         client_secret: 'test',
@@ -123,7 +126,6 @@ describe('Autha Login Controller', () => {
         code: 'test_code',
         state: urlStep1.searchParams.get('state'),
         iss: `${AUTHA_ENDPOINT}/oidc`,
-        response_mode: 'web_message',
       })
       .expect(200);
 

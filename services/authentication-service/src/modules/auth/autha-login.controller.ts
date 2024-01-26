@@ -49,7 +49,11 @@ export class AuthaLoginController {
     },
     req => {
       // set the client id in the session for later use temporarily
-      (req as RequestWithSession).session[LoginSessionKey] = {clientId: req.body.client_id, state: req.query.state};
+      (req as RequestWithSession).session[LoginSessionKey] = {
+        clientId: req.body.client_id,
+        responseMode: req.query.response_mode,
+        state: req.query.state,
+      };
       return {
         interactionMode: req.query.interaction_mode ?? req.query.interactionMode,
       };
@@ -81,7 +85,11 @@ export class AuthaLoginController {
     },
     req => {
       // set the client id in the session for later use temporarily
-      (req as RequestWithSession).session[LoginSessionKey] = {clientId: req.body.client_id};
+      (req as RequestWithSession).session[LoginSessionKey] = {
+        clientId: req.body.client_id,
+        responseMode: req.query.response_mode,
+        state: req.query.state,
+      };
       return {
         interactionMode: req.query.interaction_mode ?? req.query.interactionMode,
       };
@@ -132,13 +140,12 @@ export class AuthaLoginController {
     },
   })
   async authaCallback(
-    @param.query.string('response_mode') responseMode: string,
     @inject(RestBindings.Http.REQUEST) request: RequestWithSession,
     @inject(RestBindings.Http.RESPONSE) response: Response,
     @inject(AuthenticationBindings.CURRENT_USER)
     user: AuthUser | undefined,
   ): Promise<void> {
-    const {clientId, state} = request.session[LoginSessionKey];
+    const {clientId, state, responseMode} = request.session[LoginSessionKey];
     delete request.session[LoginSessionKey];
     if (!clientId || !user) {
       throw new AuthenticationErrors.ClientInvalid();

@@ -24,6 +24,7 @@ const queryGen = (from: 'body' | 'query') => {
     return {
       customState: toQueryString({
         client_id: req[from].client_id,
+        response_mode: req.query.response_mode,
         state: req.query.state,
       }),
     };
@@ -205,14 +206,14 @@ export class AzureLoginController {
     @param.query.string('code') code: string, //NOSONAR
     @param.query.string('state') state: string,
     @param.query.string('session_state') sessionState: string, //NOSONAR
-    @param.query.string('response_mode') responseMode: string,
     @inject(RestBindings.Http.RESPONSE) response: Response,
     @inject(AuthenticationBindings.CURRENT_USER)
     user: AuthUser | undefined,
   ): Promise<void> {
     const stateParams = new URLSearchParams(state.substring(state.indexOf('client_id=')));
-    const clientId = stateParams.get('client_id'); //state.substring(state.indexOf('client_id=') + offSet);
-    const clientState = stateParams.get('state'); //state.substring(state.indexOf('state=') + offSet);
+    const clientId = stateParams.get('client_id');
+    const clientState = stateParams.get('state');
+    const responseMode = stateParams.get('response_mode');
 
     if (!clientId || !user) {
       throw new AuthenticationErrors.ClientInvalid();

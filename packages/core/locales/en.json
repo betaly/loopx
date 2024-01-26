@@ -42,5 +42,7 @@
 	"User not active yet": "User not active yet",
 	"Endpoint \"GET /favicon.ico\" not found.": "Endpoint \"GET /favicon.ico\" not found.",
 	"Endpoint \"GET /asdf\" not found.": "Endpoint \"GET /asdf\" not found.",
-	"Unknown Error": "Unknown Error"
+	"Unknown Error": "Unknown Error",
+	"User does not exist.": "User does not exist.",
+	"\"issuer\" must be a string": "\"issuer\" must be a string"
 }
