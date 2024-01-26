@@ -1,5 +1,12 @@
 
 
+## [0.17.1](https://github.com/betaly/loopx/compare/0.17.0...0.17.1) (2024-01-26)
+
+
+### Bug Fixes
+
+* response_mode ([d0da6c5](https://github.com/betaly/loopx/commit/d0da6c59d6f8b3a24c5581fbe18cf914509589e2))
+
 # [0.17.0](https://github.com/betaly/loopx/compare/0.16.0...0.17.0) (2024-01-26)
 
 
