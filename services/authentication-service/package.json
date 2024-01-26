@@ -32,15 +32,6 @@
   },
   "author": "",
   "license": "",
-  "files": [
-    "README.md",
-    "dist",
-    "src",
-    "migration.js",
-    "migrations",
-    "database.json",
-    "!*/__tests__"
-  ],
   "dependencies": {
     "@autha/api": "^0.2.2",
     "@bleco/aliaser": "^1.4.5",
@@ -61,7 +52,9 @@
     "bcrypt": "^5.1.1",
     "berrors": "^0.3.1",
     "body-parser": "^1.20.2",
+    "cookie": "^0.6.0",
     "cookie-parser": "^1.4.6",
+    "ejs": "^3.1.9",
     "https-proxy-agent": "^7.0.2",
     "jose": "^5.2.0",
     "jsonwebtoken": "^9.0.2",
@@ -95,7 +88,9 @@
     "@types/base-64": "^1.0.2",
     "@types/bcrypt": "^5.0.2",
     "@types/client-sessions": "^0.8.6",
+    "@types/cookie": "^0.6.0",
     "@types/cookie-parser": "^1.4.6",
+    "@types/ejs": "^3",
     "@types/google-libphonenumber": "^7.4.30",
     "@types/jsonwebtoken": "^9.0.5",
     "@types/lodash": "^4.14.202",
@@ -118,5 +113,15 @@
     "source-map-support": "^0.5.21",
     "typescript": "~5.3.3",
     "widdershins": "^4.0.1"
-  }
+  },
+  "files": [
+    "README.md",
+    "pages",
+    "dist",
+    "src",
+    "migration.js",
+    "migrations",
+    "database.json",
+    "!*/__tests__"
+  ]
 }

@@ -33,8 +33,8 @@ describe('Autha Login Controller', () => {
     helper = await app.get(TestHelperKey);
   });
 
-  beforeAll(setupMockData);
-  afterAll(cleanupMockData);
+  beforeEach(setupMockData);
+  afterEach(cleanupMockData);
   afterEach(() => {
     delete process.env.JWT_ISSUER;
     delete process.env.JWT_SECRET;
@@ -62,7 +62,7 @@ describe('Autha Login Controller', () => {
     expect(url.searchParams.get('interaction_mode')).toBe('signUp');
   });
 
-  it('should return code', async () => {
+  it('should return authorization code when response mode is query', async () => {
     process.env.JWT_ISSUER = 'test';
     process.env.JWT_SECRET = 'test';
     const resStep1 = await client
@@ -96,6 +96,38 @@ describe('Autha Login Controller', () => {
     const redirectUrl = `${urlStep2.origin}${urlStep2.pathname}`;
     expect(redirectUrl).toBe(testAuthClient.redirectUrl);
     expect(isJWTToken(urlStep2.searchParams.get('code')!)).toBe(true);
+  });
+
+  it('should return authorization code when response mode is web_message', async () => {
+    process.env.JWT_ISSUER = 'test';
+    process.env.JWT_SECRET = 'test';
+    const resStep1 = await client
+      .post('/auth/autha')
+      .set('content-type', 'application/x-www-form-urlencoded')
+      .send({
+        client_id: 'web',
+        client_secret: 'test',
+      })
+      .expect(302);
+    const urlStep1 = new URL(resStep1.header.location);
+
+    // for client sessions
+    const cookie = resStep1.header['set-cookie'];
+
+    nockOidcUserInfo(mockUserInfo());
+    nockOidcToken(mockToken());
+    const resStep2 = await client
+      .get('/auth/autha-redirect')
+      .set('Cookie', cookie)
+      .query({
+        code: 'test_code',
+        state: urlStep1.searchParams.get('state'),
+        iss: `${AUTHA_ENDPOINT}/oidc`,
+        response_mode: 'web_message',
+      })
+      .expect(200);
+
+    expect(resStep2.text).toContain('postMessage');
   });
 
   async function cleanupMockData() {

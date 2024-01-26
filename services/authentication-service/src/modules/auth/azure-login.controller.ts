@@ -10,20 +10,26 @@ import {repository} from '@loopback/repository';
 import {get, getModelSchemaRef, oas, param, post, Request, requestBody, Response, RestBindings} from '@loopback/rest';
 import {CONTENT_TYPE, ILogger, LOGGER, STATUS_CODE, X_TS_TYPE} from '@loopx/core';
 import {AuthClientRepository} from '@loopx/user-core';
+import {URLSearchParams} from 'url';
 
-import {AuthCodeBindings, AuthCodeGeneratorFn} from '../../providers';
+import {AuthCodeBindings, AuthCodeGeneratorFn, AuthPageBindings} from '../../providers';
+import {AuthPages} from '../../types';
 import {AuthUser} from './models/auth-user.model';
 import {ClientAuthRequest} from './models/client-auth-request.dto';
 import {TokenResponse} from './models/token-response.dto';
+import {toQueryString} from './utils';
 
 const queryGen = (from: 'body' | 'query') => {
   return (req: Request) => {
     return {
-      customState: `client_id=${req[from].client_id}`,
+      customState: toQueryString({
+        client_id: req[from].client_id,
+        state: req.query.state,
+      }),
     };
   };
 };
-const offSet = 10;
+// const offSet = 10;
 const clockSkew = 300;
 const nonceTime = 3600;
 const nonceCount = 10;
@@ -35,6 +41,8 @@ export class AzureLoginController {
     @inject(LOGGER.LOGGER_INJECT) public logger: ILogger,
     @inject(AuthCodeBindings.AUTH_CODE_GENERATOR_PROVIDER)
     private readonly getAuthCode: AuthCodeGeneratorFn,
+    @inject(AuthPageBindings.AUTH_PAGES_PROVIDER)
+    private readonly authPages: AuthPages,
   ) {}
 
   @authenticateClient(STRATEGY.CLIENT_PASSWORD)
@@ -197,11 +205,14 @@ export class AzureLoginController {
     @param.query.string('code') code: string, //NOSONAR
     @param.query.string('state') state: string,
     @param.query.string('session_state') sessionState: string, //NOSONAR
+    @param.query.string('response_mode') responseMode: string,
     @inject(RestBindings.Http.RESPONSE) response: Response,
     @inject(AuthenticationBindings.CURRENT_USER)
     user: AuthUser | undefined,
   ): Promise<void> {
-    const clientId = state.substring(state.indexOf('client_id=') + offSet);
+    const stateParams = new URLSearchParams(state.substring(state.indexOf('client_id=')));
+    const clientId = stateParams.get('client_id'); //state.substring(state.indexOf('client_id=') + offSet);
+    const clientState = stateParams.get('state'); //state.substring(state.indexOf('state=') + offSet);
 
     if (!clientId || !user) {
       throw new AuthenticationErrors.ClientInvalid();
@@ -217,7 +228,16 @@ export class AzureLoginController {
     try {
       const token = await this.getAuthCode(client, user);
       const role = user.role;
-      response.redirect(`${process.env.WEBAPP_URL ?? ''}${client.redirectUrl}?code=${token}&role=${role}`);
+      if (responseMode === 'web_message') {
+        return this.authPages.webMessage({code: token, state: clientState, role}, response);
+      }
+      response.redirect(
+        `${process.env.WEBAPP_URL ?? ''}${client.redirectUrl}?${toQueryString({
+          code: token,
+          state: clientState,
+          role,
+        })}`,
+      );
     } catch (error) {
       this.logger.error(error);
       throw new AuthenticationErrors.InvalidCredentials();

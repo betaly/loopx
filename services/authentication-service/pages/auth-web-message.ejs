@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Auth Web Message</title>
+</head>
+
+<body>
+<script>
+  window.onload = function() {
+    window.opener.postMessage({
+      type: "authorization_response",
+      response: {
+          <%_ if (locals.error) { _%>
+        error: '<%- error %>',
+        error_description: '<%- locals.error_description %>',
+          <%_ } else { _%>
+        code: '<%- code %>',
+        role: '<%- locals.role ?? '' %>',
+        state: '<%- locals.state ?? '' %>',
+          <%_ } _%>
+      }
+    }, '*');
+  };
+</script>
+</body>
+</html>

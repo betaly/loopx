@@ -1,6 +1,7 @@
 ﻿export * from './apple-oauth2-signup.provider';
 export * from './apple-post-verify.provider';
 export * from './apple-pre-verify.provider';
+export * from './auth-pages.provider';
 export * from './autha-post-verify.provider';
 export * from './autha-pre-verify.provider';
 export * from './autha-signup.provider';

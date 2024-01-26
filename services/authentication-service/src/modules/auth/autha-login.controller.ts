@@ -20,7 +20,8 @@ import {
 import {CONTENT_TYPE, ILogger, LOGGER, STATUS_CODE, X_TS_TYPE} from '@loopx/core';
 import {AuthClientRepository} from '@loopx/user-core';
 
-import {AuthCodeBindings, AuthCodeGeneratorFn} from '../../providers';
+import {AuthCodeBindings, AuthCodeGeneratorFn, AuthPageBindings} from '../../providers';
+import {AuthPages} from '../../types';
 import {AuthUser} from './models/auth-user.model';
 import {ClientAuthRequest} from './models/client-auth-request.dto';
 import {TokenResponse} from './models/token-response.dto';
@@ -35,6 +36,8 @@ export class AuthaLoginController {
     @inject(LOGGER.LOGGER_INJECT) public logger: ILogger,
     @inject(AuthCodeBindings.AUTH_CODE_GENERATOR_PROVIDER)
     private readonly getAuthCode: AuthCodeGeneratorFn,
+    @inject(AuthPageBindings.AUTH_PAGES_PROVIDER)
+    private readonly authPages: AuthPages,
   ) {}
 
   // TODO
@@ -46,7 +49,7 @@ export class AuthaLoginController {
     },
     req => {
       // set the client id in the session for later use temporarily
-      (req as RequestWithSession).session[LoginSessionKey] = {clientId: req.body.client_id};
+      (req as RequestWithSession).session[LoginSessionKey] = {clientId: req.body.client_id, state: req.query.state};
       return {
         interactionMode: req.query.interaction_mode ?? req.query.interactionMode,
       };
@@ -129,14 +132,13 @@ export class AuthaLoginController {
     },
   })
   async authaCallback(
-    @param.query.string('code') code: string,
-    // @param.query.string('state') state: string,
+    @param.query.string('response_mode') responseMode: string,
     @inject(RestBindings.Http.REQUEST) request: RequestWithSession,
     @inject(RestBindings.Http.RESPONSE) response: Response,
     @inject(AuthenticationBindings.CURRENT_USER)
     user: AuthUser | undefined,
   ): Promise<void> {
-    const {clientId} = request.session[LoginSessionKey];
+    const {clientId, state} = request.session[LoginSessionKey];
     delete request.session[LoginSessionKey];
     if (!clientId || !user) {
       throw new AuthenticationErrors.ClientInvalid();
@@ -151,10 +153,13 @@ export class AuthaLoginController {
     }
     try {
       const token = await this.getAuthCode(client, user);
-      response.redirect(`${client.redirectUrl}?code=${token}`);
+      if (responseMode === 'web_message') {
+        return this.authPages.webMessage({code: token, state}, response);
+      }
+      response.redirect(`${client.redirectUrl}?${new URLSearchParams({code: token, state}).toString()}`);
     } catch (error) {
       this.logger.error(error);
-      throw new AuthenticationErrors.InvalidCredentials();
+      throw new AuthenticationErrors.UnknownError({cause: error});
     }
   }
 }

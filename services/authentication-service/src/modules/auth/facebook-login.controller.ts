@@ -12,15 +12,20 @@ import {CONTENT_TYPE, ILogger, LOGGER, STATUS_CODE, X_TS_TYPE} from '@loopx/core
 import {AuthClientRepository} from '@loopx/user-core';
 import {URLSearchParams} from 'url';
 
-import {AuthCodeBindings, AuthCodeGeneratorFn} from '../../providers';
+import {AuthCodeBindings, AuthCodeGeneratorFn, AuthPageBindings} from '../../providers';
+import {AuthPages} from '../../types';
 import {AuthUser} from './models/auth-user.model';
 import {ClientAuthRequest} from './models/client-auth-request.dto';
 import {TokenResponse} from './models/token-response.dto';
+import {toQueryString} from './utils';
 
 const queryGen = (from: 'body' | 'query') => {
   return (req: Request) => {
     return {
-      state: `client_id=${req[from].client_id}`,
+      state: toQueryString({
+        client_id: req[from].client_id,
+        state: req.query.state,
+      }),
     };
   };
 };
@@ -32,6 +37,8 @@ export class FacebookLoginController {
     @inject(LOGGER.LOGGER_INJECT) public logger: ILogger,
     @inject(AuthCodeBindings.AUTH_CODE_GENERATOR_PROVIDER)
     private readonly getAuthCode: AuthCodeGeneratorFn,
+    @inject(AuthPageBindings.AUTH_PAGES_PROVIDER)
+    private readonly authPages: AuthPages,
   ) {}
 
   @authenticateClient(STRATEGY.CLIENT_PASSWORD)
@@ -99,11 +106,14 @@ export class FacebookLoginController {
   async facebookCallback(
     @param.query.string('code') code: string,
     @param.query.string('state') state: string,
+    @param.query.string('response_mode') responseMode: string,
     @inject(RestBindings.Http.RESPONSE) response: Response,
     @inject(AuthenticationBindings.CURRENT_USER)
     user: AuthUser | undefined,
   ): Promise<void> {
-    const clientId = new URLSearchParams(state).get('client_id');
+    const stateParams = new URLSearchParams(state);
+    const clientId = stateParams.get('client_id');
+    const clientState = stateParams.get('state');
     if (!clientId || !user) {
       throw new AuthenticationErrors.ClientInvalid();
     }
@@ -117,7 +127,10 @@ export class FacebookLoginController {
     }
     try {
       const token = await this.getAuthCode(client, user);
-      response.redirect(`${client.redirectUrl}?code=${token}`);
+      if (responseMode === 'web_message') {
+        return this.authPages.webMessage({code: token, state: clientState}, response);
+      }
+      response.redirect(`${client.redirectUrl}?${toQueryString({code: token, state: clientState})}`);
     } catch (error) {
       this.logger.error(error);
       throw new AuthenticationErrors.InvalidCredentials();

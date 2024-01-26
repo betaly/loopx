@@ -60,6 +60,8 @@ import {
   AuthaPreVerifyProvider,
   AuthaSignupProvider,
   AuthEntityBindings,
+  AuthPageBindings,
+  AuthPagesProvider,
   AzureAdSignupProvider,
   AzurePostVerifyProvider,
   AzurePreVerifyProvider,
@@ -176,6 +178,8 @@ export class AuthenticationServiceComponent implements Component {
 
     // Mount MultiTenancy component
     this.setupMultiTenancyComponent();
+
+    this.setupAuthPagesProviders();
 
     this.application.api({
       openapi: '3.0.0',
@@ -331,5 +335,9 @@ export class AuthenticationServiceComponent implements Component {
     });
     this.application.component(MultiTenancyComponent);
     this.providers[MultiTenancyBindings.TENANT_RESOLVER.key] = TenantResolverProvider;
+  }
+
+  setupAuthPagesProviders() {
+    this.providers[AuthPageBindings.AUTH_PAGES_PROVIDER.key] = AuthPagesProvider;
   }
 }

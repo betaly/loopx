@@ -4,6 +4,7 @@ import {Role, Tenant} from '@loopx/user-core';
 
 import {PreSignupFn, UserSignupFn} from '../types';
 import {AuthCodeGeneratorProvider} from './auth-code-generator.provider';
+import {AuthPagesProvider} from './auth-pages.provider';
 import {
   ApplePostVerifyFn,
   ApplePreVerifyFn,
@@ -126,4 +127,8 @@ export namespace AuthCodeBindings {
 export namespace AuthEntityBindings {
   export const DEFAULT_TENANT = BindingKey.create<Tenant>(`loopx.auth.default-tenant`);
   export const DEFAULT_ROLE = BindingKey.create<Role>(`loopx.auth.default-role`);
+}
+
+export namespace AuthPageBindings {
+  export const AUTH_PAGES_PROVIDER = BindingKey.create<AuthPagesProvider>('loopx.auth.pages.provider');
 }
