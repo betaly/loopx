@@ -3,7 +3,7 @@ import type {Response} from '@loopback/rest';
 import {ResponseInternal} from './types';
 
 export function toResponse(source: ResponseInternal, target: Response) {
-  const status = source.redirect ? 302 : source.status ?? 200;
+  const status = source.redirect ? 302 : (source.status ?? 200);
   target.status(status);
 
   source.headers?.forEach((value, name) => {

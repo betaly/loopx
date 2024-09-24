@@ -88,7 +88,7 @@ describe('UserTenant Controller - acl', function () {
       const expectedStatus = permissions.findById ? 200 : errorCode;
 
       await assertPermissions(
-        api.findById({id: role === 'anonymous' ? 'anonymous' : user!.userTenantId ?? '__invalid_user__'}),
+        api.findById({id: role === 'anonymous' ? 'anonymous' : (user!.userTenantId ?? '__invalid_user__')}),
         role,
         token,
         expectedStatus,

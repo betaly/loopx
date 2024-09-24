@@ -98,7 +98,7 @@ export class AuthExampleComponent implements Component {
       ds: KvDataSource,
       points: parseInt((process.env.RATE_LIMITER_POINTS as string) ?? 4),
       duration: parseInt((process.env.RATE_LIMITER_DURATION as string) ?? 1),
-      key: ({request}) => request.ip,
+      key: ({request}) => request.ip ?? '',
     });
 
     // Helmet configuration (in LxCoreComponent)

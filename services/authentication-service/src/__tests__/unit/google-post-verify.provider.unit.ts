@@ -1,4 +1,5 @@
 ﻿import {expect} from '@loopback/testlab';
+import * as GoogleStrategy from 'passport-google-oauth20';
 import sinon from 'sinon';
 
 import {GooglePostVerifyProvider} from '../../providers';
@@ -9,7 +10,7 @@ describe('Google Oauth Post Verify Service', () => {
   afterEach(() => sinon.restore());
   beforeEach(setUp);
 
-  const profile = {
+  const profile: GoogleStrategy.Profile = {
     id: 'test_id',
     displayName: 'test_display_name',
     profileUrl: 'test_profile_url',
@@ -21,7 +22,7 @@ describe('Google Oauth Post Verify Service', () => {
       iat: 1353601026,
       exp: 1353601026,
     },
-    provider: 'test_provider',
+    provider: 'google',
   };
   const user = null;
 
